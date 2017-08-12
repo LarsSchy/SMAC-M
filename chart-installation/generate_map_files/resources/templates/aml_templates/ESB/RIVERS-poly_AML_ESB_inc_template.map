@@ -1,0 +1,30 @@
+###  AML ESB - RIVERS - polygons    ###
+#
+
+LAYER
+    NAME "Rivers (polygon)"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Rivers (polygons)"
+        "ows_enable_request"   "*"
+        "gml_include_items" "STATUS,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA RIVERS
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  #  Select only polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASS
+        NAME "Rivers (polygons)"
+        STYLE
+            COLOR "{RESBL}"
+            OUTLINECOLOR "{CHBLK}"
+            WIDTH 0.5
+        END
+    END
+END

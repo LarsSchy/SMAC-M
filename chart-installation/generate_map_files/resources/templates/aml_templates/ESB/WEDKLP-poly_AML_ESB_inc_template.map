@@ -1,0 +1,51 @@
+###  AML ESB - WEDKLP - polygons    ###
+#
+
+LAYER
+    NAME "WEDKLP - polygons"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Weed/Kelp (polygons)"
+        "ows_enable_request"   "*"
+        "gml_include_items" "CATWED,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA WEDKLP
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  #  Select only polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    ##  SY(WEDKLP03);LS(DASH,1,CHGRF)
+    ## CATWED found : 1,2,3,4,501,701
+
+    CLASS
+        NAME "Weed/Kelp (polygons)"
+        STYLE
+            OUTLINECOLOR "{CHGRD}"
+            PATTERN 4 4 END
+            WIDTH 1.2
+            LINECAP round #[butt|round|square|triangle]
+            LINEJOIN miter #[round|miter|bevel]
+        END
+        #STYLE
+            #SYMBOL "MS_WEDKLP03"
+            #SIZE 8
+            #COLOR "{CHGRF}"
+            #WIDTH 1.2
+        #END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_WEDKLP03"
+            COLOR "{CHGRF}"
+            WIDTH 1.2
+            SIZE 8
+        END
+ 
+ 
+    END
+END # Layer

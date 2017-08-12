@@ -1,0 +1,41 @@
+###  AML ESB - icelea - polygons    ###
+#
+
+LAYER
+    NAME "icelea - polygons"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Ice Lead Polygons"
+        "ows_enable_request"   "*"
+        "gml_include_items" "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA icelea
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  #  Select only polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+
+    # Portrayal missing in spec.
+    # using ice lead line symbology
+    
+    CLASS
+        NAME "Ice Lead(lines)"
+        STYLE
+            WIDTH 1.0
+            OUTLINECOLOR "{CHBLK}"
+        END
+        STYLE
+            SYMBOL "MS_LN_lealne01"
+            OUTLINECOLOR "{CHBLK}"
+            SIZE 5
+            INITIALGAP 10
+            GAP -50
+        END
+    END 
+    
+END # Layer

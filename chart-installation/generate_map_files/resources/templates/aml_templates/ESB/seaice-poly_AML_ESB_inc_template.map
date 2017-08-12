@@ -1,0 +1,537 @@
+###  AML ESB - seaice - polygons    ###
+#
+
+LAYER
+    NAME "seaice - polygons"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Sea Ice (polygons)"
+        "ows_enable_request"   "*"
+        "gml_include_items" "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA seaice
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  #  Select only polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    CLASSITEM "iceact"
+    
+  # These were found in test data  
+  #iceact (Integer) = 505   
+  #iceact (Integer) = 507
+  #iceact (Integer) = 516
+  #iceact (Integer) = 511
+  #iceact (Integer) = 508   +
+  #iceact (Integer) = 501   +
+  
+#Ice Attribute Total Concentration	501	Ice Free
+#Ice Attribute Total Concentration	502	Open Water (&lt; 1/10 ice)
+#Ice Attribute Total Concentration	503	Bergy Water
+#Ice Attribute Total Concentration	510	1/10 ice
+#Ice Attribute Total Concentration	512	1/10 to 2/10ice
+#Ice Attribute Total Concentration	513	1/10 to 3/10 ice
+#Ice Attribute Total Concentration	520	2/10 ice
+#Ice Attribute Total Concentration	523	2/10 to 3/10 ice
+#Ice Attribute Total Concentration	524	2/10 to 4/10 ice
+#Ice Attribute Total Concentration	530	3/10 ice
+#Ice Attribute Total Concentration	534	3/10 to 4/10 ice
+#Ice Attribute Total Concentration	535	3/10 to 5/10 ice
+#Ice Attribute Total Concentration	540	4/10 ice
+#Ice Attribute Total Concentration	545	4/10 to 5/10 ice
+#Ice Attribute Total Concentration	546	4/10 to 6/10 ice
+#Ice Attribute Total Concentration	550	5/10 ice
+#Ice Attribute Total Concentration	556	5/10 to 6/10 ice
+#Ice Attribute Total Concentration	557	5/10 to 7/10 ice
+#Ice Attribute Total Concentration	560	6/10 ice
+#Ice Attribute Total Concentration	567	6/10 to 7/10 ice
+#Ice Attribute Total Concentration	568	6/10 to 8/10 ice
+#Ice Attribute Total Concentration	570	7/10 ice
+#Ice Attribute Total Concentration	578	7/10 to 8/10 ice
+#Ice Attribute Total Concentration	579	7/10 to 9/10 ice
+#Ice Attribute Total Concentration	580	8/10 ice
+#Ice Attribute Total Concentration	581	8/10 to 10/10 ice
+#Ice Attribute Total Concentration	589	8/10 to 9/10 ice
+#Ice Attribute Total Concentration	590	9/10 ice
+#Ice Attribute Total Concentration	591	9/10 to 10/10 ice
+#Ice Attribute Total Concentration	592	10/10 ice
+#Ice Attribute Partial Concentration	501	Ice Free
+#Ice Attribute Partial Concentration	502	Open Water (&lt; 1/10 ice)
+#Ice Attribute Partial Concentration	503	Bergy Water
+#Ice Attribute Partial Concentration	510	1/10 ice
+#Ice Attribute Partial Concentration	512	1/10 to 2/10ice
+#Ice Attribute Partial Concentration	513	1/10 to 3/10 ice
+#Ice Attribute Partial Concentration	520	2/10 ice
+#Ice Attribute Partial Concentration	523	2/10 to 3/10 ice
+#Ice Attribute Partial Concentration	524	2/10 to 4/10 ice
+#Ice Attribute Partial Concentration	530	3/10 ice
+#Ice Attribute Partial Concentration	534	3/10 to 4/10 ice
+#Ice Attribute Partial Concentration	535	3/10 to 5/10 ice
+#Ice Attribute Partial Concentration	540	4/10 ice
+#Ice Attribute Partial Concentration	545	4/10 to 5/10 ice
+#Ice Attribute Partial Concentration	546	4/10 to 6/10 ice
+#Ice Attribute Partial Concentration	550	5/10 ice
+#Ice Attribute Partial Concentration	556	5/10 to 6/10 ice
+#Ice Attribute Partial Concentration	557	5/10 to 7/10 ice
+#Ice Attribute Partial Concentration	560	6/10 ice
+#Ice Attribute Partial Concentration	567	6/10 to 7/10 ice
+#Ice Attribute Partial Concentration	568	6/10 to 8/10 ice
+#Ice Attribute Partial Concentration	570	7/10 ice
+#Ice Attribute Partial Concentration	578	7/10 to 8/10 ice
+#Ice Attribute Partial Concentration	579	7/10 to 9/10 ice
+#Ice Attribute Partial Concentration	580	8/10 ice
+#Ice Attribute Partial Concentration	581	8/10 to 10/10 ice
+#Ice Attribute Partial Concentration	589	8/10 to 9/10 ice
+#Ice Attribute Partial Concentration	590	9/10 ice
+#Ice Attribute Partial Concentration	591	9/10 to 10/10 ice
+#Ice Attribute Partial Concentration	592	10/10 ice
+  
+  
+  
+#iceact501|	"iceact = Ice Free_x000D_
+#"	AC(UINFB,2)
+
+    CLASS
+        EXPRESSION "501"
+        NAME "Sea Ice - Ice Free"
+        STYLE
+            COLOR "{UINFB}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact502|	"iceact = Open Water (&lt; 1/10 ice)_x000D_
+#"	AC(DEPVS,2)
+
+    CLASS
+        EXPRESSION "502"
+        NAME "Sea Ice - Open Water"
+        STYLE
+            COLOR "{DEPVS}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact503|	"iceact = Bergy Water_x000D_
+#"	AC(DEPVS,2)
+
+
+    CLASS
+        EXPRESSION "503"
+        NAME "Sea Ice - Bergy Water"
+        STYLE
+            COLOR "{DEPVS}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact510|	"iceact = 1/10 ice_x000D_
+#"	AC(UINFG,2)
+
+    CLASS
+        EXPRESSION "510"
+        NAME "Sea Ice - 1/10 ice"
+        STYLE
+            COLOR "{UINFG}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact512|	"iceact = 1/10 to 2/10ice_x000D_
+#"	AC(UINFG,2)
+
+    CLASS
+        EXPRESSION "512"
+        NAME "Sea Ice - 1/10 to 2/10 ice"
+        STYLE
+            COLOR "{UINFG}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact513|	"iceact = 1/10 to 3/10 ice_x000D_
+#"	AC(UINFG,2)
+
+
+    CLASS
+        EXPRESSION "513"
+        NAME "Sea Ice - 1/10 to 3/10 ice"
+        STYLE
+            COLOR "{UINFG}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact579|	"iceact = 2/10 ice_x000D_
+#"	AC(UINFG,2)
+
+    CLASS
+        EXPRESSION "579"
+        NAME "Sea Ice - 2/10 ice"
+        STYLE
+            COLOR "{UINFG}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+    
+#iceact523|	"iceact = 2/10 to 3/10 ice_x000D_
+#"	AC(UINFG,2)
+
+    CLASS
+        EXPRESSION "523"
+        NAME "Sea Ice - 2/10 to 3/10 ice"
+        STYLE
+            COLOR "{UINFG}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact530|	"iceact = 3/10 ice_x000D_
+#"	AC(UINFG,2)
+
+    CLASS
+        EXPRESSION "530"
+        NAME "Sea Ice - 3/10 ice"
+        STYLE
+            COLOR "{UINFG}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact524|	"iceact = 2/10 to 4/10 ice_x000D_
+#"	AC(UINFG,2)
+
+    CLASS
+        EXPRESSION "524"
+        NAME "Sea Ice - 2/10 to 4/10 ice"
+        STYLE
+            COLOR "{UINFG}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+    
+#iceact540|	"iceact = 4/10 ice_x000D_
+#"	AC(CHYLW,2)
+
+    CLASS
+        EXPRESSION "540"
+        NAME "Sea Ice - 4/10 ice"
+        STYLE
+            COLOR "{CHYLW}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact535|	"iceact = 3/10 to 5/10 ice_x000D_
+#"	AC(CHYLW,2)
+
+    CLASS
+        EXPRESSION "535"
+        NAME "Sea Ice - 3/10 to 5/10 ice"
+        STYLE
+            COLOR "{CHYLW}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact534|	"iceact = 3/10 to 4/10 ice_x000D_
+#"	AC(UINFG,2)
+
+    CLASS
+        EXPRESSION "534"
+        NAME "Sea Ice - 3/10 to 4/10"
+        STYLE
+            COLOR "{UINFG}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact550|	"iceact = 5/10 ice_x000D_
+#"	AC(CHYLW,2)
+
+    CLASS
+        EXPRESSION "550"
+        NAME "Sea Ice - 5/10 ice"
+        STYLE
+            COLOR "{CHYLW}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact546|	"iceact = 4/10 to 6/10 ice_x000D_
+#"	AC(CHYLW,2)
+
+    CLASS
+        EXPRESSION "546"
+        NAME "Sea Ice - 4/10 to 6/10 ice"
+        STYLE
+            COLOR "{CHYLW}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact545|	"iceact = 4/10 to 5/10 ice_x000D_
+#"	AC(CHYLW,2)
+
+    CLASS
+        EXPRESSION "545"
+        NAME "Sea Ice - 4/10 to 5/10 ice"
+        STYLE
+            COLOR "{CHYLW}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact560|	"iceact = 6/10 ice_x000D_
+#"	AC(CHYLW,2)
+
+    CLASS
+        EXPRESSION "560"
+        NAME "Sea Ice - 6/10 ice"
+        STYLE
+            COLOR "{CHYLW}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+    
+#iceact557|	"iceact = 5/10 to 7/10 ice_x000D_
+#"	AC(CHYLW,2)
+
+    CLASS
+        EXPRESSION "557"
+        NAME "Sea Ice - 5/10 to 7/10 ice"
+        STYLE
+            COLOR "{CHYLW}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact556|	"iceact = 5/10 to 6/10 ice_x000D_
+#"	AC(CHYLW,2)
+
+    CLASS
+        EXPRESSION "556"
+        NAME "Sea Ice - 5/10 to 6/10 ice"
+        STYLE
+            COLOR "{CHYLW}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact570|	"iceact = 7/10 ice_x000D_
+#"	AC(UINFO,2)
+
+    CLASS
+        EXPRESSION "570"
+        NAME "Sea Ice - 7/10 ice"
+        STYLE
+            COLOR "{UINFO}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact568|	"iceact = 6/10 to 8/10 ice_x000D_
+#"	AC(UINFO,2)
+
+    CLASS
+        EXPRESSION "568"
+        NAME "Sea Ice - 6/10 to 8/10 ice"
+        STYLE
+            COLOR "{UINFO}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact567|	"iceact = 6/10 to 7/10 ice_x000D_
+#"	AC(UINFO,2)
+
+    CLASS
+        EXPRESSION "567"
+        NAME "Sea Ice -  6/10 to 7/10 ice"
+        STYLE
+            COLOR "{UINFO}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+    
+#natsed508|	"iceact = 7/10 to 9/10 ice_x000D_
+#"	AC(UINFO,2)
+
+    CLASS
+        EXPRESSION "508"
+        NAME "Sea Ice - 7/10 to 9/10 ice"
+        STYLE
+            COLOR "{UINFO}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact578|	"iceact = 7/10 to 8/10 ice_x000D_
+#"	AC(UINFO,2)
+
+    CLASS
+        EXPRESSION "578"
+        NAME "Sea Ice - 7/10 to 8/10 ice"
+        STYLE
+            COLOR "{UINFO}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact580|	"iceact = 8/10 ice_x000D_
+#"	AC(UINFO,2)
+
+    CLASS
+        EXPRESSION "580"
+        NAME "Sea Ice - 8/10 ice"
+        STYLE
+            COLOR "{UINFO}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact581|	"iceact = 8/10 to 10/10 ice_x000D_
+#"	AC(UINFR,2)
+
+    CLASS
+        EXPRESSION "581"
+        NAME "Sea Ice - 8/10 to 10/10 ice"
+        STYLE
+            COLOR "{UINFR}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact589|	"iceact = 8/10 to 9/10 ice_x000D_
+#"	AC(UINFO,2)
+
+    CLASS
+        EXPRESSION "589"
+        NAME "Sea Ice - 8/10 to 9/10 ice"
+        STYLE
+            COLOR "{UINFO}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact590|	"iceact = 9/10 ice_x000D_
+#"	AC(UINFR,2)
+
+    CLASS
+        EXPRESSION "590"
+        NAME "Sea Ice - 9/10 ice"
+        STYLE
+            COLOR "{UINFR}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact591|	"iceact = 9/10 to 10/10 ice_x000D_
+#"	AC(UINFR,2)
+
+    CLASS
+        EXPRESSION "591"
+        NAME "Sea Ice - 9/10 to 10/10"
+        STYLE
+            COLOR "{UINFR}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+#iceact592|	"iceact = 10/10 ice_x000D_
+#"	AC(UINFR,2)
+    
+    CLASS
+        EXPRESSION "592"
+        NAME "Sea Ice - 10/10 ice"
+        STYLE
+            COLOR "{UINFR}"
+            SIZE 2.0
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+    END
+
+## Default class
+## AP(iceactun)
+
+
+    CLASS
+        NAME "Sea ice - Default(polygons)"
+        STYLE  
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_AP_iceactUN"
+            COLOR "{CHBLK}"
+            SIZE 12
+        END
+        STYLE
+            OUTLINECOLOR "{CHBLK}"
+            PATTERN 4 4 END
+            WIDTH 0.6
+        END
+    END
+    
+END # Layer

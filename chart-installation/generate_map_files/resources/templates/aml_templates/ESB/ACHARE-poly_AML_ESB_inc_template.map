@@ -1,0 +1,129 @@
+### AML ESB  - Achorage area  ###
+
+LAYER
+    NAME "ACHARE"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Achorage area"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "CATACH,NOBJNM,OBJNAM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA ACHARE
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  # Select polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+        
+    # SY(ACHARE51);TX(OBJNAM,2,1,2,'15110',-1,2,CHBLK,26);LC(ACHARE51);CS(RESTRN01)
+    
+    #  Color for LC(ACHARE51: CHMGD
+    
+        #CATACH8|	"CATACH = small craft mooring area_x000D_
+    #"	SY(ACHARE02);TX(OBJNAM,2,1,2,'15110',-1,2,CHBLK,26);LS(DASH,2,CHMGF);CS(RESTRN01)
+
+    CLASSITEM "CATACH"
+
+    CLASS
+        EXPRESSION "8"
+        NAME "Achorage area"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        STYLE
+            WIDTH 1.0
+            OUTLINECOLOR "{CHMGF}"
+            PATTERN 4 4 END
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_ACHARE51"
+            SIZE 18
+            COLOR "{CHMGF}"
+            WIDTH 1.0
+        END
+        LABEL
+            TEXT ('[OBJNAM]')
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 6
+            POSITION CC
+            PARTIALS FALSE
+            MINDISTANCE 0
+            OFFSET -8 16
+        END
+    END # Class
+
+    
+    CLASS
+        NAME "Achorage area"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        #STYLE     ## test line to get proper offset 
+            #OUTLINECOLOR 0 0 0
+            #WIDTH 0.5
+        #END
+        STYLE
+            SYMBOL "obstacle-line"
+            OUTLINECOLOR "{CHMGD}"
+            WIDTH 1.0
+            INITIALGAP 5
+            SIZE 4
+            GAP -80
+            OFFSET 2.5 -99
+        END
+        STYLE
+            SYMBOL "obstacle-line"
+            OUTLINECOLOR "{CHMGD}"
+            WIDTH 1.0
+            INITIALGAP 25
+            SIZE 4
+            GAP -80
+            OFFSET 2.5 -99
+        END
+        STYLE
+            SYMBOL "anchor"
+            OUTLINECOLOR "{CHMGD}"
+            WIDTH 1.1
+            SIZE 12
+            INITIALGAP 45
+            GAP -80
+            ANGLE 180
+            OFFSET 2.5 -99
+        END
+        STYLE
+            SYMBOL "obstacle-line"
+            WIDTH 1.0
+            # RGB # OUTLINECOLOR {TRFCD_rgb}
+            OUTLINECOLOR "{CHMGD}"
+            INITIALGAP 65
+            SIZE 4
+            GAP -80
+            OFFSET 2.5 -99
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_ACHARE51"
+            SIZE 18
+            COLOR "{CHMGF}"
+            WIDTH 1.0
+        END
+        LABEL
+            TEXT ('[OBJNAM]')
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 6
+            POSITION CC
+            PARTIALS FALSE
+            MINDISTANCE 0
+            OFFSET -8 16
+        END
+    END # Class
+END # Layer

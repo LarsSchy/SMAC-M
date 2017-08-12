@@ -1,0 +1,38 @@
+###  AML - Drop zone - drpzne points ###
+    ## Portrayal for AML, Drop zone
+    ## Color: CHRED
+LAYER
+    NAME "drpzne point"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Diving location points"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA "drpzne"
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  #  Select only points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASS
+        NAME "Drop zone (points)"
+         STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 16
+            COLOR "{CHRED}"
+            WIDTH 1.0
+            OFFSET 0 0
+        END
+        STYLE
+            SYMBOL "MS_drpzne01"
+            SIZE 11
+            COLOR "{CHRED}"
+            WIDTH 1.0
+        END
+    END # Class
+END # Layer

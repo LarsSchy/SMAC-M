@@ -1,0 +1,95 @@
+###  AML Buildings BUISGL  - polygons ###
+#   LANDF 153 112 53
+#
+
+LAYER
+    NAME "BUISGL-poly"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Buildings-polygons"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "FUNCTN,NOBJNM,OBJNAM,STATUS,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    # DATA "SELECT FUNCTN, NOBJNM, OBJNAM, STATUS, INFORM, NINFOM FROM BUISGL WHERE OGR_GEOMETRY='POLYGON'"
+    DATA BUISGL
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  # Select only polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    #FUNCTN33|CONVIS1|	"FUNCTN = light support_x000D_
+    #CONVIS = visually conspicuous_x000D_
+    #"	AC(CHBRN);TX(OBJNAM,1,2,2,'15110',0,0,CHBLK,26);LS(SOLD,1,CHBLK)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "33" AND "[CONVIS]" = "1" )
+        NAME "Buildings - ligth support - visually conspicuous (polygons)"
+        STYLE
+            COLOR "{CHBRN}"
+        END
+        STYLE
+            OUTLINECOLOR "{CHBLK}" 
+            OUTLINEWIDTH 2
+        END
+        LABEL
+            TEXT ('[OBJNAM]')
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 8
+            POSITION AUTO
+            PARTIALS FALSE
+            BUFFER 4
+            ALIGN CENTER
+        END
+    END # Class
+    
+
+    #FUNCTN33|	"FUNCTN = light support_x000D_
+    #"	AC(CHBRN);TX(OBJNAM,1,2,2,'15110',0,0,CHBLK,26);LS(SOLD,1,LANDF)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "33" )
+        NAME "Buildings - light support (polygons)"
+        STYLE
+            COLOR "{CHBRN}"
+        END
+        STYLE
+            OUTLINECOLOR "{LANDF}" 
+            OUTLINEWIDTH 2
+        END
+    END # Class
+    
+    #CONVIS1|	"CONVIS = visually conspicuous_x000D_
+    #"	AC(CHBRN);LS(SOLD,1,CHBLK)
+
+    CLASS
+        EXPRESSION ( "[CONVIS]" = "1" )
+        NAME "Buildings - visually conspicuous (polygons)"
+        STYLE
+            COLOR "{CHBRN}"
+        END
+        STYLE
+            OUTLINECOLOR "{CHBLK}" 
+            OUTLINEWIDTH 2
+        END
+    END # Class
+
+    # Default: #AC(CHBRN);LS(SOLD,1,LANDF)
+    
+    CLASS
+        NAME "Buildings (polygons)"
+        STYLE
+            COLOR "{CHBRN}"
+        END
+        STYLE
+            OUTLINECOLOR "{LANDF}" 
+            OUTLINEWIDTH 2
+        END
+    END # Class
+END # Layer

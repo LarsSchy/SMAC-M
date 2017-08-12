@@ -1,0 +1,39 @@
+###  AML ESB - icelea - lines    ###
+
+LAYER
+    NAME icelea-line
+    TYPE LINE
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Ice Lead -lines"
+        "ows_enable_request"   "*"
+        "gml_include_items" "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA icelea
+    PROCESSING 'NATIVE_FILTER=PRIM=2'  #  Select only linestrings
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    # LS(SOLD,2,CHBLK)   (Portrayal for Ice Edge !!!!!)
+    
+    CLASS
+        NAME "Ice Lead(lines)"
+        STYLE
+            WIDTH 1.0
+            COLOR "{CHBLK}"
+        END
+        STYLE
+            SYMBOL "MS_LN_lealne01"
+            COLOR "{CHBLK}"
+            SIZE 5
+            INITIALGAP 10
+            GAP -50
+        END
+    END 
+END # Layer
+

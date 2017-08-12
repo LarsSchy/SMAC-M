@@ -1,0 +1,560 @@
+###  AML Buildings BUISGL  - polygons ###
+#
+
+LAYER
+    NAME "BUISGL-point"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Buildings-points"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "FUNCTN,NOBJNM,OBJNAM,STATUS,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    # DATA "SELECT FUNCTN, NOBJNM, OBJNAM, STATUS, INFORM, NINFOM FROM BUISGL WHERE OGR_GEOMETRY='POINT'"
+    DATA BUISGL
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  #  Select only points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+
+    #  FUNCTN values found in test data: 701 2 26 2 3 3 42 38 40
+    
+    #Function	2	harbour-master's office
+    #Function	3	customs office
+    #Function	4	health office
+    #Function	5	hospital
+    #Function	6	post office
+    #Function	7	hotel
+    #Function	8	railway station
+    #Function	9	police station
+    #Function	10	water-police station
+    #Function	11	pilot office
+    #Function	12	pilot lookout
+    #Function	13	bank office
+    #Function	14	headquarters for district control
+    #Function	15	transit shed/warehouse
+    #Function	16	factory
+    #Function	17	power station
+    #Function	18	administrative
+    #Function	19	educational facility
+    #Function	20	church
+    #Function	21	chapel
+    #Function	22	temple
+    #Function	23	pagoda
+    #Function	24	shinto shrine
+    #Function	25	buddhist temple
+    #Function	26	mosque
+    #Function	27	marabout
+    #Function	28	lookout
+    #Function	29	communication
+    #Function	30	television
+    #Function	31	radio
+    #Function	32	radar
+    #Function	33	light support
+    #Function	34	microwave
+    #Function	35	cooling
+    #Function	36	observation
+    #Function	37	time ball
+    #Function	38	clock
+    #Function	39	control
+    #Function	40	airship mooring
+    #Function	41	stadium
+    #Function	42	bus station:
+    #Function	501	water treatment plant
+    #Function	502	station (miscellanious)
+        
+    #FUNCTN33|CONVIS1|OBJNAM|	"FUNCTN = light support_x000D_
+    #CONVIS = visually conspicuous_x000D_
+    #OBJNAM = all Values_x000D_
+    #"	SY(POSGEN03);TX(OBJNAM,3,2,2,'15110',1,0,CHBLK,26)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "33" AND "[CONVIS]" = "1" )
+        NAME "Building - conspicuous point feature"
+        ## POSGEN03 is implemeted with two circles
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHBLK}"
+            SIZE 12
+            WIDTH 1.5
+        END
+        STYLE                              
+            SYMBOL "MS_CIRCLE_FILLED"
+            COLOR "{CHBLK}"
+            SIZE 3.5
+            WIDTH 1.0
+        END
+        LABEL
+            TEXT ('[OBJNAM]')
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 6
+            POSITION LR
+            FORCE TRUE
+            # MINDISTANCE 5
+        END   
+    END
+
+#FUNCTN20|CONVIS1|	"FUNCTN = church_x000D_
+#CONVIS = visually conspicuous_x000D_
+#"	SY(BUIREL13)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "20" AND "[CONVIS]" = "1" )
+        NAME "Building - church - visually conspicuous"
+        STYLE
+            SYMBOL "MS_BUIRELx1"
+            SIZE 12
+            COLOR "{CHBLK}"
+            WIDTH 1.7
+        END
+        STYLE
+            SYMBOL "MS_BUIRELx1_FILL"
+            SIZE 12
+            COLOR "{CHBLK}"
+            WIDTH 1.0
+        END
+    END
+
+
+#FUNCTN21|CONVIS1|	"FUNCTN = chapel_x000D_
+#CONVIS = visually conspicuous_x000D_
+#"	SY(BUIREL13)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "21" AND "[CONVIS]" = "1" )
+        NAME "Building - chapel - visually conspicuous"
+        STYLE
+            SYMBOL "MS_BUIRELx1"
+            SIZE 12
+            COLOR "{CHBLK}"
+            WIDTH 1.7
+        END
+        STYLE
+            SYMBOL "MS_BUIRELx1_FILL"
+            SIZE 12
+            COLOR "{CHBLK}"
+            WIDTH 1.0
+        END
+    END
+
+#FUNCTN22|CONVIS1|	"FUNCTN = temple_x000D_
+#CONVIS = visually conspicuous_x000D_
+#"	SY(BUIREL14)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "22" AND "[CONVIS]" = "1" )
+        NAME "Building - temple - visually conspicuous"
+        STYLE
+            SYMBOL "MS_BUIRELx4"
+            SIZE 8
+            COLOR "{CHBLK}"
+        END
+    END
+
+#FUNCTN23|CONVIS1|	"FUNCTN = pagoda_x000D_
+#CONVIS = visually conspicuous_x000D_
+#"	SY(BUIREL14)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "23" AND "[CONVIS]" = "1" )
+        NAME "Building - pagoda - visually conspicuous"
+        STYLE
+            SYMBOL "MS_BUIRELx4"
+            SIZE 8
+            COLOR "{CHBLK}"
+        END
+    END
+
+
+#FUNCTN24|CONVIS1|	"FUNCTN = shinto shrine_x000D_
+#CONVIS = visually conspicuous_x000D_
+#"	SY(BUIREL14)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "24" AND "[CONVIS]" = "1" )
+        NAME "Building - shinto shrine - visually conspicuous"
+        STYLE
+            SYMBOL "MS_BUIRELx4"
+            SIZE 8
+            COLOR "{CHBLK}"
+        END
+    END
+
+#FUNCTN25|CONVIS1|	"FUNCTN = buddhist temple_x000D_
+#CONVIS = visually conspicuous_x000D_
+#"	SY(BUIREL14)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "25" AND "[CONVIS]" = "1" )
+        NAME "Building - buddhist temple - visually conspicuous"
+        STYLE
+            SYMBOL "MS_BUIRELx4"
+            SIZE 8
+            COLOR "{CHBLK}"
+        END
+    END
+
+
+#FUNCTN26|CONVIS1|	"FUNCTN = mosque_x000D_
+#CONVIS = visually conspicuous_x000D_
+#"	SY(BUIREL15)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "26" AND "[CONVIS]" = "1" )
+        NAME "Building - mosque - visually conspicuous"
+        STYLE
+            SYMBOL "MS_BUIRELx5_part"
+            SIZE 7
+            WIDTH 1.0
+            COLOR "{CHBLK}"
+            OFFSET 0 -7
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHBLK}"
+            SIZE 6
+            WIDTH 1.0
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHBLK}"
+            SIZE 0.8
+            WIDTH 1.0
+        END
+    END
+
+#FUNCTN27|CONVIS1|	"FUNCTN = marabout_x000D_
+#CONVIS = visually conspicuous_x000D_
+#"	SY(BUIREL15)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "27" AND "[CONVIS]" = "1" )
+        NAME "Building - marabout - visually conspicuous"
+        STYLE
+            SYMBOL "MS_BUIRELx5_part"
+            SIZE 7
+            WIDTH 1.0
+            COLOR "{CHBLK}"
+            OFFSET 0 -7
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHBLK}"
+            SIZE 6
+            WIDTH 1.0
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHBLK}"
+            SIZE 0.8
+            WIDTH 1.0
+        END
+    END
+#FUNCTN33|CONVIS1|	"FUNCTN = light support_x000D_
+#CONVIS = visually conspicuous_x000D_
+#"	SY(POSGEN03)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "33" AND "[CONVIS]" = "1" )
+        NAME "Building - light support"
+        ## POSGEN03 is implemeted with two circles
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHBLK}"
+            SIZE 12
+            WIDTH 1.5
+        END
+        STYLE                              
+            SYMBOL "MS_CIRCLE_FILLED"
+            COLOR "{CHBLK}"
+            SIZE 3.5
+            WIDTH 1.0
+        END 
+    END
+
+
+#FUNCTN35|CONVIS1|	"FUNCTN = cooling_x000D_
+#CONVIS = visually conspicuous_x000D_
+#"	SY(TNKCON12)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "35" AND "[CONVIS]" = "1" )
+        NAME "Building - cooling - visually conspicuous"
+        STYLE
+            ## TNKCON12
+            SYMBOL "MS_CIRCLE"
+            SIZE 7
+            COLOR 0 0 0  # # "{CHBLK}"
+            WIDTH 2.0
+        END
+    END
+
+#FUNCTN33|OBJNAM|	"FUNCTN = light support_x000D_
+#OBJNAM = all Values_x000D_
+#"	SY(POSGEN03);TX(OBJNAM,3,2,2,'15110',1,0,CHBLK,26)
+
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "33" )
+        NAME "Building - light support"
+        ## POSGEN03 is implemeted with two circles
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHBLK}"
+            SIZE 12
+            WIDTH 1.5
+        END
+        STYLE                              
+            SYMBOL "MS_CIRCLE_FILLED"
+            COLOR "{CHBLK}"
+            SIZE 3.5
+            WIDTH 1.0
+        END
+        LABEL
+            TEXT ('[OBJNAM]')
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 6
+            POSITION LR
+            FORCE TRUE
+            # MINDISTANCE 5
+        END   
+    END
+
+#CONVIS1|	"CONVIS = visually conspicuous_x000D_
+#"	SY(BUISGL11)
+
+    CLASS
+        EXPRESSION ( "[CONVIS]" = "1" )
+        NAME "Buildings - visually conspicuous"
+        STYLE
+            SYMBOL "RECTANGLE_FILL"
+            SIZE 7.0
+            COLOR "{LANDA}"  # LANDF
+        END
+        STYLE
+            SYMBOL "RECTANGLE_FILL"
+            SIZE 7.0
+            OUTLINECOLOR "{CHBLK}"
+            OUTLINEWIDTH 2.0
+        END
+    END # Class
+
+#FUNCTN20|	"FUNCTN = church_x000D_
+#"	SY(BUIREL01)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "20" )
+        NAME "Buildings - church"
+        STYLE
+            SYMBOL "MS_BUIRELx1"
+            SIZE 12
+            COLOR "{LANDF}"
+            WIDTH 1.7
+        END
+        STYLE
+            SYMBOL "MS_BUIRELx1_FILL"
+            SIZE 12
+            COLOR "{LANDF}"
+            WIDTH 1.0
+        END
+    END
+
+#FUNCTN21|	"FUNCTN = chapel_x000D_
+#"	SY(BUIREL01)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "21" )
+        NAME "Buildings - chapel"
+        STYLE
+            SYMBOL "MS_BUIRELx1"
+            SIZE 12
+            COLOR "{LANDF}"
+            WIDTH 1.7
+        END
+        STYLE
+            SYMBOL "MS_BUIRELx1_FILL"
+            SIZE 12
+            COLOR "{LANDF}"
+            WIDTH 1.0
+        END
+    END
+
+#FUNCTN22|	"FUNCTN = temple_x000D_
+#"	SY(BUIREL04)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "22" )
+        NAME "Buildings - temple"
+        STYLE
+            SYMBOL "MS_BUIRELx4"
+            SIZE 8
+            COLOR "{LANDF}"
+        END
+    END
+
+#FUNCTN23|	"FUNCTN = pagoda_x000D_
+#"	SY(BUIREL04)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "23" )
+        NAME "Buildings - pagoda"
+        STYLE
+            SYMBOL "MS_BUIRELx4"
+            SIZE 8
+            COLOR "{LANDF}"
+        END
+    END
+
+
+#FUNCTN24|	"FUNCTN = shinto shrine_x000D_
+#"	SY(BUIREL04)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "24" )
+        NAME "Buildings - shinto shrine"
+        STYLE
+            SYMBOL "MS_BUIRELx4"
+            SIZE 8
+            COLOR "{LANDF}"
+        END
+    END
+
+#FUNCTN25|	"FUNCTN = buddhist temple_x000D_
+#"	SY(BUIREL04)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "25" )
+        NAME "Buildings - buddhist temple"
+        STYLE
+            SYMBOL "MS_BUIRELx4"
+            SIZE 8
+            COLOR "{LANDF}"
+        END
+    END
+
+#FUNCTN26|	"FUNCTN = mosque_x000D_
+#"	SY(BUIREL05)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "26" )
+        NAME "Buildings - mosque"
+        STYLE
+            SYMBOL "MS_BUIRELx5_part"
+            SIZE 7
+            WIDTH 1.0
+            COLOR "{LANDF}"
+            OFFSET 0 -7
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{LANDF}"
+            SIZE 6
+            WIDTH 1.0
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{LANDF}"
+            SIZE 0.8
+            WIDTH 1.0
+        END
+    END
+
+#FUNCTN27|	"FUNCTN = marabout_x000D_
+#"	SY(BUIREL05)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "27" )
+        NAME "Buildings - marabout"
+        STYLE
+            SYMBOL "MS_BUIRELx5_part"
+            SIZE 7
+            WIDTH 1.0
+            COLOR "{LANDF}"
+            OFFSET 0 -7
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{LANDF}"
+            SIZE 6
+            WIDTH 1.0
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{LANDF}"
+            SIZE 0.8
+            WIDTH 1.0
+        END
+    END
+
+#FUNCTN33|	"FUNCTN = light support_x000D_
+#"	SY(POSGEN03)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "33" )
+        NAME "Buildings - light support"
+        ## POSGEN03 is implemeted with two circles
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHBLK}"
+            SIZE 12
+            WIDTH 1.5
+        END
+        STYLE                              
+            SYMBOL "MS_CIRCLE_FILLED"
+            COLOR "{CHBLK}"
+            SIZE 3.5
+            WIDTH 1.0
+        END
+    END
+
+#FUNCTN35|	"FUNCTN = cooling_x000D_
+#"	SY(TNKCON02)
+
+    CLASS
+        EXPRESSION ("[FUNCTN]" = "35" )
+        NAME "Buildings - cooling"
+        ## POSGEN03 is implemeted with two circles
+        STYLE
+            ## TNKCON02
+            SYMBOL "MS_CIRCLE"
+            SIZE 7
+            COLOR "{LANDF}"
+            WIDTH 2.0
+        END
+    END
+
+# Default symbol:  SY(BUISGL01)
+
+    CLASS
+        NAME "Buildings (points)"
+        STYLE
+            SYMBOL "RECTANGLE_FILL"
+            SIZE 7.0
+            COLOR "{LANDA}"
+        END
+        STYLE
+            SYMBOL "RECTANGLE_FILL"
+            SIZE 7.0
+            OUTLINECOLOR "{LANDF}"
+            OUTLINEWIDTH 2.0
+        END
+        #LABEL
+        #TEXT ('[OBJNAM]')
+            #COLOR "{BKAJ1}"  # BKAJ1
+            #TYPE TRUETYPE
+            #FONT SC
+            #SIZE 8
+            #POSITION AUTO
+            #FORCE TRUE
+            #MINDISTANCE 5
+        #END
+    END # Class
+END # Layer

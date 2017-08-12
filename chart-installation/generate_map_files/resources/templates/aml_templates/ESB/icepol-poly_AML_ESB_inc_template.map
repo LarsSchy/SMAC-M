@@ -1,0 +1,36 @@
+###  AML ESB - icepol - polygons    ###
+#
+
+LAYER
+    NAME "icepol - polygons"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Ice Polygons"
+        "ows_enable_request"   "*"
+        "gml_include_items" "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA icepol
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  #  Select only polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+
+    # AC(DEPVS);LS(SOLD,1,CHBLK)
+  
+    CLASS
+        NAME "Ice polygon"
+        STYLE
+            COLOR "{DEPVS}"
+        END     
+        STYLE
+            OUTLINECOLOR "{CHBLK}"
+            WIDTH 1.0
+        END    
+    END
+    
+END # Layer

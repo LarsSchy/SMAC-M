@@ -1,0 +1,40 @@
+### AML FSHFAC,point,ESB, ###
+
+LAYER
+    NAME "FORSTC"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Fortified structure"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "CATFIF,CONVIS,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA FORSTC
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  # Select points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+
+#     CLASSITEM "CATFOR"
+
+# Symbol: MS_FORSTC01  - LANDF
+# Description: fortified structure
+# Symbol: MS_FORSTC11 -  CHBLK
+# Description: conspicuous fortified structure
+#
+#  Found CATFOR. 1,2,3,4,5,701
+#
+    CLASS
+        NAME "Fortified structure - points"
+        STYLE
+			SYMBOL "MS_FORSTC01"
+            COLOR "{LANDF}"
+			SIZE 6
+            WIDTH 1.5
+		END
+    END # Class
+END # Layer

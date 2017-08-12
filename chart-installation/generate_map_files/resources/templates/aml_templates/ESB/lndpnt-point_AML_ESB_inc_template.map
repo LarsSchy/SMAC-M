@@ -1,0 +1,30 @@
+###  AML - ESB Landing Point - points ###
+
+LAYER
+    NAME "lndpnt point"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Landing Point - points"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA "lndpnt"
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  #  Select only points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASS
+        NAME "Landing Point (points)"
+        STYLE
+            SYMBOL "MS_lndpnt01"
+            SIZE 12
+            COLOR "{CHRED}"
+            WIDTH 1.0
+        END
+    END # Class
+END # Layer

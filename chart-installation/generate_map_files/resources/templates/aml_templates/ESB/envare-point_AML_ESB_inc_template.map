@@ -1,0 +1,30 @@
+###  AML - Environmentally Sensitive Area - envare points ###
+
+LAYER
+    NAME "envare point"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Environmentally Sensitive Area - points"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "quabch,orgntr,SUREND,SURSTA,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA "envare"
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  #  Select only points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASS
+        NAME "Environmentally Sensitive Area (points)"
+        STYLE  
+            SYMBOL "MS_envare01"
+            COLOR "{RADLO}"
+            WIDTH 1.2
+            SIZE 12
+        END
+    END # Class
+END # Layer

@@ -1,0 +1,31 @@
+###  AML ESB - RIVERS - lines    ###
+#
+
+LAYER
+    NAME "Rivers (lines)"
+    TYPE LINE
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Rivers"
+        "ows_enable_request"   "*"
+        "gml_include_items" "STATUS,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA RIVERS
+    PROCESSING 'NATIVE_FILTER=PRIM=2'  #  Select only linestrings
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASS
+        NAME "Rivers (lines)"
+        STYLE
+           COLOR "{RESBL}"
+           WIDTH 1.5
+           OUTLINECOLOR "{OUTLL}"
+           OUTLINEWIDTH 0.3
+        END
+    END
+END

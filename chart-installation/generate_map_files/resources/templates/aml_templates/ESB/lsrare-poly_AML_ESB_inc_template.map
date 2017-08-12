@@ -1,0 +1,34 @@
+###  AML ESB - lsrare- polygons    ###
+#
+
+LAYER
+    NAME "lsrare - polygons"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Leisure Activity Area"
+        "ows_enable_request"   "*"
+        "gml_include_items" "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA lsrare
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  #  Select only polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    # LS(DOTT,2,CHGRD)
+
+    CLASS
+        NAME "Leisure Activity Area"
+        STYLE
+            OUTLINECOLOR "{CHGRD}"
+            PATTERN 1 2.5 END
+            WIDTH 1.2
+        END
+    END
+    
+END # Layer

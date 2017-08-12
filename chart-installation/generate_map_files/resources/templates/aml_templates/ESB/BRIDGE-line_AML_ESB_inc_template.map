@@ -1,0 +1,56 @@
+###  AML - BRIDGE - lines    ###
+#  Symbology: LS(SOLD,5,CHGRD)  95 106 96 - DAY
+#
+
+LAYER
+    NAME BRIDGE-line
+    TYPE LINE
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Bridge-lines"
+        "ows_enable_request"   "*"
+        "gml_include_items" "CATBRG,NOBJNM,OBJNAM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    # DATA "SELECT CATBRG, NOBJNM, OBJNAM FROM BRIDGE WHERE OGR_GEOMETRY='LINESTRING'"
+    DATA BRIDGE
+    PROCESSING 'NATIVE_FILTER=PRIM=2'  #  Select only linestrings
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASS
+        NAME "Bridge (lines)"
+        #STYLE
+            #COLOR "{BKAJ1}"   # BKAJ1
+            #WIDTH 5
+        #END
+        STYLE
+            COLOR "{BKAJ1}"  #BKAJ1
+            WIDTH 1.5
+            OFFSET -2.5 -99
+            LINECAP ROUND
+            LINEJOIN ROUND
+        END
+        STYLE
+            COLOR "{BKAJ1}"   #BKAJ1
+            WIDTH 1.5
+            OFFSET 2.5 -99
+            LINECAP ROUND
+            LINEJOIN ROUND
+        END
+        #LABEL
+            #TEXT ('[OBJNAM]')
+            #COLOR "{BKAJ1}"   # BKAJ1
+            #TYPE TRUETYPE
+            #FONT SC
+            #SIZE 8
+            #OFFSET 5 99
+            #ANGLE FOLLOW
+            #FORCE TRUE
+        #END
+    END # Class
+END # Layer
+

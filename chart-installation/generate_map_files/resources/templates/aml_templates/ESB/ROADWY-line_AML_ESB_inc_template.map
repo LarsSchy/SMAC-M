@@ -1,0 +1,182 @@
+###  AML - ROADWY - lines    ###
+#
+LAYER
+    NAME "ROADWY"
+    TYPE LINE
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Roads"
+        "ows_enable_request"   "*"
+        "gml_include_items" "CATROD,CONDTN,NATCON,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA ROADWY
+    PROCESSING 'NATIVE_FILTER=PRIM=2'  #  Select only linestrings
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+
+##  CATROD=1    LS(SOLD,5,CHBLK);LS(SOLD,3,CHRED);LS(SOLD,1,CHBLK)
+##  CATROD=2    LS(SOLD,3,CHBLK);LS(SOLD,1,CHRED)
+##  CATROD=3    LS(SOLD,3,CHBLK);LS(SOLD,1,CHRED)
+##  CATROD=4    LS(DASH,2,CHBLK)
+##  CATROD=5    LS(SOLD,2,CHRED)
+##  CATROD=6    LS(SOLD,1,CHRED)
+##  CATROD=502  LS(DASH,2,CHGRD)
+##  CATROD=503  LS(SOLD,3,CHRED);LS(SOLD,1,CHWHT)
+##  CATROD=504  LS(SOLD,2,CHRED)
+##  default     LS(SOLD,2,LANDF)
+
+    CLASSITEM CATROD
+
+    CLASS
+        NAME "Road - motorway"
+        EXPRESSION "1"
+        STYLE
+            COLOR "{CHBLK}"
+            WIDTH 5.0
+            LINECAP BUTT
+            LINEJOIN ROUND
+        END
+        STYLE
+            COLOR "{CHRED}"
+            WIDTH 3.5
+            LINECAP BUTT
+            LINEJOIN ROUND
+        END
+        STYLE
+            COLOR "{CHBLK}"
+            WIDTH 0.6
+            LINECAP BUTT
+            LINEJOIN ROUND
+        END
+    END
+
+    CLASS
+        NAME "Road - major road"
+        EXPRESSION "2"
+        STYLE
+            COLOR "{CHBLK}"
+            WIDTH 3
+            LINECAP ROUND
+            LINEJOIN ROUND
+        END
+        STYLE
+            COLOR "{CHRED}"
+            WIDTH 1.8
+            LINECAP ROUND
+            LINEJOIN ROUND
+        END
+    END
+
+    CLASS
+        NAME "Road - minor road"
+        EXPRESSION "3"
+        STYLE
+            COLOR "{CHBLK}"
+            WIDTH 2.0
+            LINECAP ROUND
+            LINEJOIN ROUND
+        END
+        STYLE
+            COLOR "{CHRED}"
+            WIDTH 1.0
+            LINECAP ROUND
+            LINEJOIN ROUND
+        END
+    END
+
+    CLASS
+        NAME "Road - track/path"
+        EXPRESSION "4"
+        STYLE
+            COLOR "{CHBLK}"
+            WIDTH 1.5
+            LINECAP butt
+            PATTERN 6 6 END
+        END
+    END # Class
+
+    CLASS
+        NAME "Major Street"
+        EXPRESSION "5"
+        STYLE
+            COLOR "{CHRED}"
+            WIDTH 2.0
+            LINECAP ROUND
+            LINEJOIN ROUND
+        END
+    END # Class
+
+    CLASS
+        NAME "Minor street"
+        EXPRESSION "6"
+        STYLE
+            COLOR "{CHRED}"
+            WIDTH 1.0
+            LINECAP ROUND
+            LINEJOIN ROUND
+        END
+    END # Class
+
+    CLASS
+        NAME "Trail"
+        EXPRESSION "502"
+        STYLE
+            COLOR "{CHGRD}"
+            WIDTH 1.5
+            LINECAP butt
+            PATTERN 6 6 END
+        END
+    END # Class
+
+    CLASS
+        NAME "Primary route"
+        EXPRESSION "503"
+        STYLE
+            COLOR "{CHBLK}"
+            WIDTH 3
+            LINECAP ROUND
+            LINEJOIN ROUND
+        END
+        STYLE
+            COLOR "{CHWHT}"
+            WIDTH 1.8
+            LINECAP ROUND
+            LINEJOIN ROUND
+        END
+    END
+
+    CLASS
+        NAME "Secondary route"
+        EXPRESSION "504"
+        STYLE
+            COLOR "{CHRED}"
+            WIDTH 1.8
+            LINECAP ROUND
+            LINEJOIN ROUND
+        END
+    END
+
+    CLASS
+        NAME "Road - default class"
+        STYLE
+            COLOR "{CHBLK}"
+            WIDTH 2.0
+            LINECAP ROUND
+            LINEJOIN ROUND
+        END
+        STYLE
+            COLOR "{LANDA}"
+            WIDTH 1.0
+            LINECAP ROUND
+            LINEJOIN ROUND
+        END
+    END
+
+
+END # Layer
+

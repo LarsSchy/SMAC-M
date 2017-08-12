@@ -1,0 +1,40 @@
+###  AML ESB - SLCONS - polygons    ###
+#
+
+LAYER
+    NAME "SLCONS - polygons"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Shoreline Constructions (polygons)"
+        "ows_enable_request"   "*"
+        "gml_include_items" "CATSLC,NOBJNM,OBJNAM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA SLCONS
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  #  Select only polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+
+    CLASS
+        NAME "Shoreline Constructions (polygons)"
+        STYLE
+            SYMBOL "hatchsymbol"
+            COLOR "{LANDF}"
+            SIZE 2
+        END
+        STYLE
+            SYMBOL "hatchsymbol"
+            ANGLE 90
+            SIZE 2
+            COLOR "{LANDF}"
+        END
+        # STYLE
+        #  OUTLINECOLOR 83 92 84
+        # END
+    END
+END # Layer

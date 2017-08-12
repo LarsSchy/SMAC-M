@@ -1,0 +1,32 @@
+###  AML ESB - envare- polygons    ###
+#
+
+LAYER
+    NAME "envare - polygons"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Environmentally Sensitive Area (polygons)"
+        "ows_enable_request"   "*"
+        "gml_include_items" "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA envare
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  #  Select only polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    ## LS(DADD,1,RADLO)
+
+    CLASS
+        NAME "Environmentally Sensitive Area (polygons)"
+        STYLE
+            OUTLINECOLOR "{RADLO}"
+            WIDTH 0.9
+        END 
+    END
+END # Layer

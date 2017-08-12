@@ -1,0 +1,91 @@
+### AML ESB  - Pipeline Area  ###
+
+LAYER
+    NAME "PIPARE"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Pipeline Area"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "CATACH,NOBJNM,OBJNAM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    # DATA "SELECT CATACH, NOBJNM, OBJNAM FROM ACHARE WHERE OGR_GEOMETRY='POLYGON'"
+    DATA PIPARE
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  # Select polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    ## PIPARE51 CHMGD 
+    ## PIPARE61 CHGRD
+    ## CATPIP found in test data 2;3 and 4,5
+    ## PRODCT not set  PRODCT is same as CATPIP 2 or 3
+    
+    CLASSITEM "CATPIP"
+    CLASS
+        NAME "Pipeline Area"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        #STYLE     ## test line to get proper offset 
+            #OUTLINECOLOR 0 0 0
+            #WIDTH 0.5
+        #END
+        STYLE
+            SYMBOL "obstacle-line"
+            OUTLINECOLOR "{CHMGD}"
+            WIDTH 1.0
+            INITIALGAP 10
+            SIZE 4
+            GAP -83
+            OFFSET 2.5 -99
+        END
+        STYLE
+            SYMBOL "obstacle-line"
+            OUTLINECOLOR "{CHMGD}"
+            WIDTH 1.0
+            INITIALGAP 30
+            SIZE 4
+            GAP -83
+            OFFSET 2.5 -99
+        END
+        STYLE  # line part of pipsol
+            SYMBOL "MS_H-LINE"
+            OUTLINECOLOR  "{CHMGD}"
+            WIDTH 1.0
+            SIZE 12
+            GAP -83
+            INITIALGAP 46
+            OFFSET 3.5 -99
+        END
+        STYLE  # circle part of pipsol
+            SYMBOL "MS_CIRCLE"
+            OUTLINECOLOR "{CHMGD}"
+            INITIALGAP 54
+            GAP -83
+            SIZE 5
+            WIDTH 1.0
+            OFFSET 3.5 -99
+        END    
+        STYLE
+            SYMBOL "obstacle-line"
+            WIDTH 1.0
+            OUTLINECOLOR "{CHMGD}"
+            INITIALGAP 73
+            SIZE 4
+            GAP -83
+            OFFSET 2.5 -99
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"  
+            SYMBOL "MS_INFAREx1"
+            COLOR "{CHGRD}"
+            WIDTH 1.2
+            SIZE 12
+        END
+    END # Class
+END # Layer

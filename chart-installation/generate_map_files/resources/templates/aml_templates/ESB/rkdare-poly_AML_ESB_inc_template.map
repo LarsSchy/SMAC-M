@@ -1,0 +1,48 @@
+###  AML ESB - rkdare- polygons    ###
+#
+
+LAYER
+    NAME "rkdare - polygons"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Risk Data Area (polygons)"
+        "ows_enable_request"   "*"
+        "gml_include_items" "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA rkdare
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  #  Select only polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    #  LS(DASH,1,CHMGD);SY(CTNARE51)
+
+    CLASS
+        NAME "Risk Data Area"
+        STYLE
+            OUTLINECOLOR "{CHMGD}"
+            PATTERN 4 4 END
+            WIDTH 0.9
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_CIRCLE"
+            COLOR "{TRFCF}"
+            SIZE 17
+            WIDTH 1.8
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_CTNARE51"
+            COLOR "{TRFCF}"
+            SIZE 10
+            WIDTH 1.8
+        END   
+    END
+    
+END # Layer

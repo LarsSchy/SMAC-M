@@ -1,0 +1,90 @@
+###  AML LNDRGN - polygons ###
+#
+#  CATLND attributes
+#
+#1	Fen
+#2	Marsh
+#3	Moor/bog
+#4	Heathland
+#5	Mountain Range
+#6	Lowlands
+#7	Canyon Lands
+#8	Paddy Field
+#9	Agricultural Land
+#10	Savanna/Grassland
+#11	Parkland
+#12	Swamp
+#13	Landslide
+#14	Lava Flow
+#15	Salt Pan
+#16	Moraine
+#17	Crater
+#18	Cave
+#19	Rock Column or Pinnacle
+#20	Cay
+#501	beach
+#502	backshore
+#503	foreshore
+#504	ice cliff
+#505	snowfield / icefield
+#506	tundra
+#507	esker
+#508	fault
+#509	geothermal feature
+#510	mountain pass
+#511	rock strata / rock formation
+#512	volcano
+#513	cleared way / firebreak
+#514	land sub
+#
+# NATQUA attributes
+#
+#1	fine
+#2	medium
+#3	coarse
+#4	broken
+#5	sticky
+#6	soft
+#7	stiff
+#8	volcanic
+#9	calcareous
+#10	hard
+
+
+LAYER
+    NAME "LNDRGN"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Landregion"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "CATLND,NATQUA,WATLEV,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA LNDRGN
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  # Select only polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASS
+        ##
+        ##  No symbololy found for the AML classes. found CATLND: 501,502,503
+        ##  and NATQUA 501
+        ##
+        NAME "Land region"
+        LABEL
+            TEXT ('[OBJNAM]')
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 8
+            POSITION AUTO
+            PARTIALS FALSE
+            BUFFER 4
+            ALIGN CENTER
+        END
+    END # Class
+END # Layer

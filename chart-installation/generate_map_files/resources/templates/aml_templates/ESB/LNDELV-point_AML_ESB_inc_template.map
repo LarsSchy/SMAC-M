@@ -1,0 +1,41 @@
+### AML LNDELV,point,ESB, ###
+# SY(POSGEN04);TE('%3.0lf m','ELEVAT',3,2,2,'15110',1,0,CHBLK,28)
+
+LAYER
+    NAME "LNDELV"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Land Elevation"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "ELEVAT,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA LNDELV
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  # Select points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+
+    CLASS
+        NAME "Land Elevation - points"
+        STYLE
+			SYMBOL "MS_CIRCLE"
+            COLOR "{CHBLK}"
+			SIZE 5
+            WIDTH 0.7
+		END
+        LABEL
+            TEXT '[ELEVAT] m'
+            COLOR "{CHBLK}"  #CHBLK
+            TYPE TRUETYPE
+            POSITION LR
+            FONT "sc"
+            SIZE 7
+            FORCE TRUE
+        END
+    END # Class
+END # Layer

@@ -1,0 +1,64 @@
+###  AML - FSHFAC - lines    ###
+#
+
+LAYER
+    NAME FSHFAC-line
+    TYPE LINE
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "FSHFAC-lines"
+        "ows_enable_request"   "*"
+        "gml_include_items" "CATFIF,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA FSHFAC
+    PROCESSING 'NATIVE_FILTER=PRIM=2'  #  Select only linestrings
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASSITEM "CATFIF"
+
+    CLASS
+        NAME "Fishing facility (lines)"
+        EXPRESSION {2}
+        NAME "Fishing facility - (fishing stake)"
+        STYLE
+			SYMBOL "FSHFAC03_MS"
+            COLOR "{CHGRF}"
+			SIZE 6
+            WIDTH 2.0
+            SIZE 6
+            GAP -30
+		END
+    END
+    CLASS
+        EXPRESSION {1,3,4}
+        NAME "Fishing facility -fish trap, fish weir, tunny net"
+        STYLE
+            COLOR "{CHGRD}"
+            PATTERN 8 8 END
+            WIDTH 3
+            LINECAP round #[butt|round|square|triangle]
+            LINEJOIN miter #[round|miter|bevel]
+		END
+    END
+#
+#  704 found in data no symbology defined
+#
+
+    CLASS
+        # This class contain everything that is not handled above expression
+        NAME "Fishing facility - general"
+        STYLE
+            COLOR "{CHGRD}"
+            PATTERN 8 8 END
+            WIDTH 3
+            LINECAP round #[butt|round|square|triangle]
+            LINEJOIN miter #[round|miter|bevel]
+		END
+    END # Class
+END # Layer
+

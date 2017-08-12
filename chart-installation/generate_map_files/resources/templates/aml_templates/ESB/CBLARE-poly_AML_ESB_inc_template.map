@@ -1,0 +1,71 @@
+###  AML - Cable Area - CBLARE polygons ###
+#
+#  Geosym color: 16 med-beige 224 195 180
+#                18 dark-beige 200 167 151
+#
+LAYER
+    NAME "CBLARE_poly"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Cable Area polygons"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "CATCBL,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA CBLARE
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  # Select polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASS
+        NAME "Cable Area"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        #STYLE     ## test line to get proper offset 
+            #OUTLINECOLOR 0 0 0
+            #WIDTH 0.5
+        #END
+        STYLE
+            SYMBOL "obstacle-line"
+            OUTLINECOLOR "{CHMGD}"
+            WIDTH 0.9
+            INITIALGAP 4
+            SIZE 4
+            GAP -60
+            OFFSET 2.5 -99
+        END
+        STYLE
+            SYMBOL "EMCBLAR1_MS"
+            OUTLINECOLOR "{CHMGD}"
+            INITIALGAP 40
+            GAP -72
+            SIZE 9
+            WIDTH 1.0
+            INITIALGAP 25
+            GAP -60
+            ANGLE 180
+            OFFSET 2.5 -99
+        END
+        STYLE
+            SYMBOL "obstacle-line"
+            WIDTH 1.0
+            OUTLINECOLOR "{CHMGD}"
+            INITIALGAP 45
+            SIZE 4
+            GAP -60
+            OFFSET 2.5 -99
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "EMCBLAR1_MS"
+            COLOR "{TRFCD}"
+            WIDTH 2.0
+            SIZE 15
+        END
+    END # Class
+END # Layer

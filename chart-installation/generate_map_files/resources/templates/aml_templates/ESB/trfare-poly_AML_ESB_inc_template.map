@@ -1,0 +1,118 @@
+###  AML ESB - trfare- polygons    ###
+#
+
+LAYER
+    NAME "trfare - polygons"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Trafficability Area"
+        "ows_enable_request"   "*"
+        "gml_include_items" "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA trfare
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  #  Select only polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    CLASSITEM "cattrf"
+    
+# Default line:   LC(trfare01)
+
+#LNST   10LS01394NIL
+#LIND   38trfare01010000100000750000030099901000
+#LXPO   44GMWG Portrayal for AML, Trafficability Area
+#LCRF    6ACHMGD
+#LVCT   63SW1;SPA;PU1000,1000;PD1300,1000;PU1450,1000;PD;PU1600,1000;PD;
+
+#cattrf501|	"cattrf = Firm_x000D_
+#"	AC(UINFF,2);LC(trfare01)
+
+    CLASS
+        EXPRESSION "501"
+        NAME "Trafficability Area - Firm"
+        STYLE
+            COLOR "{UINFF}"
+            SIZE 2.8
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END   
+        STYLE
+            OUTLINECOLOR "{CHMGD}"
+            PATTERN 8 3 1 3 1 3 END
+            WIDTH 0.9
+        END
+    END
+
+#cattrf502|	"cattrf = Moderate_x000D_
+#"	AC(CHYLW,1);LC(trfare01)
+
+    CLASS
+        EXPRESSION "502"
+        NAME "Trafficability Area - Moderate"
+        STYLE
+            COLOR "{CHYLW}"
+            SIZE 2.5
+            SYMBOL "Dots-1"
+            WIDTH 0.9
+        END
+        STYLE
+            OUTLINECOLOR "{CHMGD}"
+            PATTERN 8 3 1 3 1 3 END
+            WIDTH 0.9
+        END
+    END
+
+#cattrf504|	"cattrf = Very Soft_x000D_
+#"	LC(trfare01);AC(CHMGD,2)
+
+    CLASS
+        EXPRESSION "504"
+        NAME "Trafficability Area - Very Soft"
+        STYLE
+            COLOR "{CHMGD}"
+            SIZE 2.8
+            SYMBOL "v-pattern"
+            WIDTH 0.7
+        END
+        STYLE
+            OUTLINECOLOR "{CHMGD}"
+            PATTERN 8 3 1 3 1 3 END
+            WIDTH 0.9
+        END
+    END
+
+#cattrf503|	"cattrf = Soft_x000D_
+#"	AC(CHCOR,1);LC(trfare01)
+
+    CLASS
+        EXPRESSION "503"
+        NAME "Trafficability Area - Soft"
+        STYLE
+            COLOR "{CHCOR}"
+            SIZE 2.5
+            SYMBOL "Dots-1"
+            WIDTH 0.9
+        END
+        STYLE
+            OUTLINECOLOR "{CHMGD}"
+            PATTERN 8 3 1 3 1 3 END
+            WIDTH 0.9
+        END
+    END
+
+    CLASS
+        NAME "Trafficability Area - Default(polygons)"
+        STYLE
+            OUTLINECOLOR "{CHMGD}"
+            PATTERN 8 3 1 3 1 3 END
+            WIDTH 0.9
+        END
+    END
+    
+END # Layer

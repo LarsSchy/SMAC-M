@@ -1,0 +1,47 @@
+### AML FSHFAC,poly,ESB, ###
+
+LAYER
+    NAME "FORSTC-poly"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Fortified structure"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "CATFIF,CONVIS,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA FORSTC
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  # Select polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+
+#     CLASSITEM "CATFOR"
+
+    CLASS
+        NAME "Fortified structure - polygon"
+        STYLE
+            COLOR "{CHBRN}"
+        END
+        STYLE
+            ## OUTLINECOLOR "{LANDF}"
+            OUTLINECOLOR "{CHBLK}"
+            OUTLINEWIDTH 1
+        END
+    END # Class
+
+    #CLASS
+        #NAME "Fortified structure - convis"
+        #STYLE
+            #COLOR "{CHBRN}"
+        #END
+        #STYLE
+            #OUTLINECOLOR "{CHBLK}"
+            #OUTLINEWIDTH 1
+        #END
+    #END # Class
+
+END # Layer

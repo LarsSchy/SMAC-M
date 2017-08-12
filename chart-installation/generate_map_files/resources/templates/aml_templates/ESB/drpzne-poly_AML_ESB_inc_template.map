@@ -1,0 +1,58 @@
+###  AML ESB - divloc- polygons    ###
+#
+
+LAYER
+    NAME "drpzne- polygons"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Drop zone (polygons)"
+        "ows_enable_request"   "*"
+        "gml_include_items" "CATWED,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA drpzne
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  #  Select only polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    ## LS(SOLD,2,CHRED);SY(drpzne01)
+    ## STATUS=2:  LS(DASH,2,CHRED);SY(drpzne01)
+
+    CLASS
+        EXPRESSION ( "[STATUS]" = "2" )
+        NAME "Drop zone - occasional (polygons)"
+        STYLE
+            OUTLINECOLOR "{CHRED}"
+            PATTERN 4 4 END
+            WIDTH 0.9
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_drpzne01"
+            SIZE 11
+            COLOR "{CHRED}"
+            WIDTH 1.0
+        END
+    END
+
+    CLASS
+        NAME "Drop zone (polygons)"
+        STYLE
+            OUTLINECOLOR "{CHRED}"
+            WIDTH 0.9
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_drpzne01"
+            SIZE 11
+            COLOR "{CHRED}"
+            WIDTH 1.0
+        END
+    END
+
+END # Layer

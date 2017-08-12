@@ -1,0 +1,51 @@
+###  AML - ESB Landing Place - lndplc points ###
+
+LAYER
+    NAME "lndplc point"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Landing Place - points"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA "lndplc"
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  #  Select only points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASS
+        NAME "Landing Place (points)"
+        STYLE
+            SYMBOL "MS_lndplc01"
+            SIZE 9
+            COLOR "{RADLO}"
+            WIDTH 1.0
+        END 
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{RADLO}"
+            WIDTH 1
+            OFFSET -5 6
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{RADLO}"
+            WIDTH 1
+            OFFSET 0 6
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{RADLO}"
+            WIDTH 1
+            OFFSET 5 6
+        END
+    END # Class
+END # Layer

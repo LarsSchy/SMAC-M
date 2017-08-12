@@ -1,0 +1,55 @@
+###  AML Bottom Feature - botmft  - points  ###
+#
+#   Bottom Feature Classification - catbot
+#   Geosym color: 82 med-red-brown 150 0 0
+#
+LAYER
+    NAME "botmft-point"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Bottom_Feature_points"
+        "ows_enable_request"   "*"
+        "gml_include_items" "catbot,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    # DATA "SELECT catbot, INFORM, NINFOM FROM 'botmft + catbot' WHERE OGR_GEOMETRY='POINT'"
+    DATA 'botmft + catbot'
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  #  Select only points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASS
+        NAME "Bottom_Feature (points)"
+        STYLE
+            SYMBOL "MS_botmft01"
+            SIZE 11
+            COLOR "{CHBRN}"
+            WIDTH 1.5
+        END
+        #STYLE
+            #SYMBOL "circlef"
+            #SIZE 15.0
+            #COLOR "{DNGHL}" # DNGHL
+            #OPACITY 15
+        #END
+        #STYLE
+            #SYMBOL "circlef"
+            #SIZE 15.0
+            #OUTLINECOLOR "{DNGHL}" # DNGHL
+        #END
+        #LABEL
+            #TEXT ('[INFORM]')
+            #COLOR "{DNGHL}" # DNGHL
+            #TYPE TRUETYPE
+            #FONT SC
+            #SIZE 8
+            #POSITION UR
+            #PARTIALS FALSE
+            #MINDISTANCE 0
+        #END
+    END # Class
+END # Layer

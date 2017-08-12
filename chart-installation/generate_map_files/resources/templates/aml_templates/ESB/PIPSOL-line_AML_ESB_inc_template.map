@@ -1,0 +1,40 @@
+###  AML ESB - PIPSOL - lines    ###
+#
+
+LAYER
+    NAME "PIPSOL"
+    TYPE LINE
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Pipeline"
+        "ows_enable_request"   "*"
+        "gml_include_items" "CATPIP,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA PIPSOL
+    PROCESSING 'NATIVE_FILTER=PRIM=2'  #  Select only linestrings
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASS
+       NAME "Pipeline"  # PIPSOL06 done with line and circle
+       STYLE
+          COLOR "{CHGRD}"   # CHGRD
+          WIDTH 1.1
+          PATTERN 12 10 END
+          INITIALGAP 5
+       END
+       STYLE
+         SYMBOL "MS_CIRCLE"
+         COLOR "{CHGRD}"
+         INITIALGAP 18
+         GAP -22
+         SIZE 4
+         WIDTH 1.1
+       END
+    END
+END # Layer
+

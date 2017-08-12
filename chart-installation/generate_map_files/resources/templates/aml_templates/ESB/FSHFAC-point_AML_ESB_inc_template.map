@@ -1,0 +1,71 @@
+### AML FSHFAC,point,ESB, ###
+
+LAYER
+    NAME "FSHFAC"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Fishing facility"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "CATFIF,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA FSHFAC
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  # Select points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+
+    # 1	fishing stake
+    # 2	fish trap
+    # 3	fish weir
+    # 4	tunny net
+    # 701 default symbology
+
+
+
+    CLASSITEM "CATFIF"
+    CLASS
+        EXPRESSION {1}
+        NAME "Fishing facility - (fishing stake)"
+        STYLE
+			SYMBOL "FSHFAC03_MS"
+            COLOR "{CHGRF}"
+			SIZE 6
+            WIDTH 1.5
+		END
+    END
+
+    CLASS
+        EXPRESSION {2,3,4}
+        NAME "Fishing facility -fish trap, fish weir, tunny net"
+        STYLE
+			SYMBOL "FSHFAC02_MS"
+            COLOR "{CHGRF}"
+			SIZE 12
+            WIDTH 1.5
+		END
+    END
+
+
+    CLASS
+        # This class contain everything that is not handled above expression
+        NAME "Fishing facility - generalqgu"
+        STYLE
+			SYMBOL "MS_ELLIPSE"
+            COLOR "{CHGRF}"
+			SIZE 18
+            WIDTH 0.9
+            LINECAP BUTT
+		END
+        STYLE
+			SYMBOL "FSHHAV01_MS"
+            COLOR "{CHGRF}"
+			SIZE 8
+            WIDTH 1.5
+		END
+    END # Class
+END # Layer

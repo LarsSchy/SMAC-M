@@ -1,0 +1,335 @@
+###  AML - Geological Layer - sedlay points ###
+
+LAYER
+    NAME "sedlay point"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Geological Layer - points"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA "sedlay"
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  #  Select only points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    CLASSITEM "natsed"
+    
+#natsed501|	"natsed = Undifferentiated metamorphic rock_x000D_
+#"	SY(sedlay09)    
+#natsed502|	"natsed = Undifferentiated igneous and volcanic rock_x000D_
+#"	SY(sedlay09)
+#natsed503|	"natsed = Granite_x000D_
+#"	SY(sedlay09)
+#natsed504|	"natsed = Dolerite_x000D_
+#"	SY(sedlay09)
+#natsed505|	"natsed = Basalt_x000D_
+#"	SY(sedlay09)
+#natsed506|	"natsed = Gneiss_x000D_
+#"	SY(sedlay09)
+#natsed507|	"natsed = Schist_x000D_
+#"	SY(sedlay09)
+#natsed524|	"natsed = Marble_x000D_
+#"	SY(sedlay09)
+#natsed509|	"natsed = Quartzite_x000D_
+#"	SY(sedlay09)
+#natsed510|	"natsed = Slate_x000D_
+#"	SY(sedlay09)
+#natsed511|	"natsed = Breccia_x000D_
+#"	SY(sedlay09)
+#natsed512|	"natsed = Conglomerate_x000D_
+#"	SY(sedlay09)
+#natsed515|	"natsed = Shale_x000D_
+#"	SY(sedlay09)
+#natsed528|	"natsed = Rock_x000D_
+#"	SY(sedlay09)
+#natsed529|	"natsed = Lava_x000D_
+#"	SY(sedlay09)
+#natsed531|	"natsed = Boulder_x000D_
+#"	SY(sedlay09)
+#natsed545|	"natsed = Sedimentary Rock_x000D_
+#"	SY(sedlay09)
+#natsed544|	"natsed = Crystalline Rock_x000D_
+#"	SY(sedlay09)    
+    CLASS
+        EXPRESSION {501,502,503,504,505,506,507,524,509,510,511,512,515,528,529,531,545,544}
+        NAME "Geological Layer - Rock (points)"
+        STYLE  
+            SYMBOL "MS_sedlay09"
+            COLOR "{LANDF}"
+            WIDTH 0.9
+            SIZE 14
+        END
+    END # Class
+
+#natsed513|	"natsed = Coral_x000D_
+#"	SY(sedlay10)
+
+    CLASS
+        EXPRESSION "513"
+        NAME "Geological Layer - Coral (points)"
+        STYLE  
+            SYMBOL "MS_sedlay10"
+            COLOR "{LANDF}"
+            WIDTH 0.9
+            SIZE 14
+        END
+    END # Class
+
+#natsed514|	"natsed = Clays_x000D_
+#"	SY(sedlay03)
+
+    CLASS
+        EXPRESSION "514"
+        NAME "Geological Layer - Clays (points)"
+        STYLE  
+            SYMBOL "MS_sedlay03"
+            COLOR "{LANDF}"
+            WIDTH 0.9
+            SIZE 14
+        END
+    END # Class
+    
+#natsed516|	"natsed = Siltstone and Mudstone_x000D_
+#"	SY(sedlay05)
+
+    CLASS
+        EXPRESSION "516"
+        NAME "Geological Layer - Siltstone and Mudstone (points)"
+        STYLE  
+            SYMBOL "MS_sedlay03"
+            COLOR "{LANDF}"
+            WIDTH 0.9
+            SIZE 14
+        END
+    END # Class
+
+#natsed517|	"natsed = Sandstone_x000D_
+#"	SY(sedlay05)
+#natsed518|	"natsed = Limestone_x000D_
+#"	SY(sedlay05)
+#natsed520|	"natsed = Evaporite_x000D_
+#"	SY(sedlay05)
+#natsed542|	"natsed = Stone_x000D_
+#"	SY(sedlay05)
+
+    CLASS
+        EXPRESSION {517,518,520,542}
+        NAME "Geological Layer - Stone (points)"
+        STYLE  
+            SYMBOL "MS_sedlay05"
+            COLOR "{LANDF}"
+            WIDTH 0.9
+            SIZE 14
+        END
+    END # Class
+
+#natsed519|	"natsed = Chalk_x000D_
+#"	SY(sedlay03)
+#natsed546|	"natsed = Till_x000D_
+#"	SY(sedlay03)
+
+    CLASS
+        EXPRESSION {519,546}
+        NAME "Geological Layer - Clay (points)"
+        STYLE  
+            SYMBOL "MS_sedlay03"
+            COLOR "{LANDF}"
+            WIDTH 0.9
+            SIZE 14
+        END
+    END # Class
+
+#natsed521|	"natsed = Mud_x000D_
+#"	SY(sedlay02)
+
+    CLASS
+        EXPRESSION "521"
+        NAME "Geological Layer - Mud (points)"
+        STYLE  
+            SYMBOL "MS_sedlay02"
+            COLOR "{LANDF}"
+            WIDTH 0.9
+            SIZE 14
+        END
+    END # Class
+
+#natsed522|	"natsed = Silt_x000D_
+#"	SY(sedlay04)
+
+    CLASS
+        EXPRESSION "522"
+        NAME "Geological Layer - Silt (points)"
+        STYLE  
+            SYMBOL "MS_sedlay04"
+            COLOR "{LANDF}"
+            WIDTH 0.9
+            SIZE 14
+        END
+    END # Class
+
+#natsed523|	"natsed = Sand_x000D_
+#"	SY(sedlay01)
+
+    CLASS
+        EXPRESSION "523"
+        NAME "Geological Layer - Sand (points)"
+        STYLE  
+            SYMBOL "MS_sedlay03"
+            COLOR "{LANDF}"
+            WIDTH 0.9
+            SIZE 14
+        END
+    END # Class
+
+#natsed525|	"natsed = Gravel_x000D_
+#"	SY(sedlay06)
+
+    CLASS
+        EXPRESSION "522"
+        NAME "Geological Layer - Graveö (points)"
+        STYLE  
+            SYMBOL "MS_sedlay06"
+            COLOR "{LANDF}"
+            WIDTH 0.9
+            SIZE 14
+        END
+    END # Class
+
+#natsed526|	"natsed = Pebbles_x000D_
+#"	SY(sedlay07)
+
+    CLASS
+        EXPRESSION "526"
+        NAME "Geological Layer - Pebbles (points)"
+        STYLE  
+            SYMBOL "MS_sedlay07"
+            COLOR "{LANDF}"
+            WIDTH 0.9
+            SIZE 14
+        END
+    END # Class
+
+#natsed527|	"natsed = Cobbles_x000D_
+#"	SY(sedlay08)
+
+    CLASS
+        EXPRESSION "527"
+        NAME "Geological Layer - Cobbles (points)"
+        STYLE  
+            SYMBOL "MS_sedlay08"
+            COLOR "{LANDF}"
+            WIDTH 0.9
+            SIZE 14
+        END
+    END # Class
+
+
+#natsed530|	"natsed = Shells_x000D_
+#"	SY(sedlay11)
+
+    CLASS
+        EXPRESSION "530"
+        NAME "Geological Layer - Shells (points)"
+        STYLE  
+            SYMBOL "MS_sedlay11"
+            COLOR "{LANDF}"
+            WIDTH 0.9
+            SIZE 14
+        END
+    END # Class
+
+
+#natsed532|	"natsed = Sandy mud (Folk)_x000D_
+#"	SY(sedlay02)
+#natsed535|	"natsed = Gravelly mud (Folk)_x000D_
+#"	SY(sedlay02)
+#natsed533|	"natsed = Slightly gravelly mud (Folk)_x000D_
+#"	SY(sedlay02)
+#natsed534|	"natsed = Slightly gravelly sandy mud (Folk)_x000D_
+#"	SY(sedlay02)
+
+    CLASS
+        EXPRESSION {532,533,534,525}
+        NAME "Geological Layer - Mud (points)"
+        STYLE  
+            SYMBOL "MS_sedlay02"
+            COLOR "{LANDF}"
+            WIDTH 0.9
+            SIZE 14
+        END
+    END # Class
+
+#natsed536|	"natsed = Muddy Sand (Folk)_x000D_
+#"	SY(sedlay01)
+#natsed538|	"natsed = Slightly gravelly muddy sand (Folk)_x000D_
+#"	SY(sedlay01)
+#natsed539|	"natsed = Gravelly muddy sand (Folk)_x000D_
+#"	SY(sedlay01)
+#natsed537|	"natsed = Slightly gravelly sand (Folk)_x000D_
+#"	SY(sedlay01)
+#natsed540|	"natsed = Gravelly sand (Folk)_x000D_
+#"	SY(sedlay01)
+
+    CLASS
+        EXPRESSION {536,537,538,539,540}
+        NAME "Geological Layer - Sand (points)"
+        STYLE  
+            SYMBOL "MS_sedlay03"
+            COLOR "{LANDF}"
+            WIDTH 0.9
+            SIZE 14
+        END
+    END # Class
+
+#natsed508|	"natsed = Muddy sandy gravel (Folk)_x000D_
+#"	SY(sedlay06)
+#natsed543|	"natsed = Sandy Gravel (Folk)_x000D_
+#"	SY(sedlay06)
+#natsed541|	"natsed = Muddy Gravel (Folk)_x000D_
+#"	SY(sedlay06)
+
+    CLASS
+        EXPRESSION {508,541,543}
+        NAME "Geological Layer - Gravel (points)"
+        STYLE  
+            SYMBOL "MS_sedlay06"
+            COLOR "{LANDF}"
+            WIDTH 0.9
+            SIZE 14
+        END
+    END # Class
+
+#natsed547|	"natsed = Glaciofluvial Drift_x000D_
+#"	TX(natsed,1,2,2,'15110',0,-1,CHBLK,26)
+
+    CLASS
+        EXPRESSION "514"
+        NAME "Geological Layer - Glaciofluvial Drift (points)"
+        LABEL
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT "sc"
+            SIZE 6
+            TEXT "Glaciofluvial Drift"
+        END
+    END # Class
+    
+    
+# default class - SY(sedlay99)    
+    CLASS
+        NAME "Geological Layer - default symbol (points)"
+        STYLE  
+            SYMBOL "MS_sedlay99"
+            COLOR "{LANDF}"
+            WIDTH 0.9
+            SIZE 14
+        END
+    END # Class
+END # Layer

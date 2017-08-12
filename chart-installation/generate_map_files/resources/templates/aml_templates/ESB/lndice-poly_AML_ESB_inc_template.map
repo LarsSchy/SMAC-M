@@ -1,0 +1,41 @@
+###  AML ESB - lndice - polygons    ###
+#
+
+LAYER
+    NAME "lndice - polygons"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Land Ice (polygons)"
+        "ows_enable_request"   "*"
+        "gml_include_items" "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA lndice
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  #  Select only polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+
+    # LS(DASH,1,CHGRD)
+  
+    CLASS
+        NAME "Lsnd ice"
+        STYLE
+            OUTLINECOLOR "{CHGRD}"
+            PATTERN 4 4 END
+            WIDTH 0.8
+        END
+        #LABEL
+            #COLOR "{CHGRD}"
+            #TYPE TRUETYPE
+            #FONT "sc"
+            #SIZE 6
+            #TEXT "LAND ICE"
+        #END    
+    END
+    
+END # Layer

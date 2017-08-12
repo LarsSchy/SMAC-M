@@ -1,0 +1,52 @@
+###  AML Bottom Feature - botmft  - polygons  ###
+#
+#   Bottom Feature Classification - catbot
+#   Geosym color: 82 med-red-brown 150 0 0
+#
+
+LAYER
+    NAME "botmft-poly"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "BottomFeature polygon"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "catbot,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    # DATA "SELECT catbot, INFORM, NINFOM FROM 'botmft + catbot' WHERE OGR_GEOMETRY='POLYGON'"
+    DATA 'botmft + catbot'
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  # Select polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASS
+        NAME "Bottom_Feature (polygons)"
+        STYLE
+            COLOR "{CHBRN}"
+            GAP 4
+            SIZE 1
+            SYMBOL "Dots-1"
+        END
+        STYLE
+            OUTLINECOLOR "{CHBRN}"
+            OUTLINEWIDTH 3
+            PATTERN 2 3 END
+        END
+        #LABEL
+            #TEXT '[INFORM]'
+            #COLOR "{DNGHL}"
+            #TYPE TRUETYPE
+            #FONT SC
+            #SIZE 8
+            #POSITION AUTO
+            #PARTIALS FALSE
+            #BUFFER 4
+            ##MINDISTANCE 0
+            #ALIGN CENTER
+        #END
+    END  #Class
+END # Layer

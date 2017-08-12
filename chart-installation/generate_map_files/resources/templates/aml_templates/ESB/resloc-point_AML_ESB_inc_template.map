@@ -1,0 +1,130 @@
+###  AML - Resource Location - resloc points ###
+
+LAYER
+    NAME "resloc point"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Resource Location"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA resloc
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  #  Select only points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    CLASSITEM "typres"
+    
+    		
+#501|	"typres = Drinking Water_x000D_
+#"	SY(resloc01)
+
+    CLASS
+        EXPRESSION "501"
+        NAME "Resource Location - Drinking Water (points)"
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHGRD}"
+            SIZE 17
+            WIDTH 2.2
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHBLK}"
+            SIZE 17
+            WIDTH 0.8
+        END
+        STYLE
+            SYMBOL "MS_resloc01"
+            SIZE 6
+            COLOR "{CHBLK}"
+            WIDTH 1.0
+        END  
+    END # Class
+
+#typres502|	"typres = Engineer Resources_x000D_
+#"	SY(resloc02)
+
+    CLASS
+        EXPRESSION "502"
+        NAME "Resource Location - Engineer Resources (points)"
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHGRD}"
+            SIZE 17
+            WIDTH 2.2
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHBLK}"
+            SIZE 17
+            WIDTH 0.8
+        END
+        STYLE
+            SYMBOL "MS_resloc02_boxes"
+            SIZE 7
+            COLOR "{CHGRD}"
+            WIDTH 1.0
+        END  
+        STYLE
+            SYMBOL "MS_resloc02_outline"
+            SIZE 7
+            COLOR "{CHBLK}" 
+            WIDTH 0.7
+        END    
+    END # Class
+
+#typres503|	"typres = Storage_x000D_
+#"	SY(resloc03)
+
+    CLASS
+        EXPRESSION "503"
+        NAME "Resource Location - Storage (points)"
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHGRD}"
+            SIZE 17
+            WIDTH 2.2
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHBLK}"
+            SIZE 17
+            WIDTH 0.8
+        END
+        STYLE
+            SYMBOL "MS_resloc03_boxes"
+            SIZE 9
+            COLOR "{CHGRD}"
+            WIDTH 1.0
+        END  
+        STYLE
+            SYMBOL "MS_resloc03_outline"
+            SIZE 9
+            COLOR "{CHBLK}" 
+            WIDTH 0.6
+        END  
+    END # Class
+
+    # Defatult: #SY(BUISGL01)
+    CLASS
+        NAME "Resource Location - default (points)"
+        STYLE
+            SYMBOL "RECTANGLE_FILL"
+            SIZE 10.0
+            COLOR "{LANDF}"  # LANDF
+        END
+        STYLE
+            SYMBOL "RECTANGLE_FILL"
+            SIZE 10.0
+            OUTLINECOLOR "{CHBLK}"  # CHBLK
+            OUTLINEWIDTH 2.0
+        END
+    END # Class
+END # Layer

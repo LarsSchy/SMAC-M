@@ -1,0 +1,95 @@
+### AML MORFAC,point,ESB
+
+LAYER
+    NAME "MORFAC"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Mooring Facillity"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA MORFAC
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  # Select points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+
+    CLASSITEM CATMOR
+
+		#SY(MORFAC03)
+#CATMOR7|BOYSHP3|	"CATMOR = Mooring buoy_x000D_
+#BOYSHP = spherical_x000D_
+#"	SY(BOYMOR01)
+#CATMOR7|BOYSHP6|	"CATMOR = Mooring buoy_x000D_
+#BOYSHP = barrel (tun)_x000D_
+#"	SY(BOYMOR03)
+#CATMOR1|	"CATMOR = Dolphin_x000D_
+#"	SY(MORFAC03)
+#CATMOR2|	"CATMOR = Deviation dolphin_x000D_
+#"	SY(MORFAC04)
+#CATMOR3|	"CATMOR = Bollard_x000D_
+#"	SY(PILPNT02)
+#CATMOR5|	"CATMOR = Post or pile_x000D_
+#"	SY(PILPNT02)
+#CATMOR7|	"CATMOR = Mooring buoy_x000D_
+#"	SY(BOYMOR11)
+
+#1	Dolphin
+#2	Deviation dolphin
+#3	Bollard
+#4	Tie-up wall
+#5	Post or pile
+#6	Chain/wire/cable
+#7	Mooring buoy
+#501	FPB waiting position
+
+#501 = fast patrol boat waiting position: Position where Fast Patrol Boats can moor to an islet or land. (AML)
+#701 = Unknown:
+#703 = Not Applicable:
+#704 = Other
+
+#FOUND in DATA 501, 701
+
+    CLASS
+        NAME "Mooring Facillity - FPB waiting position"
+        EXPRESSION "501"
+        STYLE
+            SYMBOL "MS_MORFAC04"
+            COLOR "{CHBLK}"
+            SIZE 15
+        END
+    END
+
+    CLASS
+        NAME "Mooring Facillity - unknown"
+        EXPRESSION "701"
+        STYLE
+            SYMBOL "MS_MORFAC03"
+            COLOR "{LANDA}"
+            SIZE 9
+        END
+        STYLE
+            SYMBOL "MS_MORFAC03_OUTLINE"
+            COLOR "{CHBLK}"
+            SIZE 9
+            WIDTH 1.5
+        END
+    END
+
+## Default class for everything else
+
+    CLASS
+        NAME "Mooring Facillity"
+        STYLE
+            SYMBOL "MS_MORFAC04"
+            COLOR "{CHBLK}"
+            SIZE 15
+        END
+    END
+
+END # Layer

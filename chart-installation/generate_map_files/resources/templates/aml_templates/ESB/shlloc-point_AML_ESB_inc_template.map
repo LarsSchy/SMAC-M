@@ -1,0 +1,37 @@
+###  AML ESB - Shelter Location - shlloc points ###
+
+LAYER
+    NAME "shlloc point"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Shelter Location"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA "shlloc"
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  #  Select only points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    CLASS
+        NAME "Shelter Location (points)"
+        STYLE
+            SYMBOL "MS_shlloc01_roof"
+            SIZE 5.5
+            COLOR "{CHBLK}"
+            WIDTH 0.9
+            OFFSET 0 -4.8
+        END 
+        STYLE 
+            SYMBOL "MS_shlloc01_house"
+            SIZE 10
+            COLOR "{CHBLK}"
+        END  
+    END # Class
+END # Layer

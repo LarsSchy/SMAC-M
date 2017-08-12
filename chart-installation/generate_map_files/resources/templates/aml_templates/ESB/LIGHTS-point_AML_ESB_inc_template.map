@@ -1,0 +1,72 @@
+### AML LIGHTS,point,ESB
+
+LAYER
+    NAME "LIGHTS"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Lights"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA LIGHTS
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  # Select points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+
+    CLASSITEM CATLIT
+
+#1	directional function
+#4	leading light
+#5	aero light
+#6	air obstruction light
+#7	fog detector light
+#8	flood light
+#9	strip light
+#10	subsidiary light
+#11	spotlight
+#12	front
+#13	rear
+#14	lower
+#15	upper
+#16	moire effect
+#17	emergency
+#18	bearing light
+#19	horizontally disposed
+#20	vertically disposed
+#501	Marine Light
+#701 = Unknown:
+#702 = Multiple:
+#703 = Not Applicable:
+#704 = Other:
+
+
+## FOUND in data 1,12 1,13  6 AND 11
+#
+#  No info found in the specifications around light
+#  Just found symbol should be LIGHTS06 that is not defined in the specs.
+#       could be violet or maybe blue.
+#
+
+    CLASS
+        NAME "Light"
+        STYLE                               # fill
+            SYMBOL "MS_LIGHTSxx"
+            COLOR 197 69 195  # "{CHMGD}"
+            SIZE 15
+            ANGLE 225
+        END
+        STYLE                               # outline
+            SYMBOL "MS_LIGHTSxx_OUTLINE"
+            COLOR 0 0 0   # "{OUTLW}"
+            SIZE 15
+            WIDTH 0.6
+            ANGLE 225
+        END
+    END
+END # Layer

@@ -1,0 +1,33 @@
+###  AML - CBLOHD - lines    ###
+#  Symbology: LS(DASH,4,CHGRD)
+#
+LAYER
+    NAME "CBLOHD-line"
+    TYPE LINE
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "CableOverhead-lines"
+        "ows_enable_request"   "*"
+        "gml_include_items" "CATCBL,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA CBLOHD
+    PROCESSING 'NATIVE_FILTER=PRIM=2'  #  Select only linestrings
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASS
+        NAME "Cable Overhead"
+        STYLE
+            COLOR "{CHGRD}"
+            PATTERN 8 8 END
+            WIDTH 4
+            LINECAP round #[butt|round|square|triangle]
+            LINEJOIN miter #[round|miter|bevel]
+        END
+    END # Class
+END # Layer
+

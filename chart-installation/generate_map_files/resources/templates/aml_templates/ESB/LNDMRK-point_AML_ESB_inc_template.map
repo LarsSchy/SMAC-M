@@ -1,0 +1,1219 @@
+### AML LNDMRK,point,ESB
+
+LAYER
+    NAME "LNDMRK"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Land Marks"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "CATLMK,COLOUR,COLPAT,CONDTN,CONRAD,CONVIS,ELEVAT,FUNCTN,HEIGHT,NATCON,NOBJNM,OBJNAM,STATUS,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA LNDMRK
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  # Select points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+
+    CLASSITEM CATLMK
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "15" AND "[FUNCTN]" = "20" AND "[CONVIS]" = "1" )
+        NAME "Landmark-dome-church-visually conspicuous"
+        STYLE
+            SYMBOL "MS_BUIRELx1"
+            SIZE 12
+            COLOR "{CHBLK}"
+            WIDTH 1.7
+        END
+        STYLE
+            SYMBOL "MS_BUIRELx1_FILL"
+            SIZE 12
+            COLOR "{CHBLK}"
+            WIDTH 1.0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "15" AND "[FUNCTN]" = "21" AND "[CONVIS]" = "1" )
+        NAME "Landmark-dome-chapel-visually conspicuous"
+        STYLE
+            SYMBOL "MS_BUIRELx1"
+            SIZE 12
+            COLOR "{CHBLK}"
+            WIDTH 1.7
+        END
+        STYLE
+            SYMBOL "MS_BUIRELx1_FILL"
+            SIZE 12
+            COLOR "{CHBLK}"
+            WIDTH 1.0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "17" AND "[FUNCTN]" = "20" AND "[CONVIS]" = "1" )
+        NAME "Landmark-tower-church-visually conspicuous"
+        STYLE
+            SYMBOL "MS_BUIRELx1"
+            SIZE 12
+            COLOR "{CHBLK}"
+            WIDTH 1.7
+        END
+        STYLE
+            SYMBOL "MS_BUIRELx1_FILL"
+            SIZE 12
+            COLOR "{CHBLK}"
+            WIDTH 1.0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "17" AND "[FUNCTN]" = "21" AND "[CONVIS]" = "1" )
+        NAME "Landmark-tower-chapel-visually conspicuous"
+        STYLE
+            SYMBOL "MS_BUIRELx1"
+            SIZE 12
+            COLOR "{CHBLK}"
+            WIDTH 1.7
+        END
+        STYLE
+            SYMBOL "MS_BUIRELx1_FILL"
+            SIZE 12
+            COLOR "{CHBLK}"
+            WIDTH 1.0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "17" AND "[FUNCTN]" = "31" AND "[CONVIS]" = "1" )
+        NAME "Landmark-tower/radio-visually conspicuous"
+        STYLE
+        SYMBOL "MS_TOWERSx5"
+            SIZE 18
+            COLOR 0 0 0   # "{CHBLK}"
+            WIDTH 1.2
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR 0 0 0  # "{CHBLK}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "17" AND "[FUNCTN]" = "33" AND "[CONVIS]" = "1" )
+        NAME "Landmark-tower/light-visually conspicuous"
+        STYLE
+            SYMBOL "MS_TOWERS03"
+            SIZE 16
+            COLOR "{CHBLK}"
+            WIDTH 1.0
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{CHBLK}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "20" AND "[FUNCTN]" = "20" AND "[CONVIS]" = "1" )
+        NAME "Landmark-spire/minaret-church-visually conspicuous"
+        STYLE
+            SYMBOL "MS_BUIRELx1"
+            SIZE 12
+            COLOR "{CHBLK}"
+            WIDTH 1.7
+        END
+        STYLE
+            SYMBOL "MS_BUIRELx1_FILL"
+            SIZE 12
+            COLOR "{CHBLK}"
+            WIDTH 1.0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "20" AND "[FUNCTN]" = "21" AND "[CONVIS]" = "1" )
+        NAME "Landmark-spire/minaret-chapel-visually conspicuous"
+        STYLE
+            SYMBOL "MS_BUIRELx1"
+            SIZE 12
+            COLOR "{CHBLK}"
+            WIDTH 1.7
+        END
+        STYLE
+            SYMBOL "MS_BUIRELx1_FILL"
+            SIZE 12
+            COLOR "{CHBLK}"
+            WIDTH 1.0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "20" AND "[FUNCTN]" = "26" AND "[CONVIS]" = "1" )
+        NAME "Landmark-spire/minaret-mosque-visually conspicuous"
+        STYLE
+            SYMBOL "MS_BUIRELx5"
+            SIZE 10
+            COLOR "{CHBLK}"
+            WIDTH 1.7
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 8
+            COLOR "{CHBLK}"
+            WIDTH 1.5
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 1.5
+            COLOR "{CHBLK}"
+            WIDTH 0.8
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "20" AND "[FUNCTN]" = "27" AND "[CONVIS]" = "1" )
+        NAME "Landmark-spire/minaret-marbout-visually conspicuous"
+        STYLE
+            SYMBOL "MS_BUIRELx5"
+            SIZE 10
+            COLOR "{CHBLK}"
+            WIDTH 1.7
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 8
+            COLOR "{CHBLK}"
+            WIDTH 1.5
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 1.5
+            COLOR "{CHBLK}"
+            WIDTH 0.8
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "1" AND  "[CONVIS]" = "1" )
+        NAME "Landmark-cairn-visually conspicuous"
+        STYLE
+            SYMBOL "MS_CAIRNSx1_LINES"
+            SIZE 18
+            COLOR "{CHBLK}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 8
+            COLOR "{CHBLK}"
+            WIDTH 1.3
+            OFFSET -4.5 -5
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 8
+            COLOR "{CHBLK}"
+            WIDTH 1.3
+            OFFSET 4.5 -5
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 8
+            COLOR "{CHBLK}"
+            WIDTH 1.3
+            OFFSET 0 -12
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{CHBLK}"
+            WIDTH 1.0
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "3" AND  "[CONVIS]" = "1" )
+        NAME "Landmark-chimney-visually conspicuous"
+        STYLE
+            SYMBOL "MS_CHIMNYx1"
+            SIZE 18
+            COLOR "{CHBLK}"
+            WIDTH 1.5
+            OFFSET 1.8 0
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{CHBLK}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "4" AND  "[CONVIS]" = "1" )
+        NAME "Landmark-dish aerial-visually conspicuous"
+            STYLE
+                SYMBOL "MS_DSHAERx1"
+                SIZE 18
+                COLOR "{CHBLK}"
+                WIDTH 1.5
+                OFFSET 0.5 0
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{CHBLK}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "5" AND  "[CONVIS]" = "1" )
+        NAME "Landmark-flagstaff-visually conspicuous"
+        STYLE
+            SYMBOL "MS_FLGSTF01"
+            SIZE 18
+            COLOR "{LANDF}"
+            WIDTH 1.6
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{LANDF}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "6" AND  "[CONVIS]" = "1" )
+        NAME "Landmark-flare stack-visually conspicuous"
+        STYLE
+            SYMBOL "MS_FLASTKx1"
+            SIZE 18
+            COLOR "{CHBLK}"
+            WIDTH 1.0
+        END
+        STYLE
+            SYMBOL "MS_FLASTKx1_FILL"
+            SIZE 10
+            COLOR "{CHBLK}"
+            WIDTH 1.3
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{CHBLK}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "7" AND  "[CONVIS]" = "1" )
+        NAME "Landmark-mast-visually conspicuous"
+        STYLE
+            SYMBOL "MS_MSTCONx4"
+            SIZE 16
+            COLOR "{CHBLK}"
+            WIDTH 1.2
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{CHBLK}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "8" AND  "[CONVIS]" = "1" )
+        NAME "Landmark-windsock-visually conspicuous"
+        STYLE
+            SYMBOL "MS_windst01"
+            SIZE 16
+            COLOR "{LANDF}"
+                WIDTH 1.0
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{LANDF}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "9" AND  "[CONVIS]" = "1" )
+        NAME "Landmark-monument-visually conspicuous"
+        STYLE
+            SYMBOL "MS_MONUMTx2"
+            SIZE 13
+            COLOR "{CHBLK}"
+            WIDTH 2.0
+        END
+        STYLE
+            SYMBOL "MS_MONUMTx2_diag"
+            SIZE 13
+            COLOR "{CHBLK}"
+            WIDTH 0.7
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{CHBLK}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "9" AND  "[CONVIS]" = "1" )
+        NAME "Landmark-monument-visually conspicuous"
+        STYLE
+            SYMBOL "MS_MONUMTx2"
+            SIZE 13
+            COLOR "{CHBLK}"
+            WIDTH 2.0
+        END
+        STYLE
+            SYMBOL "MS_MONUMTx2_diag"
+            SIZE 13
+            COLOR "{CHBLK}"
+            WIDTH 0.7
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{CHBLK}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "10" AND  "[CONVIS]" = "1" )
+        NAME "Landmark-column (pillar)-visually conspicuous"
+        STYLE
+            SYMBOL "MS_MONUMTx2"
+            SIZE 13
+            COLOR "{CHBLK}"
+            WIDTH 2.0
+        END
+        STYLE
+            SYMBOL "MS_MONUMTx2_diag"
+            SIZE 13
+            COLOR "{CHBLK}"
+            WIDTH 0.7
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{CHBLK}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "11" AND  "[CONVIS]" = "1" )
+        NAME "Landmark-memorial plaque-visually conspicuous"
+        STYLE
+            SYMBOL "MS_MONUMTx2"
+            SIZE 13
+            COLOR "{CHBLK}"
+            WIDTH 2.0
+        END
+        STYLE
+            SYMBOL "MS_MONUMTx2_diag"
+            SIZE 13
+            COLOR "{CHBLK}"
+            WIDTH 0.7
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{CHBLK}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "12" AND  "[CONVIS]" = "1" )
+        NAME "Landmark-obelisk-visually conspicuous"
+        STYLE
+            SYMBOL "MS_MONUMTx2"
+            SIZE 13
+            COLOR "{CHBLK}"
+            WIDTH 2.0
+        END
+        STYLE
+            SYMBOL "MS_MONUMTx2_diag"
+            SIZE 13
+            COLOR "{CHBLK}"
+            WIDTH 0.7
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{CHBLK}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "13" AND  "[CONVIS]" = "1" )
+        NAME "Landmark-statue-visually conspicuous"
+        STYLE
+            SYMBOL "MS_MONUMTx2"
+            SIZE 13
+            COLOR "{CHBLK}"
+            WIDTH 2.0
+        END
+        STYLE
+            SYMBOL "MS_MONUMTx2_diag"
+            SIZE 13
+            COLOR "{CHBLK}"
+            WIDTH 0.7
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{CHBLK}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "15" AND  "[CONVIS]" = "1" )
+        NAME "Landmark-dome-visually conspicuous"
+        STYLE
+            SYMBOL "MS_DOMES0xx"
+            SIZE 13
+            COLOR "{CHBLK}"
+            WIDTH 1.0
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{CHBLK}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "16" AND  "[CONVIS]" = "1" )
+        NAME "Landmark-radar-visually conspicuous"
+        STYLE
+            SYMBOL "MS_RASCANxx"
+            SIZE 16
+            COLOR "{CHBLK}"
+            WIDTH 1.2
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{CHBLK}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "17" AND  "[CONVIS]" = "1" )
+        NAME "Landmark-tower-visually conspicuous"
+        STYLE
+            SYMBOL "MS_TOWERS03"
+            SIZE 16
+            COLOR "{CHBLK}"
+            WIDTH 1.0
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{CHBLK}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "18" AND  "[CONVIS]" = "1" )
+        NAME "Landmark-windmill-visually conspicuous"
+        STYLE
+            SYMBOL "MS_WNDMILx2"
+            SIZE 11
+            COLOR "{CHBLK}"
+            WIDTH 1.4
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 9
+            COLOR "{CHBLK}"
+            WIDTH 1.5
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "19" AND "[CONVIS]" = "1" )
+        NAME "Landmark-windmotor-visually conspicuous"
+        STYLE
+            SYMBOL "MS_WIMCONx1"
+            SIZE 16
+            COLOR "{CHBLK}"
+            WIDTH 1.5
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{CHBLK}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "20" AND "[CONVIS]" = "1" )
+        NAME "Landmark - spire/minaret - visually conspicuous"
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHBLK}"
+            SIZE 11
+            WIDTH 0.9
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE_FILLED"
+            COLOR "{CHBLK}"
+            SIZE 2.5
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "15" AND "[FUNCTN]" = "20" )
+        NAME "Landmark-dome-church"
+        STYLE
+            SYMBOL "MS_BUIRELx1"
+            SIZE 12
+            COLOR "{LANDF}"
+            WIDTH 1.7
+        END
+        STYLE
+            SYMBOL "MS_BUIRELx1_FILL"
+            SIZE 12
+            COLOR "{LANDF}"
+            WIDTH 1.0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "17" AND "[FUNCTN]" = "20" )
+        NAME "Landmark-tower-church"
+        STYLE
+            SYMBOL "MS_BUIRELx1"
+            SIZE 12
+            COLOR "{LANDF}"
+            WIDTH 1.7
+        END
+        STYLE
+            SYMBOL "MS_BUIRELx1_FILL"
+            SIZE 12
+            COLOR "{LANDF}"
+            WIDTH 1.0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "17" AND "[FUNCTN]" = "31" )
+        NAME "Landmark-tower/radio"
+        STYLE
+        SYMBOL "MS_TOWERSx5"
+            SIZE 18
+            COLOR "{LANDF}"
+            WIDTH 1.2
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{LANDF}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "17" AND "[FUNCTN]" = "33" )
+        NAME "Landmark-tower/light"
+        STYLE
+            SYMBOL "MS_TOWERS01"
+            SIZE 16
+            COLOR "{LANDF}"
+            WIDTH 1.0
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{LANDF}"
+            WIDTH 1.3
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "20" AND "[FUNCTN]" = "20" )
+        NAME "Landmark-spire/minaret-church"
+        STYLE
+            SYMBOL "MS_BUIRELx1"
+            SIZE 12
+            COLOR "{LANDF}"
+            WIDTH 1.7
+        END
+        STYLE
+            SYMBOL "MS_BUIRELx1_FILL"
+            SIZE 12
+            COLOR "{LANDF}"
+            WIDTH 1.0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CONVIS]" = "1" )
+        NAME "Landmark- visually conspicuous"
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHBLK}"
+            SIZE 11
+            WIDTH 0.9
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE_FILLED"
+            COLOR "{CHBLK}"
+            SIZE 2.5
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "1" )
+                NAME "Landmark-cairn"
+        STYLE
+            SYMBOL "MS_CAIRNSx1_LINES"
+            SIZE 18
+            COLOR "{LANDF}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 8
+            COLOR "{LANDF}"
+            WIDTH 1.3
+            OFFSET -4.5 -5
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 8
+            COLOR "{LANDF}"
+            WIDTH 1.3
+            OFFSET 4.5 -5
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 8
+            COLOR "{LANDF}"
+            WIDTH 1.3
+            OFFSET 0 -12
+        END
+        STYLE  # Referece dot in the middle
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{LANDF}"
+            WIDTH 1.0
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "2" )
+        NAME "Landmark-cemetery"
+        STYLE
+            SYMBOL "MS_cemtry01"
+            SIZE 20
+            COLOR "{LANDF}"
+            WIDTH 1.5
+        END
+        LABEL
+            SIZE SMALL
+            COLOR 0 0 0
+            POSITION LC
+            WRAP "|"
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "3" )
+        NAME "Landmark-chimney"
+        STYLE
+            SYMBOL "MS_CHIMNYx1"
+            SIZE 18
+            COLOR "{LANDF}"
+            WIDTH 1.5
+            OFFSET 1.8 0
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{LANDF}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "4" )
+        NAME "Landmark-dish aerial"
+        STYLE
+            SYMBOL "MS_DSHAERx1"
+            SIZE 18
+            COLOR "{LANDF}"
+            WIDTH 1.5
+            OFFSET 0.5 0
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{LANDF}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "5" )
+        NAME "Landmark-flagstaff"
+        STYLE
+            SYMBOL "MS_FLGSTF01"
+            SIZE 18
+            COLOR "{LANDF}"
+            WIDTH 1.6
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{LANDF}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "6" )
+        NAME "Landmark-flare stack"
+        STYLE
+            SYMBOL "MS_FLASTKx1"
+            SIZE 18
+            COLOR "{LANDF}"
+            WIDTH 1.0
+        END
+        STYLE
+            SYMBOL "MS_FLASTKx1_FILL"
+            SIZE 10
+            COLOR "{LANDF}"
+            WIDTH 1.3
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{LANDF}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "7" )
+        NAME "Landmark-mast"
+        STYLE
+            SYMBOL "MS_MSTCONx4"
+            SIZE 16
+            COLOR "{LANDF}"
+            WIDTH 1.2
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{LANDF}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "8" )
+        NAME "Landmark-windsock"
+        STYLE
+            SYMBOL "MS_windst01"
+            SIZE 16
+            COLOR "{LANDF}"
+                WIDTH 1.0
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{LANDF}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "9" )
+        NAME "Landmark-monument"
+        STYLE
+            SYMBOL "MS_MONUMTx2"
+            SIZE 13
+            COLOR "{LANDF}"
+            WIDTH 2.0
+        END
+        STYLE
+            SYMBOL "MS_MONUMTx2_diag"
+            SIZE 13
+            COLOR "{LANDF}"
+            WIDTH 0.7
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{LANDF}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "10" )
+        NAME "Landmark-column (pillar)"
+        STYLE
+            SYMBOL "MS_MONUMTx2"
+            SIZE 13
+            COLOR "{LANDF}"
+            WIDTH 2.0
+        END
+        STYLE
+            SYMBOL "MS_MONUMTx2_diag"
+            SIZE 13
+            COLOR "{LANDF}"
+            WIDTH 0.7
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{LANDF}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "11" )
+        NAME "Landmark-memorial plaque"
+        STYLE
+            SYMBOL "MS_MONUMTx2"
+            SIZE 13
+            COLOR "{LANDF}"
+            WIDTH 2.0
+        END
+        STYLE
+            SYMBOL "MS_MONUMTx2_diag"
+            SIZE 13
+            COLOR "{LANDF}"
+            WIDTH 0.7
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{LANDF}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "12" )
+        NAME "Landmark-obelisk"
+        STYLE
+            SYMBOL "MS_MONUMTx2"
+            SIZE 13
+            COLOR "{LANDF}"
+            WIDTH 2.0
+        END
+        STYLE
+            SYMBOL "MS_MONUMTx2_diag"
+            SIZE 13
+            COLOR "{LANDF}"
+            WIDTH 0.7
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{LANDF}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "13" )
+        NAME "Landmark-statue"
+        STYLE
+            SYMBOL "MS_MONUMTx2"
+            SIZE 13
+            COLOR "{LANDF}"
+            WIDTH 2.0
+        END
+        STYLE
+            SYMBOL "MS_MONUMTx2_diag"
+            SIZE 13
+            COLOR "{LANDF}"
+            WIDTH 0.7
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{LANDF}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "14" )
+                NAME "Landmark-cross"
+        STYLE
+            SYMBOL "MS_cross001"
+            SIZE 16
+            COLOR "{LANDF}"
+            WIDTH 2.0
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{LANDF}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "15" )
+        NAME "Landmark-dome"
+        STYLE
+            SYMBOL "MS_DOMES0xx"
+            SIZE 13
+            COLOR "{LANDF}"
+            WIDTH 1.0
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{LANDF}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "16" )
+        NAME "Landmark-radar"
+        STYLE
+            SYMBOL "MS_RASCANxx"
+            SIZE 16
+            COLOR "{LANDF}"
+            WIDTH 1.2
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{LANDF}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "17" )
+        NAME "Landmark-tower"
+        STYLE
+            SYMBOL "MS_TOWERS01"
+            SIZE 16
+            COLOR "{LANDF}"
+            WIDTH 1.0
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{LANDF}"
+            WIDTH 1.3
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "18" )
+        NAME "Landmark-windmill"
+        STYLE
+            SYMBOL "MS_WNDMILx2"
+            SIZE 11
+            COLOR  "{LANDF}"
+            WIDTH 1.5
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 9
+            COLOR  "{LANDF}"
+            WIDTH 1.5
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "19" )
+        NAME "Landmark-windmotor"
+        STYLE
+            SYMBOL "MS_WIMCONx1"
+            SIZE 16
+            COLOR "{LANDF}"
+            WIDTH 1.6
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 4
+            COLOR "{LANDF}"
+            WIDTH 1.3
+            OFFSET 0 0
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "20" )
+        NAME "Landmark - spire/minaret"
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{LANDF}"
+            SIZE 11
+            WIDTH 0.9
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE_FILLED"
+            COLOR "{LANDF}"
+            SIZE 2.5
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "21" )
+        NAME "Landmark - Large rock or boulder on land"
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{LANDF}"
+            SIZE 11
+            WIDTH 0.9
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE_FILLED"
+            COLOR "{LANDF}"
+            SIZE 2.5
+        END
+    END
+
+###  AML specific codes - I assume they should be shown with default symbol
+#    701 = Unknown:
+#    703 = Not Applicable:
+#    704 = Other:
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "701" )
+        NAME "Landmark - AML - Unknown"
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{LANDF}"
+            SIZE 11
+            WIDTH 0.9
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE_FILLED"
+            COLOR "{LANDF}"
+            SIZE 2.5
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "703" )
+        NAME "Landmark - AML - Not Applicable"
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{LANDF}"
+            SIZE 11
+            WIDTH 0.9
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE_FILLED"
+            COLOR "{LANDF}"
+            SIZE 2.5
+        END
+    END
+
+    CLASS
+        EXPRESSION ( "[CATLMK]" = "704" )
+        NAME "Landmark - AML - Other"
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{LANDF}"
+            SIZE 11
+            WIDTH 0.9
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE_FILLED"
+            COLOR "{LANDF}"
+            SIZE 2.5
+        END
+    END
+
+############ Default class
+## Should not be shown - set to red colour for debugging
+
+    #CLASS
+        #NAME "Landmark - general"
+        #STYLE
+            #SYMBOL "MS_CIRCLE"
+            #COLOR 255 0 0 ## "{LANDF}"
+            #SIZE 11
+            #WIDTH 0.9
+        #END
+        #STYLE
+            #SYMBOL "MS_CIRCLE_FILLED"
+            #COLOR 255 0 0   ## "{LANDF}"
+            #SIZE 2.5
+        #END
+    #END
+
+END # Layer

@@ -1,0 +1,393 @@
+###  AML ESB - sedlay- polygons    ###
+#
+
+LAYER
+    NAME "sedlay - polygons"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Geological Layer (polygons)"
+        "ows_enable_request"   "*"
+        "gml_include_items" "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA sedlay
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  #  Select only polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    CLASSITEM "natsed"
+    
+    #  These values are found in test data
+    # 501,503,506,514,521,522,523,524,526,528,529,505,526
+    
+    ###  !!! Shipping area patterns for now  ###
+    
+#natsed501|	"natsed = Undifferentiated metamorphic rock_x000D_
+#"	AC(CHMGD);AP(sedlay01)
+
+    CLASS
+        EXPRESSION "501"
+        NAME "Geological Layer - Undifferentiated metamorphic rock (polygons)"
+        STYLE
+            COLOR "{CHMGD}"
+        END
+        STYLE
+            COLOR "{LANDF}"
+            SIZE 10
+            SYMBOL "MS_AP_sedlay01"
+            WIDTH 1.2
+        END
+    END
+    
+#natsed502|	"natsed = Undifferentiated igneous and volcanic rock_x000D_
+#"	AC(UINFR);AP(sedlay02)
+
+    CLASS
+        EXPRESSION {502,503,504,505,506}
+        NAME "Geological Layer - Rock (polygons)"
+        STYLE
+            COLOR "{UINFR}"
+        END
+        STYLE
+            COLOR "{LANDF}"
+            SIZE 16
+            SYMBOL "MS_AP_sedlay02"
+            WIDTH 1.2
+        END
+    END
+
+#natsed503|	"natsed = Granite_x000D_
+#"	AC(UINFR);AP(sedlay03)
+#natsed504|	"natsed = Dolerite_x000D_
+#"	AC(UINFR);AP(sedlay05)
+#natsed505|	"natsed = Basalt_x000D_
+#"	AC(UINFR);AP(sedlay05)
+#natsed506|	"natsed = Gneiss_x000D_
+#"	AC(UINFR);AP(sedlay06)
+
+    CLASS
+        EXPRESSION {503,504,505,506}
+        NAME "Geological Layer - Rock (polygons)"
+        STYLE
+            COLOR "{UINFR}"
+        END
+    END
+
+
+#natsed507|	"natsed = Schist_x000D_
+#"	AC(CHMGF);AP(sedlay07)
+
+    CLASS
+        EXPRESSION "507"
+        NAME "Geological Layer - Schist (polygons)"
+        STYLE
+            COLOR "{CHMGF}"
+        END
+    END
+
+#natsed524|	"natsed = Marble_x000D_
+#"	AC(DEPVS);AP(sedlay08)
+
+    CLASS
+        EXPRESSION "524"
+        NAME "Geological Layer - Marble (polygons)"
+        STYLE
+            COLOR "{DEPVS}"
+        END
+    END
+
+#natsed509|	"natsed = Quartzite_x000D_
+#"	AC(CHMGD);AP(sedlay09)
+
+    CLASS
+        EXPRESSION "509"
+        NAME "Geological Layer - Quartzite (polygons)"
+        STYLE
+            COLOR "{CHMGD}"
+        END
+    END
+
+#natsed510|	"natsed = Slate_x000D_
+#"	AC(CHMGF);AP(sedlay10)
+
+    CLASS
+        EXPRESSION "510"
+        NAME "Geological Layer - Slate (polygons)"
+        STYLE
+            COLOR "{CHMGF}"
+        END
+    END
+
+
+#natsed511|	"natsed = Breccia_x000D_
+#"	AC(CHWHT);AC(CHYLW,2);AP(sedlay11)
+#natsed512|	"natsed = Conglomerate_x000D_
+#"	AC(CHWHT);AC(CHYLW,2);AP(sedlay12)
+#natsed513|	"natsed = Coral_x000D_
+#"	AC(CHWHT);AP(sedlay13)
+
+    CLASS
+        EXPRESSION {511,512,513}
+        NAME "Geological Layer - Breccia/Conglomerate/Coral (polygons)"
+        STYLE
+            COLOR "{CHWHT}"
+        END
+    END
+
+
+#natsed514|	"natsed = Clays_x000D_
+#"	AC(TRFCF);AP(sedlay14)
+#natsed515|	"natsed = Shale_x000D_
+#"	AC(TRFCF);AP(sedlay15)
+
+    CLASS
+        EXPRESSION {514,515}
+        NAME "Geological Layer - Clays/Shale (polygons)"
+        STYLE
+            COLOR "{TRFCF}"
+        END
+    END
+
+#natsed516|	"natsed = Siltstone and Mudstone_x000D_
+#"	AC(DEPIT);AP(sedlay16)
+
+    CLASS
+        EXPRESSION "516"
+        NAME "Geological Layer - Siltstone and Mudstone (polygons)"
+        STYLE
+            COLOR "{DEPIT}"
+        END
+    END
+
+#natsed517|	"natsed = Sandstone_x000D_
+#"	AC(UIAFF);AP(sedlay23);AP(sedlay55)
+
+    CLASS
+        EXPRESSION "517"
+        NAME "Geological Layer - Sandstone (polygons)"
+        STYLE
+            COLOR "{UIAFF}"
+        END
+    END
+
+#natsed518|	"natsed = Limestone_x000D_
+#"	AC(DEPVS);AP(sedlay18)
+
+    CLASS
+        EXPRESSION "518"
+        NAME "Geological Layer - Limestone (polygons)"
+        STYLE
+            COLOR "{DEPVS}"
+        END
+    END
+
+#natsed519|	"natsed = Chalk_x000D_
+#"	AC(DEPMD);AP(sedlay19)
+
+    CLASS
+        EXPRESSION "519"
+        NAME "Geological Layer - Chalk (polygons)"
+        STYLE
+            COLOR "{DEPMD}"
+        END
+    END
+
+#natsed520|	"natsed = Evaporite_x000D_
+#"	AC(DEPIT);AC(CHYLW,2);AP(sedlay20)
+#natsed521|	"natsed = Mud_x000D_
+#"	AC(DEPIT);AP(sedlay14)
+
+    CLASS
+        EXPRESSION {520,521}
+        NAME "Geological Layer - Evaporite/Mud (polygons)"
+        STYLE
+            COLOR "{DEPIT}"
+        END
+    END
+
+#natsed522|	"natsed = Silt_x000D_
+#"	AC(DEPIT);AP(sedlay22)
+
+    CLASS
+        EXPRESSION "522"
+        NAME "Geological Layer - Silt (polygons)"
+        STYLE
+            COLOR "{DEPIT}"
+        END
+    END
+
+
+#natsed523|	"natsed = Sand_x000D_
+#"	AC(UIAFF);AP(sedlay23)
+
+    CLASS
+        EXPRESSION "523"
+        NAME "Geological Layer - Sand (polygons)"
+        STYLE
+            COLOR "{UIAFF}"
+        END
+    END
+
+#natsed540|	"natsed = Stone_x000D_
+#"	AC(CHWHT);AC(CHYLW,2);AP(sedlay24)
+#natsed525|	"natsed = Gravel_x000D_
+#"	AC(CHWHT);AC(CHYLW,2);AP(sedlay25)
+#natsed526|	"natsed = Pebbles_x000D_
+#"	AC(CHWHT);AC(CHYLW,2);AP(sedlay56)
+#natsed527|	"natsed = Cobbles_x000D_
+#"	AC(CHWHT);AC(CHYLW,2);AP(sedlay27)
+
+    CLASS
+        EXPRESSION {540,525,526,527}
+        NAME "Geological Layer - Stone/Gravel/Pebbles/Cobbles (polygons)"
+        STYLE
+            COLOR "{CHWHT}"
+        END
+    END
+
+#natsed528|	"natsed = Rock_x000D_
+#"	AC(CHGRN);AP(sedlay28)
+
+    CLASS
+        EXPRESSION "528"
+        NAME "Geological Layer - Rock (polygons)"
+        STYLE
+            COLOR "{CHGRN}"
+        END
+    END
+
+#natsed529|	"natsed = Lava_x000D_
+#"	AC(CHGRF);AP(lava0002)
+
+    CLASS
+        EXPRESSION "529"
+        NAME "Geological Layer - Lava (polygons)"
+        STYLE
+            COLOR "{CHGRF}"
+        END
+    END
+
+#natsed530|	"natsed = Shells_x000D_
+#"	AC(CHWHT);AP(sedlay30)
+#natsed531|	"natsed = Boulder_x000D_
+#"	AC(CHWHT);AC(CHYLW,2);AP(sedlay31)
+
+    CLASS
+        EXPRESSION {530,531}
+        NAME "Geological Layer - Shells/Boulder (polygons)"
+        STYLE
+            COLOR "{CHWHT}"
+        END
+    END
+
+#natsed532|	"natsed = Sandy mud (Folk)_x000D_
+#"	AC(DEPIT);AP(sedlay32)
+#natsed533|	"natsed = Slightly gravelly mud (Folk)_x000D_
+#"	AC(DEPIT);AP(sedlay33)
+#natsed534|	"natsed = Slightly gravelly sandy mud (Folk)_x000D_
+#"	AC(DEPIT);AP(sedlay34)
+#natsed535|	"natsed = Gravelly mud (Folk)_x000D_
+#"	AC(DEPIT);AP(sedlay35)
+
+    CLASS
+        EXPRESSION {532,533,534,535}
+        NAME "Geological Layer - Mud (polygons)"
+        STYLE
+            COLOR "{DEPIT}"
+        END
+    END
+
+#natsed536|	"natsed = Muddy Sand (Folk)_x000D_
+#"	AC(UIAFF);AC(DEPIT,3);AP(sedlay36)
+#natsed537|	"natsed = Slightly gravelly sand (Folk)_x000D_
+#"	AC(UIAFF);AP(sedlay37)
+
+    CLASS
+        EXPRESSION {536,537}
+        NAME "Geological Layer - Sand (polygons)"
+        STYLE
+            COLOR "{UIAFF}"
+        END
+    END
+
+#natsed538|	"natsed = Slightly gravelly muddy sand (Folk)_x000D_
+#"	LS(DASH,1,LANDF)
+
+    CLASS
+        EXPRESSION "538"
+        NAME "Geological Layer - Slightly gravelly muddy sand (polygons)"
+        STYLE
+            OUTLINECOLOR "{LANDF}"
+            PATTERN 4 4 END
+            WIDTH 0.9
+        END
+    END
+
+#natsed539|	"natsed = Gravelly muddy sand (Folk)_x000D_
+#"	AC(UIAFF);AP(sedlay39)
+
+    CLASS
+        EXPRESSION "539"
+        NAME "Geological Layer - Gravelly muddy sand (polygons)"
+        STYLE
+            COLOR "{CHMGD}"
+        END
+    END
+
+
+#natsed541|	"natsed = Muddy Gravel (Folk)_x000D_
+#"	AC(CHWHT);AC(DEPIT,3);AC(CHYLW,2);AP(sedlay41)
+#natsed542|	"natsed = Muddy sandy gravel (Folk)_x000D_
+#"	AC(CHWHT);AC(CHYLW,2);AP(sedlay42)
+#natsed543|	"natsed = Sandy Gravel (Folk)_x000D_
+#"	AC(CHWHT);AC(CHYLW,2);AP(sedlay43)
+#natsed544|	"natsed = Crystalline Rock_x000D_
+#"	AC(CHWHT);AC(CHYLW,2);AP(sedlay44)
+
+    CLASS
+        EXPRESSION {541,542,543,544}
+        NAME "Geological Layer - Gravel (polygons)"
+        STYLE
+            COLOR "{CHWHT}"
+        END
+    END
+
+#natsed545|	"natsed = Sedimentary Rock_x000D_
+#"	LS(DASH,1,LANDF)
+#natsed546|	"natsed = Till_x000D_
+#"	LS(DASH,1,LANDF)
+#natsed547|	"natsed = Glaciofluvial Drift_x000D_
+#"	LS(DASH,1,LANDF)
+
+
+    CLASS
+        EXPRESSION {545,546,547}
+        NAME "Geological Layer - Default(polygons)"
+        STYLE
+            OUTLINECOLOR "{LANDF}"
+            PATTERN 4 4 END
+            WIDTH 0.9
+        END
+    END
+    
+
+
+## Default class
+# LS (DASH,1,LANDF)
+
+
+    CLASS
+        NAME "Geological Layer - Default(polygons)"
+        STYLE
+            OUTLINECOLOR "{LANDF}"
+            PATTERN 4 4 END
+            WIDTH 0.9
+        END
+    END
+    
+END # Layer

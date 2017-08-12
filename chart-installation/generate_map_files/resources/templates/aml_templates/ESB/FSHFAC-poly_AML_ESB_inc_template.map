@@ -1,0 +1,103 @@
+###  AML - Fishing facility  - FSHFAC polygons
+#
+LAYER
+    NAME "DMPGRD_poly"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Fishing facility  polygons"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "CATFIF,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA FSHFAC
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  # Select polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+
+    CLASSITEM "CATFIF"
+
+    CLASS
+        NAME "Fishing facility (lines)"
+        EXPRESSION {1}
+        NAME "Fishing facility - (fishing stake)"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        #STYLE     ## test line to get proper offset 
+            #OUTLINECOLOR 0 0 0
+            #WIDTH 0.5
+        #END
+        STYLE
+            SYMBOL "obstacle-line"
+            OUTLINECOLOR "{CHGRF}"
+            WIDTH 1.0
+            INITIALGAP 5
+            SIZE 4
+            GAP -20
+            OFFSET 2.5 -99
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "FSHFAC03_MS"
+            COLOR "{CHGRF}"
+            WIDTH 1.2
+            SIZE 8
+        END
+    END
+    
+    CLASS
+        EXPRESSION {2,3,4}
+        NAME "Fishing facility -fish trap, fish weir, tunny net"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        STYLE
+            SYMBOL "obstacle-line"
+            OUTLINECOLOR "{CHGRF}"
+            WIDTH 1.0
+            INITIALGAP 5
+            SIZE 4
+            GAP -20
+            OFFSET 2.5 -99
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "FSHFAC02_MS"
+            COLOR "{CHGRF}"
+            WIDTH 1.2
+            SIZE 8
+        END
+    END
+#
+#  701 found in data no symbology defined
+#
+
+    CLASS
+        # This class contain everything that is not handled above expression
+        NAME "Fishing facility - general"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        STYLE
+            SYMBOL "obstacle-line"
+            OUTLINECOLOR "{CHGRF}"
+            WIDTH 1.0
+            INITIALGAP 5
+            SIZE 4
+            GAP -20
+            OFFSET 2.5 -99
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "FSHFAC02_MS"
+            COLOR "{CHGRF}"
+            WIDTH 1.2
+            SIZE 12
+        END
+    END # Class
+END # Layer

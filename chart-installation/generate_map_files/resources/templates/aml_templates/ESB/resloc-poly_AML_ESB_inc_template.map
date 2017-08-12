@@ -1,0 +1,155 @@
+###  AML ESB - resloc- polygons    ###
+#
+
+LAYER
+    NAME "resloc - polygons"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Resource Location (polygons)"
+        "ows_enable_request"   "*"
+        "gml_include_items" "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA resloc
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  #  Select only polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    CLASSITEM "typres"
+    
+    #  Also found 701 and 704 unsure what to do wiht those
+    
+    #typres501|	"typres = Drinking Water_x000D_
+    #"	LS(DASH,1,CHGRD);SY(resloc01)
+
+    CLASS
+        EXPRESSION "501"
+        NAME "Resource Location - Drinking Water (polygons)"
+        STYLE
+            OUTLINECOLOR "{CHGRD}"
+            PATTERN 4 4 END
+            WIDTH 0.9
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHGRD}"
+            SIZE 17
+            WIDTH 2.2
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHBLK}"
+            SIZE 17
+            WIDTH 0.8
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_resloc01"
+            SIZE 6
+            COLOR "{CHBLK}"
+            WIDTH 1.0
+        END 
+    END
+    
+
+    #typres502|	"typres = Engineer Resources_x000D_
+    #"	LS(DASH,1,CHGRD);SY(resloc02)
+
+    CLASS
+        EXPRESSION "502"
+        NAME "Resource Location - Engineer Resources(polygons)"
+        STYLE
+            OUTLINECOLOR "{CHGRD}"
+            PATTERN 4 4 END
+            WIDTH 0.9
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHGRD}"
+            SIZE 17
+            WIDTH 2.2
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHBLK}"
+            SIZE 17
+            WIDTH 0.8
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_resloc02_boxes"
+            SIZE 7
+            COLOR "{CHGRD}"
+            WIDTH 1.0
+        END  
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_resloc02_outline"
+            SIZE 7
+            COLOR "{CHBLK}" 
+            WIDTH 0.7
+        END
+    END
+
+    #typres503|	"typres = Storage_x000D_
+    #"	LS(DASH,1,CHGRD);SY(resloc03)
+
+    CLASS
+        EXPRESSION "503"
+        NAME "Resource Location - Storage (polygons)"
+        STYLE
+            OUTLINECOLOR "{CHGRD}"
+            PATTERN 4 4 END
+            WIDTH 0.9
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHGRD}"
+            SIZE 17
+            WIDTH 2.2
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHBLK}"
+            SIZE 17
+            WIDTH 0.8
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_resloc03_boxes"
+            SIZE 9
+            COLOR "{CHGRD}"
+            WIDTH 1.0
+        END  
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_resloc03_outline"
+            SIZE 9
+            COLOR "{CHBLK}" 
+            WIDTH 0.6
+        END  
+    END
+
+    # Default:         #LS(DASH,1,CHGRD)
+
+    CLASS
+        NAME "Resource Location - default (polygons)"
+        STYLE
+            OUTLINECOLOR "{CHGRD}"
+            PATTERN 4 4 END
+            WIDTH 0.9
+        END
+    END
+    
+END # Layer

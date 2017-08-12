@@ -1,0 +1,48 @@
+###  AML ESB - lndste- polygons    ###
+#
+
+LAYER
+    NAME "lndste - polygons"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Landing Site (polygons)"
+        "ows_enable_request"   "*"
+        "gml_include_items" "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA lndste
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  #  Select only polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    ## LS(DASH,2,CHRED);AP(lndste01)
+    
+    # LS(SOLD,2,CHRED);AP(lndste01);SY(lndpnt01)
+
+    CLASS
+        NAME "Landing Area / Site (polygons)"
+        STYLE
+            SYMBOL "lndste01_ap"
+            COLOR "{CHRED}"
+            WIDTH 1.1
+            SIZE 10
+            GAP 6
+        END 
+        STYLE
+            OUTLINECOLOR "{CHRED}"
+            WIDTH 1.2
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_lndpnt01"
+            SIZE 12
+            COLOR "{CHRED}"
+            WIDTH 1.0
+        END
+    END
+END # Layer

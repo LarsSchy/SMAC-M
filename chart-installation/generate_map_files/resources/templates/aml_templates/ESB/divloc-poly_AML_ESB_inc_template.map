@@ -1,0 +1,48 @@
+###  AML ESB - divloc- polygons    ###
+
+LAYER
+    NAME "divloc- polygons"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Diviing location (polygons)"
+        "ows_enable_request"   "*"
+        "gml_include_items" "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA divloc
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  #  Select only polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    ## LS(SOLD,2,CHMGD);SY(divloc01)
+
+    CLASS
+        NAME "Diving location (polygons)"
+        STYLE
+            OUTLINECOLOR "{CHMGD}"
+            WIDTH 0.9
+        END
+
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_CIRCLE"
+            SIZE 9
+            COLOR "{CHMGD}"
+            WIDTH 0.9
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_divloc01"
+            SIZE 10
+            COLOR "{CHMGD}"
+            WIDTH 0.9
+        END 
+ 
+ 
+    END
+END # Layer

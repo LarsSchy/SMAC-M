@@ -1,0 +1,32 @@
+###  AML ESB - lndstp - polygons    ###
+#
+
+LAYER
+    NAME "lndstp - polygons"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Landing Strip (polygons)"
+        "ows_enable_request"   "*"
+        "gml_include_items" "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA lndstp
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  #  Select only polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    ## LS(SOLD,2,CHRED))
+
+    CLASS
+        NAME "Landing Strip (polygons)" 
+        STYLE
+            OUTLINECOLOR "{CHRED}"
+            WIDTH 1.3
+        END
+    END
+END # Layer
