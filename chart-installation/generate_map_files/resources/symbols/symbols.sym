@@ -1,0 +1,4242 @@
+SYMBOLSET
+# This is a MapServer symbolset with symbol names
+
+######################################################################
+## S52 Native Mapserver Symbols
+
+### Areafill symbols
+
+#############################
+# MapManager Fill Patterns 
+#############################
+
+SYMBOL
+  NAME "Horizontal-1"
+  TYPE vector
+  POINTS
+    0 7
+    7 7
+  END
+END
+
+# Same as horizonal-1 but used in a different CLASS in the Style Library
+SYMBOL
+  NAME "Horizontal-2"
+  TYPE vector
+  POINTS
+    0 7
+    7 7
+  END
+END
+
+# Same as horizonal-1 but used in a different CLASS in the Style Library
+SYMBOL
+  NAME "Horizontal-3"
+  TYPE vector
+  POINTS
+    0 7
+    7 7
+  END
+END
+
+
+SYMBOL
+  NAME "Vertical-1"
+  TYPE vector
+  POINTS
+    7 0
+    7 7
+  END
+END
+
+# Same as Vertical-1 but used in a different CLASS in the Style Library
+SYMBOL
+  NAME "Vertical-2"
+  TYPE vector
+  POINTS
+    7 0
+    7 7
+  END
+END
+
+# Same as Vertical-1 but used in a different CLASS in the Style Library
+SYMBOL
+  NAME "Vertical-3"
+  TYPE vector
+  POINTS
+    7 0
+    7 7
+  END
+END
+
+  SYMBOL
+    NAME "RightDiag-1"
+    TYPE VECTOR
+    POINTS
+      10 0
+      0 10
+      -99 -99
+      0 0
+      0.3 0
+      -99 -99
+      10 10
+      9.7 10
+    END
+  END
+  
+  # Same as RightDiag-1 but used in a different CLASS in the Style Library
+    SYMBOL
+    NAME "RightDiag-2"
+    TYPE VECTOR
+    POINTS
+      10 0
+      0 10
+      -99 -99
+      0 0
+      0.3 0
+      -99 -99
+      10 10
+      9.7 10
+    END
+  END
+  
+# Same as RightDiag-1 but used in a different CLASS in the Style Library
+    SYMBOL
+    NAME "RightDiag-3"
+    TYPE VECTOR
+    POINTS
+      10 0
+      0 10
+      -99 -99
+      0 0
+      0.3 0
+      -99 -99
+      10 10
+      9.7 10
+    END
+  END
+  
+  SYMBOL
+    NAME "LeftDiag-1"
+    TYPE VECTOR
+    POINTS
+      0 0
+      10 10
+      -99 -99
+      10 0
+      10 0.3
+      -99 -99
+      0 10
+      0.3 10
+    END
+  END
+  
+# Same as RightDiag-2 but used in a different CLASS in the Style Library  
+  SYMBOL
+    NAME "LeftDiag-2"
+    TYPE VECTOR
+    POINTS
+      0 0
+      10 10
+      -99 -99
+      10 0
+      10 0.3
+      -99 -99
+      0 10
+      0.3 10
+    END
+  END
+
+# Same as RightDiag-2 but used in a different CLASS in the Style Library  
+  SYMBOL
+    NAME "LeftDiag-3"
+    TYPE VECTOR
+    POINTS
+      0 0
+      10 10
+      -99 -99
+      10 0
+      10 0.3
+      -99 -99
+      0 10
+      0.3 10
+    END
+  END
+  
+ SYMBOL
+  NAME "Grid-1"
+  TYPE vector
+  POINTS
+    7 0
+    7 7
+    0 7
+  END
+END
+
+ SYMBOL
+  NAME "Grid-2"
+  TYPE vector
+  POINTS
+    7 0
+    7 7
+    0 7
+  END
+END
+
+ SYMBOL
+  NAME "Grid-3"
+  TYPE vector
+  POINTS
+    7 0
+    7 7
+    0 7
+  END
+END
+
+SYMBOL
+  NAME "GridDiag-1"
+  TYPE VECTOR
+  POINTS
+    0 0
+    3 3
+    4 3
+    7 0
+    -99 -99
+    0 7
+    3 4
+    4 4
+    7 7
+  END
+END
+
+SYMBOL
+  NAME "GridDiag-2"
+  TYPE VECTOR
+  POINTS
+    0 0
+    3 3
+    4 3
+    7 0
+    -99 -99
+    0 7
+    3 4
+    4 4
+    7 7
+  END
+END
+
+SYMBOL
+  NAME "GridDiag-3"
+  TYPE VECTOR
+  POINTS
+    0 0
+    3 3
+    4 3
+    7 0
+    -99 -99
+    0 7
+    3 4
+    4 4
+    7 7
+  END
+END
+
+
+SYMBOL
+  NAME "Dots-1"
+  TYPE VECTOR
+  POINTS
+    1 1
+    1 2
+    2 2
+    2 1
+    1 1
+  END
+END
+
+SYMBOL
+  NAME "Dots-2"
+  TYPE VECTOR
+  POINTS
+    1 1
+    1 2
+    2 2
+    2 1
+    1 1
+  END
+END
+
+SYMBOL
+    NAME "Dots-3"
+    TYPE ELLIPSE
+    POINTS
+        1 1
+        5 5
+    END
+    FILLED TRUE
+END
+
+SYMBOL
+  NAME "Dots-4"
+  TYPE VECTOR
+  POINTS
+    1 1
+    1 2
+    2 2
+    2 1
+    1 1
+    -99 -99
+    6 6
+    6 7
+    7 7
+    7 6
+    6 6
+  END
+END
+
+SYMBOL
+  NAME 'Ticks-1'
+  TYPE VECTOR
+  POINTS
+    1 1
+    3 3
+    -99 -99
+    7 5
+    5 7
+  END
+END
+
+SYMBOL
+  NAME 'Ticks-2'
+  TYPE VECTOR
+  POINTS
+    1 1
+    2 3
+    -99 -99
+    7 6
+    6 7
+  END
+END
+
+### added 2016-06
+
+SYMBOL
+    ## GMWG Portrayal for AML, Navigation system default symbol
+    ## Color: RESBL
+    NAME "MS_navaid01"
+    TYPE ELLIPSE
+    FILLED FALSE
+    POINTS
+        1 1
+    END
+END
+
+SYMBOL
+    ## GMWG Portrayal for AML, Navigation system Distance Measuring Equipment (DME)
+    ## Color: RESBL
+    NAME "MS_navaid02"
+    FILLED false
+    TYPE vector
+    POINTS
+        7.89 9.22
+        7.99 9.22
+        -99 -99
+        5.39 7.05
+        5.39 11.38
+        10.39 11.38
+        10.39 7.05
+        5.39 7.05
+    END # POINTS
+    ANCHORPOINT 0.5 0.49
+END    
+
+SYMBOL
+    ## GMWG Portrayal for AML, Navigation system VHF Omni Directional Radio Range (VOR)
+    ## Color: RESBL
+    NAME "MS_navaid03"
+    FILLED false
+    TYPE vector
+    POINTS
+        7.89 9.22
+        7.99 9.22
+        -99 -99
+        6.64 7.05
+        5.39 9.22
+        6.64 11.38
+        9.14 11.38
+        10.39 9.22
+        9.14 7.05
+        6.64 7.05
+    END # POINTS
+    ANCHORPOINT 0.5 0.49
+END
+
+SYMBOL
+    ## GMWG Portrayal for AML, Navigation system VHF Omni Directional (VORTAC)
+    ## Color: RESBL
+    NAME "MS_navaid04_part1"
+    FILLED false
+    TYPE vector
+    POINTS
+        18.48 13.00
+        18.70 13.00
+        -99 -99
+        16.85 10.83
+        15.98 12.35
+        16.73 12.78
+        17.61 14.29
+        17.61 15.16
+        19.35 15.16
+        19.35 14.29
+        20.22 12.78
+        20.98 12.35
+        20.11 10.84
+        19.35 11.27
+        17.61 11.27
+        16.85 10.83
+    END # POINTS
+    ANCHORPOINT 0.5 0.49
+END    
+
+SYMBOL
+    ## GMWG Portrayal for AML, Navigation system VHF Omni Directional (VORTAC)
+    ## Color: RESBL
+    NAME "MS_navaid04_part2"
+    FILLED true
+    TYPE vector
+    POINTS
+        17.61 15.16
+        19.35 15.16
+        19.35 14.29
+        17.61 14.29
+        17.61 15.16
+        -99 -99
+        20.98 12.35
+        20.11 10.84
+        19.35 11.27
+        20.22 12.78
+        20.98 12.35
+        -99 -99
+        16.85 10.83
+        15.98 12.35
+        16.73 12.78
+        17.61 11.27
+        16.85 10.83
+    END # POINTS
+    ANCHORPOINT 0.5 0.49
+END
+
+SYMBOL
+    ## GMWG Portrayal for AML, Navigation system  Tactical Air Navigation Equipment (TACAN)
+    ## Color: RESBL
+    NAME "MS_navaid05"
+    FILLED false
+    TYPE vector
+    POINTS
+        18.48 13.00
+        18.70 13.00
+        -99 -99
+        16.85 10.83
+        15.98 12.35
+        16.73 12.78
+        17.61 14.29
+        17.61 15.16
+        19.35 15.16
+        19.35 14.29
+        20.22 12.78
+        20.98 12.35
+        20.11 10.84
+        19.35 11.27
+        17.61 11.27
+        16.85 10.83
+    END # POINTS
+    ANCHORPOINT 0.5 0.49
+END    
+
+SYMBOL
+    ## checkpoint symbol
+    ## Color: LANDF
+    NAME "MS_CHKPNT01"
+    FILLED false
+    TYPE vector
+    POINTS
+        0.40 2.20
+        3.60 2.20
+        -99 -99
+        0.40 1.8
+        3.60 1.8
+    END # POINTS
+    ANCHORPOINT 0.5 0.49
+END    
+
+SYMBOL
+    NAME "MS_ELLIPSE_FLAT"
+    TYPE ELLIPSE
+    FILLED FALSE
+    POINTS
+        2 1.4
+    END
+END
+
+SYMBOL
+    NAME "MS_ELLIPSE_CHKPNT01"
+    TYPE ELLIPSE
+    FILLED FALSE
+    POINTS
+        2 1.35
+    END
+END
+
+
+SYMBOL
+  NAME "MS_PAT_NODATA03" # Modified from ind_marsh_poly
+  TYPE vector
+  FILLED true
+  POINTS
+    # Half line
+    0 8
+    4.5 8
+    4.5 9
+    0 9
+    0 8
+    -99 -99
+    # Half line
+    9.5 8
+    12.5 8
+    12.5 9
+    9.5 9
+    9.5 8
+    -99 -99
+    # Hole line
+    2.25 20
+    9.25 20
+    9.25 21
+    2.25 21
+    2.25 20
+  END
+END
+
+
+SYMBOL
+    ## GMWG Portrayal for AML, Territorial Sea Baseline
+    ## Color: CHMGD 
+    NAME "MS_LN_tsblne01"
+    FILLED false
+    TYPE vector
+    POINTS
+        1700 500
+        1815 800
+        1930 500
+    END # POINTS
+    ANCHORPOINT 0.5 0
+END 
+      
+
+SYMBOL
+    ## PSSA - centred symbol
+    ## Color: CHMGF
+    NAME "MS_PSSARE01"
+    FILLED false
+    TYPE vector
+    POINTS
+        0 1000
+        0 500
+        168 500
+        210 541
+        210 720
+        169 760
+        0 760
+        -99 -99
+        322 935
+        324 1000
+        510 1000
+        550 960
+        550 801
+        510 761
+        370 761
+        330 721
+        330 540
+        331 500
+        553 500
+        554 558
+        -99 -99
+        990 1000
+        1130 500
+        1270 1000
+        -99 -99
+        1217 810
+        1043 810
+        -99 -99
+        900 560
+        901 500
+        691 502
+        690 540
+        690 720
+        730 760
+        860 760
+        900 800
+        900 960
+        860 1000
+        683 1000
+        684 937
+    END # POINTS
+    ANCHORPOINT 0.5 0.49
+END    
+    
+
+
+SYMBOL
+    ## ESSA - centred symbol
+    ## Color: CHMGF
+    NAME "MS_ESSARE01"
+    FILLED false
+    TYPE vector
+    POINTS
+        0 1000
+        0 500
+        210 500
+        -99 -99
+        340 960
+        380 1000
+        510 1000
+        550 960
+        550 801
+        510 761
+        370 761
+        330 721
+        330 540
+        370 500
+        510 500
+        550 540
+        -99 -99
+        990 1000
+        1130 500
+        1270 1000
+        -99 -99
+        1217 810
+        1043 810
+        -99 -99
+        900 540
+        860 500
+        730 500
+        690 540
+        690 720
+        730 760
+        860 760
+        900 800
+        900 960
+        860 1000
+        730 1000
+        690 960
+        -99 -99
+        210 760
+        0 760
+        -99 -99
+        210 1000
+        0 1000
+    END # POINTS
+    ANCHORPOINT 0.5 0.49
+END
+
+
+SYMBOL
+    ## radio calling-in point for traffic in one direction only
+    ## Color: 1: TRFCD
+    NAME "MS_RDOCAL02"
+    FILLED false
+    TYPE vector
+    POINTS
+        920 914
+        742 1268
+        580 911
+    END # POINTS
+    ANCHORPOINT 0.5 0
+END
+
+SYMBOL
+    ## radio calling-in point for traffic in both directions
+    ## Color: 1: TRFCD
+    NAME "MS_RDOCAL03"
+    FILLED false
+    TYPE vector
+    POINTS
+        5.80 5.89
+        7.52 2.31
+        9.23 5.89
+        -99 -99
+        9.20 9.14
+        7.42 12.68
+        5.80 9.11
+    END # POINTS
+    ANCHORPOINT 0.5 0.49
+END
+
+
+SYMBOL
+    ## radio calling-in point whose direction is not known
+    ## Color: 1: CHMGD 
+    NAME "MS_RCLDEF01"
+    FILLED false
+    TYPE vector
+    POINTS
+        144 651
+        157 623
+        170 598
+        187 581
+        204 564
+        230 555
+        253 557
+        283 566
+        311 572
+        334 606
+        352 625
+        364 647
+        364 672
+        352 696
+        339 717
+        319 741
+        296 766
+        275 792
+        262 811
+        251 828
+        249 850
+        249 873
+        249 890
+        251 912
+        251 914
+        -99 -99
+        230 998
+        283 998
+        -99 -99
+        1133 651
+        1146 623
+        1159 598
+        1176 581
+        1193 564
+        1219 555
+        1242 557
+        1272 566
+        1300 572
+        1323 606
+        1341 625
+        1353 647
+        1353 672
+        1341 696
+        1328 717
+        1308 741
+        1285 766
+        1264 792
+        1251 811
+        1240 828
+        1238 850
+        1238 873
+        1238 890
+        1240 912
+        1240 914
+        -99 -99
+        1219 998
+        1272 998
+        -99 -99
+        # Circle creared separate
+        580 589
+        752 231
+        923 589
+        -99 -99
+        920 914
+        742 1268
+        580 911
+    END # POINTS
+    ANCHORPOINT 0.5 0.49
+END
+
+
+SYMBOL
+    ## Embedded symbol for ferry
+    ## Color: 1: CHMGD  2: ACHBLK 
+    NAME "MS_EMFEYRTx"
+    FILLED false
+    TYPE vector
+    POINTS
+        # 3.74 8.90
+        12.75 9.34
+        8.69 9.34
+        8.69 7.74
+        12.75 7.74
+        13.74 8.20
+        13.74 8.90
+        12.75 9.34  # extra line added
+    END # POINTS
+    ANCHORPOINT 0.5 0.49
+END
+
+
+    SYMBOL
+        # GMWG Portrayal for AML, Submarine
+        # Color CHMGD
+        NAME "MS_subtln01"
+        FILLED false
+        TYPE vector
+        POINTS
+            9.60 6.70
+            10.20 6.50
+            10.50 6.10
+            10.60 5.20
+            7.20 5.20
+            6.80 4.20
+            5.30 4.20
+            4.40 5.20
+            1.70 5.20
+            0.40 5.50
+            1.70 6.70
+            9.60 6.70
+            9.60 6.70
+            -99 -99
+            0.40 4.70
+            0.90 4.70
+            0.90 5.40
+            0.40 5.40
+            0.40 4.70
+            -99 -99
+            0.40 5.90
+            0.90 5.90
+            0.90 6.60
+            0.40 6.60
+            0.40 5.90
+        END # POINTS
+        ANCHORPOINT 0.5 0.6
+    END
+
+
+## Same as obstacle-line but with offset
+
+SYMBOL
+    NAME "MS_LC_CTYARE51"
+    FILLED true
+    TYPE vector
+    POINTS
+        0 0
+        50  0
+        -99 -99
+        10  0
+        25 15
+        40 0
+    END # POINTS
+    ANCHORPOINT 0.5 0
+END
+
+
+#### Added 2016-05  ###
+
+SYMBOL
+    ## Conspicuous mosque or minaret
+    ## Color: CHBLK
+    NAME "MS_BUIRELx5_part"
+    FILLED false
+    TYPE vector
+    POINTS
+        5.61 5.18
+        5.88 5.52
+        6.18 5.79
+        6.52 5.96
+        6.86 6.10
+        7.23 6.15
+        7.52 6.13
+        7.83 6.10
+        8.18 5.98
+        8.44 5.82
+        8.67 5.67
+        8.87 5.46
+        9.01 5.29
+        9.10 5.18
+        -99 -99
+        7.43 7.81
+        7.43 6.13
+    END # POINTS
+    ANCHORPOINT 0.5 0.49
+END
+
+SYMBOL
+    ## conspicuous religious building, non-Christian
+    ## Color: CHBLK
+    NAME "MS_BUIRELx4"
+    FILLED false
+    TYPE vector
+    POINTS
+        4.02 5.63
+        10.34 8.87
+        -99 -99
+        4.02 8.87
+        10.34 5.63
+        -99 -99
+        5.34 6.37
+        9.59 6.37
+        9.59 8.53
+        5.34 8.53
+        5.34 6.37
+    END # POINTS
+    ANCHORPOINT 0.5 0.49
+END 
+
+
+SYMBOL
+    ## GMWG Portrayal for AML, Beach Survey
+    ## Color: RADLO
+    NAME "MS_bchare01"
+    FILLED false
+    TYPE vector
+    POINTS
+        26.31 16.72
+        26.31 17.14
+        -99 -99
+        26.35 20.09
+        26.35 17.75
+        25.43 17.74
+        -99 -99
+        25.44 20.10
+        27.11 20.10
+    END # POINTS
+    ANCHORPOINT 0.5 0.49
+END
+
+SYMBOL
+    ## Anchorage area
+    ## Color: CHMGF
+    NAME "MS_ACHARE51"
+    FILLED false
+    TYPE vector
+    POINTS
+        21.93 14.71
+        21.93 18.00
+        18.75 18.00
+        18.75 19.12
+        21.93 19.12
+        21.93 25.96
+        19.87 25.50
+        18.00 24.09
+        16.21 24.09
+        18.75 25.96
+        22.50 27.75
+        25.96 25.96
+        28.50 24.09
+        27.00 24.09
+        24.75 25.50
+        22.68 25.96
+        22.68 19.12
+        25.96 19.12
+        25.96 18.00
+        22.68 18.00
+        22.68 14.71
+        21.93 14.71
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END
+
+SYMBOL
+    ## GMWG Portrayal for AML, Ice Lead Line
+    ## Color: CHBLK
+    NAME "MS_LN_lealne01"
+    FILLED false
+    TYPE vector
+    POINTS
+        14.98 13.24
+        13.48 13.74
+        11.48 13.74
+        9.98 14.34
+        -99 -99
+        14.98 14.04
+        13.48 14.54
+        11.48 14.54
+        9.98 15.34
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END
+
+SYMBOL
+    ## Caution area, a specific caution note applies
+    ## Color: CHBLK
+    NAME "MS_AP_iceactUN"
+    FILLED false
+    TYPE vector
+    POINTS
+        1568 1323
+        1581 1295
+        1594 1270
+        1611 1253
+        1628 1236
+        1654 1227
+        1677 1229
+        1707 1238
+        1735 1244
+        1758 1278
+        1776 1297
+        1788 1319
+        1788 1344
+        1776 1368
+        1763 1389
+        1743 1413
+        1720 1438
+        1699 1464
+        1686 1483
+        1675 1500
+        1673 1522
+        1673 1545
+        1673 1562
+        1675 1584
+        1675 1586
+        -99 -99
+        1654 1670
+        1707 1670
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END
+
+SYMBOL
+    ## Caution area, a specific caution note applies
+    ## Color: TRFCF
+    NAME "MS_CTNARE51"
+    FILLED false
+    TYPE vector
+    POINTS
+        7.75 24.71
+        7.75 20.06
+        -99 -99
+        7.08 26.51
+        8.51 26.51
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END
+
+# Portrayal for AML, Undifferentiated Metamorphic Rock
+# Color: LANDF
+SYMBOL
+  NAME "MS_AP_sedlay01"
+  TYPE VECTOR
+  POINTS
+    1.51 3.92
+    1.51 3.10
+    1.90 2.69
+    2.57 2.69
+    2.94 3.08
+    2.94 3.73
+    3.26 4.14
+    3.94 4.14
+    4.34 3.75
+    4.34 3.00
+  END
+END
+
+# Portrayal for AML, Undifferentiated Igneous and Volcanic Rock
+# Color: LANDF
+SYMBOL
+  NAME "MS_AP_sedlay02"
+  TYPE VECTOR
+  POINTS
+    4.50 5.67
+    7.00 5.67
+    -99 -99
+    5.75 4.42
+    5.75 6.92
+    -99 -99
+    10.51 4.78
+    12.28 6.55
+    -99 -99
+    10.51 6.55
+    12.28 4.78
+  END
+END
+
+SYMBOL
+    NAME "v-pattern"
+    TYPE VECTOR
+    POINTS
+        0 0
+        1.5 1.5
+        3 0
+    END
+END
+
+SYMBOL
+    ## GMWG Portrayal for AML, Resource Location Storage
+    ## Color: CHBLK and CHGRD
+    NAME "MS_resloc03_outline"
+    FILLED false
+    TYPE vector
+    POINTS
+        13.88 17.11
+        15.38 17.11
+        15.38 15.61
+        13.88 15.61
+        13.88 17.11
+        -99 -99
+        13.88 16.36
+        15.38 16.36
+        -99 -99
+        14.63 17.11
+        14.63 15.61
+        -99 -99
+        15.38 17.11
+        15.98 16.51
+        15.98 15.01
+        14.48 15.01
+        13.88 15.61
+        -99 -99
+        15.38 15.61
+        15.98 15.01
+        -99 -99
+        15.38 16.36
+        15.98 15.76
+        -99 -99
+        14.63 15.61
+        15.23 15.01
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END
+
+SYMBOL
+    ## GMWG Portrayal for AML, Resource Location Storage
+    ## Color: CHBLK and CHGRD
+    NAME "MS_resloc03_boxes"
+    FILLED true
+    TYPE vector
+    POINTS
+        13.88 17.11
+        15.38 17.11
+        15.98 16.51
+        15.98 15.01
+        14.48 15.01
+        13.88 15.61
+        13.88 17.11
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END    
+
+
+SYMBOL
+    ## GMWG Portrayal for AML,  Resource Location Engineer Resources
+    ## Color: CHBLK and CHGRD
+    NAME "MS_resloc02_outline"
+    FILLED false
+    TYPE vector
+    POINTS
+        13.43 16.93
+        16.43 16.93
+        16.43 16.35
+        13.43 16.35
+        13.43 16.93
+        -99 -99
+        14.43 16.93
+        14.43 16.35
+        -99 -99
+        15.43 16.93
+        15.43 16.35
+        -99 -99
+        13.93 16.35
+        15.93 16.35
+        15.93 15.77
+        13.93 15.77
+        13.93 16.35
+        -99 -99
+        14.93 16.35
+        14.93 15.77
+        -99 -99
+        14.43 15.77
+        15.43 15.77
+        15.43 15.18
+        14.43 15.18
+        14.43 15.77
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END
+
+
+SYMBOL
+    ## GMWG Portrayal for AML,  Resource Location Engineer Resources
+    ## Color: CHBLK and CHGRD
+    NAME "MS_resloc02_boxes"
+    FILLED true
+    TYPE vector
+    POINTS
+        13.43 16.93
+        16.43 16.93
+        16.43 16.35
+        13.43 16.35
+        13.43 16.93
+        -99 -99
+        13.93 16.35
+        15.93 16.35
+        15.93 15.77
+        13.93 15.77
+        13.93 16.35
+        -99 -99
+        14.43 15.77
+        15.43 15.77
+        15.43 15.18
+        14.43 15.18
+        14.43 15.77
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END
+
+SYMBOL
+    ## GMWG Portrayal for AML,  Resource Location Drinking Water
+    ## Color: CHBLK and CHGRD
+    NAME "MS_resloc01"
+    FILLED false
+    TYPE vector
+    POINTS
+        13.70 15.91
+        15.41 15.91
+        15.70 15.97
+        15.94 16.13
+        16.10 16.37
+        16.16 16.66
+        16.16 16.91
+        -99 -99
+        14.55 16.51
+        14.55 15.21
+        -99 -99
+        14.06 15.21
+        15.06 15.21
+        -99 -99
+        13.70 15.91
+        15.41 15.91
+        15.70 15.97
+        15.94 16.13
+        16.10 16.37
+        16.16 16.66
+        16.16 16.91
+        -99 -99
+        14.55 16.51
+        14.55 15.21
+        -99 -99
+        14.06 15.21
+        15.06 15.21
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END
+
+
+SYMBOL
+    ## Portrayal for AML, Shelter Location
+    ## Color: CHBLK
+    NAME "MS_shlloc01_roof"
+    FILLED false
+    TYPE vector
+    POINTS
+        0 2.40
+        3.00 0
+        6.00 2.40
+    END # POINTS
+    ANCHORPOINT 0.5 0.49
+END
+
+SYMBOL
+    ## Portrayal for AML, Shelter Location
+    ## Color: CHBLK
+    NAME "MS_shlloc01_house"
+    FILLED true
+    TYPE vector
+    POINTS
+        1.70 4.70
+        1.70 2.70
+        0.60 2.70
+        3.00 0.70
+        5.40 2.70
+        4.30 2.70
+        4.30 4.70
+        1.70 4.70
+    END # POINTS
+    ANCHORPOINT 0.5 0.49
+END
+
+
+SYMBOL
+    ## Portrayal for AML, Nature of Geological Layer default symbol
+    ## Color: LANDF
+    NAME "MS_sedlay99"
+    FILLED false
+    TYPE vector
+    POINTS
+        11.63 10.20
+        18.55 10.20
+        15.09 16.20
+        11.63 10.20
+        -99 -99
+        11.62 16.20
+        18.55 16.20
+        -99 -99
+        14.50 13.03
+        14.50 10.87
+        15.31 10.87
+        15.68 11.17
+        15.68 11.70
+        15.18 11.95
+        14.50 11.95
+        15.18 11.95
+        15.68 12.20
+        15.68 12.73
+        15.21 13.03
+        14.50 13.03
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END
+
+
+SYMBOL
+    ## Portrayal for AML, Nature of Geological Layer  shells
+    ## Color: LANDF
+    NAME "MS_sedlay11"
+    FILLED false
+    TYPE vector
+    POINTS
+        11.63 10.20
+        18.55 10.20
+        15.09 16.20
+        11.63 10.20
+        -99 -99
+        11.62 16.20
+        18.55 16.20
+        -99 -99
+        14.97 11.20
+        14.60 10.87
+        14.16 10.87
+        13.79 11.17
+        13.79 11.57
+        14.97 12.27
+        14.97 12.73
+        14.60 13.03
+        14.16 13.03
+        13.79 12.73
+        -99 -99
+        15.55 10.87
+        15.55 13.03
+        -99 -99
+        15.55 11.95
+        16.08 11.95
+        16.39 12.19
+        16.39 13.03
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END
+
+SYMBOL
+    ## Portrayal for AML, Nature of Geological Layer coral
+    ## Color: LANDF
+    NAME "MS_sedlay10"
+    FILLED false
+    TYPE vector
+    POINTS
+        11.63 10.20
+        18.55 10.20
+        15.09 16.20
+        11.63 10.20
+        -99 -99
+        11.62 16.20
+        18.55 16.20
+        -99 -99
+        14.88 11.20
+        14.52 10.87
+        14.08 10.87
+        13.71 11.17
+        13.71 12.73
+        14.08 13.03
+        14.52 13.03
+        14.88 12.73
+        -99 -99
+        15.47 12.32
+        15.47 12.73
+        15.77 13.02
+        16.18 13.02
+        16.47 12.73
+        16.47 12.32
+        16.18 12.02
+        15.77 12.02
+        15.47 12.32
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END
+
+
+
+SYMBOL
+    ## Portrayal for AML, Nature of Geological Layer rockay
+    ## Color: LANDF
+    NAME "MS_sedlay09"
+    FILLED false
+    TYPE vector
+    POINTS
+        11.63 10.20
+        18.55 10.20
+        15.09 16.20
+        11.63 10.20
+        -99 -99
+        11.62 16.20
+        18.55 16.20
+        -99 -99
+        14.50 13.03
+        14.50 10.87
+        15.31 10.87
+        15.68 11.17
+        15.68 11.70
+        15.18 11.95
+        14.50 11.95
+        15.18 11.95
+        15.68 13.03
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END
+
+
+
+SYMBOL
+    ## Portrayal for AML, Nature of Geological Layer  cobbles
+    ## Color: LANDF
+    NAME "MS_sedlay08"
+    FILLED false
+    TYPE vector
+    POINTS
+        11.63 10.20
+        18.55 10.20
+        15.09 16.20
+        11.63 10.20
+        -99 -99
+        11.62 16.20
+        18.55 16.20
+        -99 -99
+        14.88 11.20
+        14.52 10.87
+        14.08 10.87
+        13.71 11.17
+        13.71 12.73
+        14.08 13.03
+        14.52 13.03
+        14.88 12.73
+        -99 -99
+        15.47 10.87
+        15.47 12.73
+        15.77 13.02
+        16.18 13.02
+        16.47 12.73
+        16.47 12.32
+        16.18 12.02
+        15.77 12.02
+        15.47 12.32
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END
+
+
+SYMBOL
+    ## Portrayal for AML, Nature of Geological Layer pebbles
+    ## Color: LANDF
+    NAME "MS_sedlay07"
+    FILLED false
+    TYPE vector
+    POINTS
+        11.63 10.20
+        18.55 10.20
+        15.09 16.20
+        11.63 10.20
+        -99 -99
+        11.62 16.20
+        18.55 16.20
+        -99 -99
+        14.50 13.03
+        14.50 10.87
+        15.31 10.87
+        15.68 11.17
+        15.68 11.70
+        15.18 11.95
+        14.50 11.95
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END
+
+SYMBOL
+    ## Portrayal for AML, Nature of Geological Layer gravel
+    ## Color: LANDF
+    NAME "MS_sedlay06"
+    FILLED false
+    TYPE vector
+    POINTS
+        11.63 10.20
+        18.55 10.20
+        15.09 16.20
+        11.63 10.20
+        -99 -99
+        11.62 16.20
+        18.55 16.20
+        -99 -99
+        15.69 11.20
+        15.31 10.87
+        14.87 10.87
+        14.50 11.17
+        14.50 12.73
+        14.87 13.03
+        15.31 13.03
+        15.68 12.73
+        15.68 11.95
+        15.09 11.95
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END
+
+SYMBOL
+    ## Portrayal for AML, Nature of Geological Layer stone
+    ## Color: LANDF
+    NAME "MS_sedlay05"
+    FILLED false
+    TYPE vector
+    POINTS
+        11.63 10.20
+        18.55 10.20
+        15.09 16.20
+        11.63 10.20
+        -99 -99
+        11.62 16.20
+        18.55 16.20
+        -99 -99
+        15.39 11.20
+        15.02 10.87
+        14.58 10.87
+        14.21 11.17
+        14.21 11.57
+        15.39 12.27
+        15.39 12.73
+        15.02 13.03
+        14.58 13.03
+        14.21 12.73
+        -99 -99
+        15.97 10.87
+        15.97 13.03
+        -99 -99
+        15.57 11.57
+        16.37 11.57
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END
+
+SYMBOL
+    ## Portrayal for AML, Nature of Geological Layer silt
+    ## Color: LANDF
+    NAME "MS_sedlay04"
+    FILLED false
+    TYPE vector
+    POINTS
+        11.63 10.20
+        18.55 10.20
+        15.09 16.20
+        11.63 10.20
+        -99 -99
+        11.62 16.20
+        18.55 16.20
+        -99 -99
+        15.39 11.20
+        15.02 10.87
+        14.58 10.87
+        14.21 11.17
+        14.21 11.57
+        15.39 12.27
+        15.39 12.73
+        15.02 13.03
+        14.58 13.03
+        14.21 12.73
+        -99 -99
+        15.97 12.27
+        15.97 13.03
+        15.97 11.57
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END
+
+SYMBOL
+    ## Portrayal for AML, Nature of Geological Layer clay
+    ## Color: LANDF
+    NAME "MS_sedlay03"
+    FILLED false
+    TYPE vector
+    POINTS
+        11.63 10.20
+        18.55 10.20
+        15.09 16.20
+        11.63 10.20
+        -99 -99
+        11.62 16.20
+        18.55 16.20
+        -99 -99
+        14.88 11.20
+        14.52 10.87
+        14.08 10.87
+        13.71 11.17
+        13.71 12.73
+        14.08 13.03
+        14.52 13.03
+        14.88 12.73
+        -99 -99
+        16.47 11.96
+        15.55 13.96
+        -99 -99
+        15.47 11.96
+        15.97 13.03
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END
+
+SYMBOL
+    ## Portrayal for AML, Nature of Geological Layer clay
+    ## Color: LANDF
+    NAME "MS_sedlay02"
+    FILLED false
+    TYPE vector
+    POINTS
+        11.63 10.20
+        18.55 10.20
+        15.09 16.20
+        11.63 10.20
+        -99 -99
+        11.62 16.20
+        18.55 16.20
+        -99 -99
+        15.68 13.03
+        15.68 10.87
+        15.09 11.95
+        14.50 10.87
+        14.50 13.03
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END
+
+SYMBOL
+    ## Portrayal for AML, Nature of Geological Layer sand
+    ## Color: LANDF
+    NAME "MS_sedlay01"
+    FILLED false
+    TYPE vector
+    POINTS
+        11.63 10.20
+        18.55 10.20
+        15.09 16.20
+        11.63 10.20
+        -99 -99
+        11.62 16.20
+        18.55 16.20
+        -99 -99
+        15.68 11.20
+        15.31 10.87
+        14.87 10.87
+        14.50 11.17
+        14.50 11.57
+        15.68 12.27
+        15.68 12.73
+        15.31 13.03
+        14.87 13.03
+        14.50 12.73
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END
+
+SYMBOL
+    ## Portrayal for AML, Landing Point
+    ## Color: CHRED
+    NAME "MS_lndpnt01"
+    FILLED false
+    TYPE vector
+    POINTS
+        24.00 21.00
+        28.95 21.00
+        28.95 16.05
+        24.00 16.05
+        24.00 21.00
+        -99 -99
+        25.50 16.99
+        25.50 20.19
+        -99 -99
+        27.10 16.99
+        27.10 20.19
+        -99 -99
+        25.50 18.59
+        27.10 18.59
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END
+
+
+
+SYMBOL
+    ## Portrayal for AML, Landing Point
+    ## Color: CHRED
+    NAME "MS_lndpnt01"
+    FILLED false
+    TYPE vector
+    POINTS
+        24.00 21.00
+        28.95 21.00
+        28.95 16.05
+        24.00 16.05
+        24.00 21.00
+        -99 -99
+        25.50 16.99
+        25.50 20.19
+        -99 -99
+        27.10 16.99
+        27.10 20.19
+        -99 -99
+        25.50 18.59
+        27.10 18.59
+    END # POINTS
+    ANCHORPOINT 0.5 0.48
+END
+
+
+SYMBOL
+    ## Portrayal for AML, Landing Place
+    ## Color: RADLO
+    NAME "MS_lndplc01"
+    FILLED false
+    TYPE vector
+    POINTS
+        24.40 15.16
+        31.40 15.16
+        30.19 15.70
+        31.40 15.16
+        30.19 14.62
+        -99 -99
+        25.75 14.08
+        30.05 14.09
+        30.60 13.97
+        31.01 13.69
+        31.31 13.22
+        31.40 12.74
+        31.28 12.17
+        31.01 11.78
+        30.58 11.50
+        30.05 11.39
+        25.75 11.39
+        25.15 11.53
+        24.79 11.78
+        24.48 12.27
+        24.40 12.74
+        24.49 13.22
+        24.74 13.63
+        25.07 13.90
+        25.75 14.08
+        #30.05 14.09
+    END # POINTS
+    ANCHORPOINT 0.5 0.8
+END
+
+SYMBOL
+# Area pattern lndste01
+# Portrayal for AML, Landing Area / Site
+# Color: CHRED
+  NAME "lndste01_ap"
+  TYPE vector
+  FILLED false
+  POINTS
+    0 -8
+    0 -3
+    -99 -99
+    0 3
+    0 8
+  END # POINTS
+END # SYMBOL
+
+
+SYMBOL
+    ## Portrayal for AML, Environmentally Sensitive Area
+    ## Color: RADLO
+    NAME "MS_envare01"
+    FILLED false
+    TYPE vector
+    POINTS
+        24.00 21.00
+        28.95 21.00
+        28.95 16.05
+        24.00 16.05
+        24.00 21.00
+        -99 -99
+        26.31 16.72
+        26.31 17.14
+        -99 -99
+        26.35 20.09
+        26.35 17.75
+        25.43 17.74
+        -99 -99
+        25.44 20.10
+        27.11 20.10
+    END # POINTS
+    ANCHORPOINT 0.5 0.49
+END
+
+SYMBOL
+    ## Portrayal for AML, Drop Zone
+    ## Color: CHRED
+    NAME "MS_drpzne01"
+    FILLED false
+    TYPE vector
+    POINTS
+        11.40 16.56
+        13.19 13.20
+        9.59 13.20
+        11.40 16.56
+        -99 -99
+        13.19 13.20
+        13.01 12.39
+        12.66 11.92
+        12.09 11.54
+        11.39 11.40
+        10.72 11.52
+        10.19 11.85
+        9.80 12.36
+        9.59 13.20
+    END # POINTS
+    ANCHORPOINT 0.5 0.46
+END
+
+SYMBOL
+    ## Portrayal for AML, Diving Location
+    ## Color: CHMGD
+    NAME "MS_divloc01"
+    FILLED false
+    TYPE vector
+    POINTS
+        18.65 26.83
+        17.73 28.06
+        22.27 28.06
+        21.35 26.82
+        -99 -99
+        17.97 24.00
+        17.00 24.00
+        17.00 26.00
+        17.97 26.00
+        -99 -99
+        22.03 24.00
+        23.00 24.00
+        23.00 26.00
+        22.03 26.00
+    END # POINTS
+    ANCHORPOINT 0.5 0.3
+END
+
+SYMBOL
+#
+# Symbol: MS_WEDKLP03
+# Description: Weed/Kelp
+#
+    NAME "MS_WEDKLP03"
+    FILLED false
+    TYPE vector
+    POINTS
+        -5 0.25
+        -3 -0.25
+        -1 0.25
+        1 -0.25
+        3 0.25
+        5 -0.25
+        -99 -99
+        -4.5 -1.25
+        -3 -0.25
+        -99 -99
+        -2.5 1.25
+        -1 0.25
+        -99 -99
+        -0.5 -1.25
+        1 -0.25
+        -99 -99
+        1.5 1.25
+        3 0.25
+    END # POINTS
+END
+
+
+### Point symbols
+#
+# Symbol: MS_botmft01
+# Descrription: Bottom feature
+#
+SYMBOL
+    NAME MS_botmft01
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        0.40 0.40
+        3.60 0.40
+        2.00 3.60
+        0.40 0.40
+        -99 -99
+        0.40 3.60
+        3.60 3.60
+    END # Points
+    # ANCHORPOINT 0.5 1.0
+END #Symbol
+
+####### End of 2016-05
+
+#
+# Symbol: MS_MORFAC03
+# Description: mooring dolphin
+#
+SYMBOL
+    NAME MS_MORFAC03
+    TYPE VECTOR
+    FILLED TRUE
+    POINTS
+        -1.44 -1.29
+        1.09 -1.29
+        1.09 1.24
+        -1.42 1.24
+        -1.44 -1.29
+    END # Points
+    # ANCHORPOINT 0.5 0.5
+END #Symbol
+
+SYMBOL
+    NAME MS_MORFAC03_OUTLINE
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        -1.44 -1.29
+        1.09 -1.29
+        1.09 1.24
+        -1.42 1.24
+        -1.44 -1.29
+    END # Points
+    # ANCHORPOINT 0.5 0.5
+END #Symbol
+
+
+#
+# Symbol: MS_MORFAC04
+# Description: deviation mooring dolphin
+#
+SYMBOL
+    NAME MS_MORFAC04
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        -1.8 0
+        1.7 0
+        -99 -99
+        -1.4 0
+        -0.95 -3.6
+        0.85 -3.6
+        1.25 0
+        -99 -99
+        -0.03 -0.01
+        -0.03 -5.03
+    END # Points
+    ANCHORPOINT 0.5 1.0
+END #Symbol
+
+
+
+# Symbol: MS_LIGHTSXX
+# Description: light flare
+#
+SYMBOL
+    NAME MS_LIGHTSxx
+    TYPE VECTOR
+    FILLED TRUE
+    POINTS
+        0 0
+        -1.2 -5.63
+        -1.2 -5.85
+        -1.2 -6.23
+        -1.05 -6.6
+        -0.83 -6.75
+        -0.53 -6.98
+        -0.08 -7.05
+        0.3 -6.98
+        0.6 -6.9
+        0.9 -6.68
+        1.05 -6.3
+        1.12 -6
+        1.12 -5.7
+        0 0
+    END # Points
+    ANCHORPOINT 0.5 1.0
+END #Symbol
+
+SYMBOL
+    NAME MS_LIGHTSxx_OUTLINE
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        0 0
+        -1.2 -5.63
+        -1.2 -5.85
+        -1.2 -6.23
+        -1.05 -6.6
+        -0.83 -6.75
+        -0.53 -6.98
+        -0.08 -7.05
+        0.3 -6.98
+        0.6 -6.9
+        0.9 -6.68
+        1.05 -6.3
+        1.12 -6
+        1.12 -5.7
+        0 0
+    END # Points
+    ANCHORPOINT 0.5 1.0
+END #Symbol
+
+SYMBOL
+    NAME "MS_INFAREx1"   # COLOR  INFARE51:  CHMGF  INFARE61: CHGRD
+    # Description: area with minor restrictions or information notices
+    FILLED false
+    TYPE vector
+    POINTS
+        2.31 28.54
+        6.72 28.54
+        -99 -99
+        3.48 22.28
+        3.55 23.23
+        -99 -99
+        0.02 29.77
+        8.06 29.77
+        8.03 21.73
+        -99 -99
+        0.04 29.72
+        0.04 21.72
+        7.99 21.72
+        -99 -99
+        4.46 28.53
+        4.46 24.40
+        2.67 24.40
+    END # POINTS
+    ANCHORPOINT 0.5 0.6
+END
+
+SYMBOL
+    NAME "MS_H-LINE" 
+    # Description: Horizontal line
+    FILLED false
+    TYPE vector
+    POINTS
+        -3 0.5
+        3 0.5
+    END # POINTS
+    # ANCHORPOINT 0.5 0.5
+END
+
+SYMBOL
+  NAME "MS_PLUS"
+  TYPE VECTOR
+  FILLED FALSE
+  POINTS
+    0.5 0
+    0.5 1
+    -99 -99
+    0 0.5
+    1 0.5
+  END
+END
+
+SYMBOL
+  NAME "MS_PLUS_LONG"
+  TYPE VECTOR
+  FILLED FALSE
+  POINTS
+    0.8 0
+    0.8 1
+    -99 -99
+    0 0.5
+    1.6 0.5
+  END
+END
+
+
+### Landmarks
+#
+#   Symbol: MS_CAIRNSx1
+#   Description: cairn
+#
+SYMBOL
+    NAME MS_CAIRNSx1_LINES
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        -2.22 0
+        -0.41 0
+        -99 -99
+        0.37 0
+        2.12 0
+    END # Points
+    # ANCHORPOINT 0.5 0.5
+END #Symbol
+
+#   Symbol: MS_cemtry01
+#   Description: Portrayal for AML, Landmark cemetery
+#   Color: LANDF
+
+SYMBOL
+    NAME "MS_cemtry01"
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        0.80 0.80
+        0.80 2.00
+        1.70 2.00
+        -99 -99
+        1.50 3.00
+        1.50 4.20
+        2.40 4.20
+        -99 -99
+        3.00 1.50
+        3.00 2.70
+        3.90 2.70
+    END
+END
+
+#
+# Symbol: MS_CHIMNYx1
+# Description: chimney
+#
+SYMBOL
+    NAME MS_CHIMNYx1
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        0.63 0
+        1.75 0
+        -99 -99
+        -0.87 0
+        -0.4 -4.6
+        0.32 -4.6
+        0.88 0
+        -99 -99
+        -1.75 0
+        -0.62 0
+        -99 -99
+        -0.4 -4.6
+        -0.56 -5.13
+        -0.53 -5.57
+        -0.28 -5.82
+        0.1 -5.97
+        0.69 -5.97
+        0.97 -5.85
+        1.28 -6.04
+        1.82 -6.16
+        2.32 -6.13
+        2.78 -6.1
+        3 -5.88
+        3.03 -5.44
+        2.5 -5.13
+        1.88 -5.1
+        1.85 -4.82
+        1.25 -4.57
+        0.32 -4.57
+    END # Points
+    ANCHORPOINT 0.5 1.0
+END #Symbol
+
+#
+# Symbol: MS_DSHAERx1
+# Description: dish aerial
+#
+SYMBOL
+    NAME MS_DSHAERx1
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        -1.66 0
+        -0.5 0
+        -99 -99
+        0.4 0
+        1.5 0
+        -99 -99
+        -0.91 -4.85
+        1.84 -3.16
+        -99 -99
+        0.5 -4
+        0.75 -4.41
+        -99 -99
+        -0.25 -2.6
+        -0.85 0
+        -99 -99
+        0.31 -2.44
+        0.75 0
+        -99 -99
+        -0.91 -4.91
+        -1.1 -4.5
+        -1.16 -3.85
+        -1.04 -3.32
+        -0.66 -2.82
+        -0.25 -2.6
+        0.31 -2.44
+        0.68 -2.44
+        1.15 -2.5
+        1.59 -2.75
+        1.84 -3.16
+    END # Points
+    ANCHORPOINT 0.5 1.0
+END #Symbol
+
+#
+# Symbol: MS_FLGSTF01
+# Description: flagstaff, flagpole
+#
+SYMBOL
+    NAME MS_FLGSTF01
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        0 -0.5
+        0 -4.5
+        1.5 -4.5
+        1.5 -2.75
+         0 -2.75
+        -99 -99
+        -1.5 0
+        -0.5 0
+        -99 -99
+        0.5 0
+        1.5 0
+    END # Points
+    ANCHORPOINT 0.5 1.0
+END #Symbol
+
+#
+# Symbol: MS_FLASTKx1
+# Description: flare stack
+#
+SYMBOL
+    NAME MS_FLASTKx1
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        -0.5 0
+        -0.5 -3.25
+        0.5 -3.25
+        0.5 0
+        0.37 -0.38
+        0 -0.5
+        -0.32 -0.38
+        -0.5 0
+        -99 -99
+        0.5 0
+        1.5 0
+        -99 -99
+        -0.5 0
+        -1.5 0
+        -99 -99
+        0.56 -5.57
+        0.25 -5.38
+        -0.07 -5.19
+        -0.32 -4.88
+        -0.5 -4.5
+        -0.5 -4.13
+        -0.44 -3.94
+        -0.19 -3.82
+        0.12 -3.82
+        0.31 -3.94
+        0.43 -4.19
+        0.37 -4.5
+        0.25 -4.63
+        0.25 -4.88
+        0.25 -5.13
+        0.43 -5.32
+        0.56 -5.57
+    END # Points
+    ANCHORPOINT 0.5 1.0
+END #Symbol
+
+
+#
+# Symbol: MS_FLASTKxx
+# Description: flare stack - fill of the main part 
+# Note: size needs to be about half the size of the main symbol
+#
+
+SYMBOL
+    NAME MS_FLASTKx1_FILL
+    TYPE VECTOR
+    FILLED TRUE
+    POINTS
+        -0.5 0
+        -0.5 -3.25
+        0.5 -3.25
+        0.5 0
+        0.37 -0.38
+        0 -0.5
+        -0.32 -0.38
+        -0.5 0
+    END # Points
+    ANCHORPOINT 0.5 1.0
+END #Symbol
+
+
+#
+# Symbol: MS_MSTCONx4
+# Description: mast
+#
+SYMBOL
+    NAME MS_MSTCONx4
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        -1.5 0
+        -0.5 0
+        -99 -99
+        0.5 0
+        1.5 0
+        -99 -99
+        -0.5 0
+        0 -6
+        0.5 0
+    END # Points
+    ANCHORPOINT 0.5 1.0
+END #Symbol
+
+#
+# Symbol: MS_windst01
+# Description: Portrayal for AML, Landmark windsock
+#
+SYMBOL
+    NAME MS_windst01
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        2.00 5.70
+        3.00 5.70
+        -99 -99
+        1.00 5.70
+        0 5.70
+        -99 -99
+        1.30 5.20
+        1.30 1.20
+        -99 -99
+        1.70 5.20
+        1.70 1.20        
+        -99 -99
+        1.50 5.20
+        1.50 1.20        
+        -99 -99
+        1.50 1.30
+        3.00 0.50
+        5.00 0.90
+        5.00 1.70
+        3.00 2.10
+        1.50 1.30
+        -99 -99
+        3.00 0.50
+        3.00 2.10
+    END # Points
+    ANCHORPOINT 0.3 1.0
+END #Symbol
+
+#
+# Symbol: MS_MONUMTx2
+# Description: monument
+#
+SYMBOL
+    NAME MS_MONUMTx2
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        -1.97 0.01
+        -0.6 0.01
+        -99 -99
+        0.53 0.01
+        2.03 0.01
+        -99 -99
+        -1.19 0
+        -0.74 -3.55
+        0.64 -3.52
+        1.33 -0.02
+    END # Points
+    ANCHORPOINT 0.5 1.0
+END #Symbol
+
+SYMBOL
+    NAME MS_MONUMTx2_diag
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        0.62 -3.48
+        -0.94 -1.85
+        -99 -99
+        0.78 -2.43
+        -0.97 -0.89
+        -99 -99
+        0.9 -1.48
+        -0.62 0.01
+    END # Points
+    ANCHORPOINT 0.5 1.0
+END #Symbol
+#
+# Symbol: MS_cross001
+# Description: Portrayal for AML, Landmark cross
+#
+SYMBOL
+    NAME MS_cross001
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        2.00 5.70
+        3.00 5.70
+        -99 -99
+        1.00 5.70
+        0 5.70
+        -99 -99
+        1.50 5.20
+        1.50 0
+        -99 -99
+        0 1.50
+        3.00 1.50
+    END # Points
+    ANCHORPOINT 0.5 1.0
+END #Symbol
+
+#
+# Symbol: MS_DOMES011
+# Description: conspicuous dome
+#
+SYMBOL
+    NAME MS_DOMES0xx
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        -0.43 0.03
+        -2.07 0.03
+        -99 -99
+        -0.43 0.23
+        -2.07 0.23
+        -99 -99
+        0.43 -0.17
+        -2.07 -0.17
+        -99 -99
+        -2.08 0.04
+        -2.18 -0.12
+        -2.32 -0.46
+        -2.44 -0.81
+        -2.48 -1.11
+        -2.48 -1.51
+        -2.38 -1.93
+        -2.2 -2.41
+        -2.04 -2.71
+        -1.76 -3.01
+        -1.46 -3.27
+        -1.18 -3.41
+        -0.7 -3.59
+        -0.3 -3.67
+        0.14 -3.71
+        0.63 -3.63
+        1.09 -3.49
+        1.55 -3.19
+        1.97 -2.79
+        2.19 -2.47
+        2.41 -2.05
+        2.53 -1.53
+        2.55 -0.91
+        2.45 -0.5
+        2.31 -0.16
+        2.17 0
+        -99 -99
+        0.41 0.03
+        2.15 0.03
+        -99 -99
+        0.41 0.23
+        2.15 0.23
+        -99 -99
+        0.41 -0.17
+        2.15 -0.17
+    END # Points
+    ANCHORPOINT 0.5 1.0
+END #Symbol
+
+
+#
+# Symbol: MS_RASCANxx
+# Description: conspicuous radar scanner
+#
+SYMBOL
+    NAME MS_RASCANxx
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        -0.98 -0.01
+        -0.98 -3.53
+        -99 -99
+        1.18 -0.03
+        1.18 -3.53
+        -0.75 -3.53
+        -99 -99
+        -0.5 0
+        -1.85 0
+        -99 -99
+        0.47 -0.02
+        1.83 -0.02
+        -99 -99
+        -0.72 -3.53
+        -1.18 -3.53
+        -99 -99
+        -0.11 -3.57
+        -0.11 -4.91
+        -99 -99
+        -2.07 -4.92
+        1.91 -4.92
+        -99 -99
+        -2.07 -4.72
+        1.91 -4.72
+        -99 -99
+        -2.07 -5.12
+        1.91 -5.12
+    END # Points
+    ANCHORPOINT 0.54 1.0
+END #Symbol
+
+
+#
+# Symbol: MS_TOWERS01
+# Description: tower
+#
+SYMBOL
+    NAME MS_TOWERS01
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        -1.05 0 
+        -0.58 -5.78 
+        0.57 -5.78 
+        1.05 0
+        -99 -99
+        0.57 0 
+        1.72 0
+         -99 -99
+        -0.58 0 
+        -1.73 0
+         -99 -99 
+        -0.63 -4.68 
+        0.57 -4.68 
+    END # Points
+    ANCHORPOINT 0.5 1.0
+END #Symbol
+
+#
+# Symbol: MS_TOWERSx2 ( TOWERS02 and TOWERS12 )
+# Description: water tower
+#
+SYMBOL
+    NAME MS_TOWERSx2
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        -1 0
+        -0.57 -4
+        -99 -99
+        1 -4 
+        1 -5 
+        -1 -5 
+        -1 -4 
+        1 -4
+        -99 -99
+        -1.5 0 
+        -0.5 0
+        -99 -99
+        0.5 0 
+        1.5 0
+        -99 -99
+        1 0 
+        0.53 -4.0
+    END # Points
+    ANCHORPOINT 0.5 1.0
+END #Symbol
+#
+# Symbol: MS_TOWERS03
+# Description: conspicuous tower
+#
+SYMBOL
+    NAME MS_TOWERS03
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        -1.27 0
+        -0.6 -5.79
+        0.56 -5.79
+        1.23 0
+        -99 -99
+        0.56 0
+        1.91 0
+        -99 -99
+        -0.6 0
+        -1.95 0
+        -99 -99
+        -0.66 -4.69
+        0.56 -4.69
+    END # Points
+    ANCHORPOINT 0.5 1.0
+END #Symbol
+
+#
+# Symbol: MS_TOWERSx5  ( TOWERS05 and TOWERS15 )
+# Description: radio, television tower
+#
+SYMBOL
+    NAME MS_TOWERSx5
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        -1 0
+        -0.5 -5
+        0.5 -5
+        0.84 0
+        -99 -99
+        -0.66 -4.1
+        0.5 -4.1
+        -99 -99
+        -1.5 0
+        -0.5 0
+        -99 -99
+        0.5 0
+        1.5 0
+        -99 -99
+        1 -7
+        1.5 -6.5
+        1.5 -5
+        -99 -99
+        -1 -7
+        -1.5 -6.5
+        -1.5 -5
+    END # Points
+    ANCHORPOINT 0.5 1.0
+END #Symbol
+
+
+#
+# Symbol: MS_WNDMILx2  ( MS_WNDMIL02 and MS_WNDMIL12 )
+# Description: windmill
+#
+SYMBOL
+    NAME MS_WNDMILx2
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        1.5 -3
+        -1.5 0
+        -99 -99
+        -1.5 -3
+        1.5 0
+    END # Points
+    ANCHORPOINT 0.5 1.0
+END #Symbol
+
+#
+# Symbol: MS_WIMCONx1
+# Description: windmotor
+#
+SYMBOL
+    NAME MS_WIMCONx1
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        0 -4.5
+        0 -0.5
+        -99 -99
+        0.5 0
+        1.5 0
+        -99 -99
+        -0.5 0
+        -1.5 0
+        -99 -99
+        0 -4.5
+        2.18 -4.5
+        -99 -99
+        0 -4.5
+        -1.38 -6.13
+        -99 -99
+        0 -4.5
+        -1.38 -2.88
+    END # Points
+    ANCHORPOINT 0.4 1.0
+END #Symbol
+
+#
+# Symbol: MS_BUIRELx1
+# Description: religious building, Christian 
+#
+SYMBOL
+    NAME MS_BUIRELx1
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        6.50 7.50
+        8.50 7.50
+        -99 -99
+        7.50 6.50
+        7.50 8.50
+        -99 -99
+        6.50 5.50
+        8.50 5.50
+        7.50 6.50
+        6.50 5.50
+        -99 -99
+        9.50 6.50
+        9.50 8.50
+        8.50 7.50
+        9.50 6.50
+        -99 -99
+        8.50 9.50
+        6.50 9.50
+        7.50 8.50
+        8.50 9.50
+        -99 -99
+        5.50 6.50
+        5.50 8.50
+        6.50 7.50
+        5.50 6.50
+    END # Points
+    ANCHORPOINT 0.49 0.49
+END #Symbol
+
+SYMBOL
+    NAME MS_BUIRELx1_FILL
+    TYPE VECTOR
+    FILLED TRUE
+    POINTS
+        6.50 5.50
+        8.50 5.50
+        7.50 6.50
+        6.50 5.50
+        -99 -99
+        9.50 6.50
+        9.50 8.50
+        8.50 7.50
+        9.50 6.50
+        -99 -99
+        6.50 9.50
+        8.50 9.50
+        7.50 8.50
+        6.50 9.50
+        -99 -99
+        5.50 6.50
+        5.50 8.50
+        6.50 7.50
+        5.50 6.50
+    END # Points
+    ANCHORPOINT 0.49 0.49
+END #Symbol
+
+#
+# Symbol: MS_BUIRELx5
+# Description: mosque or minaret
+#
+SYMBOL
+    NAME MS_BUIRELx5
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        -1.85 -3.68 
+        -1.58 -3.34 
+        -1.28 -3.07 
+        -0.94 -2.9 
+        -0.6 -2.76 
+        -0.23 -2.71 
+        0.06 -2.73 
+        0.37 -2.76 
+        0.72 -2.88 
+        0.98 -3.04 
+        1.21 -3.19 
+        1.41 -3.4 
+        1.55 -3.57 
+        1.64 -3.68
+        -99 -99
+        -0.03 -1.05 
+        -0.03 -2.73
+    END # Points
+    ANCHORPOINT 0.5 1.0
+END #Symbol
+
+# New AML symbols
+
+SYMBOL
+    NAME "MS_CHINFO07"
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        24.00 21.00
+        28.95 21.00
+        28.95 16.05
+        24.00 16.05
+        24.00 21.00
+        -99 -99
+        26.31 16.72
+        26.31 17.14
+        -99 -99
+        26.35 20.09
+        26.35 17.75
+        25.43 17.74
+        -99 -99
+        25.44 20.10
+        27.11 20.10
+    END # Points  
+    ANCHORPOINT 0.49 0.49
+END #Symbol
+
+SYMBOL
+    NAME "FSHGRD01_MS"
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        -5.03 -0.15 
+        -6.56 -2.03
+        -99 -99
+        -5.01 -0.12
+        -6.75 1.61
+        -99 -99
+        -4.99 -0.15
+        -4.22 -0.98
+        -3.25 -1.68
+        -2 -2.24
+        -0.61 -2.44
+        0.65 -2.38
+        2.04 -2.1
+        3.23 -1.54
+        4.06 -0.92
+        4.27 -0.49 
+        -99 -99
+        -5.05 -0.17
+        -3.86 0.81
+        -2.4 1.64
+        -0.87 1.98
+        0.24 2.05
+        1.43 1.85
+        2.54 1.44
+        3.44 0.6 
+        4.14 -0.38
+        -99 -99
+        1.31 -2.25
+        0.85 -1.05
+        0.85 0.62
+        1.68 1.82 
+        -99 -99
+        4.29 -0.5
+        4.12 -0.36
+    END # Points  
+    ANCHORPOINT 0.5 0.5
+END #Symbol
+
+SYMBOL
+    NAME "FSHHAV01_MS"
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        -4.91 1.18 
+        -3.5 0 
+        -2.91 -0.66 
+        -2.22 -1.1 
+        -1.5 -1.38 
+        -0.82 -1.57 
+        -0.07 -1.57 
+        0.56 -1.5 
+        1.31 -1.25 
+        2 -0.94 
+        2.62 -0.47 
+        3 0 
+        2.53 0.43 
+        2.09 0.81 
+        1.53 1.09 
+        0.81 1.37 
+        0.09 1.5 
+        -0.72 1.5 
+        -1.5 1.37 
+        -2.25 1.09 
+        -2.91 0.65 
+        -3.35 0.28
+        -99 -99
+        -3.75 -0.19 
+        -4.75 -1.47
+        -99 -99
+        1.43 -1.22 
+        1.25 -0.88 
+        1.12 -0.41 
+        1.09 -0.1 
+        1.09 0.15 
+        1.18 0.59 
+        1.37 1.15
+        -99 -99
+        -3.35 0.28 
+        -3.75 -0.19
+    END # Points  
+    ANCHORPOINT 0.5 0.5
+END #Symbol
+
+SYMBOL
+    NAME "FSHHAV01_ELIPSE_MS"
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        -1.35 -3.1
+        -1.15 -3.1
+        -99 -99
+        -1.35 3.06
+        -1.15 3.06
+        -99 -99
+        3.49 0
+        3.69 0
+        -99 -99
+        -6.35 0
+        -6.15 0
+        -99 -99
+        -4.2 -2.5
+        -4 -2.5
+        -99 -99
+        1.3 -2.5
+        1.5 -2.5
+        -99 -99
+        1.4 2.5
+        1.6 2.5
+        -99 -99
+        -5.76 1.5
+        -5.56 1.5
+        -99 -99
+        -5.76 -1.6
+        -5.56 -1.6
+        -99 -99
+        2.9 -1.6
+        3.1 -1.6
+        -99 -99
+        2.9 1.5
+        3.1 1.5
+        -99 -99
+        -4.95 -2.16
+        -4.75 -2.16
+        -99 -99
+        -6.2 -1
+        -6 -1
+        -99 -99
+        -6.1 1
+        -5.9 1
+        -99 -99
+        3.3 1
+        3.5 1
+        -99 -99
+        3.24 -1
+        3.44 -1
+        -99 -99
+        2.21 -2
+        2.41 -2
+        -99 -99
+        2.3 2
+        2.5 2
+        -99 -99
+        -5.2 2
+        -5 2
+        -99 -99
+        -3.2 -2.85
+        -3 -2.85
+        -99 -99
+        -2.2 -3
+        -2 -3
+        -99 -99
+        -0.7 -3
+        -0.5 -3
+        -99 -99
+        0.3 -2.91
+        0.5 -2.91
+        -99 -99
+        0.3 2.81
+        0.5 2.81
+        -99 -99
+        -0.7 3
+        -0.5 3
+        -99 -99
+        -2.2 3
+        -2 3
+        -99 -99
+        -3.2 2.81
+        -3 2.81
+        -99 -99
+        -4.2 2.5
+        -4 2.5
+    END # Points  
+    ## ANCHORPOINT 0.5 0.5
+END #Symbol
+
+SYMBOL
+    NAME "MS_ELLIPSE"
+    TYPE ELLIPSE
+    FILLED FALSE
+    POINTS 2 1.3 END
+END
+
+SYMBOL
+    NAME "FSHFAC02_MS"
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        -2.8 2.23 
+        2.31 2.23 
+        2.31 0.01 
+        -2.78 0.01 
+        -2.78 2.22
+        -99 -99
+        -2.14 -2.15 
+        0.04 0.03
+    END # Points  
+END #Symbol
+
+SYMBOL
+    NAME "FSHFAC03_MS"
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        -3.02 -0.81 
+        -3.02 0.69 
+        3.02 0.69 
+        3.02 -0.74
+        -99 -99
+        -1.47 -0.78 
+        -1.47 0.7
+        -99 -99
+        0.01 -0.75 
+        0.01 0.67
+        -99 -99
+        1.53 -0.75 
+        1.53 0.67
+    END # Points  
+END #Symbol    
+
+#
+# Symbol: MS_FORSTC01
+# Description: fortified structure
+#
+SYMBOL
+    NAME MS_FORSTC01
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        -2 -2
+        2 -2
+        2 2
+        -2 2
+        -2 -2
+        -99 -99
+    END # Points
+    # ANCHORPOINT 0.5 0.5
+END #Symbol
+
+#
+# Symbol: MS_FORSTC11
+# Description: conspicuous fortified structure
+#
+SYMBOL
+    NAME MS_FORSTC11
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        -2 -2
+        2 -2
+        2 2
+        -2 2
+        -2 -2
+        -99 -99
+    END # Points
+    # ANCHORPOINT 0.5 0.5
+END #Symbol
+
+
+#####  End of symbols added 2016-04-19
+#
+#   Standard symbol
+# 
+
+SYMBOL
+    NAME "MS_DOT"
+    TYPE ELLIPSE
+    FILLED TRUE
+    POINTS 
+        1 1 
+    END
+END
+
+SYMBOL
+    NAME "MS_CIRCLE"
+    TYPE ELLIPSE
+    FILLED FALSE
+    POINTS
+        1 1
+    END
+END
+
+SYMBOL
+    NAME "MS_CIRCLE_FILLED"
+    TYPE ELLIPSE
+    FILLED TRUE
+    POINTS
+        1 1
+    END
+END
+
+SYMBOL
+    NAME "RECTANGLE_FILL"
+    TYPE VECTOR
+    POINTS
+        0 0
+        0 1
+        1 1
+        1 0
+        0 0
+    END
+    FILLED TRUE
+END
+
+SYMBOL
+    NAME "MS_TRIANGLE"
+    TYPE vector
+    FILLED FALSE
+    POINTS
+        0 4
+        2 0
+        4 4
+        0 4
+    END
+END
+
+SYMBOL
+    NAME "MS_TRIANGLE_FILLED"
+    TYPE vector
+    FILLED TRUE
+    POINTS
+        0 4
+        2 0
+        4 4
+        0 4
+    END
+END
+
+SYMBOL
+    NAME "circle"
+    FILLED false
+    TYPE ellipse
+    POINTS
+        1 1
+    END # POINTS
+END
+
+SYMBOL
+    NAME "circlef"
+    FILLED true
+    TYPE ellipse
+    POINTS
+        1 1
+    END # POINTS
+END
+
+SYMBOL
+    NAME "p_outline_1"
+    FILLED false
+    TYPE vector
+    POINTS
+        -10 0
+        10  0
+        -99 -99
+        -5  0
+        0 -5
+        5 0
+    END # POINTS
+END
+
+SYMBOL
+    NAME "anchor"
+    FILLED false
+    TYPE vector
+    POINTS
+        0 10
+        0 -10
+        -99 -99
+        -5  5
+        5 5
+        -99 -99
+        -7 -5
+        -5 -10
+        5 -10
+        7 -5
+    END # POINTS
+END
+
+SYMBOL
+    NAME "circle_10"
+    FILLED true
+    TYPE ellipse
+    POINTS
+        20 20
+    END # POINTS
+END
+
+SYMBOL
+    NAME "exclamation_mark"
+    FILLED true
+    TYPE vector
+    POINTS
+        0 8
+        0 -5
+        -99 -99
+        -3  -7
+        3  -7
+    END # POINTS
+END
+
+SYMBOL
+    NAME "obstacle-line"
+    FILLED true
+    TYPE vector
+    POINTS
+        0 0
+        50  0
+        -99 -99
+        10  0
+        25 15
+        40 0
+    END # POINTS
+END
+
+SYMBOL
+    NAME "diag_dots"
+    TYPE vector
+    FILLED true
+    POINTS
+        # Central circle:
+        0.7450    0.4500
+        0.7365    0.5147
+        0.7115    0.5750
+        0.6718    0.6268
+        0.6200    0.6665
+        0.5597    0.6915
+        0.4950    0.7000
+        0.4303    0.6915
+        0.3700    0.6665
+        0.3182    0.6268
+        0.2785    0.5750
+        0.2535    0.5147
+        0.2450    0.4500
+        0.2535    0.3853
+        0.2785    0.3250
+        0.3182    0.2732
+        0.3700    0.2335
+        0.4303    0.2085
+        0.4950    0.2000
+        0.5597    0.2085
+        0.6200    0.2335
+        0.6718    0.2732
+        0.7115    0.3250
+        0.7365    0.3853
+        0.7450    0.4500
+        -99 -99
+        0.25      0.0
+        0.2415    0.0647
+        0.2165    0.1250
+        0.1768    0.1768
+        0.1250    0.2165
+        0.0647    0.2415
+        0.0       0.25
+        0.0       0.0
+        0.25      0.0
+        -99 -99
+        1 0.25
+        0.9252    0.2415
+        0.8649    0.2165
+        0.8132    0.1768
+        0.7734    0.1250
+        0.7485    0.0647
+        0.74      0.0
+        1 0.0
+        1 0.25
+        -99 -99
+        0.74      1
+        0.7485    0.9252
+        0.7734    0.8649
+        0.8132    0.8132
+        0.8649    0.7734
+        0.9252    0.7485
+        1 0.74
+        1 1
+        0.74      1
+        -99 -99
+        0.0       0.74
+        0.0647    0.7485
+        0.1250    0.7734
+        0.1768    0.8132
+        0.2165    0.8649
+        0.2415    0.9252
+        0.25      1
+        0.0       1
+        0.0       0.74
+    END
+END
+
+SYMBOL
+    NAME "MS_airare12"
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        6.23 9.80
+        8.59 9.80
+        7.90 9.01
+        7.90 8.01
+        10.53 8.01
+        8.10 6.38
+        8.10 5.16
+        7.51 4.52
+        6.80 5.16
+        6.80 6.38
+        4.35 7.95
+        6.84 7.97
+        6.84 9.07
+        6.23 9.80
+    END
+    ANCHORPOINT 0.49 0.5
+END
+
+SYMBOL
+    NAME "MS_airare13"
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        6.25 5.20
+        6.25 9.90
+        -99 -99
+        8.75 5.20
+        8.75 9.90
+        -99 -99
+        6.25 7.50
+        8.75 7.50
+    END # Points
+    ANCHORPOINT 0.45 0.5
+END #Symbol
+
+SYMBOL
+    NAME "MS_magbru"
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        2.30 21.58
+        0.42 19.71
+        2.30 19.71
+    END # Points
+    ANCHORPOINT 0.49 0
+END #Symbol
+
+#----------------------------------------------
+# IHO symbols as Mapserver native symbols
+#----------------------------------------------
+
+
+#  Boycar01
+SYMBOL
+    NAME "BOYCAR01_MS"
+    FILLED true
+    TYPE vector
+    POINTS
+        3.26 3.85
+        3.26 6.45
+        0.32 6.48
+        3.26 3.85
+        -99 -99
+        1.41 3.13
+        4.48 3.13
+        4.48 0.32
+        1.41 3.13
+    END # POINTS
+END
+
+# Boycar02 - cardinal buoy, east, simplified
+SYMBOL
+    NAME "BOYCAR02_MS"
+    FILLED true
+    TYPE vector
+    POINTS
+        0.92 3.07
+        4.02 3.04
+        3.99 0.32
+        0.92 3.07
+        -99 -99
+        0.37 4.17
+        3.42 4.17
+        0.37 6.92
+        0.37 4.17
+    END # POINTS
+END
+
+# Boycar03 -
+SYMBOL
+    NAME "BOYCAR03_MS"
+    FILLED true
+    TYPE vector
+    POINTS
+        3.47 0.32
+        6.22 0.32
+        3.12 3.02
+        3.47 0.32
+        -99 -99
+        2.37 3.67
+        5.12 3.67
+        2.07 6.39
+        2.37 3.67
+    END # POINTS
+END
+
+# Boycar04 -
+SYMBOL
+    NAME "BOYCAR04_MS"
+    FILLED true
+    TYPE vector
+    POINTS
+        3.37 3.67
+        3.37 6.42
+        0.39 6.42
+        3.37 3.67
+        -99 -99
+        3.37 3.07
+        3.37 0.32
+        6.37 0.32
+        3.37 3.07
+    END # POINTS
+END
+
+# FAIRWY51 - fairway with one-way traffic in direction indicated
+SYMBOL
+    NAME "FAIRWY51_MS"
+    FILLED true
+    TYPE vector
+    POINTS
+        -1.5 6
+        -1.5 -3
+        -3 -3
+        0 -7.5
+        3 -3
+        1.5 -3
+        1.5 6
+        -1.5 6
+    END # POINTS
+END
+
+# FAIRWY52 - fairway with two-way traffic
+SYMBOL
+    NAME "FAIRWY52_MS"
+    FILLED true
+    TYPE vector
+    POINTS
+        1.53 1.47
+        2.99 1.47
+        0.01 6
+        -2.97 1.47
+        -1.48 1.47
+        -99 -99
+        -1.53 1.46
+        -1.53 -3.01
+        -3.02 -3.01
+        0 -7.51
+        2.94 -3.01
+        1.49 -3.01
+        1.49 1.46
+    END # POINTS
+END
+
+# TSSLPT51 - traffic direction in a one way lane of a traffic separation
+SYMBOL
+    NAME "TSSLPT51_MS"
+    FILLED true
+    TYPE vector
+    POINTS
+        1.82 13.82
+        1.82 4.82
+        0.32 4.82
+        3.32 0.32
+        6.32 4.82
+        4.82 4.82
+        4.82 13.82
+        1.82 13.82
+    END # POINTS
+END
+
+# TSSRON51 - traffic roundabout
+SYMBOL
+    NAME "TSSRON51_MS"
+    FILLED false
+    TYPE vector
+    POINTS
+        0.65 5.74
+        0.91 6.65
+        1.3 7.61
+        1.87 8.38
+        2.76 9.05
+        3.79 9.61
+        4.94 9.8
+        5.86 9.75
+        6.84 9.46
+        7.85 8.93
+        8.64 8.12
+        9.26 7.06
+        9.6 5.93
+        9.6 4.69
+        9.26 3.41
+        8.62 2.33
+        7.68 1.54
+        6.55 0.94
+        5.28 0.75
+        3.84 0.94
+        2.81 1.45
+        1.92 2.05
+        3.62 3.75
+        0.65 3.75
+        0.65 0.65
+        1.97 2.05
+    END # POINTS
+END
+
+SYMBOL
+    NAME "ITZARE51_MS"
+    FILLED false
+    TYPE vector
+    POINTS
+        3.62 10.66
+        3.62 1.65
+        -99 -99
+        10.68 1.68
+        10.68 10.66
+        -99 -99
+        2.21 1.66
+        5.14 1.66
+        -99 -99
+        2.31 10.64
+        5.14 10.64
+        -99 -99
+        7.61 1.66
+        13.7 1.66
+    END # POINTS
+END
+
+#  EMCBLSU1 -  Embedded symbol
+SYMBOL
+    NAME "EMCBLSU1_MS"
+    FILLED false
+    TYPE vector
+    POINTS
+        -3.04 -0.02
+        -1.52 -1.02
+        1.47 1.01
+        3.06 -0.02
+    END # POINTS
+END
+
+#  EMCBLAR1 - Embedded symbol
+SYMBOL
+    NAME "EMCBLAR1_MS"
+    FILLED false
+    TYPE vector
+    POINTS
+        0.33 -2.02
+        -1.17 -0.02
+        0.83 0.98
+        -0.67 2.98
+    END # POINTS
+END
+
+SYMBOL
+    NAME "BOYLAT13_MS"
+    FILLED true
+    TYPE vector
+    POINTS
+        1.24 1.42
+        1.24 -2.97
+        -3.09 1.42
+        1.24 1.42
+    END # POINTS
+    ANCHORPOINT 0.7 0.65
+END
+
+SYMBOL
+    NAME "BOYLAT14_MS"
+    FILLED true
+    TYPE vector
+    POINTS
+        1.24 1.42
+        1.24 -2.97
+        -3.09 1.42
+        1.24 1.42
+    END # POINTS
+    ANCHORPOINT 0.7 0.65
+END
+
+SYMBOL
+    NAME "BOYLAT23_MS"
+    FILLED true
+    TYPE vector
+    POINTS
+        -2.75 2.08
+        -1.23 -1.9
+        2.53 -1.9
+        1.27 2.08
+        -2.75 2.08
+    END # POINTS
+END
+
+SYMBOL
+    NAME "BOYLAT24_MS"
+    FILLED true
+    TYPE vector
+    POINTS
+        -2.75 2.08
+        -1.23 -1.9
+        2.53 -1.9
+        1.27 2.08
+        -2.75 2.08
+    END # POINTS
+END
+
+
+SYMBOL
+    NAME "BOYSAW12_MS"
+    TYPE ELLIPSE
+    FILLED TRUE
+    POINTS
+        1 1
+    END
+END
+
+# Just a cirle Yellow
+#    special purpose buoy, spherical or barrel shaped,
+#    or default symbol for
+#    special purpose buoy, simplified
+#
+SYMBOL
+    NAME "BOYSPP11_MS"
+    TYPE ELLIPSE
+    FILLED TRUE
+    POINTS
+        1 1
+    END
+END
+
+SYMBOL
+    NAME "BOYSPP35_MS"
+    FILLED true
+    TYPE vector
+    POINTS
+        -1.69 2.61
+        0.12 -2.39
+        1.57 -2.39
+        -0.22 2.61
+        -1.67 2.61
+        -1.69 2.61
+    END # POINTS
+END
+
+
+# SYMBOL
+#    NAME "BOYSPP_spar"
+#    FILLED true
+#    TYPE vector
+#    POINTS
+#       1.96 0
+#       0 5
+#       1.45 5
+#       3.26 0
+#       1.96 0
+#    END # POINTS
+# END
+
+
+
+SYMBOL
+    NAME "obstacle-line"
+    FILLED true
+    TYPE vector
+    POINTS
+        0 0
+        50  0
+        -99 -99
+        10  0
+        25 15
+        40 0
+    END # POINTS
+    ANCHORPOINT 0.5 0
+END
+
+## BOYPIL01 - pillar buoy, paper-chart - CHBLK
+
+
+SYMBOL
+    NAME "MS_BOYPIL01"
+    FILLED false
+    TYPE vector
+    POINTS
+        750 750
+        443 750
+        693 750
+        -99 -99
+        803 750
+        1040 750
+        -99 -99
+        509 750
+        728 515
+        793 318
+        890 318
+        890 556
+        984 750
+    END # POINTS
+    ANCHORPOINT 0.55 0.97 
+END
+
+
+SYMBOL
+    NAME "ISTZNE_perim"
+    FILLED true
+    TYPE vector
+    POINTS
+        0 0
+        50  0
+        -99 -99
+        25 0
+        25 25
+    END # POINTS
+END
+
+SYMBOL
+    NAME "ISTZNE_perim_offset"
+    FILLED false
+    TYPE vector
+    POINTS
+        0 0
+        50  0
+        -99 -99
+        25 0
+        25 25
+    END # POINTS
+    ANCHORPOINT 0.5 0
+END
+
+
+
+
+## BOYSUP02: super-buoy ODAS & LANBY, simplified
+## Two parts
+SYMBOL
+    NAME "BOYSUP02_MS_P1"
+    FILLED true
+    TYPE vector
+    POINTS
+        3.65 7.47
+        4.64 4.62
+        10.36 4.65
+        11.32 7.47
+        3.65 7.47
+    END # POINTS
+END
+
+SYMBOL
+    NAME "BOYSUP02_MS_P2"
+    FILLED false
+    TYPE vector
+    POINTS
+        3.68 7.50
+        4.65 4.65
+        10.34 4.65
+        11.31 7.50
+        -99 -99
+        7.50 4.65
+        7.50 2.75
+    END # POINTS
+END
+
+## BCNSPP13 - major special purpose beacon, simplified
+
+SYMBOL
+    NAME "BCNSPP13_MS"
+    FILLED true
+    TYPE vector
+    POINTS
+        -1 2
+        1 2
+        1 -2
+        -1 -2
+        -1 2
+    END # POINTS
+END
+
+SYMBOL
+    NAME "BCNSPP13_MS_OUTLINE"
+    FILLED false
+    TYPE vector
+    POINTS
+        -1 2
+        1 2
+        1 -2
+        -1 -2
+        -1 2
+    END # POINTS
+END
+
+## BCNSPP21 - minor special purpose beacon, simplified
+
+SYMBOL
+    NAME "BCNSPP21_MS"
+    TYPE VECTOR
+    FILLED TRUE
+    POINTS
+        -0.66 2.49
+        -0.66 -2.51
+        0.67 -2.51
+        0.67 2.49
+        -0.66 2.49
+    END # Points
+END #Symbol
+
+SYMBOL
+    NAME "BCNSPP21_MS_OUTLINE"
+    TYPE VECTOR
+    FILLED FALSE
+    POINTS
+        -0.66 2.49
+        -0.66 -2.51
+        0.67 -2.51
+        0.67 2.49
+        -0.66 2.49
+    END # Points
+END #Symbol
+
+
+SYMBOL
+    NAME "SLCONS"
+    TYPE vector
+    POINTS
+        0 0
+        0 2.53
+        2.53 2.53
+        2.53 0
+        0 0
+    END
+    FILLED true
+END
+
+SYMBOL
+    NAME "FOULGND1_MS"
+    FILLED false
+    TYPE vector
+    POINTS
+        2.08 0.32
+        1.06 3.32
+        -99 -99
+        3.6 0.32
+        2.55 3.31
+        -99 -99
+        0.74 1.32
+        4.22 1.32
+        -99 -99
+        0.74 1.32
+        4.22 1.32
+        -99 -99
+        0.32 2.33
+        3.88 2.33
+    END # POINTS
+END
+
+
+SYMBOL
+    NAME "UWTROC03_MS"
+    FILLED false
+    TYPE vector
+    POINTS
+        -1 0
+        1 0
+        -99 -99
+        0 -1
+        0 1
+    END # POINTS
+END
+
+SYMBOL
+    NAME "UWTROC03_MS_dot_circle"
+    FILLED false
+    TYPE vector
+    POINTS
+        15.00 15.00
+        15.1 15.1
+        -99 -99
+        15.00 13.00
+        15.1 13.1
+        -99 -99
+        15.00 17.00
+        15.1 17.1
+        -99 -99
+        17.00 15.00
+        17.1 15.1
+        -99 -99
+        13.00 15.00
+        13.1 15.1
+        -99 -99
+        15.80 13.10
+        15.9 13.2
+        -99 -99
+        16.40 13.60
+        16.5 13.7
+        -99 -99
+        16.85 14.25
+        16.95 14.35
+        -99 -99
+        16.75 15.85
+        16.85 15.95
+        -99 -99
+        16.40 16.40
+        16.5 16.5 
+        -99 -99
+        15.75 16.80
+        15.85 16.9
+        -99 -99
+        14.20 16.80
+        14.3 16.9
+        -99 -99
+        13.60 16.35
+        13.70 16.45
+        -99 -99
+        13.15 15.70
+        13.25 15.8
+        -99 -99
+        13.20 14.20
+        13.3 14.3
+        -99 -99
+        13.55 13.55
+        13.65 13.65
+        -99 -99
+        14.20 13.15
+        14.3 13.25
+    END # POINTS
+    ANCHORPOINT 0.5 0.49
+END
+
+SYMBOL
+    NAME "UWTROC04_MS"
+    FILLED false
+    TYPE vector
+    POINTS
+        16.97 15.00
+        12.97 15.00 
+        -99 -99
+        16.14 13.37
+        13.79 16.61
+        -99 -99
+        16.14 16.55
+        13.74 13.36
+    END # POINTS
+END
+
+SYMBOL
+    NAME "UWTROC06a_MS"
+    FILLED false
+    TYPE vector
+    POINTS
+        -1.2 0
+        1.2 0
+        -99 -99
+        0 -1.2
+        0 1.2
+    END # POINTS
+END
+
+SYMBOL
+    NAME "UWTROC06b_MS"
+    FILLED false
+    TYPE vector
+    POINTS
+        -1 -1
+        -0.8 -0.8
+        -99 -99
+        -1 1
+        -0.8 0.8
+        -99 -99
+        1 1
+        0.8 0.8
+        -99 -99
+        1 -1
+        0.8 -0.8
+    END # POINTS
+END
+
+SYMBOL
+    NAME "UWTROC06_MS"
+    FILLED false
+    TYPE vector
+    POINTS
+        -1.2 0
+        1.2 0
+        -99 -99
+        0 -1.2
+        0 1.2
+        -99 -99
+        -1 -1
+        -0.8 -0.8
+        -99 -99
+        -1 1
+        -0.8 0.8
+        -99 -99
+        1 1
+        0.8 0.8
+        -99 -99
+        1 -1
+        0.8 -0.8
+    END # POINTS
+END
+
+SYMBOL
+    NAME "hatchsymbol"
+    TYPE hatch
+END
+
+SYMBOL
+    NAME "vertline"
+    TYPE vector
+    FILLED false
+    POINTS
+        0 0
+        0 1
+    END # POINTS
+    ANCHORPOINT 0.5 0
+END
+
+SYMBOL
+    NAME "vertline_2"
+    TYPE vector
+    FILLED false
+    POINTS
+        0 0
+        0 1
+    END # POINTS
+END
+
+SYMBOL
+    NAME "vline"
+    TYPE vector
+    FILLED false
+    POINTS
+        0 0
+        1 1
+        2 0
+    END # POINTS
+    ANCHORPOINT 0.5 0
+END
+
+SYMBOL
+    NAME "MS_MSQUESMRK1"
+    FILLED false
+    TYPE vector
+    POINTS
+        15.68 13.23
+        15.81 12.95
+        15.94 12.70
+        16.11 12.53
+        16.28 12.36
+        16.54 12.27
+        16.77 12.29
+        17.07 12.38
+        17.35 12.44
+        17.58 12.78
+        17.76 12.97
+        17.88 13.19
+        17.88 13.44
+        17.76 13.68
+        17.63 13.89
+        17.43 14.13
+        17.20 14.38
+        16.99 14.64
+        16.86 14.83
+        16.75 15.00
+        16.73 15.22
+        16.73 15.45
+        16.73 15.62
+        16.75 15.84
+        16.75 15.86
+        -99 -99
+        16.54 16.70
+        17.20 16.70
+    END # POINTS
+    ANCHORPOINT 0.5 0.49 
+END
+
+
+##  WRECKS01 - wreck showing any portion of hull or superstructure at level of chart datum - CHGRD
+
+SYMBOL
+    NAME "MS_WRECKS01"
+    FILLED true
+    TYPE vector
+    POINTS
+        550 750
+        400 550
+        1050 750
+        800 750
+        800 740
+        795 730
+        790 720
+        780 710
+        770 700
+        760 700
+        745 700
+        735 700
+        720 705 
+        705 720
+        700 735
+        700 740
+        700 750
+        550 750
+    END # POINTS
+    ANCHORPOINT 0.5 0.85 
+END
+
+
+SYMBOL
+    NAME "MS_WRECKS01_lines"
+    FILLED false
+    TYPE vector
+    POINTS
+        400 750
+        700 750
+        -99 -99
+        800 750
+        1050 750
+        -99 -99
+        740 650
+        800 450
+    END # POINTS
+    ANCHORPOINT 0.5 0.85
+END
+## WRECKS04 - non-dangerous wreck, depth unknown - CHBLK
+
+
+SYMBOL
+    NAME "MS_WRECKS04"
+    FILLED false
+    TYPE vector
+    POINTS
+        750 900
+        750 900
+        -99 -99
+        600 650
+        600 850
+        -99 -99
+        900 650
+        900 850
+        -99 -99
+        500 750
+        1000 750
+        -99 -99
+        750 600
+        750 900
+    END # POINTS
+    ANCHORPOINT 0.5 0.49 
+END
+
+## WRECKS05 - dangerous wreck, depth unknown - DEPVS
+
+SYMBOL
+    NAME "MS_WRECKS05_elipse"
+    FILLED true
+    TYPE vector
+    POINTS
+        453 700
+        512 625
+        600 575
+        687 550
+        800 540
+        900 575
+        981 625
+        1040 700
+        1040 800
+        987 859
+        900 915
+        800 950
+        700 950
+        600 915
+        525 865
+        453 800
+        453 700
+    END # POINTS
+    ANCHORPOINT 0.5 0.49 
+END
+
+SYMBOL
+    NAME "MS_WRECKS05_dots"
+    FILLED false
+    TYPE vector
+    POINTS
+        453 700
+        453 710
+        -99 -99
+        512 625
+        512 635
+        -99 -99
+        600 575
+        600 585
+        -99 -99
+        687 550
+        687 560
+        -99 -99
+        800 540
+        800 550
+        -99 -99
+        900 575
+        900 585
+        -99 -99
+        981 625
+        981 635
+        -99 -99
+        1040 700
+        1040 710
+        -99 -99
+        453 800
+        453 810
+        -99 -99
+        525 865
+        525 875
+        -99 -99
+        600 915
+        600 925
+        -99 -99
+        700 950
+        700 960
+        -99 -99
+        800 950
+        800 960
+        -99 -99
+        900 915
+        900 925
+        -99 -99
+        987 859
+        987 869
+        -99 -99
+        1043 793
+        1043 803
+    END # POINTS
+    ANCHORPOINT 0.5 0.49 
+END
+
+
+SYMBOL
+    NAME "MS_WRECKS05_body"
+    FILLED false
+    TYPE vector
+    POINTS
+        750 900
+        750 900
+        -99 -99
+        600 650
+        600 850
+        -99 -99
+        900 650
+        900 850
+        -99 -99
+        500 750
+        1000 750
+        -99 -99
+        750 600
+        750 900
+    END # POINTS
+    ANCHORPOINT 0.5 0.49 
+END
+
+
+
+END # SYMBOLSET
+
+
