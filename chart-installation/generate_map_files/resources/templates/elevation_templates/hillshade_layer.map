@@ -1,0 +1,13 @@
+  LAYER
+    NAME "${NAME}"
+    PROJECTION
+       "init=epsg:${SRS}"
+    END
+    GROUP "${GROUP_NAME}"
+    DATA "${PATH}"
+    COMPOSITE
+        OPACITY 60
+    END
+    TYPE RASTER
+    STATUS ON
+  END # Layer

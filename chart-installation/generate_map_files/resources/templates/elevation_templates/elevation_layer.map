@@ -1,0 +1,10 @@
+  LAYER
+    NAME "${NAME}"
+    GROUP "${GROUP_NAME}"
+    DATA "${PATH}"
+    TYPE RASTER
+    STATUS ON
+    PROJECTION
+      "init=epsg:${SRS}"
+    END
+  END # Layer

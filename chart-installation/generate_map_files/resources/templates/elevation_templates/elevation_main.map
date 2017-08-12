@@ -1,0 +1,52 @@
+MAP
+  NAME "ELEVATION"
+  SHAPEPATH "${DATA_PATH}"
+  SIZE 1000 1000
+  ${DEBUG}
+  UNITS dd
+  EXTENT ${EXTENT}
+  PROJECTION
+    "init=epsg:${SRS}"
+  END
+  IMAGETYPE image/bil
+  OUTPUTFORMAT
+      NAME "bil"
+      DRIVER "GDAL/EHdr"
+      MIMETYPE "image/bil"
+      EXTENSION "bil"
+      IMAGEMODE INT16
+      FORMATOPTION "NULLVALUE=${NO_DATA_VALUE}"
+  END
+
+  OUTPUTFORMAT
+      NAME "bil16"
+      DRIVER "GDAL/EHdr"
+      MIMETYPE "application/bil16"
+      EXTENSION "bil"
+      IMAGEMODE INT16
+      FORMATOPTION "NULLVALUE=${NO_DATA_VALUE}"
+  END
+
+  OUTPUTFORMAT
+      NAME "tif"
+      DRIVER "GDAL/GTiff"
+      MIMETYPE "image/tiff"
+      EXTENSION "tif"
+      IMAGEMODE FLOAT32
+  END
+
+  WEB
+    IMAGEPATH "/tmp/ms_tmp/"
+    IMAGEURL "/tmp/"
+    METADATA
+      "wms_title" "ELEVATION"
+      "wms_onlineresource" "${SERVER_URL}?map=${MAP_PATH}/Elevation.map&"
+      "wms_srs" "EPSG:32633 EPSG:3006 EPSG:3857 EPSG:4326 EPSG:900913"
+      "ows_enable_request" "*"
+    END
+  END
+
+### Raster layers
+${LAYERS}
+
+END # Mapfile
