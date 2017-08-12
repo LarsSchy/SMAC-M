@@ -18,6 +18,8 @@ The package also contains tools to create AML mapfiles for Mapserver
 
 Furhter on a tool is provided to process tiff files and create mapfiles automaticly
 
+XMLStarlet should be installed to run the scripts to create color tables.
+
 Disclaimer: The package has only been tested with Swedish S57 sofar.
 The displayed chart are only intended to be used for planning, not navigation.
 
