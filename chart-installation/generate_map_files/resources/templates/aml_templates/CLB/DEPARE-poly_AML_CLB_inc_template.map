@@ -1,0 +1,62 @@
+## AML - Depth areas ###
+
+LAYER
+    NAME "DEPARE"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Depth areas"
+        "ows_enable_request"   "*"
+        "gml_include_items" "DRVAL1,DRVAL2"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA "DEPARE"
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  # Select polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    STATUS ON
+#   MAXSCALEDENOM 12000
+    CLASS
+        NAME "Depth <= 0 m"
+        EXPRESSION ([DRVAL2] <= 0)
+        STYLE
+          # RGB # COLOR {DEPIT_rgb}
+          COLOR "{DEPIT}"
+        END
+    END
+    CLASS
+        NAME "Depth 0-3 m"
+        EXPRESSION (([DRVAL2] >= 0) AND ([DRVAL2] <= 3))
+        STYLE
+          # RGB # COLOR {DEPVS_rgb}
+          COLOR "{DEPVS}"
+        END
+    END
+    CLASS
+        NAME "Depth 3-6 m"
+        EXPRESSION (([DRVAL2] >= 3 ) AND ([DRVAL2] <= 6))
+        STYLE
+          # RGB # COLOR {DEPMS_rgb}
+          COLOR "{DEPMS}"
+        END
+    END
+    CLASS
+        NAME "Depth 10-20 m"
+        EXPRESSION (([DRVAL2] >= 6) AND ([DRVAL2] <= 10 ))
+        STYLE
+          # RGB # COLOR {DEPMD_rgb}
+          COLOR "{DEPMD}"
+        END
+    END
+    CLASS
+        NAME "Deep water > 20 m"
+        EXPRESSION ([DRVAL2] >= 10)
+        STYLE
+          # RGB # COLOR {DEPDW_rgb}
+          COLOR "{DEPDW}"
+        END
+    END
+END # Layer
+

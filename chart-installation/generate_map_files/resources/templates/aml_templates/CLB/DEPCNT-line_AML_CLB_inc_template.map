@@ -1,0 +1,146 @@
+
+### AML Depth Contour ###
+
+LAYER
+    NAME "DEPCNT"
+    TYPE LINE
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Depth_Contour"
+        "ows_enable_request"   "*"
+        "gml_include_items" "VALDCO"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    STATUS ON
+#   MAXSCALEDENOM 12000
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    # DATA "SELECT VALDCO FROM DEPCNT WHERE OGR_GEOMETRY='LINESTRING'"
+    DATA DEPCNT
+    PROCESSING 'NATIVE_FILTER=PRIM=2'  #  Select only linestrings
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    CLASS
+        NAME "Depth Contour"
+        EXPRESSION ([VALDCO] = 3)
+        STYLE
+            # RGB # COLOR {DEPSC_rgb}
+            COLOR "{DEPSC}"
+            WIDTH 0.8
+        END
+        LABEL
+            # RGB # COLOR {CHBLK_rgb}
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT sc
+            SIZE 7
+            POSITION CC
+            PARTIALS FALSE
+            MINDISTANCE 50
+            ANGLE FOLLOW
+            TEXT (round([VALDCO], 0.1))
+       END
+    END
+
+    CLASS
+        EXPRESSION ([VALDCO] = 3)
+        STYLE
+            # RGB # COLOR {DEPSC_rgb}
+            COLOR "{DEPSC}"
+            WIDTH 0.8
+        END
+        LABEL
+            # RGB # COLOR {CHBLK_rgb}
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT sc
+            SIZE 7
+            POSITION CC
+            PARTIALS FALSE
+            MINDISTANCE 50
+            ANGLE FOLLOW
+            TEXT (round([VALDCO], 0.1))
+       END
+    END
+    CLASS
+        EXPRESSION ([VALDCO] = 6)
+        STYLE
+            # RGB # COLOR {DEPSC_rgb}
+            COLOR "{DEPSC}"
+            WIDTH 0.8
+        END
+        LABEL
+            # RGB # COLOR {CHBLK_rgb}
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT sc
+            SIZE 7
+            POSITION CC
+            PARTIALS FALSE
+            MINDISTANCE 50
+            ANGLE FOLLOW
+            TEXT (round([VALDCO], 0.1))
+       END
+    END
+
+    CLASS
+        EXPRESSION ([VALDCO] = 10)
+        STYLE
+            # RGB # COLOR {DEPSC_rgb}
+            COLOR "{DEPSC}"
+            WIDTH 1.0
+        END
+        LABEL
+            # RGB # COLOR {CHBLK_rgb}
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT sc
+            SIZE 7
+            POSITION CC
+            PARTIALS FALSE
+            MINDISTANCE 50
+            ANGLE FOLLOW
+            TEXT (round([VALDCO], 0.1))
+       END
+    END
+    CLASS
+        EXPRESSION ([VALDCO] = 15)
+        STYLE
+            # RGB # COLOR {DEPSC_rgb}
+            COLOR "{DEPSC}"
+            WIDTH 0.8
+        END
+        LABEL
+            # RGB # COLOR {CHBLK_rgb}
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT sc
+            SIZE 7
+            POSITION CC
+            PARTIALS FALSE
+            MINDISTANCE 50
+            ANGLE FOLLOW
+            TEXT (round([VALDCO], 0.1))
+       END
+    CLASS
+        EXPRESSION ([VALDCO] = 20)
+        STYLE
+            # RGB # COLOR {DEPSC_rgb}
+            COLOR "{DEPSC}"
+            WIDTH 0.8
+        END
+        LABEL
+            # RGB # COLOR {CHBLK_rgb}
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT sc
+            SIZE 7
+            POSITION CC
+            PARTIALS FALSE
+            MINDISTANCE 50
+            ANGLE FOLLOW
+            TEXT (round([VALDCO], 0.1))
+       END
+    END # Class
+END # Layer
