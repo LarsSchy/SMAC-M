@@ -1,0 +1,39 @@
+###  AML - Small bottom objects points - SM ###
+
+LAYER
+    NAME "smalbo_point"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Small_bottom_objects_points"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA smalbo
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  #  Select only points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASS
+        NAME "Small bottom objects"
+        STYLE
+            SYMBOL "MS_TRIANGLE_FILLED"
+            SIZE 14.0
+            COLOR "{TRFCD}"  # TRFCD
+        END
+        LABEL
+            EXPRESSION ('[minern]' ~ '.')
+            TEXT '[minern]'
+            COLOR "{CHBLK}"  #CHBLK
+            TYPE TRUETYPE
+            POSITION LL
+            FONT "sc"
+            SIZE 7
+            FORCE TRUE
+        END
+    END # Class
+END # Layer
