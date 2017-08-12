@@ -1,0 +1,26 @@
+### Dredged area - polygons  ###
+
+LAYER
+    NAME "DREDGEDAREA_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Dredged area"
+        "ows_enable_request"  "*"
+        "gml_include_items" "DRVAL1,DRVAL2"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    TYPE POLYGON
+    DATA "{PATH}"
+    CLASS
+        NAME "Dredgedarea"
+        STYLE
+            ## Note should fix diagonal raster pattern here
+            # CHGRD
+            # RGB # COLOR {CHGRD_rgb}
+            COLOR "{CHGRD}"
+        END
+    END
+END # Layer

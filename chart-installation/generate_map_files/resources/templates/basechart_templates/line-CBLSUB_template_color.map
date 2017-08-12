@@ -1,0 +1,56 @@
+### Cable_submarine (lines) ###
+
+LAYER
+    NAME  "Cable_submarine_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "Cable_subm"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE LINE
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    CLASS
+        NAME "Cable submarine"
+        STYLE
+           SYMBOL "EMCBLSU1_MS"
+           COLOR "{TRFCF}"
+           INITIALGAP 3
+           GAP -72
+           SIZE 5
+           WIDTH 1.2
+           ANGLE AUTO
+        END
+        STYLE
+           SYMBOL "EMCBLSU1_MS"
+           COLOR "{TRFCF}"
+           INITIALGAP 23
+           GAP -72
+           SIZE 5
+           WIDTH 1.2
+           ANGLE AUTO
+        END
+        STYLE
+           SYMBOL "EMCBLAR1_MS"
+           COLOR "{TRFCF}"
+           INITIALGAP 40
+           GAP -72
+           SIZE 14
+           WIDTH 1.2
+           ANGLE AUTO
+        END
+        STYLE
+           SYMBOL "EMCBLSU1_MS"
+           COLOR "{TRFCF}"
+           INITIALGAP 55
+           GAP -72
+           SIZE 5
+           WIDTH 1.2
+           ANGLE AUTO
+        END
+    END
+END

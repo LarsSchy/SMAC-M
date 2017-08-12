@@ -1,0 +1,35 @@
+### Traffic roundabout  ###
+
+LAYER
+    NAME TSSRON_{CL}
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "traffic_roundabout"
+        "ows_enable_request" "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    STATUS ON
+    TYPE POLYGON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    CLASS
+        STYLE
+            SYMBOL "hatchsymbol"
+            COLOR "{TRFCF}"
+            SIZE 8
+            WIDTH 1.5
+            ANGLE 45
+        END
+        STYLE
+            GEOMTRANSFORM centroid
+            SYMBOL "TSSRON51_MS"
+            COLOR "{TRFCF}"
+            SIZE 64
+            WIDTH 3.0
+        END
+    END
+END
+
+

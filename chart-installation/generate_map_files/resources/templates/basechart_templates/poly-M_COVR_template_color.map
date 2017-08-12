@@ -1,0 +1,23 @@
+### Coverage polygons ###
+
+LAYER
+    NAME  "Coverage_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Coverage"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE POLYGON
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    CLASS
+        NAME "Coverage"
+        STYLE
+            OUTLINECOLOR "{CHGRD}"
+        END
+    END
+END

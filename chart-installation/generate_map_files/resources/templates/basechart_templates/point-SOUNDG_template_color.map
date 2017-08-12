@@ -1,0 +1,203 @@
+### Soundings (point) ###
+
+LAYER
+    NAME "SOUNDG_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Soundings"
+        "ows_enable_request" "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    STATUS ON
+    TYPE POINT
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    LABELCACHE OFF
+
+    CLASS
+       NAME "Soundings"
+#
+#       Show the whole numbers that don't have fractional parts and less then ENC depth
+#
+       LABEL
+            EXPRESSION ([FRAC_NUM] = 0 AND [WHOLE_NUM] <= 20 )
+            # SNDG2
+            # RGB # COLOR {SNDG2_rgb}
+            COLOR "{SNDG2}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 7
+            POSITION CC
+            PARTIALS TRUE
+            MINDISTANCE 0
+            TEXT ('[WHOLE_NUM]')
+        END
+#
+#       Show the whole numbers that don't have fractional parts and greater then ENC depth
+#
+       LABEL
+            EXPRESSION ([FRAC_NUM] = 0 AND [WHOLE_NUM] > 20 )
+            # SNDG1
+            # RGB # COLOR {SNDG1_rgb}
+            COLOR "{SNDG1}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 7
+            POSITION CC
+            PARTIALS TRUE
+            MINDISTANCE 0
+            TEXT ('[WHOLE_NUM]')
+        END
+
+#
+#        Fractional numbers - whole part, with one figures and less then ENC depth
+#
+       LABEL
+          EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') = 1) AND ([WHOLE_NUM] <= 20 ))
+          # COLOR 100 100 100
+          # SNDG2
+          # RGB # COLOR {SNDG2_rgb}
+          COLOR "{SNDG2}"
+          TYPE TRUETYPE
+          FONT SC
+          SIZE 7
+          POSITION CC
+          PARTIALS TRUE
+          MINDISTANCE 0
+          OFFSET -3 -2
+          TEXT ('[WHOLE_NUM]')
+        END
+#
+#        Fractional numbers - whole part, with one figures and greater then ENC depth
+#
+       LABEL
+          EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') = 1) AND ([WHOLE_NUM] > 20 ))
+          # COLOR 100 100 100
+          # SNDG1
+          # RGB # COLOR {SNDG1_rgb}
+          COLOR "{SNDG1}"
+          TYPE TRUETYPE
+          FONT SC
+          SIZE 7
+          POSITION CC
+          PARTIALS TRUE
+          MINDISTANCE 0
+          OFFSET -3 -2
+          TEXT ('[WHOLE_NUM]')
+        END
+#
+#        Fractional numbers - whole part, with two or more figures and less then ENC depth
+#
+       LABEL
+          EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') > 1) AND ([WHOLE_NUM] <= 20 ))
+          # COLOR 100 100 100
+          # SNDG2
+          # RGB # COLOR {SNDG2_rgb}
+          COLOR "{SNDG2}"
+          TYPE TRUETYPE
+          FONT SC
+          SIZE 7
+          POSITION CC
+          PARTIALS TRUE
+          MINDISTANCE 0
+          OFFSET -4 -2
+          TEXT ('[WHOLE_NUM]')
+        END
+#
+#        Fractional numbers - whole part, with two or more figures and greater then ENC depth
+#
+       LABEL
+          EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') > 1) AND ([WHOLE_NUM] > 20 ))
+          # COLOR 100 100 100
+          # SNDG1
+          # RGB # COLOR {SNDG1_rgb}
+          COLOR "{SNDG1}"
+          TYPE TRUETYPE
+          FONT SC
+          SIZE 7
+          POSITION CC
+          PARTIALS TRUE
+          MINDISTANCE 0
+          OFFSET -4 -2
+          TEXT ('[WHOLE_NUM]')
+        END
+#
+#        Fractional numbers - fractional part with one figure in whole part and less then ENC depth
+#
+       LABEL
+          EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') = 1)  AND ([WHOLE_NUM] <= 20 ))
+          # COLOR 100 100 100
+          # SNDG2
+          # RGB # COLOR {SNDG2_rgb}
+          COLOR "{SNDG2}"
+          TYPE TRUETYPE
+          FONT SC
+          SIZE 7
+          POSITION CC
+          PARTIALS TRUE
+          MINDISTANCE 0
+          OFFSET 3 2
+          TEXT ('[FRAC_NUM]')
+        END
+
+#
+#        Fractional numbers - fractional part with one figure in whole part and greater then ENC depth
+#
+       LABEL
+          EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') = 1)  AND ([WHOLE_NUM] > 20 ))
+          # COLOR 100 100 100
+          # SNDG1
+          # RGB # COLOR {SNDG1_rgb}
+          COLOR "{SNDG1}"
+          TYPE TRUETYPE
+          FONT SC
+          SIZE 7
+          POSITION CC
+          PARTIALS TRUE
+          MINDISTANCE 0
+          OFFSET 3 2
+          TEXT ('[FRAC_NUM]')
+        END
+#
+#        Fractional numbers - fractional part with two or more number and less then ENC depth
+#
+       LABEL
+          EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') > 1)  AND ([WHOLE_NUM] <= 20 ))
+          # COLOR 100 100 100
+          # SNDG2
+          # RGB # COLOR {SNDG2_rgb}
+          COLOR "{SNDG2}"
+          TYPE TRUETYPE
+          FONT SC
+          SIZE 7
+          POSITION CC
+          PARTIALS TRUE
+          MINDISTANCE 0
+          OFFSET 4 2
+          TEXT ('[FRAC_NUM]')
+        END
+#
+#        Fractional numbers - fractional part with two or more number and greater then ENC depth
+#
+       LABEL
+          EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') > 1)  AND ([WHOLE_NUM] > 20 ))
+          # COLOR 100 100 100
+          # SNDG1
+          # RGB # COLOR {SNDG1_rgb}
+          COLOR "{SNDG1}"
+          TYPE TRUETYPE
+          FONT SC
+          SIZE 7
+          POSITION CC
+          PARTIALS TRUE
+          MINDISTANCE 0
+          OFFSET 4 2
+          TEXT ('[FRAC_NUM]')
+        END
+
+     END # class
+END # layer
+
+

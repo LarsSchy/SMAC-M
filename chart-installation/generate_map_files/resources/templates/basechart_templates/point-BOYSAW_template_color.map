@@ -1,0 +1,38 @@
+### Buoy safe water - BOYSAW (point) ###
+
+LAYER
+    NAME "BOYSAW_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "BOYSAW"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE POINT
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    CLASS
+        NAME "Buoy safe water"
+        STYLE
+            SYMBOL "BOYSAW12_MS"
+            SIZE 15
+            # CHRED
+            # RGB # COLOR {CHRED_rgb}
+            COLOR "{CHRED}"
+            # RGB # COLOR {OUTLW_rgb}
+            OUTLINECOLOR "{OUTLW}"
+            OUTLINEWIDTH 0.3
+        END
+        STYLE
+            SYMBOL "MS_DOT"
+            COLOR "{OUTLW}"
+            SIZE 2
+        END
+    END
+END
+
+
+

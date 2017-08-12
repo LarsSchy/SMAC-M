@@ -1,0 +1,39 @@
+#
+#   ROUTES area  - polygon ###
+#
+LAYER
+    NAME "Route_area_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        ows_title "Route zone"
+        ows_enable_request "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    STATUS ON
+    TYPE POLYGON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    CLASS
+       NAME "Inshore traffic zone"
+       STYLE
+            SYMBOL "ISTZNE_perim"
+            # TRFCD (important) less import use TRFCF
+            # RGB # OUTLINECOLOR {TRFCF_rgb}
+            OUTLINECOLOR "{TRFCF}"
+            OUTLINEWIDTH 1.2
+            INITIALGAP 0
+            SIZE 5
+            GAP -20
+       END
+       STYLE
+            GEOMTRANSFORM centroid
+            SYMBOL "ITZARE51_MS"
+            COLOR "{TRFCF}"
+            WIDTH 3.0
+            SIZE 36
+       END
+   END
+END # LAYER
+

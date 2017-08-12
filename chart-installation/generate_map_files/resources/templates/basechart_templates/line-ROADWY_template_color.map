@@ -1,0 +1,131 @@
+### ROADS(lines) ###
+
+LAYER
+    NAME "Roads_line_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+       "ows_title"     "Roads_L_2"
+       "ows_enable_request"   "*"
+       "gml_include_items" "all"
+       "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE LINE
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+
+   CLASS
+        NAME "Road - motorway"
+        EXPRESSION ([CATROD] == 1)
+        STYLE
+          COLOR "{BKAJ1}"
+          WIDTH 5.0
+          LINECAP BUTT
+          LINEJOIN ROUND
+        END
+        STYLE
+          COLOR "{LANDA}"
+          WIDTH 3.5
+          LINECAP BUTT
+          LINEJOIN ROUND
+        END
+        STYLE
+          COLOR "{BKAJ1}"
+          WIDTH 0.6
+          LINECAP BUTT
+          LINEJOIN ROUND
+        END
+   END
+
+   CLASS
+        NAME "Road - major road"
+        EXPRESSION ([CATROD] == 2)
+        STYLE
+          COLOR "{BKAJ1}"
+          WIDTH 3
+          LINECAP ROUND
+          LINEJOIN ROUND
+        END
+        STYLE
+          COLOR "{LANDA}"
+          WIDTH 1.8
+          LINECAP ROUND
+          LINEJOIN ROUND
+        END
+   END
+
+
+   CLASS
+        NAME "Road - minor road"
+        EXPRESSION ([CATROD] == 3)
+        STYLE
+            COLOR "{BKAJ1}"
+            WIDTH 2.0
+            LINECAP ROUND
+            LINEJOIN ROUND
+        END
+        STYLE
+            COLOR "{LANDA}"
+            WIDTH 1.0
+            LINECAP ROUND
+            LINEJOIN ROUND
+        END
+   END
+
+   CLASS
+        NAME "Road - track/path"
+        EXPRESSION ([CATROD] == 4)
+        STYLE
+          COLOR "{BKAJ1}"
+          WIDTH 1.5
+          LINECAP butt
+          PATTERN 6 6 END
+        END
+   END
+
+   #CLASS
+        #NAME "Road - major street"
+        #EXPRESSION ([CATROD] == 4)
+        #STYLE
+          #COLOR "{BKAJ1}"
+          #WIDTH 5
+          #LINECAP ROUND
+          #LINEJOIN ROUND
+        #END
+        #STYLE
+          #COLOR "{LANDF}"
+          #WIDTH 3.0
+          #LINECAP ROUND
+          #LINEJOIN ROUND
+        #END
+   #END
+   #CLASS
+        #NAME "Road - minor street"
+        #EXPRESSION ([CATROD] == 4)
+        #STYLE
+          ### COLOR "{CHMGF}" ## Magenta less important
+          #COLOR "{CHMGD}"    ## Magenta important
+          #WIDTH 4.0
+          #LINECAP ROUND
+          #LINEJOIN ROUND
+        #END
+        #STYLE
+          #COLOR "{LANDF}"
+          #WIDTH 2.0
+          #LINECAP ROUND
+          #LINEJOIN ROUND
+        #END
+   #END
+   #CLASS
+        #NAME "Road - crossing"
+        #EXPRESSION ([CATROD] == 4)
+        #STYLE
+          #COLOR "{BKAJ1}"
+          #WIDTH 3.0
+          #LINECAP butt
+        #END
+   #END
+
+END
+

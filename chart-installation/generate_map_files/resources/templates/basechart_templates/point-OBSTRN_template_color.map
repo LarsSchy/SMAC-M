@@ -1,0 +1,129 @@
+### Obstruction (point) ###
+
+LAYER
+    NAME "Obstruction_Point_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "Obstruction"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE POINT
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    PROCESSING 'LABEL_NO_CLIP=ON'
+    
+    # CATOBS codes
+    # 3 = diffuser
+    # ( 5 = fish haven )
+    # ( 6 = foul area )
+    # 9 = ground tackle
+    # 502 = subsea installation
+    # 509 = sundry objects
+    #
+
+    CLASS
+        NAME "Obstruction "
+        # EXPRESSION ([CATOBS] == 3 )
+        STYLE
+            SYMBOL "MS_DOT"
+            COLOR "{DEPVS}"  # DEPVS
+            SIZE 14
+        END
+        STYLE
+            SYMBOL "UWTROC03_MS_dot_circle"
+            COLOR "{CHBLK}"  #CHBLK
+            SIZE 28
+            WIDTH 1.2
+        END
+        LABEL
+            COLOR "{CHBLK}"  #CHBLK
+            TYPE TRUETYPE
+            POSITION CR
+            FONT "serif-italic-bold"
+            SIZE 7
+            TEXT "Obstn"
+            FORCE TRUE
+        END
+#
+#       Show the whole numbers that don't have fractional parts
+#
+        LABEL
+            EXPRESSION ([FRAC_NUM] = 0 )
+            COLOR "{SNDG2}"  # SNDG2
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 7
+            POSITION CC
+            PARTIALS TRUE
+            FORCE TRUE
+            MINDISTANCE 0
+            TEXT ('[WHOLE_NUM]')
+        END
+#
+#       Fractional numbers - whole part, with one figures and less then ENC depth
+#
+        LABEL
+            EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') = 1) AND ([WHOLE_NUM] <= 10 ))
+            COLOR 0 255 0 #"{SNDG2}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 7
+            POSITION CC
+            PARTIALS TRUE
+            MINDISTANCE 0
+            OFFSET -3 -2
+            TEXT '[WHOLE_NUM]'
+        END
+##
+##        Fractional numbers - whole part, with two or more figures
+##
+        LABEL
+            EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') > 1 ) )
+            COLOR 255 0 0 ##"{SNDG2}"    # SNDG2
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 7
+            POSITION CC
+            PARTIALS TRUE
+            FORCE TRUE
+            MINDISTANCE 0
+            OFFSET -4 -2
+            TEXT ('[WHOLE_NUM]')
+        END
+##
+##        Fractional numbers - fractional part with one figure in whole part
+##
+       LABEL
+            EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') = 1))
+            COLOR "{SNDG2}"  # SNDG2
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 7
+            POSITION CC
+            PARTIALS TRUE
+            FORCE TRUE
+            MINDISTANCE 0
+            OFFSET 3 2
+            TEXT ('[FRAC_NUM]')
+        END
+#
+#       Fractional numbers - fractional part with two or more number in whole part
+#
+        LABEL
+            EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') > 1)  AND ([WHOLE_NUM] <= 10 ))
+            COLOR "{SNDG2}" # SNDG2
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 7
+            POSITION CC
+            PARTIALS TRUE
+            MINDISTANCE 0
+            OFFSET 4 2
+            TEXT '[FRAC_NUM]'
+        END    
+    END # Class
+END # Layer

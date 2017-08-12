@@ -1,0 +1,32 @@
+#### Land region names (polygons) ####
+
+### This layer is not used !!! ####
+
+LAYER
+    NAME "LandRegionNames_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "Landregionnames"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE POLYGON
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    PROCESSING 'LABEL_NO_CLIP=ON'
+    LABELITEM "OBJNAM"
+    CLASS
+        LABEL
+            # UINFF -grey - normal colour for user interface text
+            # RGB # COLOR {UINFF_rgb}
+            COLOR "{UINFF}"
+            TYPE TRUETYPE
+            FONT "sc"
+            SIZE 12
+            BUFFER 4
+        END
+    END
+END

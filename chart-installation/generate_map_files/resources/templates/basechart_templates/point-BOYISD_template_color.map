@@ -1,0 +1,46 @@
+### BOY ISD (point) ####
+
+LAYER
+    NAME "BOYISD_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Isolated danger buoy"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE POINT
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    CLASS
+        NAME "Isolated danger buoy"
+                NAME "MS_BOYISD12" 
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{OUTLW}"  # OUTLW
+            SIZE 8
+            OFFSET -1.8 5.2
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE_FILLED"
+            COLOR "{CHRED}"  #   CHRED
+            SIZE 7
+            OFFSET -1.8 5.2
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{OUTLW}" # OUTLW  
+            SIZE 8
+            OFFSET 1.8 -5.2
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE_FILLED"
+            COLOR "{CHRED}" #   CHRED
+            SIZE 7
+            OFFSET 1.8 -5.2
+        END # Style
+    END # Class
+END # Layer
+

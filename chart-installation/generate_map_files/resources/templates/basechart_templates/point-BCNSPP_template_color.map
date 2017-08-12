@@ -1,0 +1,210 @@
+### Beacon Special purpose (point) BCNSPP  ###
+
+LAYER
+    NAME "BCNSPP_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "BCNSPP"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE POINT
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    LABELITEM "OBJNAM"
+
+    CLASS
+       NAME "Beacon - Special purpose"
+        STYLE                               # fill
+            SYMBOL "BCNSPP13_MS"
+            COLOR 244 218 72  # "{CHYLW}"
+            SIZE 15
+        END
+        STYLE                               # outline
+            SYMBOL "BCNSPP13_MS_OUTLINE"
+            COLOR 0 0 0   # "{OUTLW}"
+            SIZE 15
+            WIDTH 0.6
+        END   
+        STYLE  # Reference circle
+            SYMBOL "MS_DOT"
+            COLOR 0 0 0   # "{OUTLW}"
+            SIZE 2
+        END
+    END
+
+   #CLASS
+       #NAME "Beaccon - stake, pole, perch, post"
+       #EXPRESSION ([BCNSHP] = 1)
+       #STYLE
+          #SYMBOL "beacon_major_simp"
+           ## COLOR 255 240 99
+           ## CHYLW
+           ## RGB # COLOR {CHYLW_rgb}
+           #COLOR "{CHYLW}"
+           ## OUTLINECOLOR 0 0 0
+           ## BKAJ1
+           ## RGB # COLOR {BKAJ1_rgb}
+           #OUTLINECOLOR "{BKAJ1}"
+           #OUTLINEWIDTH 0.3
+           #SIZE 24
+       #END
+       #STYLE
+          #SYMBOL "beacon_dot"
+          ## COLOR 0 0 0
+          #COLOR "{BKAJ1}"
+          #SIZE 24
+       #END
+    #END
+
+
+   #CLASS
+       #NAME "Beacon - withy"
+       #EXPRESSION ([BCNSHP] = 2)
+       #STYLE
+          #SYMBOL "beacon_major_simp"
+           ## COLOR 255 240 99
+           ## CHYLW
+           ## RGB # COLOR {CHYLW_rgb}
+           #COLOR "{CHYLW}"
+           ## OUTLINECOLOR 0 0 0
+           ## BKAJ1
+           ## RGB # COLOR {BKAJ1_rgb}
+           #OUTLINECOLOR "{BKAJ1}"
+           #OUTLINEWIDTH 0.3
+           #SIZE 24
+       #END
+       #STYLE
+          #SYMBOL "beacon_dot"
+          ## COLOR 0 0 0
+          #COLOR "{BKAJ1}"
+          #SIZE 24
+       #END
+   #END
+
+   #CLASS
+       #NAME "Beacon - beacon tower"
+       #EXPRESSION ([BCNSHP] = 3)
+       #STYLE
+          #SYMBOL "beacon_major_simp"
+           ## COLOR 255 240 99
+           ## CHYLW
+           ## RGB # COLOR {CHYLW_rgb}
+           #COLOR "{CHYLW}"
+           ## OUTLINECOLOR 0 0 0
+           ## BKAJ1
+           ## RGB # COLOR {BKAJ1_rgb}
+           #OUTLINECOLOR "{BKAJ1}"
+           #OUTLINEWIDTH 0.3
+           #SIZE 24
+       #END
+       #STYLE
+          #SYMBOL "beacon_dot"
+          ## COLOR 0 0 0
+          #COLOR "{BKAJ1}"
+          #SIZE 24
+       #END
+   #END
+
+    #CLASS
+       #NAME "Beacon - lattice beacon"
+       #EXPRESSION ([BCNSHP] = 4)
+       #STYLE
+          #SYMBOL "beacon_major_simp"
+           ## COLOR 255 240 99
+           ## CHYLW
+           ## RGB # COLOR {CHYLW_rgb}
+           #COLOR "{CHYLW}"
+           ## OUTLINECOLOR 0 0 0
+           ## BKAJ1
+           ## RGB # COLOR {BKAJ1_rgb}
+           #OUTLINECOLOR "{BKAJ1}"
+           #OUTLINEWIDTH 0.3
+           #SIZE 24
+       #END
+       #STYLE
+          #SYMBOL "beacon_dot"
+          ## COLOR 0 0 0
+          #COLOR "{BKAJ1}"
+          #SIZE 24
+       #END
+   #END
+
+   #CLASS
+       #NAME "Beacon - pile beacon"
+       #EXPRESSION ([BCNSHP] = 5)
+       #STYLE
+           #SYMBOL "beacon_major_simp"
+           ## COLOR 255 240 99
+           ## CHYLW
+           ## RGB # COLOR {CHYLW_rgb}
+           #COLOR "{CHYLW}"
+           ## OUTLINECOLOR 0 0 0
+           ## BKAJ1
+           ## RGB # COLOR {BKAJ1_rgb}
+           #OUTLINECOLOR "{BKAJ1}"
+           #OUTLINEWIDTH 0.3
+           #SIZE 24
+       #END
+       #STYLE
+          #SYMBOL "beacon_dot"
+          ## COLOR 0 0 0
+          #COLOR "{BKAJ1}"
+          #SIZE 24
+       #END
+   #END
+
+    #CLASS
+       #NAME "Beacon - cairn"
+       #EXPRESSION ([BCNSHP] = 6)
+       #STYLE
+          #SYMBOL "beacon_major_simp"
+           ## COLOR 255 240 99
+           ## CHYLW
+           ## RGB # COLOR {CHYLW_rgb}
+           #COLOR "{CHYLW}"
+           ## OUTLINECOLOR 0 0 0
+           ## BKAJ1
+           ## RGB # COLOR {BKAJ1_rgb}
+           #OUTLINECOLOR "{BKAJ1}"
+           #OUTLINEWIDTH 0.3
+           #SIZE 24
+       #END
+       #STYLE
+          #SYMBOL "beacon_dot"
+          ## COLOR 0 0 0
+          #COLOR "{BKAJ1}"
+          #SIZE 24
+       #END
+   #END
+
+   #CLASS
+       #NAME "Beacon - buoyant beacon"
+       #EXPRESSION ([BCNSHP] = 7)
+       #STYLE
+          #SYMBOL "beacon_major_simp"
+           ## COLOR 255 240 99
+           ## CHYLW
+           ## RGB # COLOR {CHYLW_rgb}
+           #COLOR "{CHYLW}"
+           ## OUTLINECOLOR 0 0 0
+           ## BKAJ1
+           ## RGB # COLOR {BKAJ1_rgb}
+           #OUTLINECOLOR "{BKAJ1}"
+           #OUTLINEWIDTH 0.3
+           #SIZE 24
+       #END
+       #STYLE
+          #SYMBOL "beacon_dot"
+          ## COLOR 0 0 0
+          #COLOR "{BKAJ1}"
+          #SIZE 24
+       #END
+   #END
+
+END # LAYER
+
+

@@ -1,0 +1,29 @@
+### Recommended_Track ###
+
+LAYER
+    NAME  "Recommended_Track_Navigation_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "Recomended_Track"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE LINE
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    CLASS
+        NAME "Recommended Track"
+        STYLE
+          # CHGRD
+          COLOR "{CHGRD}"
+          WIDTH 1
+          LINECAP butt
+          PATTERN 15 5 15 5 END
+        END
+    END
+END
+
+

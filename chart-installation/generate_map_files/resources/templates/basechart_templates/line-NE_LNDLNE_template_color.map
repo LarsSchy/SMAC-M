@@ -1,0 +1,26 @@
+#### Coast line #####
+
+LAYER
+    NAME "NE_LandLine_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "NE_Landline"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE LINE
+    STATUS ON
+    DATA "{PATH}"
+    CLASS
+        NAME "NE_Landline"
+        STYLE
+          # COLOR 107 113 110
+          # CSTLN - grey, conspic - Coastline (high water line), including wharf and dock faces.
+          # RGB # COLOR {CSTLN_rgb}
+          COLOR "{CSTLN}"
+          WIDTH 1.0
+        END
+    END
+END

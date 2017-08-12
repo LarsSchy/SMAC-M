@@ -1,0 +1,27 @@
+## OBSTRUCTIONS (lines ) ###
+
+## This layer is not used !!! ##
+
+#### Check this layer later  !!!!
+#### what to do with point obstrn
+
+LAYER
+    NAME  "Obstructions_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "Obstructions"
+        "ows_enable_request"   "*"
+    END
+    TYPE LINE
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    CLASS
+        STYLE
+          COLOR 255 68 161
+          WIDTH 1
+          LINECAP butt
+          PATTERN 3 3 3 3  END
+        END
+    END
+END

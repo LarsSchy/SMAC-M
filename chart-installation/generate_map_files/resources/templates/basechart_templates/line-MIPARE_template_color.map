@@ -1,0 +1,52 @@
+### Military Area (Lines) ###
+
+LAYER
+    NAME  "Military_Area_Lines_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+         "ows_title"     "Military Area"
+         "ows_enable_request" "*"
+         "gml_include_items" "all"
+         "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE LINE
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    PROCESSING 'LABEL_NO_CLIP=ON'
+    CLASS
+        NAME "Military Area - (lines)"
+        STYLE
+            # TRFCD (important) less import use TRFCF
+            # RGB # OUTLINECOLOR {TRFCD_rgb}
+            COLOR "{TRFCD}"
+            WIDTH 1
+            LINECAP butt
+            PATTERN 40 10 END
+        END
+        STYLE
+            # TRFCD (important) less import use TRFCF
+            # RGB # OUTLINECOLOR {TRFCD_rgb}
+            COLOR "{TRFCD}"
+            SYMBOL "vline"
+            SIZE 10.0
+            ANGLE 0
+            INITIALGAP 20
+            GAP -50
+        END
+        LABEL
+            # TRFCD (important) less import use TRFCF
+            # RGB # OUTLINECOLOR {TRFCD_rgb}
+            COLOR "{TRFCD}"
+            TYPE TRUETYPE
+            FONT sc
+            SIZE 10
+            POSITION AUTO
+            MINDISTANCE 25
+            BUFFER 25
+            PARTIALS FALSE
+            TEXT "military practice"
+        END
+    END
+END

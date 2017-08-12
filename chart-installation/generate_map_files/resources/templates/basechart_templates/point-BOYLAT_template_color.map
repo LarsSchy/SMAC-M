@@ -1,0 +1,149 @@
+### BOY Lateral (point) ###
+
+LAYER
+    NAME "BOYLAT_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "BOYLAT"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE POINT
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    CLASS
+        EXPRESSION (([BOYSHP] = 1) AND [COLOUR] = 3) # conical red
+        STYLE
+            SYMBOL "BOYLAT14_MS"
+            SIZE 20
+            # RGB # COLOR {CHRED_rgb}
+            COLOR "{CHRED}"
+            # RGB # OUTLINECOLOR {OUTLW_rgb}
+            OUTLINECOLOR "{OUTLW}"
+            OUTLINEWIDTH 0.3
+        END
+    END
+    CLASS
+        EXPRESSION (([BOYSHP] = 1) AND [COLOUR] = 4)  # conical green
+        STYLE
+            SYMBOL "BOYLAT13_MS"
+            SIZE 20
+            # RGB # COLOR {CHGRN_rgb}
+            COLOR "{CHGRN}"
+            # RGB # COLOR {OUTLW_rgb}
+            OUTLINECOLOR "{OUTLW}"
+            OUTLINEWIDTH 0.3
+        END
+    END
+    CLASS
+        EXPRESSION (([BOYSHP] = 2) AND [COLOUR] = 3) # can/cylindrical red
+        STYLE
+            SYMBOL "BOYLAT24_MS"
+            SIZE 20
+            # RGB # COLOR {CHRED_rgb}
+            COLOR "{CHRED}"
+            # RGB # COLOR {OUTLW_rgb}
+            OUTLINECOLOR "{OUTLW}"
+            OUTLINEWIDTH 0.3
+        END
+    END
+    CLASS
+        EXPRESSION (([BOYSHP] = 2) AND [COLOUR] = 4) # can/cylindrical green
+        STYLE
+            SYMBOL "BOYLAT23_MS"
+            SIZE 20
+            # RGB # COLOR {CHGRN_rgb}
+            COLOR "{CHGRN}"
+            # RGB # COLOR {OUTLW_rgb}
+            OUTLINECOLOR "{OUTLW}"
+            OUTLINEWIDTH 0.3
+        END
+    END
+    CLASS
+        EXPRESSION ([BOYSHP] = 3)   # spherical yellow color
+        STYLE
+            SYMBOL "BOYSPP11_MS"
+            SIZE 20
+            # RGB # COLOR {CHYLW_rgb}
+            COLOR "{CHYLW}"
+            # RGB # COLOR {OUTLW_rgb}
+            OUTLINECOLOR "{OUTLW}"
+            OUTLINEWIDTH 0.3
+        END
+        STYLE
+            SYMBOL "beacon_dot"
+            COLOR 0 0 0
+            SIZE 20
+        END
+    END
+
+    CLASS
+        EXPRESSION (([BOYSHP] = 4) AND [COLOUR] = 3)  # red
+        STYLE
+            SYMBOL "BOYSPP35_MS"
+            # RGB # COLOR {CHYLW_rgb}
+            COLOR "{CHRED}"
+            # RGB # COLOR {OUTLW_rgb}
+            OUTLINECOLOR "{OUTLW}"
+            OUTLINEWIDTH 0.2
+            SIZE 20
+        END
+    END
+
+    CLASS
+        EXPRESSION (([BOYSHP] = 4) AND [COLOUR] = 4) # green
+        STYLE
+            SYMBOL "BOYSPP35_MS"
+            # RGB # COLOR {CHYLW_rgb}
+            COLOR "{CHGRN}"
+            # RGB # COLOR {OUTLW_rgb}
+            OUTLINECOLOR "{OUTLW}"
+            OUTLINEWIDTH 0.2
+            SIZE 20
+        END
+    END
+
+   CLASS
+        EXPRESSION (([BOYSHP] = 5) AND [COLOUR] = 3)  # red
+        STYLE
+            SYMBOL "BOYSPP35_MS"
+            # RGB # COLOR {CHYLW_rgb}
+            COLOR "{CHRED}"
+            # RGB # COLOR {OUTLW_rgb}
+            OUTLINECOLOR "{OUTLW}"
+            OUTLINEWIDTH 0.2
+            SIZE 20
+        END
+    END
+
+    CLASS
+        EXPRESSION (([BOYSHP] = 5) AND [COLOUR] = 4) # green
+        STYLE
+            SYMBOL "BOYSPP35_MS"
+            # RGB # COLOR {CHYLW_rgb}
+            COLOR "{CHGRN}"
+            # RGB # COLOR {OUTLW_rgb}
+            OUTLINECOLOR "{OUTLW}"
+            OUTLINEWIDTH 0.2
+            SIZE 20
+        END
+    END
+
+    CLASS
+        EXPRESSION ([BOYSHP] = 6)
+        STYLE
+              SYMBOL "BOYSPP11_MS"
+              SIZE 20
+              # RGB # COLOR {CHYLW_rgb}
+              COLOR "{CHYLW}"
+              # RGB # COLOR {OUTLW_rgb}
+              OUTLINECOLOR "{OUTLW}"
+              OUTLINEWIDTH 0.3
+        END
+    END
+END
+
+

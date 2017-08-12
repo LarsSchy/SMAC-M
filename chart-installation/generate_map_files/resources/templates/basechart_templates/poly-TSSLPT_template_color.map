@@ -1,0 +1,42 @@
+### Trafic zone arrow ###
+
+LAYER
+   NAME TSSLPT_point_{CL}
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "route_line_point"
+        "ows_enable_request" "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    STATUS ON
+    TYPE POLYGON
+    CONNECTIONTYPE OGR
+    CONNECTION "{PATH_OGR}"
+    DATA 'SELECT RCID,-ORIENT FROM "{OGR_SQL_LAYER}"'
+    MAXSCALEDENOM {MAXSCALE}
+#
+#   NOTE: ORIENT is CWW should be CW in Mapserver,
+#         changing orientation with - sign in SQL statement with OGR data retrival
+#         Transformed ORIENT angle is found in value "FIELD_2" from OGR
+#
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    CLASS
+        STYLE
+            GEOMTRANSFORM centroid
+            SYMBOL "TSSLPT51_MS"
+            COLOR "{TRFCF}"
+            OPACITY 20
+            SIZE 24
+            ANGLE [FIELD_2]
+        END
+        STYLE
+            GEOMTRANSFORM centroid
+            SYMBOL "TSSLPT51_MS"
+            OUTLINECOLOR "{TRFCF}"
+            OUTLINEWIDTH 1.5
+            SIZE 24
+            ANGLE [FIELD_2]
+        END
+    END
+END # Layer

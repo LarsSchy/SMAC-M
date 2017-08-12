@@ -1,0 +1,45 @@
+### BRIDGES (lines) ###
+
+LAYER
+    NAME "Bridge_line_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+       "ows_title"     "Bridge_L_2"
+       "ows_enable_request"   "*"
+       "gml_include_items" "all"
+       "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE LINE
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    #CLASS
+        #NAME "Brigde (lines)"
+        #STYLE
+          ## COLOR 95 106 96
+          ## LANDF
+          ## RGB # COLOR {LANDF_rgb}
+          #COLOR "{LANDF}"
+          #WIDTH 2.0
+        #END
+    #END
+    CLASS
+        NAME "Brigde (lines)"
+        STYLE
+          COLOR "{BKAJ1}"
+          WIDTH 1.5
+          OFFSET -2.5 -99
+          LINECAP ROUND
+          LINEJOIN ROUND
+        END
+        STYLE
+          COLOR "{BKAJ1}"
+          WIDTH 1.5
+          OFFSET 2.5 -99
+          LINECAP ROUND
+          LINEJOIN ROUND
+        END
+    END
+END
+

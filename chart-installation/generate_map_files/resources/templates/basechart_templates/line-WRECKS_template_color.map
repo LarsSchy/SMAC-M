@@ -1,0 +1,27 @@
+### WRECKS (line) ###
+
+LAYER
+    NAME "Wrecks_line_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "Wrecks"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    CLASS
+       NAME "Wrecks (lines)"
+       STYLE
+            # TRFCD (important) less import use TRFCF
+            # RGB # OUTLINECOLOR {TRFCD_rgb}
+            COLOR "{TRFCD}"
+            WIDTH 1.0
+            LINECAP round
+            PATTERN 10 4  END
+       END
+    END
+END

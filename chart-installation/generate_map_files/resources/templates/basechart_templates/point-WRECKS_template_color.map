@@ -1,0 +1,224 @@
+### WRECKS (point) ###
+
+LAYER
+    NAME "Wrecks_Point_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "Wrecks"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE POINT
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    PROCESSING 'LABEL_NO_CLIP=ON'
+#    LABELITEM "VALSOU"
+
+    CLASS
+        NAME "Non-dangerous wreck"
+        EXPRESSION ([CATWRK] == 1)
+        STYLE
+            SYMBOL "MS_WRECKS04"
+            SIZE 9
+            COLOR "{CHBLK}"
+            WIDTH 1.0
+        END
+    END
+    
+    CLASS
+       EXPRESSION ([CATWRK] == 2)
+       NAME "Dangerous wreck"
+               STYLE
+            SYMBOL "MS_WRECKS05_elipse"
+            SIZE 12
+            COLOR "{DEPVS}"
+        END
+        STYLE
+            SYMBOL "MS_WRECKS05_dots"
+            SIZE 12
+            COLOR "{CHBLK}"
+            WIDTH 1.6
+        END
+        STYLE
+            SYMBOL "MS_WRECKS05_body"
+            SIZE 9
+            COLOR "{CHBLK}"
+            WIDTH 1.0
+        END  
+    END # CLASS
+
+    CLASS
+        NAME "Wreck showing any portion of hull or superstructure"
+        EXPRESSION ([CATWRK] == 5)
+        STYLE
+            SYMBOL "MS_WRECKS01"
+            SIZE 8
+            COLOR "{CHBLK}"
+            WIDTH 1
+        END
+        STYLE
+            SYMBOL "MS_WRECKS01_lines"
+            SIZE 8
+            COLOR "{OUTLW}" 
+            WIDTH 1.8
+        END  
+    END
+
+    CLASS
+       NAME "Wreck with depth figure - dot border"
+       EXPRESSION ([VALSOU] > 0)
+       STYLE
+          # COLOR 0 0 0
+          # CHBLK - black/white - general
+          # RGB # COLOR {CHBLK_rgb}
+          COLOR "{CHBLK}"
+          SIZE 36
+          SYMBOL "WRECKS05_dot_border"
+       END # STYLE
+
+       #LABEL
+          #COLOR 100 100 100
+          #TYPE TRUETYPE
+          #POSITION CC
+          #FONT "sc"
+          #SIZE 7
+          #TEXT (round([VALSOU], 0.1))
+          #FORCE TRUE
+       #END
+
+#   SNDG1 -  for deep soundings, greater than safety depth
+#   SNDG2 -  shallow soundings, less than or equal to the safety depth
+#
+#   Safety Depth is set to 20 meters static - should maybe be dynamic.
+#
+#
+#
+#       Show the whole numbers that don't have fractional parts
+#      for deep soundings, greater than safety depth
+#
+       LABEL
+          EXPRESSION ([FRAC_NUM] = 0 AND ([WHOLE_NUM] > 20 ))
+          # COLOR 100 100 100
+          # SNDG1
+          # RGB # COLOR {SNDG1_rgb}
+          COLOR "{SNDG1}"
+#          COLOR 255 0 0
+          TYPE TRUETYPE
+          FONT SC
+          SIZE 7
+          POSITION CC
+          PARTIALS TRUE
+          FORCE TRUE
+          MINDISTANCE 0
+          TEXT ('[WHOLE_NUM]')
+        END
+
+
+#
+#       Show the whole numbers that don't have fractional parts
+#      and shallow soundings, less than or equal to the safety depth
+#
+       LABEL
+          EXPRESSION ([FRAC_NUM] = 0 AND ([WHOLE_NUM] <= 20 ))
+          # COLOR 100 100 100
+          # SNDG2
+          # RGB # COLOR {SNDG2_rgb}
+          COLOR "{SNDG2}"
+          TYPE TRUETYPE
+          FONT SC
+          SIZE 7
+          POSITION CC
+          PARTIALS TRUE
+          FORCE TRUE
+          MINDISTANCE 0
+          TEXT ('[WHOLE_NUM]')
+        END
+
+#
+#        Fractional numbers - whole part, with one figure
+#       for deep soundings, greater than safety depth
+#       This case is not happening now but the sefaty depth should become a variable in the future
+#       safetydepth is fixed to 20 now.
+#
+       LABEL
+          EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') = 1 ) AND ([WHOLE_NUM] > 20 ))
+          # COLOR 100 100 100
+          # SNDG1
+          # RGB # COLOR {SNDG1_rgb}
+          COLOR "{SNDG1}"
+          TYPE TRUETYPE
+          FONT SC
+          SIZE 7
+          POSITION CC
+          PARTIALS TRUE
+          FORCE TRUE
+          MINDISTANCE 0
+          OFFSET -3 -2
+          TEXT ('[WHOLE_NUM]')
+       END
+#
+#        Fractional numbers - fractional part with one figure in whole part
+#       and shallow soundings, less than or equal to the safety depth
+#
+       LABEL
+          EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') = 1)  AND ([WHOLE_NUM] <= 20 ))
+          # COLOR 100 100 100
+          # CHBLK - black/white - general
+          # RGB # COLOR {CHBLK_rgb}
+          COLOR "{CHBLK}"
+          TYPE TRUETYPE
+          FONT SC
+          SIZE 7
+          POSITION CC
+          PARTIALS TRUE
+          FORCE TRUE
+          MINDISTANCE 0
+          OFFSET 3 2
+          TEXT ('[FRAC_NUM]')
+        END
+#
+#        Fractional numbers - whole part, with two or more figures
+#       for deep soundings, greater than safety depth
+#
+       LABEL
+          EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') > 1 ) AND ([WHOLE_NUM] > 20 ))
+          # COLOR 100 100 100
+          # SNDG1
+          # RGB # COLOR {SNDG1_rgb}
+          COLOR "{SNDG1}"
+          TYPE TRUETYPE
+          FONT SC
+          SIZE 7
+          POSITION CC
+          PARTIALS TRUE
+          FORCE TRUE
+          MINDISTANCE 0
+          OFFSET -4 -2
+          TEXT ('[WHOLE_NUM]')
+        END
+#
+#        Fractional numbers - whole part, with two or more figures
+#       and shallow soundings, less than or equal to the safety depth
+#
+       LABEL
+          EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') > 1 )  AND ([WHOLE_NUM] <= 20 ))
+          # COLOR 100 100 100
+          # SNDG2
+          # RGB # COLOR {SNDG2_rgb}
+          COLOR "{SNDG2}"
+          TYPE TRUETYPE
+          FONT SC
+          SIZE 7
+          POSITION CC
+          PARTIALS TRUE
+          FORCE TRUE
+          MINDISTANCE 0
+          OFFSET -4 -2
+          TEXT ('[WHOLE_NUM]')
+        END
+
+    END  # Class
+END # Layer

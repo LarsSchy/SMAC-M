@@ -1,0 +1,32 @@
+#### Landarea Points ####
+
+LAYER
+    NAME "Landarea_point_"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "Landarea_points"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    STATUS ON
+    TYPE POINT
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    CLASS
+        NAME "Landarea (points)"
+        STYLE
+            SYMBOL "MS_DOT"
+            COLOR "{CSTLN}"  # CSTLN
+            SIZE 4
+        END
+        STYLE
+            SYMBOL "MS_DOT"
+            COLOR "{LANDA}"  # LANDA
+            SIZE 3
+        END
+    END
+END
+
+

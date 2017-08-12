@@ -1,0 +1,30 @@
+### Rivers Area ###
+
+LAYER
+    NAME  "River_Area_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "RiverArea"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE POLYGON
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    CLASS
+        NAME "Rivers (polygons)"
+        STYLE
+            # DEPVS
+            # RGB # COLOR {DEPVS_rgb}
+            COLOR "{DEPVS}"
+            # CHBLK
+            # RGB # COLOR {CHBLK_rgb}
+            OUTLINECOLOR "{CHBLK}"
+            WIDTH 0.5
+        END
+    END
+END
+

@@ -1,0 +1,145 @@
+### BOY SPP (point) ####
+
+LAYER
+    NAME "BOYSPP_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "Bs_2"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE POINT
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    CLASS
+        NAME "BOYSPP - Conical lateral buoy, red"
+        EXPRESSION ([BOYSHP] = 1 AND [COLOUR] = 3) # conical red
+        STYLE
+            SYMBOL "BOYLAT14_MS"
+            SIZE 20
+            # RGB # COLOR {CHRED_rgb}
+            COLOR "{CHRED}"
+            # RGB # COLOR {OUTLW_rgb}
+            OUTLINECOLOR "{OUTLW}"
+            OUTLINEWIDTH 0.3
+        END
+    END
+    CLASS
+        NAME "BOYSPP - Conical lateral buoy, green"
+        EXPRESSION ([BOYSHP] = 1 AND [COLOUR] = 4) # conical green
+        STYLE
+            SYMBOL "BOYLAT13_MS"
+               SIZE 20
+            # RGB # COLOR {CHGRN_rgb}
+            COLOR "{CHGRN}"
+            # RGB # COLOR {OUTLW_rgb}
+            OUTLINECOLOR "{OUTLW}"
+            OUTLINEWIDTH 0.3
+        END
+    END
+    CLASS
+        NAME "BOYSPP - Can shape lateral buoy, red"
+        EXPRESSION ([BOYSHP] = 2 AND [COLOUR] = 3)   # can red
+        STYLE
+            SYMBOL "BOYLAT24_MS"
+            SIZE 20
+            # RGB # COLOR {CHRED_rgb}
+            COLOR "{CHRED}"
+            # RGB # COLOR {OUTLW_rgb}
+            OUTLINECOLOR "{OUTLW}"
+            OUTLINEWIDTH 0.3
+        END
+    END
+    CLASS
+        NAME "BOYSPP - Can shape lateral buoy, green"
+        EXPRESSION ([BOYSHP] = 2 AND [COLOUR] = 4))   # can green
+        STYLE
+            SYMBOL "BOYLAT23_MS"
+            SIZE 20
+            # RGB # COLOR {CHGRN_rgb}
+            COLOR "{CHGRN}"
+            # RGB # COLOR {OUTLW_rgb}
+            OUTLINECOLOR "{OUTLW}"
+            OUTLINEWIDTH 0.3
+        END
+    END
+    CLASS
+        NAME "BOYSPP - spherical"
+        EXPRESSION ([BOYSHP] = 3)   # spherical
+        STYLE
+            SYMBOL "BOYSUP02_MS_P1"
+            # CHBLK - black/white - general
+            # RGB # COLOR {CHBLK_rgb}
+            COLOR "{CHBLK}"
+            SIZE 16
+        END
+        STYLE
+            SYMBOL "BOYSUP02_MS_P2"
+            # CHBLK - black/white - general
+            # RGB # COLOR {CHBLK_rgb}
+            COLOR "{CHBLK}"
+            SIZE 17
+            WIDTH 2
+        END
+    END
+    CLASS
+        EXPRESSION ([BOYSHP] = 4)    # pillar
+        STYLE
+            SYMBOL "BOYSUP02_MS_P1"
+            # CHBLK - black/white - general
+            # RGB # COLOR {CHBLK_rgb}
+            COLOR "{CHBLK}"
+            SIZE 16
+        END
+        STYLE
+            SYMBOL "BOYSUP02_MS_P2"
+            # CHBLK - black/white - general
+            # RGB # COLOR {CHBLK_rgb}
+            COLOR "{CHBLK}"
+            SIZE 17
+            WIDTH 2
+        END
+    END
+
+    CLASS
+        EXPRESSION ([BOYSHP] = 5)   # spar-spindle
+        STYLE
+            ## SYMBOL "BOYSPP_spar"
+            SYMBOL "BOYSPP35_MS"
+            ## COLOR 255 240 99
+            # CHBLK - black/white - general
+            # RGB # COLOR {CHBLK_rgb}
+            COLOR "{CHYLW}"
+            OUTLINEWIDTH 0.3
+            OUTLINECOLOR "{OUTLW}"
+            SIZE 16
+        END
+        STYLE
+            SYMBOL "MS_DOT"
+            COLOR "{OUTLW}"
+            SIZE 2
+        END
+    END
+    CLASS
+        EXPRESSION ([BOYSHP] = 7) # super-buoy
+        STYLE
+            SYMBOL "BOYSUP02_MS_P1"
+            # CHBLK - black/white - general
+            # RGB # COLOR {CHBLK_rgb}
+            COLOR "{CHBLK}"
+            SIZE 16
+        END
+        STYLE
+            SYMBOL "BOYSUP02_MS_P2"
+            # CHBLK - black/white - general
+            # RGB # COLOR {CHBLK_rgb}
+            COLOR "{CHBLK}"
+            SIZE 17
+            WIDTH 2
+        END
+    END
+END
+

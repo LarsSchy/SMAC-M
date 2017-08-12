@@ -1,0 +1,229 @@
+#### LIGHTS (point) ####
+
+LAYER
+    NAME "Lights_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "Lights"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE POINT
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+
+## CATLIT = 5   aero light
+
+    CLASS
+        EXPRESSION (([CATLIT] = 5) AND ([COLOUR] = 1))   # white same as yellow
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx"
+            COLOR "{CHYLW}"
+            SIZE 16
+            ANGLE 225
+        END
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx_OUTLINE"
+            COLOR "{OUTLW}"
+            SIZE 16
+            WIDTH 0.6
+            ANGLE 225
+        END
+    END
+    
+    CLASS
+        EXPRESSION (([CATLIT] = 5) AND ([COLOUR] = 3))   # red
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx"
+            COLOR "{CHRED}"
+            SIZE 16
+            ANGLE 225
+        END
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx_OUTLINE"
+            COLOR "{OUTLW}"
+            SIZE 16
+            WIDTH 0.6
+            ANGLE 225
+        END
+    END
+    
+    CLASS
+        EXPRESSION (([CATLIT] = 5) AND ([COLOUR] = 4))   # green
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx"
+            COLOR "{CHGRN}"
+            SIZE 16
+            ANGLE 225
+        END
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx_OUTLINE"
+            COLOR "{OUTLW}"
+            SIZE 16
+            WIDTH 0.6
+            ANGLE 225
+        END
+    END
+    
+    CLASS
+        EXPRESSION (([CATLIT] = 5) AND ([COLOUR] = 6))   # yellow
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx"
+            COLOR "{CHYLW}"
+            SIZE 16
+            ANGLE 225
+        END
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx_OUTLINE"
+            COLOR "{OUTLW}"
+            SIZE 16
+            WIDTH 0.6
+            ANGLE 225
+        END
+    END
+
+## CATLIT = 6 air obstruction light
+
+    CLASS
+        EXPRESSION (([CATLIT] = 6) AND ([COLOUR] = 1))   # white same as yellow
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx"
+            COLOR "{CHYLW}"
+            SIZE 16
+            ANGLE 225
+        END
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx_OUTLINE"
+            COLOR "{OUTLW}"
+            SIZE 16
+            WIDTH 0.6
+            ANGLE 225
+        END
+    END
+    
+    CLASS
+        EXPRESSION (([CATLIT] = 6) AND ([COLOUR] = 3))   # red
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx"
+            COLOR "{CHRED}"
+            SIZE 16
+            ANGLE 225
+        END
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx_OUTLINE"
+            COLOR "{OUTLW}"
+            SIZE 16
+            WIDTH 0.6
+            ANGLE 225
+        END
+    END
+    
+    CLASS
+        EXPRESSION (([CATLIT] = 6) AND ([COLOUR] = 4))   # green
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx"
+            COLOR "{CHGRN}"
+            SIZE 16
+            ANGLE 225
+        END
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx_OUTLINE"
+            COLOR "{OUTLW}"
+            SIZE 16
+            WIDTH 0.6
+            ANGLE 225
+        END
+    END
+    
+    CLASS
+        EXPRESSION (([CATLIT] = 6) AND ([COLOUR] = 6))   # yellow
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx"
+            COLOR "{CHYLW}"
+            SIZE 16
+            ANGLE 225
+        END
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx_OUTLINE"
+            COLOR "{OUTLW}"
+            SIZE 16
+            WIDTH 0.6
+            ANGLE 225
+        END
+    END
+
+## CATLIT = 10 subsidiary light
+
+    CLASS
+        EXPRESSION (([CATLIT] = 10) AND ([COLOUR] = 1))   # white same as yellow
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx"
+            COLOR "{CHYLW}"
+            SIZE 16
+            ANGLE 225
+        END
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx_OUTLINE"
+            COLOR "{OUTLW}"
+            SIZE 16
+            WIDTH 0.6
+            ANGLE 225
+        END
+    END
+
+    CLASS
+        EXPRESSION (([CATLIT] = 10) AND ([COLOUR] = 3))   # red
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx"
+            COLOR "{CHRED}"
+            SIZE 16
+            ANGLE 225
+        END
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx_OUTLINE"
+            COLOR "{OUTLW}"
+            SIZE 16
+            WIDTH 0.6
+            ANGLE 225
+        END
+    END
+
+    CLASS
+        EXPRESSION (([CATLIT] = 10) AND ([COLOUR] = 4))   # green
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx"
+            COLOR "{CHGRN}"
+            SIZE 16
+            ANGLE 225
+        END
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx_OUTLINE"
+            COLOR "{OUTLW}"
+            SIZE 15
+            WIDTH 0.6
+            ANGLE 225
+        END
+    END
+    
+    CLASS
+        EXPRESSION (([CATLIT] = 10) AND ([COLOUR] = 6))   # yellow
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx"
+            COLOR "{CHYLW}"
+            SIZE 15
+            ANGLE 225
+        END
+        STYLE                               
+            SYMBOL "MS_LIGHTSxx_OUTLINE"
+            COLOR "{OUTLW}"
+            SIZE 15
+            WIDTH 0.6
+            ANGLE 225
+        END
+    END
+END # Layer
+
+

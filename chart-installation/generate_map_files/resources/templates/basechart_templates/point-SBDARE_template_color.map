@@ -1,0 +1,29 @@
+
+#### Landarea Points ####
+
+LAYER
+    NAME "Seabed_point_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "Seabed_points"
+        "ows_enable_request"   "*"
+        "gml_include_items" "SEABED"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    STATUS ON
+    TYPE POINT
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    LABELITEM "SEABED"
+    CLASS
+        NAME "Seabed (points)"
+        LABEL
+            COLOR "{UINFF}"
+            TYPE TRUETYPE
+            FONT "serif-italic"
+            SIZE 8
+            POSITION CC
+        END
+    END
+END

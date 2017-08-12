@@ -1,0 +1,198 @@
+### Underwater Rock (point) ###
+
+LAYER
+    NAME "UnderwaterRock_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "Underwater_Rock"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE POINT
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+
+    CLASS
+        NAME "Underwater Rock - partly submerged at high water"
+        EXPRESSION ([WATLEV] == 1)
+        STYLE
+            SYMBOL "MS_DOT"
+            COLOR "{DEPIT}"  #DEPIT
+            SIZE 14
+        END
+        STYLE
+            SYMBOL "UWTROC03_MS"
+            COLOR "{CHBLK}"  #CHBLK
+            SIZE 28
+            WIDTH 1.2
+        END
+        STYLE
+            SYMBOL "UWTROC03_MS_dot_circle"
+            COLOR "{CHBLK}"  #CHBLK
+            SIZE 28
+            WIDTH 1.2
+        END
+    END
+
+    CLASS
+        NAME "Underwater Rock - allways dry"
+        EXPRESSION ([WATLEV] == 2)
+        STYLE
+            SYMBOL "MS_DOT"
+            COLOR "{CSTLN}"  # CSTLN
+            SIZE 8
+        END
+        STYLE
+            SYMBOL "MS_DOT"
+            COLOR "{LANDA}"  # LANDA
+            SIZE 6
+        END
+    END
+
+    CLASS
+        NAME "Underwater Rock - always under water/submerged"
+        EXPRESSION ([WATLEV] == 3 AND NOT('[VALSOU]' ~ '.'))
+        STYLE
+            SYMBOL "MS_DOT"
+            COLOR "{DEPVS}"  # DEPVS
+            SIZE 14
+        END
+        STYLE
+            SYMBOL "UWTROC03_MS"
+            COLOR "{CHBLK}"  #CHBLK
+            SIZE 28
+            WIDTH 1.2
+        END
+        STYLE
+            SYMBOL "UWTROC03_MS_dot_circle"
+            COLOR "{CHBLK}"  #CHBLK
+            SIZE 24
+        END
+    END
+
+    CLASS
+        NAME "Underwater Rock - always under water/submerged"
+        EXPRESSION ([WATLEV] == 3 AND '[VALSOU]' ~ '.' )
+        STYLE
+            SYMBOL "MS_DOT"
+
+            COLOR "{DEPVS}"  # DEPVS
+            SIZE 14
+        END
+        STYLE
+            SYMBOL "UWTROC04_MS"
+            COLOR "{CHBLK}"  #CHBLK
+            SIZE 40
+            WIDTH 0.9
+        END
+
+#       Show the whole numbers that don't have fractional parts
+#
+        LABEL
+            EXPRESSION ([FRAC_NUM] = 0 )
+            COLOR "{SNDG2}"  # SNDG2
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 7
+            POSITION CC
+            PARTIALS TRUE
+            FORCE TRUE
+            MINDISTANCE 0
+            TEXT ('[WHOLE_NUM]')
+        END
+#
+#       Fractional numbers - whole part, with one figures and less then ENC depth
+#
+        LABEL
+            EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') = 1) AND ([WHOLE_NUM] <= 10 ))
+            COLOR 0 255 0 #"{SNDG2}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 7
+            POSITION CC
+            PARTIALS TRUE
+            MINDISTANCE 0
+            OFFSET -3 -2
+            TEXT '[WHOLE_NUM]'
+        END
+##
+##        Fractional numbers - whole part, with two or more figures
+##
+        LABEL
+            EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') > 1 ) )
+            COLOR 255 0 0 ##"{SNDG2}"    # SNDG2
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 7
+            POSITION CC
+            PARTIALS TRUE
+            FORCE TRUE
+            MINDISTANCE 0
+            OFFSET -4 -2
+            TEXT ('[WHOLE_NUM]')
+        END
+##
+##        Fractional numbers - fractional part with one figure in whole part
+##
+       LABEL
+            EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') = 1))
+            COLOR "{SNDG2}"  # SNDG2
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 7
+            POSITION CC
+            PARTIALS TRUE
+            FORCE TRUE
+            MINDISTANCE 0
+            OFFSET 3 2
+            TEXT ('[FRAC_NUM]')
+        END
+#
+#       Fractional numbers - fractional part with two or more number in whole part
+#
+        LABEL
+            EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') > 1)  AND ([WHOLE_NUM] <= 10 ))
+            COLOR "{SNDG2}" # SNDG2
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 7
+            POSITION CC
+            PARTIALS TRUE
+            MINDISTANCE 0
+            OFFSET 4 2
+            TEXT '[FRAC_NUM]'
+        END
+    END
+
+    CLASS
+        NAME "Underwater Rock - covers and uncovers"
+        EXPRESSION ([WATLEV] == 4 )
+        STYLE
+            SYMBOL "UWTROC04_MS"
+            COLOR "{CHBLK}"  #CHBLK
+            SIZE 40
+            WIDTH 0.9
+        END
+    END
+
+    CLASS
+        NAME "Underwater Rock - awash"
+        EXPRESSION ([WATLEV] == 5 )
+                STYLE
+            SYMBOL "UWTROC06a_MS"
+            COLOR "{CHBLK}"  #CHBLK
+            SIZE 8
+            WIDTH 0.8
+        END
+        STYLE
+            SYMBOL "UWTROC06b_MS"
+            COLOR "{CHBLK}"  #CHBLK
+            SIZE 7
+            WIDTH 1.3
+        END
+    END
+
+END # Layer

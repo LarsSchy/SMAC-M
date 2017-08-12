@@ -1,0 +1,31 @@
+### CANALS Area ###
+
+LAYER
+    NAME  "Canal_Area_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "Canal"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE POLYGON
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    CLASS
+        NAME "Canals (pologons)"
+        STYLE
+            # DEPVS
+            # RGB # COLOR {DEPVS_rgb}
+            COLOR "{DEPVS}"
+            # CHBLK
+            # RGB # COLOR {CHBLK_rgb}
+            OUTLINECOLOR "{CHBLK}"
+            WIDTH 0.5
+        END
+    END
+END
+
+

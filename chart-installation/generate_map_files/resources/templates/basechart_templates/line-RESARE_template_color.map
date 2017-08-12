@@ -1,0 +1,29 @@
+#### RESTRICTED AREA LINES ####
+
+LAYER
+    NAME "Restricted_Area_Lines_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "Restricted_Area"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE LINE
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    CLASS
+        NAME "Restricted Area (lines)"
+          # TRFCD (important) less import use TRFCF
+          # RGB # COLOR "{TRFCF_rgb}"
+          COLOR "{TRFCF}"
+          WIDTH 2
+          LINECAP butt
+          PATTERN 18 6 END
+        END
+    END
+END
+
+

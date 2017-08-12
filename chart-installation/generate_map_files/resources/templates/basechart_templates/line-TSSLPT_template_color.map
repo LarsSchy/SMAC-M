@@ -1,0 +1,27 @@
+###  Traffic separation scheme lane part
+
+LAYER
+    NAME  "Traffic_sepa lane_part_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Traffic_sep lane_part"
+        "ows_enable_request" "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    STATUS ON
+    TYPE LINE
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    CLASS
+        STYLE
+            WIDTH 2.0
+            # TRFCD (important) less import use TRFCF
+            # RGB # COLOR "{TRFCF_rgb}"
+            COLOR "{TRFCF}"
+      END
+   END
+END #Layer
+
+

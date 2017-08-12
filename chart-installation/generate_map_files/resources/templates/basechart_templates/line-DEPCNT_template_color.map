@@ -1,0 +1,96 @@
+### Depth Contour ###
+
+LAYER
+    NAME  "Depth_Contour_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "Depth_Contour"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE LINE
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    LABELITEM VALDCO
+    CLASS
+        NAME "Depth Contour (safety contour)"
+        EXPRESSION ([VALDCO] == 10)
+        STYLE
+          # DEPSC - grey, conspic - own-ship's Safety Contour, selected by the mariner.
+          # RGB # COLOR {DEPSC_rgb}
+          COLOR "{DEPSC}"
+          WIDTH 0.9
+        END
+    END
+    CLASS
+        NAME "Depth Contour (other)"
+        # EXPRESSION ([VALDCO] == 20)
+        EXPRESSION ([VALDCO] != 10)
+        STYLE
+          # DEPCN - grey -  other depth contours
+          # RGB # COLOR {DEPSC_rgb}
+          COLOR "{DEPSC}"
+          WIDTH 0.6
+        END
+    END
+END
+
+### Depth Contour text ###
+
+LAYER
+    NAME  "Depth_Contour_text_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "Depth_Contour_text"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE LINE
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    LABELITEM VALDCO
+    CLASS
+        NAME "Depth Contour - Text"
+        EXPRESSION ([VALDCO] == 10)
+        LABEL
+            # COLOR 0 0 0
+            # CHBLK - black/white - general
+            # RGB # COLOR {CHBLK_rgb}
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT sc
+            SIZE 7
+            POSITION CC
+            PARTIALS FALSE
+            MINDISTANCE 50
+            ANGLE FOLLOW
+            TEXT (round([VALDCO], 0.1))
+       END
+    END
+    CLASS
+        # EXPRESSION ([VALDCO] == 20)
+        EXPRESSION ([VALDCO] != 20)
+        LABEL
+            # COLOR 0 0 0
+            # CHBLK - black/white - general
+            # RGB # COLOR {CHBLK_rgb}
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT sc
+            SIZE 7
+            POSITION CC
+            PARTIALS FALSE
+            MINDISTANCE 50
+            ANGLE FOLLOW
+            TEXT (round([VALDCO], 0.1))
+       END
+    END
+END
+

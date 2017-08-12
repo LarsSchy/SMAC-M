@@ -1,0 +1,26 @@
+#### Built Up Area ####
+
+LAYER
+    NAME "BUILTUPAREA_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "BuiltUpArea"
+        "ows_enable_request"   "*"
+        "gml_include_items" "CATBUA,CONDTN,HEIGHT,NOBJNM,OBJNAM,STATUS,NFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE POLYGON
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    CLASS
+        NAME "Built up area"
+        STYLE
+            # RGB # COLOR {CHBRN_rgb}     # CHBRN
+            COLOR "{CHBRN}"
+        END
+    END
+END # Layer
+
+

@@ -1,0 +1,45 @@
+### Military Area - POLYGON ###
+
+LAYER
+    NAME  "Military_Area_poly_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "Military_Area"
+        "ows_enable_request" "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE POLYGON
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    CLASS
+        NAME "Military Area - (polygon)"
+        STYLE
+            SYMBOL "obstacle-line"
+            OUTLINECOLOR "{CHMGD}"
+            WIDTH 1.3
+            INITIALGAP 5
+            SIZE 5
+            GAP -20
+            OFFSET 3 -99
+        END
+        #STYLE
+            #SYMBOL "obstacle-line"
+            #OUTLINECOLOR "{CHMGD}"
+            #INITIALGAP 15
+            #GAP -25
+            #SIZE 6
+            #ANGLE 0
+            #OFFSET 4 -99
+        #END
+        LABEL
+            COLOR "{TRFCD}"
+            TYPE TRUETYPE
+            FONT sc
+            SIZE 10
+            TEXT "Military practice"
+        END
+    END
+END

@@ -1,0 +1,28 @@
+#### CANALS lines ####
+LAYER
+    NAME  "Canal_lines_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Canal"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE LINE
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    CLASS
+        NAME "Canals (lines)"
+        STYLE
+          # DEPVS
+          # RGB # COLOR {DEPVS_rgb}
+          COLOR "{DEPVS}"
+          WIDTH 1.5
+           # RGB # COLOR {OUTLL_rgb}
+           OUTLINECOLOR "{OUTLL}"
+           OUTLINEWIDTH 0.8
+        END
+    END
+END

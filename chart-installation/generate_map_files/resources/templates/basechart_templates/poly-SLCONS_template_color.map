@@ -1,0 +1,42 @@
+### Shoreline constructions Areas ###
+
+LAYER
+    NAME  "ShorelineConstr_Area_{CL}"
+    GROUP "{GROUP}"
+    MAXSCALEDENOM {MAXSCALE}
+    METADATA
+        "ows_title"     "ShorelineConstr"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE POLYGON
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    PROCESSING 'LABEL_NO_CLIP=ON'
+    CLASS
+        NAME "Shoreline Constructions (polygons)"
+        STYLE
+            SYMBOL "hatchsymbol"
+            # LANDF
+            # RGB # COLOR {LANDF_rgb}
+            COLOR "{LANDF}"
+            SIZE 2
+        END
+        STYLE
+            SYMBOL "hatchsymbol"
+            ANGLE 90
+            SIZE 2
+            # LANDF
+            # RGB # COLOR {LANDF_rgb}
+            COLOR "{LANDF}"
+        END
+        # STYLE
+        #  OUTLINECOLOR 83 92 84
+        # END
+    END
+END
+
+

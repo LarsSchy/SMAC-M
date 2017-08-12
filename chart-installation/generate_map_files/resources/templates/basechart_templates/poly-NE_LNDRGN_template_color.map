@@ -1,0 +1,35 @@
+#### Land region names (polygons) ####
+
+### This layer is not used !!! ####
+
+LAYER
+    NAME "NE_LandRegionNames_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "NE_Landregionnames"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE POLYGON
+    STATUS ON
+    DATA "{PATH}"
+    PROCESSING 'LABEL_NO_CLIP=ON'
+    LABELITEM "name"
+    CLASS
+        NAME "NE_Landregionnames"
+        LABEL
+          # COLOR 50 50 50
+          # UINFF -grey - normal colour for user interface text
+          # RGB # COLOR {UINFF_rgb}
+          COLOR "{UINFF}"
+          TYPE TRUETYPE
+          FONT "sc"
+          SIZE 12
+          # OUTLINECOLOR 255 255 255
+          # OUTLINEWIDTH 3
+          BUFFER 4
+        END
+    END
+END

@@ -1,0 +1,28 @@
+### Lighthouse lines start_line_3857  ###
+
+LAYER
+    NAME "LightHouses_lines_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "Lighthouse_lines"
+        "ows_enable_request"   "*"
+    END
+    PROJECTION
+      'init=epsg:3857'
+    END
+    TYPE LINE
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    CLASS
+       STYLE
+            # BKAJ2
+            # RGB # COLOR "{BKAJ2_rgb}"
+            COLOR "{BKAJ2}"
+            PATTERN 5 5 5 5 END
+            WIDTH 1
+       END
+    END
+END # Layer
+
+

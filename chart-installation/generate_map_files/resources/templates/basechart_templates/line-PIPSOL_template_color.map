@@ -1,0 +1,37 @@
+### Pipeline (line)  ###
+
+LAYER
+    NAME  "Pipeline_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "Cable_submarine"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE LINE
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    CLASS
+       NAME "Pipeline"         #PIPSOL06
+       STYLE
+          # RGB # COLOR {CHGRD_rgb}
+          COLOR "{CHGRD}"
+          WIDTH 1.2
+          PATTERN 21 17 END
+          INITIALGAP 9
+       END
+       STYLE
+         SYMBOL "MS_CIRCLE"
+         COLOR "{CHGRD}"
+         INITIALGAP 34
+         GAP -38
+         SIZE 6
+         WIDTH 1.2
+       END
+    END
+END
+
+
