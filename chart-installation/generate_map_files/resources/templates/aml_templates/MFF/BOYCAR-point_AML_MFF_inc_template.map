@@ -1,0 +1,62 @@
+###  AML Boy Cardinal points ###
+#
+
+LAYER
+    NAME "BOYCAR"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Boy Cardinal-points"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA BOYCAR
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  #  Select only points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASS
+        EXPRESSION ([CATCAM] = 1)
+        STYLE
+            SYMBOL "BOYCAR01_MS"
+            COLOR "{CHYLW}"
+            OUTLINECOLOR "{OUTLW}"
+            OUTLINEWIDTH 0.2
+            SIZE 20
+        END
+    END
+    CLASS
+        EXPRESSION ([CATCAM] = 2)
+        STYLE
+            SYMBOL "BOYCAR02_MS"
+            COLOR "{CHYLW}"
+            OUTLINECOLOR "{OUTLW}"
+            OUTLINEWIDTH 0.2
+            SIZE 20
+        END
+    END
+    CLASS
+        EXPRESSION ([CATCAM] = 3)
+        STYLE
+           SYMBOL "BOYCAR03_MS"
+           COLOR "{CHYLW}"
+           OUTLINECOLOR "{OUTLW}"
+           OUTLINEWIDTH 0.2
+           SIZE 20
+        END
+    END
+    CLASS
+        EXPRESSION ([CATCAM] = 4)
+        STYLE
+           SYMBOL "BOYCAR04_MS"
+           COLOR "{CHYLW}"
+           OUTLINECOLOR "{OUTLW}"
+           OUTLINEWIDTH 0.2
+           SIZE 20
+        END
+    END # Class
+END # Layer

@@ -1,0 +1,101 @@
+###  AML MFF  Cable_submarine lines  ###
+#
+LAYER
+    NAME "LNDARE-point"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Landarea-polygons"
+        "ows_enable_request"   "*"
+        # "gml_include_items"  "FUNCTN,NOBJNM,OBJNAM,STATUS,INFORM,NINFOM"
+         "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA LNDARE
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  #  Select only points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASS
+        NAME "Landarea (points)"
+        STYLE
+            SYMBOL "MS_DOT"
+            COLOR "{LANDA}"  # LANDA
+            OUTLINECOLOR "{OUTLL}"  # OUTLL
+            OUTLINEWIDTH 1.5
+            SIZE 7
+        END
+        LABEL
+            EXPRESSION  ('[OBJNAM]' ~ '.')
+            TEXT ('[OBJNAM]')
+            COLOR "{BKAJ1}"  # BKAJ1
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 8
+            POSITION AUTO
+            PARTIALS FALSE
+            BUFFER 4
+            ALIGN CENTER
+        END
+    END
+END # Layer
+
+### Cable_submarine (lines) ###
+
+LAYER
+    NAME  "Cable_submarine_{CL}"
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"     "Cable_subm"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE LINE
+    STATUS ON
+    MAXSCALEDENOM {MAXSCALE}
+    DATA "{PATH}"
+    CLASS
+        NAME "Cable submarine"
+        STYLE
+           SYMBOL "EMCBLSU1_MS"
+           COLOR "{TRFCF}"
+           INITIALGAP 3
+           GAP -72
+           SIZE 5
+           WIDTH 1.2
+           ANGLE AUTO
+        END
+        STYLE
+           SYMBOL "EMCBLSU1_MS"
+           COLOR "{TRFCF}"
+           INITIALGAP 23
+           GAP -72
+           SIZE 5
+           WIDTH 1.2
+           ANGLE AUTO
+        END
+        STYLE
+           SYMBOL "EMCBLAR1_MS"
+           COLOR "{TRFCF}"
+           INITIALGAP 40
+           GAP -72
+           SIZE 14
+           WIDTH 1.2
+           ANGLE AUTO
+        END
+        STYLE
+           SYMBOL "EMCBLSU1_MS"
+           COLOR "{TRFCF}"
+           INITIALGAP 55
+           GAP -72
+           SIZE 5
+           WIDTH 1.2
+           ANGLE AUTO
+        END
+    END
+END

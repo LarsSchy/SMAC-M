@@ -1,0 +1,28 @@
+###  AML COALNE Coastline- lines  ###
+#
+LAYER
+    NAME "COALNE"
+    TYPE LINE
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Coastline"
+        "ows_enable_request"   "*"
+        "gml_include_items" "catbot,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA COALNE
+    PROCESSING 'NATIVE_FILTER=PRIM=2'  #  Select only linestrings
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASS
+        NAME "Coastline"
+        STYLE
+          COLOR "{CSTLN}"  # CSTLN
+          WIDTH 1.0
+        END
+    END # Class
+END # Layer

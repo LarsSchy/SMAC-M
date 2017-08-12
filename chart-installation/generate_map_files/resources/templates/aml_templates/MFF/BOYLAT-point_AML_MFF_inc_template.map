@@ -1,0 +1,92 @@
+###  AML Boy Lateral points ###
+#
+
+LAYER
+    NAME "BOYLAT"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Boy Lateral-points"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA BOYLAT
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  #  Select only points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    #
+    #  CATLAM 1 port-hand lateral mark
+    #  CATLAM 2 starboard-hand lateral mark
+    CLASS
+        EXPRESSION (([CATLAM] = 1) AND [COLOUR] = 3) # red
+        NAME "Boy - port-hand lateral mark"
+        STYLE
+            SYMBOL "MS_BOYPIL01"
+            SIZE 10
+            COLOR "{CHBLK"
+        END    
+        STYLE  # Reference dot
+            SYMBOL "MS_DOT"
+            COLOR "{CHBLK}"
+            SIZE 3
+        END
+        LABEL
+            TEXT "R"
+            COLOR "{CHBLK}"  #CHBLK
+            POSITION LC
+            FORCE TRUE
+            TYPE TRUETYPE
+            FONT "sans-mono-bold"
+            SIZE 7
+            OFFSET 0 1
+        END
+    END
+    CLASS
+        EXPRESSION (([CATLAM] = 2)  AND [COLOUR] = 4) # green
+        NAME "Boy - starboard-hand lateral mark"
+        STYLE
+            SYMBOL "BOYPIL01"
+            COLOR "{CHBLK}"  #CHBLK
+            SIZE 26
+        END
+        LABEL
+            TEXT "G"
+            COLOR "{CHBLK}"  #CHBLK
+            POSITION LC
+            FORCE TRUE
+            TYPE TRUETYPE
+            FONT "sans-mono-bold"
+            SIZE 7
+            OFFSET 0 1
+        END
+    END
+    #
+    #  Versions with color not used,
+    #  could be used if the symbol would be filled.
+    #
+    #CLASS
+        #EXPRESSION ([CATLAM] = 1)
+        #NAME "Boy - port-hand lateral mark"
+        #STYLE
+            #SYMBOL "BOYPIL01"
+            #COLOR "{CHRED}"    # red
+            #SIZE 24
+            #WIDTH 1.6
+        #END
+    #END
+    #CLASS
+        #EXPRESSION ([CATLAM] = 2)
+        #NAME "Boy - port-hand lateral mark"
+        #STYLE
+            #SYMBOL "BOYPIL01"
+            #COLOR "{CHGRN}"    # green
+            #SIZE 24
+            #WIDTH 1.6
+        #END
+    #END
+END # Layer
