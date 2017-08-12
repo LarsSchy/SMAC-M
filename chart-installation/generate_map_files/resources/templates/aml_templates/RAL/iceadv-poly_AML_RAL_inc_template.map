@@ -1,0 +1,40 @@
+### AML RAL - iceadv - Ice Advisory Area ###
+
+LAYER
+    NAME "iceadv_poly"
+    TYPE POLYGON
+    GROUP "RAL"
+    METADATA
+        "ows_title" "Ice Advisory Area (polygon)"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA "iceadv"
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  # Select polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    # AC(NODTA);AP(NODATA03);LS(SOLD,2,CHGRD)
+    
+    CLASS
+        NAME "Ice Advisory Area" 
+        STYLE
+            COLOR "{NODTA}"
+        END
+        STYLE
+            SYMBOL "MS_PAT_NODATA03"
+            COLOR "{CHGRD}"
+            SIZE 25
+        END
+        STYLE
+            OUTLINECOLOR "{CHGRD}"
+            WIDTH 1.9
+        END
+
+    END # Class
+END # Layer

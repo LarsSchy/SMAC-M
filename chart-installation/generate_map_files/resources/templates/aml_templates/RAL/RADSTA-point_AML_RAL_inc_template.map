@@ -1,0 +1,69 @@
+### AML RAL - RADSTA - Radar station ###
+
+LAYER
+    NAME "RADSTA-pt"
+    TYPE POINT
+    GROUP "RAL"
+    METADATA
+        "ows_title" "Radar station"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "CATRAS,STATUS,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA RADSTA
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  # Select points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    CLASSITEM "CATRAS"
+    
+    #CATRAS2|	CATRAS = coast radar station_x000D_	SY(RDOSTA02);TE('ch %s','COMCHA',3,1,2,'15110',0,0,CHBLK,11)
+
+    CLASS
+        EXPRESSION "2"
+        NAME "Radar station - coast radar station"
+         ## RDOSTA02 is implemeted with on circle a little larger than POSGEN
+         ## COLOR: CHMGD
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{CHMGD}"
+            SIZE 15
+            WIDTH 1.1
+        END
+        ### Atrribute COMCHA not found in RADSTA !!!
+        #LABEL
+            #TEXT ('ch' '[COMCHA]')
+            ##TEXT ('[COMCHA]')
+            #COLOR "{CHBLK}"
+            #TYPE TRUETYPE
+            #FONT SC
+            #SIZE 6
+            #POSITION LR
+            #FORCE TRUE
+        #END 
+    END
+    
+    # Default symbology		#SY(POSGEN01)
+    
+    CLASS
+        # This class contain everything that is not handled above expression
+        NAME "Radar station - default"
+        ## POSGEN01 is implemeted with two circles
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{LANDF}"
+            SIZE 12
+            WIDTH 1.5
+        END
+        STYLE                              
+            SYMBOL "MS_CIRCLE_FILLED"
+            COLOR "{LANDF}"
+            SIZE 3.5
+            WIDTH 1.0
+        END
+    END # Class
+END # Layer

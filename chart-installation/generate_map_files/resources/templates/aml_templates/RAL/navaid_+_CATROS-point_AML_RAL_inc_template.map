@@ -1,0 +1,171 @@
+### AML RAL - navaid + CATROS - Navigation system (NAVAID) ###
+
+LAYER
+    NAME "navaid_+_CATROS_pnt"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Navigation system (NAVAID)"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA 'navaid + CATROS'
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  # Select points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+
+    CLASSITEM "CATROS"
+    
+    #CATROS504|CATROS508|	"CATROS = Distance Measuring Equipment (DME)_x000D_
+    #CATROS = VHF Omni Directional Radio Range (VOR)_x000D_"	SY(navaid02);SY(navaid03)
+    
+    CLASS
+        EXPRESSION "504,508"
+        NAME "Navigation system - DME - VOR"
+        STYLE
+            SYMBOL "MS_navaid02"
+            SIZE 14
+            COLOR "{RESBL}"
+            WIDTH 1.0
+        END
+        STYLE
+            SYMBOL "MS_navaid03"
+            SIZE 14
+            COLOR  "{RESBL}"
+            WIDTH 1.0
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE_FILLED"
+            SIZE 3
+            COLOR "{RESBL}"
+            WIDTH 1.0
+        END
+    END # Class
+    
+    #CATROS504|	CATROS = Distance Measuring Equipment (DME)_x000D_	SY(navaid02)
+    
+    CLASS
+        EXPRESSION "504"
+        NAME "Navigation system - Distance Measuring Equipment (DME)"
+        STYLE
+            SYMBOL "MS_navaid02"
+            SIZE 14
+            COLOR "{RESBL}"
+            WIDTH 1.0
+        END  
+        STYLE
+            SYMBOL "MS_CIRCLE_FILLED"
+            SIZE 3
+            COLOR "{RESBL}"
+            WIDTH 1.0
+        END
+    END # Class
+    
+    
+    #CATROS505|	CATROS = Non-directional Radio Beacon (NDB)_x000D_	SY(navaid01)
+
+    CLASS
+        EXPRESSION "504"
+        NAME "Navigation system - Non-directional Radio Beacon (NDB)"
+        STYLE
+            SYMBOL "MS_navaid01"
+            SIZE 14
+            COLOR "{RESBL}"
+            WIDTH 1.0
+        END  
+        STYLE
+            SYMBOL "MS_CIRCLE_FILLED"
+            SIZE 3
+            COLOR "{RESBL}"
+            WIDTH 1.0
+        END
+    END # Class
+
+    #CATROS508|	CATROS = VHF Omni Directional Radio Range (VOR)_x000D_	SY(navaid03)
+
+    CLASS
+        EXPRESSION "508"
+        NAME "Navigation system - VHF Omni Directional Radio Range (VOR)"
+        STYLE
+            SYMBOL "MS_navaid03"
+            SIZE 14
+            COLOR "{RESBL}"
+            WIDTH 1.0
+        END  
+        STYLE
+            SYMBOL "MS_CIRCLE_FILLED"
+            SIZE 3
+            COLOR "{RESBL}"
+            WIDTH 1.0
+        END
+    END # Class
+
+    #CATROS509|	CATROS = VHF Omni Directional (VORTAC)_x000D_	SY(navaid04)
+
+    CLASS
+        EXPRESSION "508"
+        NAME "Navigation system - VHF Omni Directional (VORTAC)"
+        STYLE
+            SYMBOL "MS_navaid04_part1"
+            SIZE 14
+            COLOR "{RESBL}"
+            WIDTH 1.0
+        END
+        STYLE
+            SYMBOL "MS_navaid04_part2"
+            SIZE 14
+            COLOR "{RESBL}"
+            WIDTH 1.0
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE_FILLED"
+            SIZE 3
+            COLOR "{RESBL}"
+            WIDTH 1.0
+        END
+    END # Class
+
+    #CATROS510|	CATROS = Tactical Air Navigation Equipment (TACAN)_x000D_	SY(navaid05)
+
+    CLASS
+        EXPRESSION "508"
+        NAME "Navigation system - Tactical Air Navigation Equipment (TACAN)"
+        STYLE
+            SYMBOL "MS_navaid05"
+            SIZE 14
+            COLOR "{RESBL}"
+            WIDTH 1.0
+        END  
+        STYLE
+            SYMBOL "MS_CIRCLE_FILLED"
+            SIZE 3
+            COLOR "{RESBL}"
+            WIDTH 1.0
+        END
+    END # Class
+
+
+
+    # Default symbol SY(navaid01)
+
+    CLASS
+        NAME "Navigation system - default symbol"
+        STYLE
+            SYMBOL "MS_navaid01"
+            SIZE 14
+            COLOR "{RESBL}"
+            WIDTH 1.0
+        END  
+        STYLE
+            SYMBOL "MS_CIRCLE_FILLED"
+            SIZE 3
+            COLOR "{RESBL}"
+            WIDTH 1.0
+        END
+    END # Class
+END # Layer

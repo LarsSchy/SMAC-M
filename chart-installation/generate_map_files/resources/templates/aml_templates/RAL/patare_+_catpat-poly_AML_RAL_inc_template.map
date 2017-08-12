@@ -1,0 +1,89 @@
+### AML RAL - patare_+_catpat - Patrol area ###
+
+LAYER
+    NAME "patare_+_catpat_poly"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Patrol area"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA 'patare + catpat'
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  # Select polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    #LS(DASH,2,CHBLK)
+    #catpat501|	catpat = 4W disposition grid_x000D_	LS(SOLD,1,CHBLK);TX(identy,1,1,2,'16106',0,0,CHBLK,31)
+    #catpat502|	catpat = Operational/Naval Patrol_x000D_	LS(DASH,2,CHBLK);TX(OBJNAM,1,1,2,'16110',0,0,CHBLK,31)
+
+    CLASSITEM catpat
+
+    CLASS
+        EXPRESSION "501"
+        NAME "Patrol area - 4W disposition grid"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        STYLE
+            OUTLINECOLOR "{CHBLK}"
+            WIDTH 0.9
+        END
+        LABEL
+            TEXT ('[identy]')
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT sc
+            SIZE 7
+            TEXT "{LAYER_DESC}"
+#           POSITION AUTO
+#           MINDISTANCE 25
+#           BUFFER 25
+#           PARTIALS FALSE
+        END # Label
+    END # Class
+    
+    CLASS
+        EXPRESSION "502"
+        NAME "Patrol area - Operational/Naval Patrol"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        STYLE
+            OUTLINECOLOR "{CHBLK}"
+            PATTERN 2.5 4 END  
+            WIDTH 1.9
+        END
+        LABEL
+            TEXT ('[OBJNAM]')
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT sc
+            SIZE 7
+            TEXT "{LAYER_DESC}"
+#           POSITION AUTO
+#           MINDISTANCE 25
+#           BUFFER 25
+#           PARTIALS FALSE
+        END # Label
+    END # Class    
+    
+    
+    CLASS
+        NAME "Patrol area"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        STYLE
+            OUTLINECOLOR "{CHBLK}"
+            PATTERN 2.5 4 END  
+            WIDTH 1.9
+        END
+    END # Class
+END # Layer

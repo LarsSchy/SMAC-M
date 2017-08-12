@@ -1,0 +1,32 @@
+### AML RAL - rdoare - Radio broadcast area ###
+
+LAYER
+    NAME "rdoare_poly"
+    TYPE LINE
+    GROUP "RAL"
+    METADATA
+        "ows_title" "Radio broadcast area (polygon)"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA "rdoare"
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  # Select polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    # LS(DASH,1,CHGRD)
+    
+    CLASS
+        NAME "Radio broadcast area - (polygon)" 
+        STYLE
+            COLOR "{CHGRD}"
+            PATTERN 3 3 END
+            WIDTH 0.9
+        END
+    END # Class
+END # Layer

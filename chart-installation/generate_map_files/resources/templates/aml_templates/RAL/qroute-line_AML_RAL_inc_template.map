@@ -1,0 +1,112 @@
+### AML RAL - qroute - Q-Route Leg ###
+
+LAYER
+    NAME "qroute_line"
+    TYPE LINE
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Q-Route Leg (line)"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA "qroute"
+    PROCESSING 'NATIVE_FILTER=PRIM=2'  # Select line strings
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+
+    #LS(SOLD,5,CHBLK);LS(SOLD,3,CHRED);TX(OBJNAM,1,2,2,'16106',0,0,CHRED,11)
+    #rclass501|	rclass = Red_x000D_	LS(SOLD,5,CHBLK);LS(SOLD,3,CHRED);TX(OBJNAM,1,2,2,'16106',0,0,CHRED,11)
+    #rclass502|	rclass = Yellow_x000D_	LS(SOLD,5,CHBLK);LS(SOLD,3,CHYLW);TX(OBJNAM,1,2,2,'16106',0,0,CHYLW,11)
+    #rclass503|	rclass = Green_x000D_	LS(SOLD,5,CHBLK);LS(SOLD,3,CHGRN);TX(OBJNAM,1,2,2,'16106',0,0,CHGRN,11)
+
+    CLASSITEM rclass
+    LABELITEM OBJNAM
+
+    CLASS
+       EXPRESSION "501"
+        NAME "Q-Route Leg - Red"
+        STYLE
+            COLOR "{CHBLK}"
+            WIDTH 4.5
+        END
+        STYLE
+            COLOR "{CHRED}"
+            WIDTH 2.8
+        END        
+        LABEL
+            COLOR "{CHRED}"
+            MINFEATURESIZE 10
+            FONT "sc"
+            TYPE truetype
+            ANGLE FOLLOW
+            SIZE 7
+            OFFSET 9 99
+            REPEATDISTANCE 100
+        END
+    END # Class
+    
+    CLASS
+        EXPRESSION "502"
+        NAME "Q-Route Leg - Yellow"
+        STYLE
+            COLOR "{CHBLK}"
+            WIDTH 4.5
+        END
+        STYLE
+            COLOR "{CHYLW}"
+            WIDTH 2.8
+        END        
+        LABEL
+            COLOR "{CHYLW}"
+            MINFEATURESIZE 10
+            FONT "sc"
+            TYPE truetype
+            ANGLE FOLLOW
+            SIZE 7
+            OFFSET 9 99
+            REPEATDISTANCE 100
+        END
+    END # Class
+    
+    CLASS
+        EXPRESSION "503"
+        NAME "Q-Route Leg - Green"
+        STYLE
+            COLOR "{CHBLK}"
+            WIDTH 4.5
+        END
+        STYLE
+            COLOR "{CHGRN}"
+            WIDTH 2.8
+        END        
+        LABEL
+            COLOR "{CHGRN}"
+            MINFEATURESIZE 10
+            FONT "sc"
+            TYPE truetype
+            ANGLE FOLLOW
+            SIZE 7
+            OFFSET 9 99
+            REPEATDISTANCE 100
+        END
+    END # Class
+    
+    ## Deafult class
+
+    CLASS
+        NAME "Q-Route Leg"
+        STYLE
+            COLOR "{CHBLK}"
+            WIDTH 4.5
+        END
+        STYLE
+            COLOR "{CHRED}"
+            WIDTH 2.8
+        END        
+    END # Class
+END # Layer

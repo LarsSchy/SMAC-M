@@ -1,0 +1,105 @@
+### AML RAL - RESARE - Restricted Area ###
+
+LAYER
+    NAME "RESARE_poly"
+    TYPE LINE
+    GROUP "RAL"
+    METADATA
+        "ows_title" "Restricted Area (polygon)"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA "RESARE"
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  # Select polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    CLASSITEM "CATREA"
+    
+    #CATREA27|	CATREA = Environmentally Sensitive Sea Area (ESSA)_x000D_	SY(ESSARE01);LC(ESSARE01)
+    #CATREA28|	CATREA = Particularly Sensitive Sea Area (PSSA)_x000D_	SY(PSSARE01);LC(ESSARE01)
+    #CATREA501|	CATREA = Maritime notification area_x000D_	LS(SOLD,1,CHRED)
+    #CATREA502|	CATREA = Mine danger area_x000D_	LC(CTYARE51)
+
+    CLASS
+        EXPRESSION "27"
+        NAME "Environmentally Sensitive Sea Area (ESSA)" 
+        STYLE
+              SYMBOL "ISTZNE_perim_offset"
+              COLOR "{CHMGF}"
+              WIDTH 1.5
+              INITIALGAP 5
+              SIZE 5
+              GAP -18
+        END
+        STYLE                       
+            GEOMTRANSFORM "centroid"       
+            SYMBOL "MS_ESSARE01"
+            COLOR "{CHMGF}"
+            SIZE 10
+            WIDTH 1.0
+        END # STYLE
+    END # CLASS
+    
+    CLASS
+        EXPRESSION "28"
+        NAME "Particularly Sensitive Sea Area (PSSA)" 
+        STYLE
+              SYMBOL "ISTZNE_perim_offset"
+              COLOR "{CHMGF}"
+              WIDTH 1.5
+              INITIALGAP 5
+              SIZE 5
+              GAP -18
+        END
+        STYLE                       
+            GEOMTRANSFORM "centroid"       
+            SYMBOL "MS_PSSARE01"
+            COLOR "{CHMGF}"
+            SIZE 10
+            WIDTH 1.0
+        END # STYLE
+    END # CLASS
+    
+    CLASS
+        EXPRESSION "501"
+        NAME "Maritime notification area" 
+        STYLE
+              COLOR "{CHRED}"
+              WIDTH 1.2
+        END # STYLE
+    END # CLASS
+    
+    CLASS
+        EXPRESSION "502"
+        NAME "Mine danger area" 
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        STYLE
+            SYMBOL "MS_LC_CTYARE51"
+            OUTLINECOLOR "{CHMGD}"
+            WIDTH 1.0
+            INITIALGAP 4
+            SIZE 4
+            GAP -18
+        END # Style
+    END # CLASS
+    
+    CLASS
+        NAME "Restricted Area - (polygon) - default" 
+        STYLE
+              SYMBOL "ISTZNE_perim_offset"
+              COLOR "{CHMGF}"
+              WIDTH 1.5
+              INITIALGAP 5
+              SIZE 5
+              GAP -18
+        END # STYLE
+    END # CLASS
+END # LAYER

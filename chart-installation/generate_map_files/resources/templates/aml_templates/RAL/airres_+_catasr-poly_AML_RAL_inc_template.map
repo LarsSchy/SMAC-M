@@ -1,0 +1,39 @@
+### AML RAL - airres_+_catasr - Airspace Restriction ###
+
+LAYER
+    NAME "airres_+_catasr_poly"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Airspace Restriction"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "NATION,STATUS,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA "airres + catasr"
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  # Select polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASS
+        NAME "Airspace Restriction"
+        STYLE
+            SYMBOL "MS_magbru"
+            OUTLINECOLOR "{CHRED}"
+            SIZE 6
+            WIDTH 0.5
+            ANGLE 0
+            INITIALGAP 3
+            GAP -4
+        END
+        #STYLE
+            ##OUTLINECOLOR "{CHRED}"
+            #OUTLINECOLOR 0 0 0
+            ##COLOR 241 84 105
+            #WIDTH 0.8
+        #END
+    END # Class
+END # Layer

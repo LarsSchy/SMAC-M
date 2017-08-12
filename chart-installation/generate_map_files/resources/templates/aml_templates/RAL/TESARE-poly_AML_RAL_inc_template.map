@@ -1,0 +1,48 @@
+### AML RAL - TESARE- Territorial Sea Area (polygon) ###
+
+LAYER
+    NAME "TESARE_poly"
+    TYPE LINE
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Territorial Sea Area (polygon)"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA "TESARE"
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  # Select polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASS
+        NAME "Territorial Sea Area (polygon)"   # symbol: "TESARE01"
+        STYLE
+            SYMBOL "MS_H-LINE"
+            COLOR "{ISDNG}"  
+            SIZE 12
+            WIDTH 1.0
+            INITIALGAP 8
+            GAP -52
+        END
+        STYLE
+            SYMBOL "MS_PLUS_LONG"
+            COLOR "{ISDNG}"   
+            INITIALGAP 26  
+            GAP -52
+            SIZE 6
+            WIDTH 1.2
+        END
+        STYLE
+            SYMBOL "MS_PLUS_LONG"
+            COLOR "{ISDNG}"    
+            INITIALGAP 44     
+            GAP -52
+            SIZE 6
+            WIDTH 1.2
+        END
+    END # Class
+END # Layer

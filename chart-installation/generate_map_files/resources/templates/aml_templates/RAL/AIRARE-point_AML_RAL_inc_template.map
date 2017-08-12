@@ -1,0 +1,66 @@
+### AML RAL - AIRARE - {LAYER_DESC} ###
+
+LAYER
+    NAME "AIRARE"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "{LAYER_DESC}"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "CATAIR,NATION,STATUS,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA AIRARE
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  # Select points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+
+    # CATAIR
+    # 1	military aeroplane airport
+    # 2	civil aeroplane airport
+    # 3	military heliport
+    # 4	civil heliport
+    # 5	glider airfield
+    # 6	small planes airfield
+    # 8	emergency airfield
+    # 501	Search and Rescue
+    #
+    # 701 and 702 found in test data ??????
+
+    CLASSITEM "CATAIR"
+    CLASS
+        EXPRESSION /3|4|3,4/
+        NAME "Heliport"
+        STYLE
+            SYMBOL "MS_airare13"
+            COLOR "{RESBL}"
+            SIZE 12
+            WIDTH 1.5
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{RESBL}"
+            SIZE 20
+        END
+    END
+    CLASS
+        # This class contain everything that is not handled above expression
+        NAME "Airport"
+        STYLE
+            SYMBOL "MS_airare12"
+            COLOR "{RESBL}"
+            SIZE 12
+            WIDTH 1.1
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            COLOR "{RESBL}"
+            # COLOR 58 120 240
+            SIZE 20
+        END
+    END # Class
+END # Layer

@@ -1,0 +1,214 @@
+### AML RAL - RDOCAL - Reporting/Radio calling-in point ###
+
+LAYER
+    NAME "RDOCAL-pt"
+    TYPE POINT
+    GROUP "RAL"
+    METADATA
+        "ows_title" "Reporting/Radio calling-in point"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "TRAFIC,STATUS,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA 'SELECT catrep,ORIENT,COMCHA,TRAFIC,OBJNAM,NOBJNM,INFORM,NINFOM FROM RDOCAL WHERE prim=1'
+#    PROCESSING 'NATIVE_FILTER=PRIM=1'  # Select points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    CLASSITEM "TRAFIC"
+    # CLASSITEM "catrep"
+
+    ### NOTE: check that Orientation works - untested
+    
+    #   NOTE: ORIENT is CWW should be CW in Mapserver,
+    #   changing orientation with - sign in SQL statement with OGR data retrival
+    #   Transformed ORIENT angle is found in value "FIELD_2" from OGR
+    
+    ###  no test data that contains TRAFIC
+    
+    # caprep values:
+    
+    #501 = Reporting/Radio calling in point:
+    #502 = Coastguard reporting point:
+    #503 = Helicopter reporting point:
+    #701 = Unknown:
+    #703 = Not Applicable:
+    #704 = Other:"
+
+    
+    #TRAFIC1|ORIENT|	"TRAFIC = inbound_x000D_
+    #ORIENT = all Values_x000D_"	SY(RDOCAL02,ORIENT);TE('Nr %s','OBJNAM',3,1,2,'15110',1,-1,CHBLK,21);TE('ch %s','COMCHA',3,1,2,'15110',1,1,CHBLK,11)
+    
+    CLASS
+        EXPRESSION "1"
+        NAME "Reporting/Radio calling-in point - inbound"
+         STYLE
+            SYMBOL "MS_RDOCAL02"
+            SIZE 8
+            COLOR "{TRFCD}"
+            WIDTH 1.0
+            OFFSET 0 3
+            ANGLE [ORIENT]
+            
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 9
+            COLOR "{TRFCD}"
+            WIDTH 1.0
+            OFFSET 0 0
+            ANGLE [ORIENT]
+        END
+        LABEL
+            TEXT ("Nr: " + '[OBJNAM]' + '|' + "ch: " + '[COMCHA]')
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 6
+            POSITION LR
+            FORCE TRUE
+            WRAP "|"
+        END
+    END # Class
+
+    
+    #TRAFIC2|ORIENT|	"TRAFIC = outbound_x000D_
+    #ORIENT = all Values_x000D_"	SY(RDOCAL02,ORIENT);TE('Nr %s','OBJNAM',3,1,2,'15110',1,-1,CHBLK,21);TE('ch %s','COMCHA',3,1,2,'15110',1,1,CHBLK,11)
+
+    CLASS
+        EXPRESSION "2"
+        NAME "Reporting/Radio calling-in point - outbound"
+         STYLE
+            SYMBOL "MS_RDOCAL02"
+            SIZE 8
+            COLOR "{TRFCD}"
+            WIDTH 1.0
+            OFFSET 0 3
+            ANGLE [ORIENT]
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 9
+            COLOR "{TRFCD}"
+            WIDTH 1.0
+            OFFSET 0 0
+            ANGLE [ORIENT]
+        END
+        LABEL
+            TEXT ("Nr: " + '[OBJNAM]' + '|' + "ch: " + '[COMCHA]')
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 6
+            POSITION LR
+            FORCE TRUE
+            WRAP "|"
+        END
+    END # Class
+    
+    
+    #TRAFIC3|ORIENT|	"TRAFIC = one-way_x000D_
+    #ORIENT = all Values_x000D_"	SY(RDOCAL02,ORIENT);TE('Nr %s','OBJNAM',3,1,2,'15110',1,-1,CHBLK,21);TE('ch %s','COMCHA',3,1,2,'15110',1,1,CHBLK,11)
+    
+    CLASS
+        EXPRESSION "3"
+        NAME "Reporting/Radio calling-in point - one-way"
+         STYLE
+            SYMBOL "MS_RDOCAL02"
+            SIZE 8
+            COLOR "{TRFCD}"
+            WIDTH 1.0
+            OFFSET 0 3
+            ANGLE [ORIENT]
+            
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 9
+            COLOR "{TRFCD}"
+            WIDTH 1.0
+            OFFSET 0 0
+            ANGLE [ORIENT]
+        END
+        LABEL
+            TEXT ("Nr: " + '[OBJNAM]' + '|' + "ch: " + '[COMCHA]')
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 6
+            POSITION LR
+            FORCE TRUE
+            WRAP "|"
+        END
+    END # Class
+    
+    
+    #TRAFIC4|ORIENT|	"TRAFIC = two-way_x000D_
+    #ORIENT = all Values_x000D_"	SY(RDOCAL03,ORIENT);TE('Nr %s','OBJNAM',3,1,2,'15110',1,-1,CHBLK,21);TE('ch %s','COMCHA',3,1,2,'15110',1,1,CHBLK,11)
+
+    CLASS
+        EXPRESSION "3"
+        NAME "Reporting/Radio calling-in point - two-way"
+        STYLE
+            SYMBOL "MS_RDOCAL03"
+            SIZE 20
+            COLOR "{TRFCD}"
+            WIDTH 1.0
+            ANGLE [ORIENT] 
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 9
+            COLOR "{TRFCD}"
+            WIDTH 1.0
+            OFFSET 0 0
+            ANGLE [ORIENT]             
+        END
+        LABEL
+            TEXT ("Nr: " + '[OBJNAM]' + '|' + "ch: " + '[COMCHA]')
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 6
+            POSITION LR
+            FORCE TRUE
+            WRAP "|"
+        END
+    END # Class
+    
+    # Default symbology	#SY(RCLDEF01);TE('Nr %s','OBJNAM',3,2,2,'15110',1,-1,CHBLK,21)
+    
+    CLASS
+        NAME "Radio calling-in point whose direction is not known"
+        STYLE
+            SYMBOL "MS_RCLDEF01"
+            SIZE 20
+            COLOR "{CHMGD}"
+            WIDTH 1.0
+        END
+        STYLE
+            SYMBOL "MS_CIRCLE"
+            SIZE 9
+            COLOR "{CHMGD}"
+            WIDTH 1.0
+            OFFSET 0 0
+        END
+        
+        # TE('Nr %s','OBJNAM',3,1,2,'15110',1,-1,CHBLK,21);TE('ch %s','COMCHA',3,1,2,'15110',1,1,CHBLK,11)
+        
+        LABEL
+            TEXT ("Nr: " + '[OBJNAM]' + '|' + "ch: " + '[COMCHA]')
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 6
+            POSITION LR
+            FORCE TRUE
+            WRAP "|"
+        END
+    END # Class
+END # Layer

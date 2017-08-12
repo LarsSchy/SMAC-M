@@ -1,0 +1,43 @@
+### AML RAL - FSHZNE - Fishing Zone (polygons) ###
+
+LAYER
+    NAME "FSHZNE_poly"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Fishing Zone (polygon)"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "NATION,STATUS,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA FSHZNE
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  # Select polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    #  LS(DASH,2,CHGRF)
+    
+    CLASS
+        NAME "Fishing Zone (polygon)"
+        STYLE
+            OUTLINECOLOR "{CHGRF}"
+            PATTERN 7 7 END
+            WIDTH 2.5
+        END
+        #LABEL
+            #COLOR "{CHGRF}" # ,CHGRF
+            #TYPE TRUETYPE
+            #FONT sc
+            #SIZE 10
+            #TEXT "{LAYER_DESC}"
+##           POSITION AUTO
+##           MINDISTANCE 25
+##           BUFFER 25
+##           PARTIALS FALSE
+        #END # Label
+    END # Class
+END # Layer

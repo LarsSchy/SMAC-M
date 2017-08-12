@@ -1,0 +1,46 @@
+### AML RAL - ctlasp_+_catcas - Controlled airspace ###
+
+LAYER
+    NAME "ctlasp_+_catcas_poly"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Controlled airspace"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA "ctlasp + catcas"
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  # Select polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASS
+        NAME "Controlled airspace"
+        STYLE
+            OUTLINECOLOR "{RESBL}"  
+            WIDTH 1.0
+        END
+        STYLE
+            PATTERN 1.5 2 END
+            OUTLINECOLOR "{RESBL}"  
+            WIDTH 1.0
+            OFFSET 2.5 -99
+        END
+        STYLE
+            PATTERN 1.5 2 END
+            OUTLINECOLOR "{RESBL}"  
+            WIDTH 1.0
+            OFFSET 5 -99
+        END
+        STYLE
+            PATTERN 1.5 2 END
+            OUTLINECOLOR "{RESBL}"  
+            WIDTH 1.0
+            OFFSET 7.5 -99
+        END
+    END # Class
+END # Layer

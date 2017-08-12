@@ -1,0 +1,87 @@
+### AML RAL - FERYRT - Ferry route ###
+
+LAYER
+    NAME "FERYRT_line"
+    TYPE LINE
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Ferry route (line)"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA "FERYRT"
+    PROCESSING 'NATIVE_FILTER=PRIM=2'  # Select line strings
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    CLASSITEM CATFRY
+            
+    #CATFRY1|"CATFRY = 'free moving' ferry_x000D_
+    #"	LC(FERYRT01)
+
+    CLASS
+        EXPRESSION "1"
+        NAME "Ferry route - free moving ferry"
+        STYLE
+            COLOR 222 75 201 # "{CHMGD}" 
+            WIDTH 1.0
+            PATTERN 14 20 14 4 END
+            INITIALGAP 4
+        END
+        STYLE
+            SYMBOL "MS_EMFEYRTx"
+            COLOR 222 75 201 #  "{CHMGD}" 
+            INITIALGAP 28.4
+            GAP -52.4
+            SIZE 4
+            WIDTH 1.0
+        END
+    END # Class
+
+    #CATFRY2|	"CATFRY = cable ferry_x000D_
+    #"	LC(FERYRT02)
+
+    CLASS
+        EXPRESSION "2"
+        NAME "Ferry route - cable ferry"
+        STYLE
+            COLOR "{CHBLK}" 
+            WIDTH 1.0
+            PATTERN 14 20 14 4 END
+            INITIALGAP 4
+        END
+        STYLE
+            SYMBOL "MS_EMFEYRTx"
+            COLOR "{CHBLK}" 
+            INITIALGAP 28.4
+            GAP -52.4
+            SIZE 4
+            WIDTH 1.0
+        END
+    END # Class
+
+    #LC(FERYRT02)
+
+    CLASS
+        NAME "Ferry route - default"
+        STYLE
+            COLOR "{CHBLK}" 
+            WIDTH 1.0
+            PATTERN 14 20 14 4 END
+            INITIALGAP 4
+        END
+        STYLE
+            SYMBOL "MS_EMFEYRTx"
+            COLOR "{CHBLK}" 
+            INITIALGAP 28.4
+            GAP -52.4
+            SIZE 4
+            WIDTH 1.0
+        END
+    END # Class
+END # Layer

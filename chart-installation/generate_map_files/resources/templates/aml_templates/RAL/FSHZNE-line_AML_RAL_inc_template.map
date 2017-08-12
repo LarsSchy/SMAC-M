@@ -1,0 +1,29 @@
+### AML RAL - FSHZNE - Fishing Zone ###
+
+LAYER
+    NAME "FSHZNE_line"
+    TYPE LINE
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Fishing Zone (lines)"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "NATION,STATUS,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA FSHZNE
+    PROCESSING 'NATIVE_FILTER=PRIM=2'  # Select lines
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASS
+        NAME "Fishing Zone (lines)"
+        STYLE
+            COLOR "{CHGRF}"
+            PATTERN 7 7 END
+            WIDTH 2.5
+        END
+    END # Class
+END # Layer

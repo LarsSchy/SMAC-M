@@ -1,0 +1,52 @@
+### AML RAL - mexasp_+_catmea - Military exercise airspace ###
+
+LAYER
+    NAME "mexasp_+_catmea_poly"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Military exercise airspace"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA 'mexasp + catmea'
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  # Select polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    # LC(ctlasp01)
+    
+    CLASS
+        NAME "Military exercise airspace"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        STYLE
+            OUTLINECOLOR "{RESBL}"  
+            WIDTH 1.0
+        END
+        STYLE
+            PATTERN 1.5 2 END
+            OUTLINECOLOR "{RESBL}"  
+            WIDTH 1.0
+            OFFSET 2.5 -99
+        END
+        STYLE
+            PATTERN 1.5 2 END
+            OUTLINECOLOR "{RESBL}"  
+            WIDTH 1.0
+            OFFSET 5 -99
+        END
+        STYLE
+            PATTERN 1.5 2 END
+            OUTLINECOLOR "{RESBL}"  
+            WIDTH 1.0
+            OFFSET 7.5 -99
+        END
+    END # Class
+END # Layer

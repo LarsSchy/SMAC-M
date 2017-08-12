@@ -1,0 +1,32 @@
+### AML RAL - marman_+_catmma - Marine management area ###
+
+LAYER
+    NAME "marman_+_catmma-poly"
+    TYPE LINE
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Marine management area"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA "marman + catmma"
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  # Select polygon
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    # LS(DASH,1,RADLO)
+    
+    CLASS
+        NAME "Marine management area"
+        STYLE
+            COLOR "{RADLO}"
+            PATTERN 3 3 END
+            WIDTH 0.9
+        END
+    END # Class
+END # Layer

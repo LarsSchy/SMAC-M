@@ -1,0 +1,45 @@
+### AML RAL - msiare - Maritime Safety Information area ###
+
+LAYER
+    NAME "msiare_poly"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Maritime Safety Information area"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA msiare
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  # Select polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    # LC(NAVARE51)
+    # COLOR: CHGRD
+    #LNST   10LS01360NIL
+    #LIND   38NAVARE51002080081200757000010030600814
+    #LXPO   75boundary of a navigation feature such as a fairway, magnetic anomaly, etc.
+    #LCRF    6ACHGRD
+    #LVCT   29SPA;SW1;PU306,812;PD906,812;
+    #LVCT   24PU606,812;SCEMAREGR1,2;
+    
+    CLASS
+        NAME "Maritime Safety Information area"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        STYLE
+            SYMBOL "MS_LC_CTYARE51"
+            OUTLINECOLOR "{CHGRD}"
+            WIDTH 0.9
+            INITIALGAP 2
+            SIZE 4
+            GAP -18
+        END
+    END # Class
+END # Layer

@@ -1,0 +1,63 @@
+### AML RAL - AIRARE - {LAYER_DESC} ###
+
+LAYER
+    NAME "AIRARE"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "{LAYER_DESC}"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "NATION,STATUS,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA AIRARE
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  # Select polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    
+    #Default:  AP(airare12);LS(SOLD,1,RESBL)
+    #CONVIS1|	CONVIS = visually conspicuous_x000D_	AC(LANDA);AP(airare12);LS(SOLD,1,CHBLK)
+
+    CLASSITEM "CONVIS"
+
+    CLASS
+        EXPRESSION "1"
+        NAME "Airport - visually conspicuous (polygons)"
+        STYLE
+            COLOR "{LANDA}"
+        END
+        STYLE
+            OUTLINECOLOR "{RESBL}"
+            WIDTH 0.9
+        END
+        STYLE                       
+            GEOMTRANSFORM "centroid"       
+            SYMBOL "MS_airare12"
+            COLOR "{RESBL}"
+            SIZE 12
+            WIDTH 1.1
+        END # Style
+    END # Class
+    
+    CLASS
+        NAME "Airport (polygons)"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        STYLE
+            OUTLINECOLOR "{RESBL}"
+            WIDTH 6.0 #0.9
+        END
+        STYLE                       
+            GEOMTRANSFORM "centroid"       
+            SYMBOL "MS_airare12"
+            COLOR "{RESBL}"
+            SIZE 12
+            WIDTH 1.1
+        END # Style
+    END # Class
+END # Layer

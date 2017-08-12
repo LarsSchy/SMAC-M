@@ -1,0 +1,31 @@
+### AML RAL - atsctl - ATS Route Centreline ###
+
+LAYER
+    NAME "atsctl_line"
+    TYPE LINE
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "ATS Route Centreline (line)"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "*"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA "atsctl"
+    PROCESSING 'NATIVE_FILTER=PRIM=2'  # Select line strings
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+
+    # LS(SOLD,1,RESBL)
+
+    CLASS
+        NAME "ATS Route Centreline"
+        STYLE
+            COLOR "{RESBL}"
+            WIDTH 0.9
+        END
+    END # Class
+END # Layer

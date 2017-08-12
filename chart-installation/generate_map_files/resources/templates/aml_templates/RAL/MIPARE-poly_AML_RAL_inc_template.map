@@ -1,0 +1,318 @@
+### AML RAL - MIPARE - Military Practice Area ###
+
+LAYER
+    NAME "MIPARE"
+    TYPE POLYGON
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title" "Military Practice Area"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "CATMAP,NOBJNM,OBJNAM,INFORM,NINFOM"  #milact
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA MIPARE
+    PROCESSING 'NATIVE_FILTER=PRIM=3'  # Select polygons
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    #
+    #  CATMPA attribute
+    #
+    # 2	Torpedo exercise area
+    # 3	submarine exercise area
+    # 4	Firing danger area
+    # 5	Mine-laying practice area
+    # 6	Small arms firing range
+    # 501	ACLANT grid
+    # 502	Surface Danger Area
+    # 503	JMC Areas - JENOA grid
+    # 504	practice and exercise area (surface fleet)
+    # 505	stovepipe
+    # 506	safe bottoming area
+    # 507	submarine danger area
+    # 508	testing and evaluation range
+    # 509	Range
+    # 510	Impact area
+    #
+    # used in test data 3,504,509,510
+    #
+    
+    CLASSITEM "CATMPA"
+    
+    #CATMPA3|	"CATMPA = submarine exercise area_x000D_
+    #"	SY(subtln01);LC(CTYARE51);TX(OBJNAM,1,2,3,'15110',0,0,CHBLK,26)
+
+    CLASS
+        EXPRESSION "3"
+        NAME "Military Practice Area - submarine exercise area"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        STYLE
+            SYMBOL "MS_LC_CTYARE51"
+            OUTLINECOLOR "{CHMGD}"
+            WIDTH 1.0
+            INITIALGAP 4
+            SIZE 4
+            GAP -18
+        END
+        STYLE                       
+            GEOMTRANSFORM "centroid"       
+            SYMBOL "MS_subtln01"
+            COLOR "{CHMGD}"
+            SIZE 5
+            WIDTH 1.0
+        END
+        LABEL
+            TEXT ('[OBJNAM]')
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 6
+            POSITION CC
+            PARTIALS FALSE
+            MINDISTANCE 0
+            OFFSET 0 8
+        END
+    END # Class
+
+#CATMPA501|	"CATMPA = ACLANT grid_x000D_
+#"	LS(SOLD,1,CHGRD);TX(OBJNAM,1,2,3,'15110',0,0,CHBLK,26)
+
+    CLASS
+        EXPRESSION "501"
+        NAME "Military Practice Area - ACLANT grid"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        STYLE
+            OUTLINECOLOR "{CHMGD}"
+            WIDTH 1.0
+        END
+        LABEL
+            TEXT ('[OBJNAM]')
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 6
+            POSITION CC
+            PARTIALS FALSE
+            MINDISTANCE 0
+            # OFFSET 0 8
+        END
+    END # Class
+
+
+#CATMPA502|	"CATMPA = Surface Danger Area_x000D_
+#"	LS(SOLD,2,DNGHL);TX(OBJNAM,1,2,3,'15110',0,0,CHBLK,26)
+
+    CLASS
+        EXPRESSION "502"
+        NAME "Military Practice Area - Surface Danger Area"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        STYLE
+            OUTLINECOLOR "{DNGHL}"
+            WIDTH 2.0
+        END
+        LABEL
+            TEXT ('[OBJNAM]')
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 6
+            POSITION CC
+            PARTIALS FALSE
+            MINDISTANCE 0
+            # OFFSET 0 8
+        END
+    END # Class
+
+
+#CATMPA503|	"CATMPA = JMC Areas - JENOA grid_x000D_
+#"	LS(SOLD,1,LANDF);TX(OBJNAM,1,2,3,'15110',0,0,CHBLK,26)
+
+    CLASS
+        EXPRESSION "503"
+        NAME "Military Practice Area - JMC Areas - JENOA grid"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        STYLE
+            OUTLINECOLOR "{LANDF}"
+            WIDTH 1.0
+        END
+        LABEL
+            TEXT ('[OBJNAM]')
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 6
+            POSITION CC
+            PARTIALS FALSE
+            MINDISTANCE 0
+            # OFFSET 0 8
+        END
+    END # Class
+
+
+#CATMPA504|	"CATMPA = practice and exercise area (surface fleet)_x000D_
+#"	LS(SOLD,2,RESBL);TX(OBJNAM,1,2,3,'15110',0,0,CHBLK,26)
+
+    CLASS
+        EXPRESSION "504"
+        NAME "Military Practice Area - practice and exercise area (surface fleet)"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        STYLE
+            OUTLINECOLOR "{RESBL}"
+            WIDTH 2.0
+        END
+        LABEL
+            TEXT ('[OBJNAM]')
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 6
+            POSITION CC
+            PARTIALS FALSE
+            MINDISTANCE 0
+            # OFFSET 0 8
+        END
+    END # Class
+
+
+
+
+#CATMPA507|	"CATMPA = submarine danger area_x000D_
+#"	LS(DASH,2,ARPAT)
+
+    CLASS
+        EXPRESSION "507"
+        NAME "Military Practice Area - submarine danger area"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        STYLE
+            OUTLINECOLOR "{ARPAT}"
+            WIDTH 2.0
+        END
+    END # Class
+
+#CATMPA508|	"CATMPA = testing and evaluation range_x000D_
+#"	LS(SOLD,1,UINFM);TX(OBJNAM,1,2,3,'15110',0,0,CHBLK,26)
+
+    CLASS
+        EXPRESSION "508"
+        NAME "Military Practice Area - testing and evaluation range"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        STYLE
+            OUTLINECOLOR "{UINFM}"
+            WIDTH 1.0
+        END
+        LABEL
+            TEXT ('[OBJNAM]')
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 6
+            POSITION CC
+            PARTIALS FALSE
+            MINDISTANCE 0
+            # OFFSET 0 8
+        END
+    END # Class
+
+#CATMPA509|	"CATMPA = Range_x000D_
+#"	LS(SOLD,2,DNGHL);TX(OBJNAM,1,2,3,'15110',0,0,CHBLK,26)
+
+    CLASS
+        EXPRESSION "509"
+        NAME "Military Practice Area - Range"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        STYLE
+            OUTLINECOLOR "{DNGHL}"
+            WIDTH 2.0
+        END
+        LABEL
+            TEXT ('[OBJNAM]')
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 6
+            POSITION CC
+            PARTIALS FALSE
+            MINDISTANCE 0
+            # OFFSET 0 8
+        END
+    END # Class
+
+
+#CATMPA510|	"CATMPA = Impact area_x000D_
+#"	LS(SOLD,2,DNGHL);TX(OBJNAM,1,2,3,'15110',0,0,CHBLK,26)
+
+    CLASS
+        EXPRESSION "510"
+        NAME "Military Practice Area - Impact area"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        STYLE
+            OUTLINECOLOR "{DNGHL}"
+            WIDTH 2.0
+        END
+        LABEL
+            TEXT ('[OBJNAM]')
+            COLOR "{CHBLK}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 6
+            POSITION CC
+            PARTIALS FALSE
+            MINDISTANCE 0
+            # OFFSET 0 8
+        END
+    END # Class
+
+
+    
+    #	Default:	#SY(CTYARE51);LC(CTYARE51);CS(RESTRN01)    
+
+    CLASS
+        NAME "Military Practice Area - deafult"
+        STYLE
+            COLOR -1 -1 -1  # make polygons transparent - no fill
+        END
+        STYLE
+            SYMBOL "MS_LC_CTYARE51"
+            OUTLINECOLOR "{CHMGD}"
+            WIDTH 1.0
+            INITIALGAP 4
+            SIZE 4
+            GAP -18
+        END
+        STYLE
+            GEOMTRANSFORM "centroid"
+            SYMBOL "MS_CIRCLE"
+            COLOR "{TRFCF}"
+            SIZE 14
+            WIDTH 1.8
+        END
+        STYLE                       
+            GEOMTRANSFORM "centroid"       
+            SYMBOL "MS_CTNARE51"
+            COLOR "{TRFCF}"
+            SIZE 8
+            WIDTH 1.8
+        END
+    END # Class
+END # Layer
