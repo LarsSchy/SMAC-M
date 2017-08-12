@@ -22,6 +22,7 @@ XMLStarlet should be installed to run the scripts to create color tables.
 
 Disclaimer: The package has only been tested with Swedish S57 sofar.
 The displayed chart are only intended to be used for planning, not navigation.
+The package has been tested on linux Debian 8.
 
 Usage
 
