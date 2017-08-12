@@ -1,0 +1,17 @@
+#
+#   Legend section
+#
+    LEGEND
+        KEYSIZE 90 30
+        KEYSPACING 10 10
+        IMAGECOLOR "{DEPDW}"
+        OUTLINECOLOR "{SNDG1}"
+        STATUS OFF
+        LABEL
+            TYPE TRUETYPE
+            FONT 'sans'
+            SIZE 13
+            COLOR "{SNDG2}"
+            ENCODING UTF-8
+        END # Label
+    END # Legend
