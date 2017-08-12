@@ -1,0 +1,5 @@
+LAYER,GROUP
+M_COVR,poly,CLB,Data Coverage
+DEPARE,poly,CLB,Depth Areas
+DEPCNT,line,CLB,Depth Contours
+SOUNDG,point,CLB,Soundings
