@@ -1,0 +1,38 @@
+###  AML iscour - Impact Scour - point layer ###
+
+LAYER
+    NAME "iscour"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Impact Scour-points"
+        "ows_enable_request"   "*"
+        "gml_include_items"  "FUNCTN,NOBJNM,OBJNAM,STATUS,INFORM,NINFOM"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA iscour
+    PROCESSING 'NATIVE_FILTER=PRIM=1'  #  Select only points
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    CLASS
+        NAME "Impact Scour (points)"
+        #STYLE
+            #SYMBOL "MS_DOT"
+            #SIZE 8.0
+            #COLOR "{LANDF}"  # LANDF
+        #END
+        LABEL
+            TEXT "scour"
+            COLOR "{CHBRN}"  # CHBRN - Brown
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 8
+            POSITION CC
+            FORCE TRUE
+        END
+    END # Class
+END # Layer

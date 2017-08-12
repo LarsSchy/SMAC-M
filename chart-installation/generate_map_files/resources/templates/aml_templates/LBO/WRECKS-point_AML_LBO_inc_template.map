@@ -1,0 +1,441 @@
+### AML WRECKS (point) ###
+
+LAYER
+    NAME "Wrecks"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Wrecks-points"
+        "ows_enable_request"   "*"
+        "gml_include_items" "CATWRK,VALSOU,WATLEV,NOBJNM,OBJNAM,INFORM,NINFOM"
+        "wms_featLRe_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA "SELECT CATWRK,VALSOU,WATLEV,NOBJNM,OBJNAM,INFORM,NINFOM,CAST(VALSOU as integer(6)) AS WHOLE_NUM,CAST(10*(VALSOU-CAST(VALSOU as integer(6))) as integer(1)) as FRAC_NUM from WRECKS"
+    # PROCESSING 'NATIVE_FILTER=PRIM=1'  #  Select only points ## Not working together with the MS SQL command
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+    LABELCACHE ON
+
+    CLASS
+        NAME "Non-dangerous wreck"
+        EXPRESSION ([CATWRK] == 1)
+        STYLE
+            SYMBOL "MS_WRECKS04"
+            SIZE 9
+            COLOR "{CHBLK}"
+            WIDTH 1.0
+        END
+        LABEL
+            EXPRESSION ('[NOBJNM]' ~ '.')
+            COLOR "{CHBLK}"  #CHBLK
+            TYPE TRUETYPE
+            POSITION LL
+            FONT "sc"
+            SIZE 7
+            TEXT '[NOBJNM]'
+            FORCE TRUE
+        END
+        LABEL
+            EXPRESSION (('[OBJNAM]' ~ '.') AND NOT ('[NOBJNM]' ~ '.' ))
+            COLOR "{CHGRD}"  #CHGRD
+            TYPE TRUETYPE
+            POSITION LL
+            FONT "sc"
+            SIZE 7
+            TEXT '[OBJNAM]'
+            FORCE TRUE
+        END
+    END
+
+    CLASS
+        #EXPRESSION (([CATWRK] == 2) AND NOT('[VALSOU]' ~ '.') )
+        EXPRESSION (([CATWRK] == 2) AND NOT ([VALSOU] > 0))
+        NAME "Dangerous wreck"
+         STYLE
+            SYMBOL "MS_WRECKS05_elipse"
+            SIZE 12
+            COLOR "{DEPVS}"
+        END
+        STYLE
+            SYMBOL "MS_WRECKS05_dots"
+            SIZE 12
+            COLOR "{CHBLK}"
+            WIDTH 1.6
+        END
+        STYLE
+            SYMBOL "MS_WRECKS05_body"
+            SIZE 9
+            COLOR "{CHBLK}"
+            WIDTH 1.0
+        END
+
+        #LABEL
+            #EXPRESSION (NOT('[VALSOU]' ~ '.'))
+            #COLOR 255 0 0
+            #TYPE TRUETYPE
+            #POSITION UR
+            #FONT "sc"
+            #SIZE 7
+            #TEXT 'Without number'
+            #FORCE TRUE
+        #END
+
+        LABEL
+            EXPRESSION (('[NOBJNM]' ~ '.') AND ('[NINFOM]' ~ '.') AND NOT('[VALSOU]' ~ '.'))
+            COLOR "{CHBLK}"  #CHBLK
+            TYPE TRUETYPE
+            POSITION LL
+            FONT "sc"
+            SIZE 7
+            WRAP '&'
+            TEXT '[NOBJNM]&[NINFOM]'
+            FORCE TRUE
+        END
+
+        LABEL
+            EXPRESSION (('[NOBJNM]' ~ '.') AND (NOT('[NINFOM]' ~ '.')) AND NOT('[VALSOU]' ~ '.'))
+            COLOR "{CHBLK}"  #CHBLK
+            TYPE TRUETYPE
+            POSITION LL
+            FONT "sc"
+            SIZE 7
+            TEXT '[NOBJNM]'
+            FORCE TRUE
+        END
+
+        LABEL
+            EXPRESSION (('[OBJNAM]' ~ '.') AND ( NOT('[NOBJNM]' ~ '.')) AND NOT('[VALSOU]' ~ '.'))
+            COLOR "{CHGRD}"  #CHGRD
+            TYPE TRUETYPE
+            POSITION LL
+            FONT "sc"
+            SIZE 7
+            TEXT '[OBJNAM]'
+            FORCE TRUE
+        END
+
+
+    CLASS
+        EXPRESSION ([CATWRK] == 2 AND '[VALSOU]' ~ '.' )
+        # NAME "Dangerous wreck - with depth"
+        STYLE
+            SYMBOL "MS_WRECKS05_elipse"
+            SIZE 12
+            COLOR "{DEPVS}"
+        END
+        STYLE
+            SYMBOL "MS_WRECKS05_dots"
+            SIZE 12
+            COLOR "{CHBLK}"
+            WIDTH 1.6
+        END
+
+        # TEXT ([NOBJNM]|[NINFOM])
+
+        #LABEL
+            #EXPRESSION ('[VALSOU]' ~ '.')
+            #COLOR 0 255 0
+            #TYPE TRUETYPE
+            #POSITION UL
+            #FONT "sc"
+            #SIZE 7
+            #TEXT 'With number'
+            #FORCE TRUE
+        #END
+
+        LABEL
+            EXPRESSION (('[NOBJNM]' ~ '.') AND ('[NINFOM]' ~ '.') AND ('[VALSOU]' ~ '.'))
+            COLOR "{CHBLK}"  #CHBLK
+            TYPE TRUETYPE
+            POSITION LL
+            FONT "sc"
+            SIZE 7
+            WRAP '&'
+            TEXT '[NOBJNM]&[NINFOM]'
+            FORCE TRUE
+        END
+
+        LABEL
+            EXPRESSION (('[NOBJNM]' ~ '.') AND ( NOT('[NINFOM]' ~ '.')) AND ('[VALSOU]' ~ '.'))
+            COLOR "{CHBLK}"  #CHBLK
+            TYPE TRUETYPE
+            POSITION LL
+            FONT "sc"
+            SIZE 7
+            TEXT '[NOBJNM]'
+            FORCE TRUE
+        END
+
+        LABEL
+            COLOR "{CHBLK}"  #CHBLK
+            TYPE TRUETYPE
+            POSITION CR
+            FONT "serif-italic-bold"
+            SIZE 7
+            TEXT "Wk"
+            FORCE TRUE
+        END
+
+        LABEL
+            EXPRESSION (('[OBJNAM]' ~ '.') AND ( NOT('[NOBJNM]' ~ '.')) AND ('[VALSOU]' ~ '.'))
+            COLOR "{CHGRD}"  #CHGRD
+            TYPE TRUETYPE
+            POSITION LL
+            FONT "sc"
+            SIZE 7
+            TEXT '[OBJNAM]'
+            FORCE TRUE
+        END
+#
+#       Show the whole numbers that don't have fractional parts
+#
+        LABEL
+            EXPRESSION ([FRAC_NUM] = 0 )
+            COLOR "{SNDG2}"  # SNDG2
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 7
+            POSITION CC
+            PARTIALS TRUE
+            FORCE TRUE
+            MINDISTANCE 0
+            TEXT ('[WHOLE_NUM]')
+        END
+#
+#       Fractional numbers - whole part, with one figures and less then ENC depth
+#
+        LABEL
+            EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') = 1) AND ([WHOLE_NUM] <= 10 ))
+            COLOR 0 255 0 #"{SNDG2}"
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 7
+            POSITION CC
+            PARTIALS TRUE
+            MINDISTANCE 0
+            OFFSET -3 -2
+            TEXT '[WHOLE_NUM]'
+        END
+##
+##        Fractional numbers - whole part, with two or more figures
+##
+        LABEL
+            EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') > 1 ) )
+            COLOR 255 0 0 ##"{SNDG2}"    # SNDG2
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 7
+            POSITION CC
+            PARTIALS TRUE
+            FORCE TRUE
+            MINDISTANCE 0
+            OFFSET -4 -2
+            TEXT ('[WHOLE_NUM]')
+        END
+##
+##        Fractional numbers - fractional part with one figure in whole part
+##
+       LABEL
+            EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') = 1))
+            COLOR "{SNDG2}"  # SNDG2
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 7
+            POSITION CC
+            PARTIALS TRUE
+            FORCE TRUE
+            MINDISTANCE 0
+            OFFSET 3 2
+            TEXT ('[FRAC_NUM]')
+        END
+#
+#       Fractional numbers - fractional part with two or more number in whole part
+#
+        LABEL
+            EXPRESSION (([FRAC_NUM] > 0) AND (length('[WHOLE_NUM]') > 1)  AND ([WHOLE_NUM] <= 10 ))
+            COLOR "{SNDG2}" # SNDG2
+            TYPE TRUETYPE
+            FONT SC
+            SIZE 7
+            POSITION CC
+            PARTIALS TRUE
+            MINDISTANCE 0
+            OFFSET 4 2
+            TEXT '[FRAC_NUM]'
+        END
+    END # Class
+
+    CLASS
+       NAME "Distributed remains of wreck - CATWRK=3"
+       EXPRESSION ([CATWRK] == 3 )
+       STYLE
+            # CHGRD - green - general, including buoys
+            COLOR "{CHGRD}"  #CHGRD
+            SIZE 12
+            WIDTH 0.8
+            SYMBOL "FOULGND1_MS"
+        END # STYLE
+
+        LABEL
+            EXPRESSION ('[VALSOU]' ~ '.')
+            COLOR "{CHGRD}"  #CHGRD
+            TYPE TRUETYPE
+            POSITION CR
+            FONT "sc"
+            SIZE 7
+            TEXT ('('+'[VALSOU]'+')')
+            FORCE TRUE
+        END
+
+        LABEL
+            EXPRESSION ('[NOBJNM]' ~ '.')
+            COLOR "{CHBLK}"  #CHBLK
+            TYPE TRUETYPE
+            POSITION LL
+            FONT "sc"
+            SIZE 7
+            TEXT '[NOBJNM]'
+            FORCE TRUE
+        END
+        LABEL
+            EXPRESSION (('[OBJNAM]' ~ '.') AND NOT ('[NOBJNM]' ~ '.' ))
+            COLOR "{CHGRD}"  #CHGRD
+            TYPE TRUETYPE
+            POSITION LL
+            FONT "sc"
+            SIZE 7
+            TEXT '[OBJNAM]'
+            FORCE TRUE
+        END
+    END
+
+    CLASS
+        EXPRESSION ([CATWRK] == 4 )
+        NAME "Wreck showing mast/masts"
+        STYLE
+            SYMBOL "MS_WRECKS05_elipse"
+            SIZE 12
+            COLOR "{DEPVS}"
+        END
+        STYLE
+            SYMBOL "MS_WRECKS05_dots"
+            SIZE 12
+            COLOR "{CHBLK}"
+            WIDTH 1.6
+        END
+        STYLE
+            SYMBOL "MS_WRECKS05_body"
+            SIZE 9
+            COLOR "{CHBLK}"
+            WIDTH 1.0
+        END
+        LABEL
+            COLOR "{CHBLK}"  #CHBLK
+            TYPE TRUETYPE
+            POSITION CR
+            FONT "serif-italic-bold"
+            SIZE 7
+            TEXT "Masts"
+            FORCE TRUE
+        END
+        LABEL
+            EXPRESSION ('[NOBJNM]' ~ '.')
+            COLOR "{CHBLK}"  #CHBLK
+            TYPE TRUETYPE
+            POSITION LL
+            FONT "sc"
+            SIZE 7
+            TEXT '[NOBJNM]'
+            FORCE TRUE
+        END
+        LABEL
+            EXPRESSION (('[OBJNAM]' ~ '.') AND NOT ('[NOBJNM]' ~ '.' ))
+            COLOR "{CHGRD}"  #CHGRD
+            TYPE TRUETYPE
+            POSITION LL
+            FONT "sc"
+            SIZE 7
+            TEXT '[OBJNAM]'
+            FORCE TRUE
+        END
+    END
+
+    CLASS
+       NAME "Wreck showing any portion of hull or superstructure"
+       EXPRESSION ([CATWRK] == 5 )
+        STYLE
+            SYMBOL "MS_WRECKS01"
+            SIZE 8
+            COLOR "{CHBLK}"
+            WIDTH 1
+        END
+        STYLE
+            SYMBOL "MS_WRECKS01_lines"
+            SIZE 8
+            COLOR "{CHBLK}" 
+            WIDTH 1.8
+        END
+       LABEL
+            EXPRESSION ('[NOBJNM]' ~ '.' )
+            COLOR "{CHBLK}"  #CHBLK
+            TYPE TRUETYPE
+            POSITION LL
+            FONT "sc"
+            SIZE 7
+            TEXT '[NOBJNM]'
+            FORCE TRUE
+        END
+        LABEL
+            EXPRESSION (('[OBJNAM]' ~ '.' ) AND NOT ('[NOBJNM]' ~ '.' ))
+            COLOR "{CHGRD}"  #CHGRD
+            TYPE TRUETYPE
+            POSITION LL
+            FONT "sc"
+            SIZE 7
+            TEXT '[OBJNAM]'
+            FORCE TRUE
+        END
+    END  # Class
+
+    CLASS
+        NAME "Wreck - status unknown (AML)"
+        EXPRESSION ([CATWRK] == 701 )
+        STYLE
+            SYMBOL "MS_WRECKS04"
+            SIZE 9
+            COLOR "{CHBLK}"
+            WIDTH 1.0
+        END
+        STYLE
+            SYMBOL "unknown"
+            COLOR "{CHMGD}"  #CHMGD
+            SIZE 24
+            OFFSET 10 0
+        END # STYLE
+        LABEL
+            EXPRESSION ('[NOBJNM]' ~ '.')
+            COLOR "{CHBLK}"  #CHBLK
+            TYPE TRUETYPE
+            POSITION LL
+            FONT "sc"
+            SIZE 7
+            TEXT '[NOBJNM]'
+            FORCE TRUE
+        END
+        LABEL
+            EXPRESSION (('[OBJNAM]' ~ '.') AND NOT ('[NOBJNM]' ~ '.' ))
+            COLOR "{CHGRD}"  #CHGRD
+            TYPE TRUETYPE
+            POSITION LL
+            FONT "sc"
+            SIZE 7
+            TEXT '[OBJNAM]'
+            FORCE TRUE
+        END
+    END # Class
+END # Layer
+

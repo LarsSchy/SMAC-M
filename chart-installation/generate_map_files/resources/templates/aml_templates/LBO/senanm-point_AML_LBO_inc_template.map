@@ -1,0 +1,33 @@
+###  AML Sensor Anomaly (point) ###
+#
+
+LAYER
+    NAME "senanm"
+    TYPE POINT
+    GROUP "{GROUP}"
+    METADATA
+        "ows_title"  "Sensor Anomaly-points"
+        "ows_enable_request"   "*"
+        "gml_include_items" "*"
+        "wms_featLRe_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    CONNECTIONTYPE OGR
+    CONNECTION "{AML_PATH}"
+    DATA senanm
+    PROCESSING "CLOSE_CONNECTION=DEFER"
+    PROCESSING "LABEL_NO_CLIP=ON"
+    STATUS ON
+
+
+    CLASS
+        NAME "Sensor Anomaly"
+        STYLE
+            SYMBOL "MS_RACNSP01"
+            COLOR "{CHBLK}"  #CHBLK
+            SIZE 16
+            WIDTH 1.1
+        END
+    END
+END # Layer
+
