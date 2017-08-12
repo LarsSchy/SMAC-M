@@ -1,0 +1,75 @@
+MAP
+    NAME SeaChart_${THEME}
+    SIZE 1000 1000
+    UNITS dd
+    EXTENT 9.624750 52.33333 30.333333 66.500000
+
+    #CONFIG "MS_OPENLAYERS_JS_URL" "http://localhost/LocalOpenLayers/OpenLayers-ms60.js"
+    ${DEBUG}
+    #RESOLUTION 96
+    #DEFRESOLUTION 96
+
+    PROJECTION
+        'init=epsg:4326'
+    END
+
+    IMAGETYPE png
+    CONFIG "PROJ_LIB" "../epsg"
+    FONTSET '${FONTS_PATH}'
+    SYMBOLSET "../symbols/symbols.sym"
+    OUTPUTFORMAT
+        NAME 'AGG'
+        DRIVER AGG/PNG
+        IMAGEMODE RGB
+    END
+
+    SHAPEPATH ../../data
+
+    WEB
+        IMAGEPATH '/tmp/'
+        IMAGEURL '/tmp/'
+
+        METADATA
+            "ows_enable_request"   "*"
+            'wms_title'           'SeaChart_Legend_${THEME}'
+            'wms_onlineresource'  '${HOST}?map=${MAP_PATH}/SeaChart_Legend_${THEME}.map&'
+            'wms_srs'  'EPSG:32633 EPSG:3006 EPSG:3857 EPSG:4326 EPSG:900913'
+            "labelcache_map_edge_buffer" "-10"
+            "wms_bbox_extended" "true"
+        END
+    END
+
+    LEGEND
+        KEYSIZE 90 30
+        KEYSPACING 10 10
+        IMAGECOLOR 240 240 240
+        OUTLINECOLOR 200 175 150
+        STATUS OFF
+        LABEL
+            TYPE TRUETYPE
+            FONT 'sans'
+            SIZE 13
+            COLOR 1 1 1
+            ENCODING UTF-8
+        END # LABEL
+    END # LEGEND
+#
+#  inlclude layer 4 because it contains most relevant classes, but
+#  we can include all classes since there will on legend item
+#  for each class in each layer
+#
+    INCLUDE "../includes/${THEME}_layer4_inc.map"
+#
+#   Dummy layer to create a layer group for the color mode
+#
+    LAYER
+        NAME "${THEME}"
+        GROUP "base"
+        TYPE POINT
+        TRANSFORM FALSE
+        STATUS ON
+        FEATURE
+            POINTS 1 1 END
+        END
+    END
+END # Map

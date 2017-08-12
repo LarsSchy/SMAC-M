@@ -1,0 +1,60 @@
+MAP
+    NAME AML_${THEME}
+    SIZE 1000 1000
+    CONFIG 'PROJ_LIB' './epsg/'
+    UNITS dd
+    EXTENT ${EXTENT}
+
+    ${DEBUG}
+    CONFIG 'S57_CSV' '${AML_CSV_RUNTIME}'
+    CONFIG 'S57_PROFILE' 'aml'
+    CONFIG 'OGR_S57_OPTIONS' 'SPLIT_MULTIPOINT=ON,ADD_SOUNDG_DEPTH=ON'
+    RESOLUTION 96
+    DEFRESOLUTION 96
+
+    PROJECTION
+        'init=epsg:4326'
+    END
+
+    IMAGETYPE png
+    FONTSET '${FONTS_PATH}'
+    SYMBOLSET './symbols/symbols.sym'
+    OUTPUTFORMAT
+        NAME 'AGG'
+        DRIVER AGG/PNG
+        IMAGEMODE RGB
+    END
+
+    SHAPEPATH '../data'
+
+    WEB
+        IMAGEPATH '/tmp/ms_tmp/'
+        IMAGEURL '/ms_tmp/'
+        METADATA
+            'ows_enable_request'  '*'
+            'ows_title'           'AML_${THEME}'
+            'ows_onlineresource'  '${HOST}?map=${MAP_PATH}/AML_${THEME}.map&'
+            'wms_srs' 'EPSG:32633 EPSG:3006 EPSG:3857 EPSG:4326 EPSG:900913'
+            'wfs_srs' 'EPSG:32633 EPSG:3006 EPSG:3857 EPSG:4326 EPSG:900913'
+            'labelcache_map_edge_buffer' '10'
+            "wms_bbox_extended" "true"
+        END
+    END
+    
+#
+    # Dummy layer to create a layer group for the color mode for World Wind
+    #
+    LAYER
+        NAME '${THEME}'
+        GROUP '${AML_TYPE}'
+        TYPE POINT
+        TRANSFORM FALSE
+        STATUS ON
+        FEATURE
+            POINTS 1 1 END
+        END
+    END
+
+    ${INCLUDES}
+
+END
