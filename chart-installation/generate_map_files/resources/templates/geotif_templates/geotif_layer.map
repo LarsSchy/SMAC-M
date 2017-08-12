@@ -1,0 +1,10 @@
+  LAYER
+    NAME "${GEO_TIF_NAME}"
+    PROJECTION
+       "init=epsg:${SRS}"
+    END
+    GROUP "${GEO_TIF_GROUP_NAME}"
+    DATA "${GEO_TIF_PATH}"
+    TYPE RASTER
+    STATUS ON
+  END # Layer

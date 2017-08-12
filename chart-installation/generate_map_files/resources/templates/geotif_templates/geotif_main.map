@@ -1,0 +1,31 @@
+MAP
+  NAME "GEO_TIF"
+  SHAPEPATH "${DATA_PATH}"
+  SIZE 1000 1000
+  ${DEBUG}
+  UNITS dd
+  EXTENT ${EXTENT}
+  PROJECTION
+    "init=epsg:${SRS}"
+  END
+  IMAGETYPE png
+  OUTPUTFORMAT
+    NAME "AGG"
+    DRIVER AGG/PNG
+    IMAGEMODE RGB
+  END
+  WEB
+    IMAGEPATH "/tmp/ms_tmp/"
+    IMAGEURL "/tmp/"
+    METADATA
+      "wms_title" "GEO_TIF"
+      "wms_onlineresource" "${SERVER_URL}?map=${MAP_PATH}/Geotif.map&"
+      "wms_srs" "EPSG:32633 EPSG:3006 EPSG:3857 EPSG:4326 EPSG:900913"
+      "ows_enable_request" "*"
+    END
+  END
+
+### Raster layers
+${LAYERS}
+
+END # Mapfile
