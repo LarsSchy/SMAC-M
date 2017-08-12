@@ -1,0 +1,5 @@
+
+fntsample --font-file GSDSVK.ttf --output-file GSDSVK-sample.pdf
+fntsample --font-file GSDTerrk.ttf --output-file GSDTerrk-sample.pdf
+fntsample --font-file GSDVagk.ttf --output-file GSDVagk-sample.pdf
+fntsample --font-file GSDTk_MI.ttf --output-file GSDTk_MI-sample.pdf
