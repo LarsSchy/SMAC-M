@@ -76,7 +76,8 @@ LAYER
           # RGB # COLOR {CHBLK_rgb}
           COLOR "{CHBLK}"
           SIZE 36
-          SYMBOL "WRECKS05_dot_border"
+          # SYMBOL "WRECKS05_dot_border"
+          SYMBOL "MS_WRECKS05_dots"
        END # STYLE
 
        #LABEL
