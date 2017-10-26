@@ -24,10 +24,39 @@ Disclaimer: The package has only been tested with Swedish S57 sofar.
 The displayed chart are only intended to be used for planning, not navigation.
 The package has been tested on linux Debian 8.
 
-Usage
+How TO:
 
-./generate_map_config.py -h shows all options
+First you should convert your data:
 
-How to generate a mapfile configuration 
+I have a folder that contains all S57 files in /data/S57-data
+and I would like to build the converted files in /data/Chart_dir
+So first I run the conversion script:
 
-./generate_map_config.py -rules ../resources/rules/layer_rules -basechartdata /data/New_Seachart2
+./S57_to_Shape.py /data/S57-data /data/Chart_dir
+
+Second step is to generate the mapfile configuration files
+
+./generate_map_config.py -h   ---  shows all options
+
+Example:
+
+./generate_map_config.py -rules ../resources/layer_rules/rules/ -basechartdata /data/Chart_dir
+or ./generate_map_config.py  -rule-default-color IHO -rules ../resources/layer_rules/rules/ -basechartdata /data/Chart_dir
+
+Then You should be able to test the configuration in the built in open layers viewer with:
+
+http://localhost/cgi-bin/mapserv?map=/data/Chart_data_test/map/SeaChart_DAY_BRIGHT.map
+&SERVICE=WMS
+&REQUEST=Getmap
+&VERSION=1.1.1
+&LAYERS=SeaChart_DAY_BRIGHT
+&srs=EPSG:3006
+&BBOX=133870,5798110,1541520,7459340
+&FORMAT=application/openlayers
+&WIDTH=2000
+&HEIGHT=1100
+
+You should adjust to EPSG:3857 and a suitable BBOX for your data.
+
+Good Luck
+
