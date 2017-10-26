@@ -17,7 +17,7 @@ import math
 import socket
 import itertools
 
-rundir="/opt/saab/ninelv/chart-installation/data_files_conversion/"
+rundir="/opt/data/chart-installation/data_files_conversion/"
 
 def send_progress(socket, min, max, current):
     if socket:
