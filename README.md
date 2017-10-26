@@ -50,7 +50,7 @@ The mapfiles are placed in /data/Chart_dir along with the converted data.
 
 Then You should be able to test the configuration in the built in open layers viewer with:
 
-http://localhost/cgi-bin/mapserv?map=/data/Chart_data_test/map/SeaChart_DAY_BRIGHT.map
+http://localhost/cgi-bin/mapserv?map=/data/Chart_dir/map/SeaChart_DAY_BRIGHT.map
 &SERVICE=WMS
 &REQUEST=Getmap
 &VERSION=1.1.1
