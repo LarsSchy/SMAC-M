@@ -41,7 +41,10 @@ Second step is to generate the mapfile configuration files
 Example:
 
 ./generate_map_config.py -rules ../resources/layer_rules/rules/ -basechartdata /data/Chart_dir
-or ./generate_map_config.py  -rule-default-color IHO -rules ../resources/layer_rules/rules/ -basechartdata /data/Chart_dir
+
+or 
+
+./generate_map_config.py  -rule-default-color IHO -rules ../resources/layer_rules/rules/ -basechartdata /data/Chart_dir
 
 Then You should be able to test the configuration in the built in open layers viewer with:
 
