@@ -46,6 +46,8 @@ or
 
 ./generate_map_config.py  -rule-default-color IHO -rules ../resources/layer_rules/rules/ -basechartdata /data/Chart_dir
 
+The mapfiles are placed in /data/Chart_dir along with the converted data.
+
 Then You should be able to test the configuration in the built in open layers viewer with:
 
 http://localhost/cgi-bin/mapserv?map=/data/Chart_data_test/map/SeaChart_DAY_BRIGHT.map
