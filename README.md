@@ -29,7 +29,7 @@ How TO:
 First you should convert your data:
 
 I have a folder that contains all S57 files in /data/S57-data
-and I would like to build the converted files in /data/Chart_dir
+and I would like to build the converted files in /data/Chart_dir. 
 So first I run the conversion script:
 
 ./S57_to_Shape.py /data/S57-data /data/Chart_dir
