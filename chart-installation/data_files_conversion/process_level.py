@@ -98,47 +98,55 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
     print "CL{} | Preprocessing soundg".format(level)
 
     # get the soundg file path
-    soundgs = [os.path.join(output_path,f) for f in out_files if "SOUNDG" in f][0]
-    dsrc = ogr.Open(soundgs, 1)
-    layer = dsrc.GetLayer()
+    try:
+        soundgs = [os.path.join(output_path,f) for f in out_files if "SOUNDG" in f][0]
+        dsrc = ogr.Open(soundgs, 1)
+        layer = dsrc.GetLayer()
 
-    # add WHOLE NUM and FRACNUM fields
-    add_fields(layer, [("WHOLE_NUM",ogr.OFTInteger), ("FRAC_NUM", ogr.OFTInteger)])
+        # add WHOLE NUM and FRACNUM fields
+        add_fields(layer, [("WHOLE_NUM",ogr.OFTInteger), ("FRAC_NUM", ogr.OFTInteger)])
 
-    # fill the WHOLE_NUM and FRAC_NUM fields
-    fill_fields(layer,[("WHOLE_NUM", fill_preproc_value_whole, ("DEPTH",)),
-                       ("FRAC_NUM" , fill_preproc_value_frac , ("DEPTH",))])
+        # fill the WHOLE_NUM and FRAC_NUM fields
+        fill_fields(layer,[("WHOLE_NUM", fill_preproc_value_whole, ("DEPTH",)),
+                           ("FRAC_NUM" , fill_preproc_value_frac , ("DEPTH",))])
+    except IndexError:
+        print "CL{} | WARNING {} is not available in data sources file".format(level,dataset)
 
     # WRECKS
     print "CL{} | Preprocessing wrecks".format(level)
 
     # get the wrecks file path
-    wrecks = [os.path.join(output_path,f) for f in out_files if "WRECKS" in f][0]
-    dsrc = ogr.Open(wrecks, 1)
-    layer = dsrc.GetLayer()
+    try:
+        wrecks = [os.path.join(output_path,f) for f in out_files if "WRECKS" in f][0]
+        dsrc = ogr.Open(wrecks, 1)
+        layer = dsrc.GetLayer()
 
-    # add WHOLE NUM and FRACNUM fields
-    add_fields(layer, [("WHOLE_NUM",ogr.OFTInteger), ("FRAC_NUM", ogr.OFTInteger)])
+        # add WHOLE NUM and FRACNUM fields
+        add_fields(layer, [("WHOLE_NUM",ogr.OFTInteger), ("FRAC_NUM", ogr.OFTInteger)])
 
-    # fill the WHOLE_NUM and FRAC_NUM fields
-    fill_fields(layer,[("WHOLE_NUM", fill_preproc_value_whole, ("VALSOU",)),
-                       ("FRAC_NUM", fill_preproc_value_frac, ("VALSOU",))])
+        # fill the WHOLE_NUM and FRAC_NUM fields
+        fill_fields(layer,[("WHOLE_NUM", fill_preproc_value_whole, ("VALSOU",)),
+                           ("FRAC_NUM", fill_preproc_value_frac, ("VALSOU",))])
+    except IndexError:
+        print "CL{} | WARNING {} is not available in data sources file".format(level,dataset)
 
     # UWTROC
     print "CL{} | Preprocessing uwtroc".format(level)
 
     # get the uwtroc file path
-    uwtroc = [os.path.join(output_path,f) for f in out_files if "UWTROC" in f][0]
-    dsrc = ogr.Open(uwtroc, 1)
-    layer = dsrc.GetLayer()
+    try:
+        uwtroc = [os.path.join(output_path,f) for f in out_files if "UWTROC" in f][0]
+        dsrc = ogr.Open(uwtroc, 1)
+        layer = dsrc.GetLayer()
 
-    # add WHOLE NUM and FRACNUM fields
-    add_fields(layer, [("WHOLE_NUM",ogr.OFTInteger), ("FRAC_NUM", ogr.OFTInteger)])
+        # add WHOLE NUM and FRACNUM fields
+        add_fields(layer, [("WHOLE_NUM",ogr.OFTInteger), ("FRAC_NUM", ogr.OFTInteger)])
 
-    # fill the WHOLE_NUM and FRAC_NUM fields
-    fill_fields(layer,[("WHOLE_NUM", fill_preproc_value_whole, ("VALSOU",)),
-                       ("FRAC_NUM", fill_preproc_value_frac, ("VALSOU",))])
-
+        # fill the WHOLE_NUM and FRAC_NUM fields
+        fill_fields(layer,[("WHOLE_NUM", fill_preproc_value_whole, ("VALSOU",)),
+                           ("FRAC_NUM", fill_preproc_value_frac, ("VALSOU",))])
+    except IndexError:
+        print "CL{} | WARNING {} is not available in data sources file".format(level,dataset)
 
     # SBDARE
     print "CL{} | Preprocessing sbdare".format(level)
