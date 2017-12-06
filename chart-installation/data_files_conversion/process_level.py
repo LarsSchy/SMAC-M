@@ -109,8 +109,8 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
         # fill the WHOLE_NUM and FRAC_NUM fields
         fill_fields(layer,[("WHOLE_NUM", fill_preproc_value_whole, ("DEPTH",)),
                            ("FRAC_NUM" , fill_preproc_value_frac , ("DEPTH",))])
-    except:
-        pass
+    except IndexError:
+        print "CL{} | WARNING {} is not available in data sources file".format(level,dataset)
 
     # WRECKS
     print "CL{} | Preprocessing wrecks".format(level)
@@ -127,8 +127,8 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
         # fill the WHOLE_NUM and FRAC_NUM fields
         fill_fields(layer,[("WHOLE_NUM", fill_preproc_value_whole, ("VALSOU",)),
                            ("FRAC_NUM", fill_preproc_value_frac, ("VALSOU",))])
-    except:
-        pass
+    except IndexError:
+        print "CL{} | WARNING {} is not available in data sources file".format(level,dataset)
 
     # UWTROC
     print "CL{} | Preprocessing uwtroc".format(level)
@@ -145,9 +145,8 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
         # fill the WHOLE_NUM and FRAC_NUM fields
         fill_fields(layer,[("WHOLE_NUM", fill_preproc_value_whole, ("VALSOU",)),
                            ("FRAC_NUM", fill_preproc_value_frac, ("VALSOU",))])
-    except:
-        pass
-
+    except IndexError:
+        print "CL{} | WARNING {} is not available in data sources file".format(level,dataset)
 
     # SBDARE
     print "CL{} | Preprocessing sbdare".format(level)
