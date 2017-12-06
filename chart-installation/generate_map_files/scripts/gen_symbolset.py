@@ -59,7 +59,7 @@ END""" %(symboltype)
 f_symbols = open(symbolefile,"w")
 
 # Include original symbols file
-f_symbols.write( "INCLUDE '../symbols/symbols.sym'\n") 
+f_symbols.write( "SYMBOLSET\nINCLUDE 'symbols/symbols.sym'\n") 
 
 dom = parseString(lines)
 for symEle in dom.getElementsByTagName("symbol"):
@@ -78,4 +78,5 @@ for symEle in dom.getElementsByTagName("symbol"):
 	str_to_add = symbol_template.replace( "[symname]",name )
         f_symbols.write( str_to_add )
 
+f_symbols.write( "\nEND")
 f_symbols.close()
