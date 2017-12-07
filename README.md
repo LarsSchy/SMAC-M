@@ -28,7 +28,7 @@ Furhter on a tool is provided to process tiff files and create mapfiles automati
 Create a folder that contains all your S-57 files and run the conversion script by specifying 
 input S-57 dataset files and output shapefiles
 
-    cd  chart-installation/generate_map_files/scripts/
+    cd chart-installation/generate_map_files/scripts/
     python ./S57_to_Shape.py /data/S57-data /data/Chart_dir
 
 ## Generating Symbolset
@@ -36,12 +36,12 @@ input S-57 dataset files and output shapefiles
 To create symbolset used in generated mapfile, we used source files download from s57data 
 directory of OpenCPN Repository.
 
-1) Need to download latest version of source files.  Up to datThose files
+Need to download latest version of source files.  Up to datThose files
     
-    cd  chart-installation/generate_map_files/scripts/
+    cd chart-installation/generate_map_files/scripts/
     python ./generate_symbolset.py update
 
-2) Create symbolset mapfile and generate all png image symbols. 
+Create symbolset mapfile and generate all png image symbols. 
 
     python ./generate_symbolset.py [day|dusk|dark] [output_directory]
 
@@ -75,20 +75,22 @@ IENC (S-57) data is compiled for a variety of navigational purposes.  This proje
 mainely support all of them.  First version will support the first 6 navigation purpose.
 At the end, all of thos levels will be converte to mapfiles.
 
-* 1 S57 Overview - For route planning and oceanic crossing.
-* 2 S57 General - For navigating oceans, approaching coasts and route planning.
-* 3 S57 Coastal - For navigating along the coastline, either inshore or offshore.
-* 4 S57 Approach - Navigating the approaches to ports or mayor channels or through intricate or congested waters.
-* 5 S57 Harbour - Navigating within ports, harbours, bays, rivers and canals, for anchorages.
-* 6 S57 Berthing - Detailed data to aid berthing. 
+* 1 - Overview - For route planning and oceanic crossing.
+* 2 - General - For navigating oceans, approaching coasts and route planning.
+* 3 - Coastal - For navigating along the coastline, either inshore or offshore.
+* 4 - Approach - Navigating the approaches to ports or mayor channels or through intricate or congested waters.
+* 5 - Harbour - Navigating within ports, harbours, bays, rivers and canals, for anchorages.
+* 6 - Berthing - Detailed data to aid berthing. 
 
 The following directory structure is mandatory.  On each volume within an exchange set there must
 be a root directory called ENC_ROOT.  Data is publish throught .000 source file and data update
 are store into .001, .002 and so on.  OGR2OGR software is able to read all this data.
 
+```
 NL600021.000
 NL600021.001
 NL600021.002
+```
 
 A valid data set file must be uniquely identified world wide by its name.  The data set files are
 named according to the specifications given below: 
