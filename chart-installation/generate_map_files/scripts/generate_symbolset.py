@@ -30,7 +30,7 @@ if len(sys.argv) > 1:
     elif symboltype == "dusk":
         OCPN_source_symbol_file = "rastersymbols-dusk.png"
     else:
-        print("Usage : python generate_symbolsea.py [day|dark|dusk] [output_directory]")
+        print("Usage : python generate_symbolset.py [day|dark|dusk] [output_directory]")
         exit()     
 else:
     print("Usage : python generate_symbolset.py [day|dark|dusk] [output_directory]")
@@ -58,8 +58,7 @@ END""" %(symboltype)
 
 f_symbols = open(symbolefile,"w")
 
-# Include original symbols file
-f_symbols.write( "SYMBOLSET\nINCLUDE 'symbols/symbols.sym'\n") 
+f_symbols.write( "SYMBOLSET\n")
 
 dom = parseString(lines)
 for symEle in dom.getElementsByTagName("symbol"):
@@ -77,6 +76,9 @@ for symEle in dom.getElementsByTagName("symbol"):
         os.popen(cmd)
 	str_to_add = symbol_template.replace( "[symname]",name )
         f_symbols.write( str_to_add )
+
+# Include original symbols file
+f_symbols.write( """\n\nINCLUDE "symbols/symbols.sym"\n""")
 
 f_symbols.write( "\nEND")
 f_symbols.close()
