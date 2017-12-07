@@ -51,9 +51,9 @@ f.close()
 ## our mapfile symbol template
 symbol_template = """
 SYMBOL
-     NAME '[symname]'
+     NAME "[symname]"
      TYPE PIXMAP
-     IMAGE 'symbols-%s/[symname].png'  
+     IMAGE "symbols-%s/[symname].png'" 
 END""" %(symboltype)
 
 f_symbols = open(symbolefile,"w")
