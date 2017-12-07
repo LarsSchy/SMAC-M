@@ -1,4 +1,4 @@
-# SMAC-M   --- Smacm Map and Chart Manager
+# SMAC-M   - Scripts for Map And Chart Manager
 
 This project allows you to convert nautical dataset and display it with Mapserver. It include all 
 utilities to convert data from S57 to a shapefiles and to create mapfiles for a Mapserver WMS service.
