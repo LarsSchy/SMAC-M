@@ -39,11 +39,11 @@ directory of OpenCPN Repository.
 1) Need to download latest version of source files.  Up to datThose files
     
     cd  chart-installation/generate_map_files/scripts/
-    python ./gen_symbolset.py update
+    python ./generate_symbolset.py update
 
 2) Create symbolset mapfile and generate all png image symbols. 
 
-    python ./gen_symbolset.py [day|dusk|dark] [output_directory]
+    python ./generate_symbolset.py [day|dusk|dark] [output_directory]
 
 
 ## Generating mapfiles

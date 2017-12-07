@@ -30,10 +30,10 @@ if len(sys.argv) > 1:
     elif symboltype == "dusk":
         OCPN_source_symbol_file = "rastersymbols-dusk.png"
     else:
-        print("Usage : python gen_symbolset.py [day|dark|dusk] [output_directory]")
+        print("Usage : python generate_symbolsea.py [day|dark|dusk] [output_directory]")
         exit()     
 else:
-    print("Usage : python gen_symbolset.py [day|dark|dusk] [output_directory]")
+    print("Usage : python generate_symbolset.py [day|dark|dusk] [output_directory]")
     exit()
 
 #Init variables
@@ -53,7 +53,7 @@ symbol_template = """
 SYMBOL
      NAME "[symname]"
      TYPE PIXMAP
-     IMAGE "symbols-%s/[symname].png'" 
+     IMAGE "symbols-%s/[symname].png" 
 END""" %(symboltype)
 
 f_symbols = open(symbolefile,"w")
