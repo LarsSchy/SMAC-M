@@ -9,6 +9,8 @@ sys.path.append(os.path.abspath(os.path.join(script_dir, "../../utils/")))
 import subprocess
 import dirutils
 from string import Template
+from chartsymbols import ChartSymbols
+
 
 def generate_includes(includes_dir, theme):
     # Get all includefiles with the correct theme
@@ -69,12 +71,15 @@ def create_legend_files(template_path, themes_path, map_path, fonts_path, use_de
         fileout = open( os.path.join(legend_path, "SeaChart_Legend_" + theme + ".map"), 'w' )
         fileout.write( template.substitute(d) )
 
-def generate_basechart_config(data_path,map_path,rule_set_path,resource_dir,force_overwrite,debug):
+def generate_basechart_config(data_path,map_path,rule_set_path,resource_dir,force_overwrite,debug, chartsymbols):
 
     # Generate new map files
     dirutils.clear_folder(map_path)
-    process_all_layers(data_path, map_path, rule_set_path)
-    #subprocess.call("./process_all_layers.sh data=" + data_path + " target=" + map_path + " config=" + rule_set_path, shell=True)
+
+    if chartsymbols:
+        process_all_layers(data_path, map_path, rule_set_path, chartsymbols)
+    else:
+        subprocess.call("./process_all_layers.sh data=" + data_path + " target=" + map_path + " config=" + rule_set_path, shell=True)
 
     fonts_path = os.path.join("./fonts", "fontset.lst")
     create_capability_files(os.path.join(resource_dir, "templates"), os.path.join(rule_set_path, "color_tables"), map_path, fonts_path, debug)
@@ -113,20 +118,28 @@ def get_colors(color_table):
     return colors
     
 
-def process_all_layers(data, target, config):
+def process_all_layers(data, target, config, chartsymbols_file=None):
 
     # Reimplementation of the shel script of the same name
     msd = get_maxscaledenom(config)
 
+    chartsymbols = None
+    if chartsymbols_file:
+        chartsymbols = ChartSymbols(chartsymbols_file, 'Paper')
+
     #
     #  Process all color themes
     #
+
     for color in os.listdir(config + '/color_tables'):
+        print "Loading " + color
         theme = os.path.splitext("path_to_file")[0]
+        if chartsymbols:
+            chartsymbols.load_colors(color[:-4])
         for layer in os.listdir(data):
             color_table = config + '/color_tables/' + color
             input_file = config + '/layer_rules/layer_groups.csv'
-            process_layer_colors(layer, color_table, input_file, msd[layer], data, target)
+            process_layer_colors(layer, color_table, input_file, msd[layer], data, target, chartsymbols)
 
 
 def get_layer_mapfile(layer, feature, group, color_table, msd):
@@ -142,7 +155,7 @@ def get_layer_mapfile(layer, feature, group, color_table, msd):
     def get_rgb_color(match):
         return colors[match.group(1)][0]
 
-    print "Layer: {} Processing feature: {}.".format(layer, feature)
+    #print "Layer: {} Processing feature: {}.".format(layer, feature)
     with open(template, 'rb') as templ:
         mapfile = templ.read()
     mapfile = re.sub(r'{CL}', layer, mapfile)
@@ -156,7 +169,7 @@ def get_layer_mapfile(layer, feature, group, color_table, msd):
     return mapfile
 
 
-def process_layer_colors(layer, color_table, input_file, msd, data, target):
+def process_layer_colors(layer, color_table, input_file, msd, data, target, chartsymbols=None):
     #  Reimplementation of the shell script of the same name
 
     # Create directory
@@ -167,6 +180,7 @@ def process_layer_colors(layer, color_table, input_file, msd, data, target):
         pass
 
     theme = os.path.splitext(os.path.basename(color_table))[0]
+
 
     # File that will contain the result
     final_file = open(
@@ -180,7 +194,12 @@ def process_layer_colors(layer, color_table, input_file, msd, data, target):
             group = row[1]
             data_file = '{0}/{1}/CL{1}-{2}.shp'.format(data, layer, feature)
             if os.path.isfile(data_file):
-                mapfile = get_layer_mapfile(layer, feature, group, color_table, msd)
+                mapfile = ''
+                if chartsymbols:
+                    if feature[:6] == 'point-':
+                        mapfile = chartsymbols.get_point_mapfile(layer, feature[6:], group, msd)
+                if not mapfile:
+                    mapfile = get_layer_mapfile(layer, feature, group, color_table, msd)
                 if mapfile:
                     final_file.write(mapfile)
 
