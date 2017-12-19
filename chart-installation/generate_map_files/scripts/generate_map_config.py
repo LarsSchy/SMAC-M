@@ -56,9 +56,12 @@ def main():
         print "No data found"
         sys.exit(1)
 
+    chartsymbols = None
     if args.chartsymbols and not os.path.isfile(args.chartsymbols[0]):
         print "chartsymbols.xml not found at: " + args.chartsymbols[0]
         sys.exit(1)
+    elif args.chartsymbols:
+        chartsymbols = args.chartsymbols[0]
 
     if not os.path.exists(data_path):
         os.makedirs(data_path)
@@ -81,7 +84,7 @@ def main():
         if not layer_definitions_exist or args.force_overwrite:
            create_layer_rules(resource_dir, os.path.join(rule_set_path, "layer_rules"))
         # Generate the BaseChart config ...
-        generate_basechart_config(data_path, map_path, rule_set_path, resource_dir, args.force_overwrite, args.debug, args.chartsymbols[0])
+        generate_basechart_config(data_path, map_path, rule_set_path, resource_dir, args.force_overwrite, args.debug, chartsymbols)
     elif args.geotif_data_path:
         # ... or the TIF config
         generate_tif_config(data_path, map_path, args.debug)
