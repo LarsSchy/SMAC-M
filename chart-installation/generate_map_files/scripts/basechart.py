@@ -125,7 +125,7 @@ def process_all_layers(data, target, config, chartsymbols_file=None):
 
     chartsymbols = None
     if chartsymbols_file:
-        chartsymbols = ChartSymbols(chartsymbols_file, 'Paper')
+        chartsymbols = ChartSymbols(chartsymbols_file, 'Simplified')
 
     #
     #  Process all color themes
