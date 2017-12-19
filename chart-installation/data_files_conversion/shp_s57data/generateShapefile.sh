@@ -54,11 +54,11 @@ do
     echo Processing $_FILE
     filename=`echo $(basename $_FILE)`
     cp $_FILE ${CATPATH}1/CL1_${filename}
-    cp $_FILE ${CATPATH}2/CL1_${filename}
-    cp $_FILE ${CATPATH}3/CL1_${filename}
-    cp $_FILE ${CATPATH}4/CL1_${filename}
-    cp $_FILE ${CATPATH}5/CL1_${filename}
-    cp $_FILE ${CATPATH}6/CL1_${filename}
+    cp $_FILE ${CATPATH}2/CL2_${filename}
+    cp $_FILE ${CATPATH}3/CL3_${filename}
+    cp $_FILE ${CATPATH}4/CL4_${filename}
+    cp $_FILE ${CATPATH}5/CL5_${filename}
+    cp $_FILE ${CATPATH}6/CL6_${filename}
 
 done < /tmp/FILELIST
 
