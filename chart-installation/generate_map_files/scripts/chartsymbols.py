@@ -2,11 +2,14 @@
 
 import os
 import re
+import math
 from xml.etree import ElementTree as etree
 
 class ChartSymbols():
 
     color_table = {}
+
+    symbols_def = {}
 
     point_lookups = {}
 
@@ -29,6 +32,7 @@ class ChartSymbols():
         self.polygon_lookups = {}
 
         self.load_color_table(root, color_table)
+        self.load_symbols(root)
         self.load_lookups(root, table)
 
     def load_colors(self, color_table):
@@ -49,6 +53,21 @@ class ChartSymbols():
                 ]
             self.color_table = colors
 
+    def load_symbols(self, root):
+        for symbol in root.iter('symbol'):
+            try:
+                name = symbol.find('name').text
+                bitmap = symbol.find('bitmap')
+                pivot = bitmap.find('pivot')
+                width = int(bitmap.get('width'))
+                height = int(bitmap.get('height'))
+                self.symbols_def[name] = {
+                    'pivot': [int(pivot.get('x')), int(pivot.get('y'))],
+                    'size': [width, height],
+                }
+            except:
+                continue
+
     def load_lookups(self, root, style):
         for lookup in root.iter('lookup'):
             try:
@@ -68,7 +87,7 @@ class ChartSymbols():
                 continue
 
             # Only load points for now
-            if lookup_type == 'Point' and style == table_name and id != '1794':
+            if lookup_type == 'Point' and style == table_name:
                 if not name in self.point_lookups:
                     self.point_lookups[name] = []
                 self.point_lookups[name].append({
@@ -169,6 +188,9 @@ END
                     # CS is special logic
                     if details[:-2] == 'SOUNDG':
                         style += self.get_soundg()
+                    if details[:-2] == 'LIGHTS':
+                        style += self.get_lights_point()
+
         except:
             raise
             return ""
@@ -180,11 +202,22 @@ END
         # TODO: Validate that the symbol exists
         if details == 'BCNCON81':
             return ''
+
+        x = 0
+        y = 0
+        if details in self.symbols_def:
+            symbol = self.symbols_def[details]
+            x = math.floor(symbol['size'][0] / 2) * -1
+            x += symbol['pivot'][0]
+            y = math.floor(symbol['size'][1] / 2)
+            y -= symbol['pivot'][1]
+
         return """
         STYLE
             SYMBOL "{}"
+            OFFSET {} {}
         END
-        """.format(details)
+        """.format(details, x, y)
 
     def get_label(self, command, details):
         hjustHash = {
@@ -226,9 +259,9 @@ END
             if "'" in attributes:
                 s = attributes[1:-1]
             if matches.group(1) == '%s':
-                return format.replace('%s', '[{}]'.format(s))
+                return matches.group(0).replace('%s', '[{}]'.format(s))
             else:
-                return format.replace(
+                return matches.group(0).replace(
                     matches.group(1),
                     "' + tostring(["+ s +"], '"+matches.group(1)+"') + '")
 
@@ -288,5 +321,51 @@ END
             COLOR 136 152 139
             SIZE 6
             ANTIALIAS TRUE
+        END
+        """
+
+    def get_lights_point(self):
+        # See 13.2.4 Conditional Symbology Procedure LIGHTS06
+        return """
+         EXPRESSION ([CATLIT] == 11 OR [CATLIT] == 8)
+         STYLE
+             SYMBOL 'LIGHTS82'
+         END
+     END
+     CLASS
+        EXPRESSION ([CATLIT] == 9)
+        STYLE
+            SYMBOL 'LIGHTS81'
+        END
+     END
+     CLASS
+        EXPRESSION (([CATLIT] == 1 OR [CATLIT] == 16) AND "[ORIENT]" == "null")
+        STYLE
+            SYMBOL 'LIGHTS81'
+        END
+     END
+     # No symbol
+     CLASS
+        EXPRESSION ([VALNMR] >= 10 AND ("[CATLIT]" !~ "5|6") AND [LITCHR] != 12)
+     END
+     CLASS
+        EXPRESSION ("[COLOUR]" == "3,1" OR "[COLOUR]" == "3")
+        STYLE
+            SYMBOL 'LIGHTS11'
+            OFFSET 9 9
+        END
+     END
+     CLASS
+        EXPRESSION ("[COLOUR]" == "4,1" OR "[COLOUR]" == "4")
+        STYLE
+            SYMBOL 'LIGHTS12'
+            OFFSET 9 9
+        END
+     END
+     CLASS
+        EXPRESSION ("[COLOUR]" == "11" OR "[COLOUR]" == "6" OR "[COLOUR]" == "1")
+        STYLE
+            SYMBOL 'LIGHTS13'
+            OFFSET 9 9
         END
         """
