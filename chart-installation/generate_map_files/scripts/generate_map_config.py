@@ -30,6 +30,7 @@ def parse_arguments():
     parser.add_argument("-rules", "--rule-set-path", nargs=1, help="Path to map configuration rule set", required=True)
     parser.add_argument("-rule-default-color", nargs=1, help="Substring that uniquely identifies a color table")
     parser.add_argument("-d", "--debug", action="store_true", help="Enable debug on the mapserver")
+    parser.add_argument("-c", "--chartsymbols", nargs=1, help="Use OpenCPN chartsymbols.xml file to generate layers")
     args = parser.parse_args()
     if not ((args.basechart_data_path and args.rule_set_path) or args.geotif_data_path or args.elevation_data_path or args.aml_data_path):
         parser.print_help()
@@ -55,6 +56,13 @@ def main():
         print "No data found"
         sys.exit(1)
 
+    chartsymbols = None
+    if args.chartsymbols and not os.path.isfile(args.chartsymbols[0]):
+        print "chartsymbols.xml not found at: " + args.chartsymbols[0]
+        sys.exit(1)
+    elif args.chartsymbols:
+        chartsymbols = args.chartsymbols[0]
+
     if not os.path.exists(data_path):
         os.makedirs(data_path)
     map_path = os.path.normpath(os.path.join(data_path, "..", "map"))
@@ -76,7 +84,7 @@ def main():
         if not layer_definitions_exist or args.force_overwrite:
            create_layer_rules(resource_dir, os.path.join(rule_set_path, "layer_rules"))
         # Generate the BaseChart config ...
-        generate_basechart_config(data_path, map_path, rule_set_path, resource_dir, args.force_overwrite, args.debug)
+        generate_basechart_config(data_path, map_path, rule_set_path, resource_dir, args.force_overwrite, args.debug, chartsymbols)
     elif args.geotif_data_path:
         # ... or the TIF config
         generate_tif_config(data_path, map_path, args.debug)
