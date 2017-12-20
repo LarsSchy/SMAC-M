@@ -34,7 +34,7 @@ input S-57 dataset files and output shapefiles
 
 ```
 cd chart-installation/data_files_conversion
-python ./S57_to_Shape.py /data/S57-data /data/Chart_dir
+python ./S57_to_Shape.py /data/[ENC_ROOT] /data/[output_path]
 ```
 #### Data for enhance map service
 
@@ -48,11 +48,11 @@ This script will build all data needed for enhance nautical charts map service b
 
 ```
 cd chart-installation/data_files_conversion/shp_s57data
-bash generateShapefiles.sh [ENC_source_path] [output_path]
+bash generateShapefiles.sh [ENC_ROOT] [output_path]
 ```
 ## Generating Symbolset
 
-To create symbolset used in generated mapfile, we used source files download from s57data 
+To create symbolset used by generated mapfile, we used source files download from s57data 
 directory of OpenCPN Repository.
 
 Need to download latest version of source files.  Up to datThose files
