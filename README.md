@@ -25,26 +25,48 @@ Furhter on a tool is provided to process tiff files and create mapfiles automati
 
 ## Convert S-57 dataset
 
+There's two way to convert data in project.  The first one convert all the requierded data for the basic map and the second one is needed when you want create a map service based on OpenCPN lookup table. 
+
+#### Data for basic map service
+
 Create a folder that contains all your S-57 files and run the conversion script by specifying 
 input S-57 dataset files and output shapefiles
 
-    cd chart-installation/generate_map_files/scripts/
-    python ./S57_to_Shape.py /data/S57-data /data/Chart_dir
+```
+cd chart-installation/data_files_conversion
+python ./S57_to_Shape.py /data/[ENC_ROOT] /data/[output_path]
+```
+#### Data for enhance map service
 
+This script will build all data needed for enhance nautical charts map service based on OpenCPN configuration file and support light sectors layers:
+
+1) It will create shapefiles based on data configuration from OpenCPN project (s57objectclasses.csv and s57attributes.csv).  This is important because ogr2ogr will convert data he will find and based on you sS-57 source data, some data fields required by MapServer mapfile will not be present.  Creating empty shapefiles first and append data to it will allow us to avoid MapServer error.
+
+2) It will manage by this script is Light Sectors.  We will add extra fields information in LIGHTS data source to create Light Sector in the map service.
+
+3) TODO: It will create extra end, start and arc line light sector segments.
+
+```
+cd chart-installation/data_files_conversion/shp_s57data
+bash generateShapefiles.sh [ENC_ROOT] [output_path]
+```
 ## Generating Symbolset
 
-To create symbolset used in generated mapfile, we used source files download from s57data 
+To create symbolset used by generated mapfile, we used source files download from s57data 
 directory of OpenCPN Repository.
 
 Need to download latest version of source files.  Up to datThose files
-    
-    cd chart-installation/generate_map_files/scripts/
-    python ./generate_symbolset.py update
+
+```
+cd chart-installation/generate_map_files/scripts/
+python ./generate_symbolset.py update
+```
 
 Create symbolset mapfile and generate all png image symbols. 
 
-    python ./generate_symbolset.py [day|dusk|dark] [output_directory]
-
+```
+python ./generate_symbolset.py [day|dusk|dark] [output_directory]
+```
 
 ## Generating mapfiles
 
