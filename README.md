@@ -22,6 +22,37 @@ Furhter on a tool is provided to process tiff files and create mapfiles automati
  * ImageMagic (to create symbolset files)
  * GDAL/OGR (to convert S-57 source dataset)
  * Running Linux OS (Ubuntu 16.04 / Debian 8 tested)
+ * Up to date GDAL/OGR S-57 metadata
+
+## Up to date GDAL/OGR
+
+GDAL/OGR used OpenCPN configuration file to read and extract data from S-57 dataset. If you don't have up to date metadata file on your system, you will be unable to read all the data available in S-57 dataset. You have to make sure to update those files on your system to make run properly data converter script.  First thing to do is to find GDAL/OGR S-57 configuration file, and update them like this:
+
+```
+$ ogrinfo --version
+GDAL 2.2.2, released ...
+$ find / -name s57objectclasses_iw.csv
+/usr/share/gdal/2.2/s57objectclasses_iw.csv
+
+$ wget https://raw.githubusercontent.com/OpenCPN/OpenCPN/master/data/s57data/s57objectclasses.csv
+$ wget https://raw.githubusercontent.com/OpenCPN/OpenCPN/master/data/s57data/s57attributes.csv
+$ cp s57objectclasses.csv /usr/share/gdal/2.2/s57objectclasses_iw.csv
+$ cp s57attributes.csv /usr/share/gdal/2.2/
+```
+
+You can test your setup by using `ogrinfo` and other `ogr2ogr` tools with S57 profile like this:
+```
+ogrinfo --config S57_PROFILE iw -ro CA479099.000 | grep "SLOTOP"
+```
+Or add extra OGR environment variable on your system
+```
+export S57_PROFILE
+```
+
+To process sound depth points properly and other Multipoint dataset, you have to set OGR environment variable on your system
+```
+export OGR_S57_OPTIONS=SPLIT_MULTIPOINT=ON,ADD_SOUNDG_DEPTH=ON
+```
 
 ## Convert S-57 dataset
 
@@ -65,23 +96,28 @@ python ./generate_symbolset.py update
 Create symbolset mapfile and generate all png image symbols. 
 
 ```
-python ./generate_symbolset.py [day|dusk|dark] [output_directory]
+python ./generate_symbolset.py [day|dusk|dark] [output_path]
 ```
 
 ## Generating mapfiles
 
 Display all available options
 
-    python ./generate_map_config.py -h   ---  shows all options
+```
+python ./generate_map_config.py -h   ---  shows all options
+```
 
 Specify rules directory and shapefiles source directory
 
-    python ./generate_map_config.py -rules ../resources/layer_rules/rules/ -basechartdata /data/Chart_dir
+```
+python ./generate_map_config.py -rules ../resources/layer_rules/rules/ -basechartdata /data/Chart_dir
+```
 
 TODO (describe this commandline)
 
-    pythpn ./generate_map_config.py  -rule-default-color IHO -rules ../resources/layer_rules/rules/ -basechartdata /data/Chart_dir
-
+```
+pythpn ./generate_map_config.py  -rule-default-color IHO -rules ../resources/layer_rules/rules/ -basechartdata /data/Chart_dir
+```
 
 The mapfiles are placed in /data/Chart_dir along with the converted data.  Then You should be able
 to test the configuration in the built in open layers viewer with:
