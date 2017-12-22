@@ -101,14 +101,13 @@ class ChartSymbols():
 
     def get_point_mapfile(self, layer, feature, group, msd):
         mapfile = ''
-        base = "CL{}_{}_POINT".format(layer, feature)
+        base = "CL{}-point-{}".format(layer, feature)
 
         try:
             charts = self.point_lookups[feature]
         except:
             return mapfile
 
-        data = self.get_point_mapfile_data(layer, base, charts)
         classes = self.get_point_mapfile_classes(charts)
 
         mapfile = """
@@ -127,35 +126,14 @@ LAYER
     TYPE POINT
     STATUS ON
     MAXSCALEDENOM {3}
-    {4}
+    DATA "{4}"
 {5}
 END
 
 # END of  LAYER: {1}  LEVEL: {0}
-        """.format(layer, feature, group, msd, data, classes)
+        """.format(layer, feature, group, msd, '{}/{}'.format(layer, base), classes)
 
         return mapfile
-
-    def get_point_mapfile_data(self, layer, base, charts):
-
-        data = 'DATA "{}"'.format('{}/{}'.format(layer, base))
-
-        for chart in charts:
-            if not chart['instruction']:
-                continue
-            parts = chart['instruction'].split(';')
-            for part in parts:
-                command = part[:2]
-                details = part[3:-1]
-                if command == 'SY' and ',' in details:
-                    symbol, angle = details.split(',')
-                    return """
-CONNECTIONTYPE OGR
-    CONNECTION "{0}/{1}.shp"
-    DATA "SELECT *, 360 - {2} as {2}_CAL FROM {1}"
-                    """.format(layer, base, angle)
-
-        return data
 
     def get_point_mapfile_classes(self, charts):
         classes = ""
@@ -179,9 +157,7 @@ CONNECTIONTYPE OGR
 
         expr = []
         for rule in rules:
-            if rule[1] == ' ':
-                expr.append('([{}] > 0)'.format(rule[0]))
-            elif rule[1].isdigit():
+            if rule[1].isdigit():
                 expr.append('([{}] == {})'.format(rule[0], rule[1]))
             else:
                 expr.append('("[{}]" == "{}")'.format(rule[0], rule[1]))
@@ -216,6 +192,7 @@ CONNECTIONTYPE OGR
                         style += self.get_lights_point()
 
         except:
+            raise
             return ""
 
         return style
@@ -226,7 +203,6 @@ CONNECTIONTYPE OGR
         if details == 'BCNCON81':
             return ''
 
-        # OFFSET
         x = 0
         y = 0
         if details in self.symbols_def:
@@ -236,19 +212,12 @@ CONNECTIONTYPE OGR
             y = math.floor(symbol['size'][1] / 2)
             y -= symbol['pivot'][1]
 
-        # ANGLE
-        angle = 0
-        if ',' in details:
-            details, angle = details.split(',')
-            angle = '[{}_CAL]'.format(angle)
-
         return """
         STYLE
             SYMBOL "{}"
             OFFSET {} {}
-            ANGLE {}
         END
-        """.format(details, x, y, angle)
+        """.format(details, x, y)
 
     def get_label(self, command, details):
         hjustHash = {
@@ -297,18 +266,9 @@ CONNECTIONTYPE OGR
                     "' + tostring(["+ s +"], '"+matches.group(1)+"') + '")
 
         text = re.sub(r'(%[^ ]*[a-z])[^a-z]', get_label_text, format)
-        if ' + ' in text:
-            text = '({})'.format(text)
-        try:
-            label_field = re.search('(\[[^\]]+\])', text).group(1)
-            label_expr = 'EXPRESSION ("{}" > "0")'.format(label_field)
-        except AttributeError:
-            # AAA, ZZZ not found in the original string
-            label_expr = '' # apply your error handling
 
         return """
         LABEL  # {}
-            {}
             TYPE TRUETYPE
             FONT SC
             PARTIALS TRUE
@@ -318,11 +278,10 @@ CONNECTIONTYPE OGR
             SIZE {}
             OFFSET {} {}
             COLOR {}
-            TEXT {}
+            TEXT ({})
         END
         """.format(
             command,
-            label_expr,
             vjustHash[vjust] + hjustHash[hjust],
             spaceHash[space],
             chars[-3:-1],
@@ -340,7 +299,6 @@ CONNECTIONTYPE OGR
             COLOR 136 152 139
             SIZE 8
             ANTIALIAS TRUE
-            FORCE TRUE
         END
 
         LABEL
@@ -352,7 +310,6 @@ CONNECTIONTYPE OGR
             COLOR 136 152 139
             SIZE 7
             ANTIALIAS TRUE
-            FORCE TRUE
         END
 
         LABEL
@@ -364,7 +321,6 @@ CONNECTIONTYPE OGR
             COLOR 136 152 139
             SIZE 6
             ANTIALIAS TRUE
-            FORCE TRUE
         END
         """
 
@@ -390,7 +346,7 @@ CONNECTIONTYPE OGR
      END
      # No symbol
      CLASS
-        EXPRESSION ([VALNMR] >= 10 AND NOT ("[CATLIT]" ~ "5" OR "[CATLIT]" ~ "6") AND [LITCHR] != 12)
+        EXPRESSION ([VALNMR] >= 10 AND ("[CATLIT]" !~ "5|6") AND [LITCHR] != 12)
      END
      CLASS
         EXPRESSION ("[COLOUR]" == "3,1" OR "[COLOUR]" == "3")
