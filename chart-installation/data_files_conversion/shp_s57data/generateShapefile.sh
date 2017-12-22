@@ -103,7 +103,7 @@ do
                 fi
  
                 # process only if object exist
-                ogrinfo --config S57_PROFILE iw -ro $_FILE | grep "$name" > $TMPPATH/layers 
+                ogrinfo -ro $where $_FILE "$name" | awk '/Feature Count: /{if ($3 > 0) print "'"$name"'"}' > $TMPPATH/layers 
                 lnr=$(cat $TMPPATH/layers | awk -F: '{print $1}')
                 
                 # 
@@ -119,7 +119,7 @@ do
                         
                         ## ogr2ogr s-57 to shapefiles
                         echo ogr2ogr -append -skipfailures -f ESRI Shapefile -lco FID=OGC_FID $output_shp $where $_FILE $name    
-                        ogr2ogr -append -skipfailures -f "ESRI Shapefile" --config S57_PROFILE iw -lco FID=OGC_FID $output_shp $where $_FILE $name >> /tmp/errors 2>&1 
+                        ogr2ogr -append -skipfailures -f "ESRI Shapefile" --config S57_PROFILE iw $output_shp $where $_FILE $name >> /tmp/errors 2>&1 
 
                         # add a special dataset to support Lignts signature...
                         if [[ "${name}" == "LIGHTS" ]]
