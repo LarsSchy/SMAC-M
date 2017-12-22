@@ -103,7 +103,7 @@ do
                 fi
  
                 # process only if object exist
-                ogrinfo -ro $_FILE | grep "$name" > $TMPPATH/layers 
+                ogrinfo --config S57_PROFILE iw -ro $_FILE | grep "$name" > $TMPPATH/layers 
                 lnr=$(cat $TMPPATH/layers | awk -F: '{print $1}')
                 
                 # 
@@ -112,14 +112,14 @@ do
                         # name is case sensitive for mapping purpose and SQlite doesnt support case sensitive
                         ## We need to test with regex it and add '_lcase_' in table name for lcase s-57 objectclasse 
                         if ! [[ "$name" =~ [^a-z_] ]]; then
-                            output_shp=${CATPATH}${usage}/CL${usage}_${name}_lcase_${type}.shp
+                            output_shp=${CATPATH}/${usage}/CL${usage}_${name}_lcase_${type}.shp
                         else
-                            output_shp=${CATPATH}${usage}/CL${usage}_${name}_${type}.shp
+                            output_shp=${CATPATH}/${usage}/CL${usage}_${name}_${type}.shp
                         fi
                         
                         ## ogr2ogr s-57 to shapefiles
                         echo ogr2ogr -append -skipfailures -f ESRI Shapefile -lco FID=OGC_FID $output_shp $where $_FILE $name    
-                        ogr2ogr -append -skipfailures -f "ESRI Shapefile" -lco FID=OGC_FID $output_shp $where $_FILE $name >> /tmp/errors 2>&1 
+                        ogr2ogr -append -skipfailures -f "ESRI Shapefile" --config S57_PROFILE iw -lco FID=OGC_FID $output_shp $where $_FILE $name >> /tmp/errors 2>&1 
 
                         # add a special dataset to support Lignts signature...
                         if [[ "${name}" == "LIGHTS" ]]
