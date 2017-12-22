@@ -43,26 +43,6 @@ python gen_obj.py
 # NOTE: This will create objlist.txt use in loop 
 
 # Step 3
-#We need to copy shapefiles template into all map navigation purpose
-# This will garantied us to have all field used in IHO standard define 
-# in look up OpenCPN file
-python gen_shp_template.py ./
-
-find shp_template/ -name '*' > /tmp/FILELIST
-while read _FILE
-do
-    echo Processing $_FILE
-    filename=`echo $(basename $_FILE)`
-    cp $_FILE ${CATPATH}1/CL1_${filename}
-    cp $_FILE ${CATPATH}2/CL2_${filename}
-    cp $_FILE ${CATPATH}3/CL3_${filename}
-    cp $_FILE ${CATPATH}4/CL4_${filename}
-    cp $_FILE ${CATPATH}5/CL5_${filename}
-    cp $_FILE ${CATPATH}6/CL6_${filename}
-
-done < /tmp/FILELIST
-
-# Step 4
 # generate catalogues of S-57 source dataset 
 find $ENCPATH/ -name *.000 > $TMPPATH/FILELIST
 
