@@ -16,14 +16,14 @@ MAP
 
     IMAGETYPE png
     FONTSET '${FONTS_PATH}'
-    SYMBOLSET "./symbols/symbols.sym"
+    SYMBOLSET "./symbols/symbols-day.map"
     OUTPUTFORMAT
         NAME 'AGG'
         DRIVER AGG/PNG
         IMAGEMODE RGB
     END
 
-    SHAPEPATH ../shape
+    SHAPEPATH "${SHAPEPATH}"
 
     WEB
         IMAGEPATH '/tmp/'

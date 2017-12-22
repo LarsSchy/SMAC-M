@@ -21,6 +21,8 @@ def parse_arguments():
     parser.add_argument("-f", "--force-overwrite", action="store_true", help="Force overwrite the rule set at RULE_SET_PATH")
     basechartgroup = parser.add_argument_group("BaseChart arguments:")
     basechartgroup.add_argument("-basechartdata", "--basechart-data-path", nargs=1, help="Directory where your converted chart data is stored. The subfolder needs to be named 'shape'.")
+    enhancedchartgroup = parser.add_argument_group("Enhanced Chart arguments:")
+    enhancedchartgroup.add_argument("-enhancedchartdata", "--enhanced-data-path", nargs=1, help="Directory where your converted enhanced chart data is stored. The subfolder can have any name, but must contains levels (1, 2, etc.) subfolders.")
     geotifgroup = parser.add_argument_group("GeoTif arguments:")
     geotifgroup.add_argument("-geotifdata", "--geotif-data-path", nargs=1, help="Directory where your Geotif files are stored. The subfolder needs to be named 'data'.")
     elevationgroup = parser.add_argument_group("Elevation arguments:")
@@ -31,8 +33,13 @@ def parse_arguments():
     parser.add_argument("-rule-default-color", nargs=1, help="Substring that uniquely identifies a color table")
     parser.add_argument("-d", "--debug", action="store_true", help="Enable debug on the mapserver")
     parser.add_argument("-c", "--chartsymbols", nargs=1, help="Use OpenCPN chartsymbols.xml file to generate layers")
+    parser.add_argument("-t", "--tablename", nargs=1, help="Which OpenCPN chartsymbols.xml table to generate. Default is Simplified.")
     args = parser.parse_args()
-    if not ((args.basechart_data_path and args.rule_set_path) or args.geotif_data_path or args.elevation_data_path or args.aml_data_path):
+    if not ((args.basechart_data_path and args.rule_set_path) or
+            (args.enhanced_data_path and args.rule_set_path) or
+            args.geotif_data_path or
+            args.elevation_data_path or
+            args.aml_data_path):
         parser.print_help()
         sys.exit(2)
     return args
@@ -41,6 +48,7 @@ def main():
     args = parse_arguments()
 
     # Set up the paths to use
+    enhanced_data = False
     rule_set_path = dirutils.force_sub_dir(os.path.abspath(args.rule_set_path[0]), "rules")
     data_path = None
     if args.basechart_data_path:
@@ -51,17 +59,26 @@ def main():
         data_path = dirutils.force_sub_dir(os.path.abspath(os.path.normpath(args.elevation_data_path[0])), "data")
     elif args.aml_data_path:
         data_path = dirutils.force_sub_dir(os.path.abspath(os.path.normpath(args.aml_data_path[0])), "data")
+    elif args.enhanced_data_path:
+        enhanced_data = True
+        if not args.chartsymbols:
+            print "Enhanced data require --chartsymbols option."
+            sys.exit(1)
+        data_path = os.path.abspath(os.path.normpath(args.enhanced_data_path[0]))
 
     if not data_path:
         print "No data found"
         sys.exit(1)
 
     chartsymbols = None
+    tablename = 'Simplified'
     if args.chartsymbols and not os.path.isfile(args.chartsymbols[0]):
         print "chartsymbols.xml not found at: " + args.chartsymbols[0]
         sys.exit(1)
-    elif args.chartsymbols:
+    elif args.chartsymbols and enhanced_data:
         chartsymbols = args.chartsymbols[0]
+        if args.tablename and args.tablename[0] in ['Simplified', 'Paper']:
+            tablename = args.tablename[0]
 
     if not os.path.exists(data_path):
         os.makedirs(data_path)
@@ -78,13 +95,13 @@ def main():
             color_table = None
         create_color_rules(resource_dir, os.path.join(rule_set_path, "color_tables"), color_table)
 
-    if args.basechart_data_path:
+    if args.basechart_data_path or args.enhanced_data_path:
         # Check if layer definitions exist and create them if not
         layer_definitions_exist = dirutils.does_layer_rules_exist(rule_set_path)
         if not layer_definitions_exist or args.force_overwrite:
            create_layer_rules(resource_dir, os.path.join(rule_set_path, "layer_rules"))
         # Generate the BaseChart config ...
-        generate_basechart_config(data_path, map_path, rule_set_path, resource_dir, args.force_overwrite, args.debug, chartsymbols)
+        generate_basechart_config(data_path, map_path, rule_set_path, resource_dir, args.force_overwrite, args.debug, tablename, chartsymbols)
     elif args.geotif_data_path:
         # ... or the TIF config
         generate_tif_config(data_path, map_path, args.debug)
