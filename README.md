@@ -26,7 +26,9 @@ Furhter on a tool is provided to process tiff files and create mapfiles automati
 
 ## Up to date GDAL/OGR
 
-GDAL/OGR used OpenCPN configuration file to read and extract data from S-57 dataset. If you don't have up to date metadata file on your system, you will be unable to read all the data available in S-57 dataset. You have to make sure to update those files on your system to make run properly data converter script.  First thing to do is to find GDAL/OGR S-57 configuration file, and update them like this:
+GDAL/OGR used OpenCPN configuration file to read and extract data from S-57 dataset. If you don't have up to date metadata file on your system, you will be unable to read all the data available in S-57 dataset. You have to make sure to update those files on your system to make run properly data converter script.  In [S-57 OGR driver](http://www.gdal.org/drv_s57.html) documentation said: _The S-57 reader depends on having two supporting files, s57objectclasses.csv, and s57attributes.csv available at runtime in order to translate features in an object class specific manner. These should be in the directory pointed to by the environment variable S57_CSV, **or in the current working directory**_
+
+For your setup and future usage, be sure to find GDAL/OGR S-57 configuration file, and update them like this:
 
 ```
 $ ogrinfo --version
