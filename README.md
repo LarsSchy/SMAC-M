@@ -50,6 +50,33 @@ This script will build all data needed for enhance nautical charts map service b
 cd chart-installation/data_files_conversion/shp_s57data
 bash generateShapefiles.sh [ENC_ROOT] [output_path]
 ```
+
+### Enhanced data mapfile and limitation
+
+Working with enhanced data allows to create mapfiles from the chartsymbols.xml file. This file contains all the specification of all symbols of the IENC symbology and is provided by OpenCPN. The file provided by OpenCPN does contains a few errors or limitation that are not currently handled.
+
+ - Only point layers are created from the chartsymbols.xml file. Line and polygon layers are still generated from template mapfile.
+ - The layer order is not managed at all. The layers are added to the map in pseudo random order.
+ - The data files contain a MinScale / MaxScale information and this is not directly used. We currently separate in only 6 levels:
+   - 2000000
+   - 600000
+   - 150000
+   - 50000
+   - 25000
+ - Symbology is created from SY, TE and TX instruction. Basic CS(LIGHTSxx) support have been added, but is not complete. Other CS code are not supported yet.
+ - Symbols in MapServer are anchored to the map in the center vs in the top-left corner for OpenCPN. This brings a disparity in the symbol placement when they are stacked together.
+ - Current implementation stack levels as you zoom in so you get level 1 features and labels in level 2 maps.
+ - Symbology can be created from vector and bitmaps. We are only supporting bitmap symbology.
+ - TOWERSxx symbols are present twice in the chartsymbols.xml. We only use the second one.
+ - SOUNDG labels are set with FORCE TRUE. This make to many appear in the map at small scale.
+ - Some layers a wrong types
+ - Some layers defined in the chartsymbols.xml are pointing to non-existing data columns:
+   - BCNSPP layer (lookup #1781) uses BOYSHP == 1 Expression, but this field is not present. We replaced it by BCNDHP == 1.
+   - BCNSPP layer (lookup #1784) uses CATLAM == 1 Expression, but this field is not present. We replaced it by CATSPM == 1.
+   - RADSTA layer (lookup #1222, #2340) uses COMCHA field for label, but this field is not present. We replaced it by OBJNAM.
+   - RDOSTA layer (lookup #2350) uses DGPS field for label, but this field is not present. We replaced it by OBJNAM.
+   - TOPMAR layer uses OBJNAM field for label, but this field is not present
+
 ## Generating Symbolset
 
 To create symbolset used by generated mapfile, we used source files download from s57data 
@@ -80,7 +107,7 @@ Specify rules directory and shapefiles source directory
 
 TODO (describe this commandline)
 
-    pythpn ./generate_map_config.py  -rule-default-color IHO -rules ../resources/layer_rules/rules/ -basechartdata /data/Chart_dir
+    python ./generate_map_config.py  -rule-default-color IHO -rules ../resources/layer_rules/rules/ -basechartdata /data/Chart_dir
 
 
 The mapfiles are placed in /data/Chart_dir along with the converted data.  Then You should be able
