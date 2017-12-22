@@ -43,26 +43,6 @@ python gen_obj.py
 # NOTE: This will create objlist.txt use in loop 
 
 # Step 3
-#We need to copy shapefiles template into all map navigation purpose
-# This will garantied us to have all field used in IHO standard define 
-# in look up OpenCPN file
-python gen_shp_template.py ./
-
-find shp_template/ -name '*' > /tmp/FILELIST
-while read _FILE
-do
-    echo Processing $_FILE
-    filename=`echo $(basename $_FILE)`
-    cp $_FILE ${CATPATH}1/CL1_${filename}
-    cp $_FILE ${CATPATH}2/CL2_${filename}
-    cp $_FILE ${CATPATH}3/CL3_${filename}
-    cp $_FILE ${CATPATH}4/CL4_${filename}
-    cp $_FILE ${CATPATH}5/CL5_${filename}
-    cp $_FILE ${CATPATH}6/CL6_${filename}
-
-done < /tmp/FILELIST
-
-# Step 4
 # generate catalogues of S-57 source dataset 
 find $ENCPATH/ -name *.000 > $TMPPATH/FILELIST
 
@@ -123,7 +103,7 @@ do
                 fi
  
                 # process only if object exist
-                ogrinfo -ro $_FILE | grep "$name" > $TMPPATH/layers 
+                ogrinfo -ro $where $_FILE "$name" | awk '/Feature Count: /{if ($3 > 0) print "'"$name"'"}' > $TMPPATH/layers 
                 lnr=$(cat $TMPPATH/layers | awk -F: '{print $1}')
                 
                 # 
@@ -132,24 +112,23 @@ do
                         # name is case sensitive for mapping purpose and SQlite doesnt support case sensitive
                         ## We need to test with regex it and add '_lcase_' in table name for lcase s-57 objectclasse 
                         if ! [[ "$name" =~ [^a-z_] ]]; then
-                            output_shp=${CATPATH}${usage}/CL${usage}_${name}_lcase_${type}.shp
+                            output_shp=${CATPATH}/${usage}/CL${usage}_${name}_lcase_${type}.shp
                         else
-                            output_shp=${CATPATH}${usage}/CL${usage}_${name}_${type}.shp
+                            output_shp=${CATPATH}/${usage}/CL${usage}_${name}_${type}.shp
                         fi
                         
                         ## ogr2ogr s-57 to shapefiles
                         echo ogr2ogr -append -skipfailures -f ESRI Shapefile -lco FID=OGC_FID $output_shp $where $_FILE $name    
-                        ogr2ogr -append -skipfailures -f "ESRI Shapefile" -lco FID=OGC_FID $output_shp $where $_FILE $name >> /tmp/errors 2>&1 
+                        ogr2ogr -append -skipfailures -f "ESRI Shapefile" --config S57_PROFILE iw $output_shp $where $_FILE $name >> /tmp/errors 2>&1 
 
                         # add a special dataset to support Lignts signature...
                         if [[ "${name}" == "LIGHTS" ]]
                         then
                             cat=CL${usage}_${name}_${type}
 
-                            echo ogr2ogr -sql "SELECT ${cat}.VALNMR as VALNMR, ${cat}.LITCHR as LITCHR, ${cat}.SIGGRP as SIGGRP, cast(${cat}.SIGPER as numeric(4,1)) as SIGPER, cast(${cat}.HEIGHT as numeric(4,1))  as HEIGHT, ${cat}.COLOUR as COLOUR, ${cat}.EXCLIT as EXCLIT,litchr_code.Meaning as Meaning,colour_code.Colour_code as Colour_cod FROM '${output_shp}'.${cat} LEFT JOIN 'litchr_code.csv'.litchr_code litchr_code ON ${cat}.LITCHR = litchr_code.ID LEFT JOIN 'colour_code.csv'.colour_code colour_code ON ${cat}.COLOUR = colour_code.ID" ${CATPATH}${usage}/CL${usage}_${name}_${type}_SIGNATURE.shp ${output_shp}
-
-
-                             ogr2ogr -sql "SELECT ${cat}.VALNMR as VALNMR,  ${cat}.LITCHR as LITCHR, ${cat}.SIGGRP as SIGGRP, cast(${cat}.SIGPER as numeric(4,1)) as SIGPER, cast(${cat}.HEIGHT as numeric(4,1))  as HEIGHT, ${cat}.COLOUR as COLOUR, ${cat}.EXCLIT as EXCLIT,litchr_code.Meaning as Meaning,colour_code.Colour_code as Colour_cod FROM '${output_shp}'.${cat} LEFT JOIN 'litchr_code.csv'.litchr_code litchr_code ON ${cat}.LITCHR = litchr_code.ID LEFT JOIN  'colour_code.csv'.colour_code colour_code ON ${cat}.COLOUR = colour_code.ID" ${CATPATH}${usage}/CL${usage}_${name}_${type}_SIGNATURE.shp ${output_shp}
+                            # using cast(${cat}.HEIGHT as numeric(30,5)) -> https://trac.osgeo.org/gdal/ticket/6803
+                            echo ogr2ogr -sql "SELECT ${cat}.VALNMR as VALNMR, ${cat}.LITCHR as LITCHR, ${cat}.SIGGRP as SIGGRP, cast(${cat}.SIGPER as numeric(4,1)) as SIGPER, cast(${cat}.HEIGHT as numeric(30,5))  as HEIGHT, ${cat}.COLOUR as COLOUR, ${cat}.EXCLIT as EXCLIT,litchr_code.Meaning as Meaning,colour_code.Colour_code as Colour_cod FROM '${output_shp}'.${cat} LEFT JOIN 'litchr_code.csv'.litchr_code litchr_code ON ${cat}.LITCHR = litchr_code.ID LEFT JOIN 'colour_code.csv'.colour_code colour_code ON ${cat}.COLOUR = colour_code.ID" ${CATPATH}${usage}/CL${usage}_${name}_${type}_SIGNATURE.shp ${output_shp}
+                            ogr2ogr -sql "SELECT ${cat}.VALNMR as VALNMR,  ${cat}.LITCHR as LITCHR, ${cat}.SIGGRP as SIGGRP, cast(${cat}.SIGPER as numeric(4,1)) as SIGPER, cast(${cat}.HEIGHT as numeric(30,5))  as HEIGHT, ${cat}.COLOUR as COLOUR, ${cat}.EXCLIT as EXCLIT,litchr_code.Meaning as Meaning,colour_code.Colour_code as Colour_cod FROM '${output_shp}'.${cat} LEFT JOIN 'litchr_code.csv'.litchr_code litchr_code ON ${cat}.LITCHR = litchr_code.ID LEFT JOIN  'colour_code.csv'.colour_code colour_code ON ${cat}.COLOUR = colour_code.ID" ${CATPATH}${usage}/CL${usage}_${name}_${type}_SIGNATURE.shp ${output_shp}
 
                         fi
 
