@@ -35,7 +35,9 @@ def Usage():
     print('-----------------------------------------------------------------------------')
     print('This script let you create a light sector shapefiles based on LIGHTS dataset')
     print('')
-    print('Usage: python generate_light_sector.py [input_shapefile]')
+    print('Usage: python generate_light_sector.py [input_shapefile] [radius|"valmnr"]')
+    print('       NOTE 1: input shapefile must be named as *_LIGHTS_*.shp')
+    print('       NOTE 2: if radius = valmnr distance will be take in data')
     print('Output: [input_shapefile]_sector.shp')
     print('-----------------------------------------------------------------------------')
     sys.exit( 1 )
@@ -80,17 +82,11 @@ def GetMeaning(id_):
 # =============================================================================
 # Parse command line arguments.
 # =============================================================================
-i = 1
-while i < len(sys.argv):
-    arg = sys.argv[i]
-
-    if infile is None:
-        infile = arg
-
-    else:
-        Usage()
-
-    i = i + 1
+if len(sys.argv)==2:
+    infile = sys.argv[1]
+    radius = sys.argv[2]
+else:
+    Usage()
 
 if infile is None:
     Usage()
@@ -232,9 +228,11 @@ for light_feature in layer_light_point:
         angleTo = 360 + sectr2
 
     # to fix the arc at a specific radius 
-    # radius = 1000
-    # to fix the arc at the end of rays
-    radius = valnmr * 1852
+    if radius == 'valnmr':
+        # to fix the arc at the end of rays
+        radius = valnmr * 1852
+    else:
+        radius = int(radius)
 
     # add all needed values to build the light signature on the arc
     feature = ogr.Feature(sector_layer.GetLayerDefn())
