@@ -122,8 +122,8 @@ else:
 
 
 # Create sector shapepath
-index = infile.find('.shp')
-filepath = infile[0:index] + '_SECTOR.shp'
+index = infile.find('_LIGHTS_')
+filepath = infile[0:index] + '_LIGHTS_LINESTRING_SECTOR.shp'
 
 debug(filepath)
 
