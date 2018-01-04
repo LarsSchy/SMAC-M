@@ -21,6 +21,7 @@ Furhter on a tool is provided to process tiff files and create mapfiles automati
 
 ## Requirement
 
+ * Your own S-57 dataset source files
  * XMLStarlet (to create color tables)
  * ImageMagic (to create symbolset files)
  * GDAL/OGR (to convert S-57 source dataset)
