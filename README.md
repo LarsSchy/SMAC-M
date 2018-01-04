@@ -5,6 +5,9 @@ utilities to convert data from S57 to a shapefiles and to create mapfiles for a 
 This package uses the a python script and bash scripts to build a complete mapfiles from a set 
 of templates and styling information to enable display of nautical data in the format S57.
  
+![S-57-overview](/doc/S-57-overview.png)
+![S-57-boy](/doc/S-57-boy.png)
+
 The package enables mapserver to display nautical charts in different color modes and with 
 alternative color tables.  Currently only simplified S52 symbology is carried out. But future 
 plans are to include paper chart symbology as a separate style. The package also contains tools 
@@ -84,6 +87,8 @@ bash generateShapefiles.sh [ENC_ROOT] [output_path]
 
 This script will create a light sector shapefiles based on LIGHTS dataset create by enhance data process
 
+![S-57-lioghts_sector](/doc/S-57-lights_sector.png)
+
 ```
 cd chart-installation/data_files_conversion/shp_s57data
 python generate_light_sector.py [input_lights_shp_path] [radius]
@@ -91,7 +96,6 @@ python generate_light_sector.py [input_lights_shp_path] [radius]
 
 NOTE 1: input shapefile must be named as *_LIGHTS_*.shp
 NOTE 2: if radius = valmnr distance will be take in data
-
 
 ### Enhanced data mapfile and limitation
 
