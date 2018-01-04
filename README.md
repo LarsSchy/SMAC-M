@@ -75,9 +75,7 @@ python ./S57_to_Shape.py [ENC_ROOT] [output_path]
 ```
 #### Data for enhance map service
 
-This script will build all data needed for enhance nautical charts map service based on OpenCPN configuration file and support light sectors layers:
-
-1) It will create shapefiles based on data configuration from OpenCPN project (s57objectclasses.csv and s57attributes.csv).  This is important because ogr2ogr will convert data he will find and based on you sS-57 source data, some data fields required by MapServer mapfile will not be present.  Creating empty shapefiles first and append data to it will allow us to avoid MapServer error.
+This script will build all data needed for enhance nautical charts map service based on OpenCPN configuration file and support light sectors layers.  This script will create shapefiles based on data configuration from OpenCPN project (s57objectclasses.csv and s57attributes.csv).  The script will create shapefile for S-57 object ONLY if data is found in your source files.
 
 ```
 cd chart-installation/data_files_conversion/shp_s57data
@@ -163,7 +161,7 @@ python ./generate_map_config.py -rules ../resources/layer_rules/rules/ -basechar
 
 #### Enhanced mapservice
 
-To build mapfiles for enhanced nautical chart map services based on OpenCPN lookup table, we have to specify the chartsymbols file, the enhance shapefiles path, the graphics style(tablename: Paper|Simplify) and choose the display category Standard (the 'All' display category is still not supported).
+To build mapfiles for enhanced nautical chart map services based on OpenCPN lookup table, we have to specify the chartsymbols file, the enhance shapefiles path, the graphics style(tablename: `Paper`|`Simplify`) and choose the display category (dedault is `Displaybase,Standard`,  `All` display category is still not supported).  This script will create mapfile based on data found into `enhancedchartdata`.  If you update your enhance data repository you should run again this script to update your map service.
 
 ```
  python ./generate_map_config.py -rule-default-color IHO --chartsymbols ./chartsymbols_S57.xml -enhancedchartdata ./shp_s57data/shp --tablename Paper --displaycategory Standard --rule-set-path ../resources/layer_rules/rules/
