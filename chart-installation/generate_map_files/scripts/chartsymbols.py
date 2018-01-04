@@ -19,7 +19,7 @@ class ChartSymbols():
 
     root = None
 
-    def __init__(self, file, table='Simplified', color_table='DAY_BRIGHT'):
+    def __init__(self, file, table='Simplified', displaycategory=None, color_table='DAY_BRIGHT'):
         if not os.path.isfile(file):
             raise Exception('chartsymbol file do not exists')
         tree = etree.parse(file)
@@ -33,7 +33,7 @@ class ChartSymbols():
 
         self.load_color_table(root, color_table)
         self.load_symbols(root)
-        self.load_lookups(root, table)
+        self.load_lookups(root, table, displaycategory)
 
     def load_colors(self, color_table):
         self.color_table = {}
@@ -68,7 +68,7 @@ class ChartSymbols():
             except:
                 continue
 
-    def load_lookups(self, root, style):
+    def load_lookups(self, root, style, displaycategory=None):
         for lookup in root.iter('lookup'):
             try:
                 name = lookup.get('name')
@@ -87,7 +87,8 @@ class ChartSymbols():
                 continue
 
             # Only load points for now
-            if lookup_type == 'Point' and style == table_name:
+            if lookup_type == 'Point' and style == table_name and \
+               (displaycategory is None or display in displaycategory):
                 if not name in self.point_lookups:
                     self.point_lookups[name] = []
                 self.point_lookups[name].append({

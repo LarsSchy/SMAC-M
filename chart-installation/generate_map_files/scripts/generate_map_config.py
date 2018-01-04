@@ -33,6 +33,7 @@ def parse_arguments():
     parser.add_argument("-rule-default-color", nargs=1, help="Substring that uniquely identifies a color table")
     parser.add_argument("-d", "--debug", action="store_true", help="Enable debug on the mapserver")
     parser.add_argument("-c", "--chartsymbols", nargs=1, help="Use OpenCPN chartsymbols.xml file to generate layers")
+    parser.add_argument("-y", "--displaycategory", nargs=1, help="Comma separated list of OpenCPN Display Category to load. Displaybase is always loaded, default is Standard.")
     parser.add_argument("-t", "--tablename", nargs=1, help="Which OpenCPN chartsymbols.xml table to generate. Default is Simplified.")
     args = parser.parse_args()
     if not ((args.basechart_data_path and args.rule_set_path) or
@@ -72,13 +73,18 @@ def main():
 
     chartsymbols = None
     tablename = 'Simplified'
+    displaycategory =['Displaybase']
     if args.chartsymbols and not os.path.isfile(args.chartsymbols[0]):
         print "chartsymbols.xml not found at: " + args.chartsymbols[0]
         sys.exit(1)
     elif args.chartsymbols and enhanced_data:
-        chartsymbols = args.chartsymbols[0]
+        chartsymbols = os.path.abspath(os.path.normpath(args.chartsymbols[0]))
         if args.tablename and args.tablename[0] in ['Simplified', 'Paper']:
             tablename = args.tablename[0]
+        if args.displaycategory:
+            displaycategory.extend(args.displaycategory[0].split(','))
+        else:
+            displaycategory.append('Standard')
 
     if not os.path.exists(data_path):
         os.makedirs(data_path)
@@ -101,7 +107,7 @@ def main():
         if not layer_definitions_exist or args.force_overwrite:
            create_layer_rules(resource_dir, os.path.join(rule_set_path, "layer_rules"))
         # Generate the BaseChart config ...
-        generate_basechart_config(data_path, map_path, rule_set_path, resource_dir, args.force_overwrite, args.debug, tablename, chartsymbols)
+        generate_basechart_config(data_path, map_path, rule_set_path, resource_dir, args.force_overwrite, args.debug, tablename, displaycategory, chartsymbols)
     elif args.geotif_data_path:
         # ... or the TIF config
         generate_tif_config(data_path, map_path, args.debug)

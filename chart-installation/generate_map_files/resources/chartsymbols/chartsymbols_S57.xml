@@ -12770,7 +12770,7 @@
 			<radar-prio>On Top</radar-prio>
 			<table-name>Simplified</table-name>
 			<instruction>CS(SOUNDG02)</instruction>
-			<display-cat>Other</display-cat>
+			<display-cat>Standard</display-cat>
 			<comment>33010</comment>
 		</lookup>
 		<lookup id="1260" RCID="31312" name="SPLARE">
@@ -24538,7 +24538,7 @@
 			<radar-prio>On Top</radar-prio>
 			<table-name>Paper</table-name>
 			<instruction>CS(SOUNDG02)</instruction>
-			<display-cat>Other</display-cat>
+			<display-cat>Standard</display-cat>
 			<comment>33010</comment>
 		</lookup>
 		<lookup id="2378" RCID="30535" name="SPLARE">
