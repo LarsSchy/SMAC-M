@@ -84,19 +84,20 @@ cd chart-installation/data_files_conversion/shp_s57data
 bash generateShapefiles.sh [ENC_ROOT] [output_path]
 ```
 
-##### Light sector
+#### Light sector
 
-This script will create a light sector shapefiles based on LIGHTS dataset create by enhance data process
+This project will automatically create lights sector shapefiles based on LIGHTS dataset create by enhance data process.  
 
 ![S-57-lioghts_sector](/doc/S-57-lights_sector.png)
+
+In case you need to update Lights sector or change the default radius, you can simply run this script:
 
 ```
 cd chart-installation/data_files_conversion/shp_s57data
 python generate_light_sector.py [input_lights_shp_path] [radius]
+  # NOTE 1: input shapefile must be named as *_LIGHTS_*.shp
+  # NOTE 2: if radius = valmnr keyword, distance will be take from data
 ```
-
-NOTE 1: input shapefile must be named as *_LIGHTS_*.shp
-NOTE 2: if radius = valmnr distance will be take in data
 
 ### Enhanced data mapfile and limitation
 
