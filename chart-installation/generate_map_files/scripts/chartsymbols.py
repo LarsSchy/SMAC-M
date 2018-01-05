@@ -135,6 +135,146 @@ END
 # END of  LAYER: {1}  LEVEL: {0}
         """.format(layer, feature, group, msd, data, classes)
 
+        ## Hack to add special layers for Light Sector.  TODO: this should be refactor in future phases
+        if feature == 'LIGHTS':
+            mapfile = """
+# LIGHTS features and lines
+LAYER
+     NAME RAYS_SECTOR
+     TYPE LINE
+     DATA '{0}/CL{0}_LIGHTS_LINESTRING_SECTOR'
+     MAXSCALEDENOM {3}
+     GROUP "{2}"
+     TOLERANCE 10
+     TEMPLATE dummy.html
+     PROJECTION
+        "init=epsg:3857"
+     END
+     CLASS
+        EXPRESSION ('[TYPE]'='RAYS')
+        STYLE
+            COLOR  77 77 77
+            PATTERN 5 5 5 5 END
+            WIDTH 1
+        END
+     END
+     METADATA
+        "oms_title" "RAYS_SECTOR"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+     END
+ END
+ LAYER
+     NAME ARC_LIGHTS_SECTOR
+     TYPE LINE
+     DATA '{0}/CL{0}_LIGHTS_LINESTRING_SECTOR'
+     MAXSCALEDENOM {3}
+     GROUP "{2}"
+     TOLERANCE 10
+     TEMPLATE dummy.html
+     PROJECTION
+        "init=epsg:3857"
+     END
+     CLASS
+         EXPRESSION ('[TYPE]'='ARC' AND [VALNMR]!=0)
+         STYLE
+            COLOR [COLOURRGB]
+            WIDTH 3
+         END
+         TEXT ('[MEANING]'+'.'+tostring([SIGGRP],"%.2g")+ '.' + '[COLOURCODE]'+tostring([SIGPER],"%.2g")+ 's' + tostring([HEIGHT],"%.2g") + 'm'+ tostring([VALNMR],"%.2g") + 'M')
+         LABEL
+             TYPE TRUETYPE
+             FONT sc
+             COLOR 0 0 0
+             OUTLINECOLOR 255 255 255
+             SIZE 8
+             ANTIALIAS TRUE
+             #FORCE TRUE
+             POSITION AUTO
+             ANGLE FOLLOW
+             MINFEATURESIZE AUTO
+         END
+     END
+     CLASS
+         EXPRESSION ('[TYPE]'='ARC' AND [SIGPER]!=0)
+         TEXT ('[MEANING]'+'.'+'[SIGGRP]'+ '.' + '[COLOURCODE]'+tostring([SIGPER],"%.2g")+ 's')
+         STYLE
+            COLOR [COLOURRGB]
+            WIDTH 3
+         END
+         LABEL
+             TYPE TRUETYPE
+             FONT sc
+             COLOR 0 0 0
+             OUTLINECOLOR 255 255 255
+             SIZE 8
+             ANTIALIAS TRUE
+             #FORCE TRUE
+             POSITION AUTO
+             ANGLE FOLLOW
+             MINFEATURESIZE AUTO
+         END
+     END
+     METADATA
+        "oms_title" "ARC_LIGHTS_SECTOR"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+     END
+ END
+ LAYER
+     NAME LIGHTS_POINT_SIGNATURE
+     TYPE POINT
+     DATA '{0}/CL{0}_LIGHTS_POINT_SIGNATURE'
+     MAXSCALEDENOM {3}
+     GROUP "{2}"
+     TOLERANCE 10
+     TEMPLATE dummy.html
+     PROJECTION
+        "init=epsg:4326"
+     END
+     CLASS
+         EXPRESSION ([VALNMR]!=0)
+         TEXT ('[MEANING]'+'.'+'[SIGGRP]'+ '.' + '[COLOUR_COD]'+tostring([SIGPER],"%.2g")+ 's' + tostring([HEIGHT],"%.2g") + 'm'+ tostring([VALNMR],"%.2g") + 'M')
+         LABEL
+             TYPE TRUETYPE
+             FONT sc
+             COLOR 0 0 0
+             ##OUTLINECOLOR 255 255 255
+             SIZE 8
+             ANTIALIAS TRUE
+             ##FORCE TRUE
+             POSITION cc
+             OFFSET 65 12
+         END
+     END
+     CLASS
+         EXPRESSION ([SIGPER]!=0)
+         TEXT ('[MEANING]'+'.'+tostring([SIGGRP],"%.2g")+ '.' + '[COLOUR_COD]'+tostring([SIGPER],"%.2g")+ 's')
+         LABEL
+             TYPE TRUETYPE
+             FONT sc
+             COLOR 0 0 0
+             ##OUTLINECOLOR 255 255 255
+             SIZE 8
+             ANTIALIAS TRUE
+             ##FORCE TRUE
+             POSITION cc
+             OFFSET 65 12
+         END
+     END
+     METADATA
+        "oms_title" "LIGHTS_POINT_SIGNATURE"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+     END
+  END
+{1}
+            """.format(layer, mapfile, group, msd)
+
+
         return mapfile
 
     def get_point_mapfile_data(self, layer, base, charts):

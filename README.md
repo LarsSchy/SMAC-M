@@ -5,6 +5,9 @@ utilities to convert data from S57 to a shapefiles and to create mapfiles for a 
 This package uses the a python script and bash scripts to build a complete mapfiles from a set 
 of templates and styling information to enable display of nautical data in the format S57.
  
+![S-57-overview](/doc/S-57-overview.png)
+![S-57-boy](/doc/S-57-boy.png)
+
 The package enables mapserver to display nautical charts in different color modes and with 
 alternative color tables.  Currently only simplified S52 symbology is carried out. But future 
 plans are to include paper chart symbology as a separate style. The package also contains tools 
@@ -18,6 +21,7 @@ Furhter on a tool is provided to process tiff files and create mapfiles automati
 
 ## Requirement
 
+ * Your own S-57 dataset source files
  * XMLStarlet (to create color tables)
  * ImageMagic (to create symbolset files)
  * GDAL/OGR (to convert S-57 source dataset)
@@ -67,21 +71,30 @@ input S-57 dataset files and output shapefiles
 
 ```
 cd chart-installation/data_files_conversion
-python ./S57_to_Shape.py /data/[ENC_ROOT] /data/[output_path]
+python ./S57_to_Shape.py [ENC_ROOT] [output_path]
 ```
 #### Data for enhance map service
 
-This script will build all data needed for enhance nautical charts map service based on OpenCPN configuration file and support light sectors layers:
-
-1) It will create shapefiles based on data configuration from OpenCPN project (s57objectclasses.csv and s57attributes.csv).  This is important because ogr2ogr will convert data he will find and based on you sS-57 source data, some data fields required by MapServer mapfile will not be present.  Creating empty shapefiles first and append data to it will allow us to avoid MapServer error.
-
-2) It will manage by this script is Light Sectors.  We will add extra fields information in LIGHTS data source to create Light Sector in the map service.
-
-3) TODO: It will create extra end, start and arc line light sector segments.
+This script will build all data needed for enhance nautical charts map service based on OpenCPN configuration file and support light sectors layers.  This script will create shapefiles based on data configuration from OpenCPN project (s57objectclasses.csv and s57attributes.csv).  The script will create shapefile for S-57 object ONLY if data is found in your source files.
 
 ```
 cd chart-installation/data_files_conversion/shp_s57data
 bash generateShapefiles.sh [ENC_ROOT] [output_path]
+```
+
+#### Light sector
+
+This project will automatically create lights sector shapefiles based on LIGHTS dataset create by enhance data process.  
+
+![S-57-lioghts_sector](/doc/S-57-lights_sector.png)
+
+In case you need to update Lights sector or change the default radius, you can simply run this script:
+
+```
+cd chart-installation/data_files_conversion/shp_s57data
+python generate_light_sector.py [input_lights_shp_path] [radius]
+  # NOTE 1: input shapefile must be named as *_LIGHTS_*.shp
+  # NOTE 2: if radius = valmnr keyword, distance will be take from data
 ```
 
 ### Enhanced data mapfile and limitation
@@ -132,26 +145,35 @@ python ./generate_symbolset.py [day|dusk|dark] [output_path]
 
 ## Generating mapfiles
 
-Display all available options
+Display all available options with help switch
 
 ```
 python ./generate_map_config.py -h   ---  shows all options
 ```
 
-Specify rules directory and shapefiles source directory
+#### Basic mapservice
+
+Specify rules directory and shapefiles source directory.  The mapfiles are placed in /data/Chart_dir along with the converted data.
 
 ```
 python ./generate_map_config.py -rules ../resources/layer_rules/rules/ -basechartdata /data/Chart_dir
 ```
 
-TODO (describe this commandline)
+#### Enhanced mapservice
+
+To build mapfiles for enhanced nautical chart map services based on OpenCPN lookup table, we have to specify the chartsymbols file, the enhance shapefiles path, the graphics style(tablename: `Paper`|`Simplify`) and choose the display category (dedault is `Displaybase,Standard`,  `All` display category is still not supported).  This script will create mapfile based on data found into `enhancedchartdata`.  If you update your enhance data repository you should run again this script to update your map service.
 
 ```
-    python ./generate_map_config.py  -rule-default-color IHO -rules ../resources/layer_rules/rules/ -basechartdata /data/Chart_dir
+ python ./generate_map_config.py -rule-default-color IHO --chartsymbols ./chartsymbols_S57.xml -enhancedchartdata ./shp_s57data/shp --tablename Paper --displaycategory Standard --rule-set-path ../resources/layer_rules/rules/
 ```
 
-The mapfiles are placed in /data/Chart_dir along with the converted data.  Then You should be able
-to test the configuration in the built in open layers viewer with:
+NOTE 1: The output mapfile directory will be saved in map folder under shapefiles directory.  In this example, mapfiles will be saved in `./shp_s57data/map` 
+
+NOTE 2: Please used chartsymbols_S57.xml file locates in the scripts directory.  This file has been modified to fix some issues found in original OpenCPN chartsymbols file.
+
+#### Testing
+
+Then You should be able to test the configuration in the built in open layers viewer with:
 
 [http://localhost/cgi-bin/mapserv?map=/data/Chart_dir/map/SeaChart_DAY_BRIGHT.map&SERVICE=WMS&REQUEST=Getmap&VERSION=1.1.1&LAYERS=SeaChart_DAY_BRIGHT&srs=EPSG:3006&BBOX=133870,5798110,1541520,7459340&FORMAT=application/openlayers&WIDTH=2000&HEIGHT=1100](http://localhost/cgi-bin/mapserv?map=/data/Chart_dir/map/SeaChart_DAY_BRIGHT.map&SERVICE=WMS&REQUEST=Getmap&VERSION=1.1.1&LAYERS=SeaChart_DAY_BRIGHT&srs=EPSG:3006&BBOX=133870,5798110,1541520,7459340&FORMAT=application/openlayers&WIDTH=2000&HEIGHT=1100)
 
