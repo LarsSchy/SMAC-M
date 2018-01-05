@@ -74,14 +74,14 @@ def create_legend_files(template_path, themes_path, map_path, fonts_path, use_de
         fileout = open( os.path.join(legend_path, "SeaChart_Legend_" + theme + ".map"), 'w' )
         fileout.write( template.substitute(d) )
 
-def generate_basechart_config(data_path,map_path,rule_set_path,resource_dir,force_overwrite,debug, tablename, chartsymbols):
+def generate_basechart_config(data_path,map_path,rule_set_path,resource_dir,force_overwrite,debug, tablename, displaycategory, chartsymbols):
 
     # Generate new map files
     dirutils.clear_folder(map_path)
 
     if chartsymbols:
         shapepath = data_path
-        process_all_layers(data_path, map_path, rule_set_path, tablename, chartsymbols)
+        process_all_layers(data_path, map_path, rule_set_path, tablename, displaycategory, chartsymbols)
     else:
         shapepath = None
         subprocess.call("./process_all_layers.sh data=" + data_path + " target=" + map_path + " config=" + rule_set_path, shell=True)
@@ -123,14 +123,14 @@ def get_colors(color_table):
     return colors
     
 
-def process_all_layers(data, target, config, tablename='Simplified', chartsymbols_file=None):
+def process_all_layers(data, target, config, tablename='Simplified', displaycategory=None, chartsymbols_file=None):
 
     # Reimplementation of the shel script of the same name
     msd = get_maxscaledenom(config)
 
     chartsymbols = None
     if chartsymbols_file:
-        chartsymbols = ChartSymbols(chartsymbols_file, tablename)
+        chartsymbols = ChartSymbols(chartsymbols_file, tablename, displaycategory)
 
     # Test if the shapefile is of the right Geometry
     shp_types = {}
@@ -245,19 +245,28 @@ def process_layer_colors(layer, color_table, input_file, msd, data, target, char
                     if mapfile:
                         final_file.write(mapfile)
     else:
+        mapfile_point = ''
+        mapfile_line = ''
+        mapfile_polygon = ''
         for (dirpath, dirnames, filenames) in os.walk('{0}/{1}/'.format(data, layer)):
             for filename in filenames:
                 if filename.endswith('.shp'):
                     feature = os.path.splitext(filename)[0][4:10]
                     geom = os.path.splitext(filename)[0][11:]
                     if geom == 'POINT':
-                        mapfile = chartsymbols.get_point_mapfile(layer, feature, 'default', msd)
+                        mapfile_point += chartsymbols.get_point_mapfile(layer, feature, 'default', msd)
                     else:
                         if filename in shp_types and shp_types[filename] != geom:
                             continue
                         mapfile = get_layer_mapfile(layer, '{}_{}'.format(feature, geom), 'default', color_table, msd)
-                    if mapfile:
-                        final_file.write(mapfile)
+                        if geom == 'LINESTRING':
+                            mapfile_line += mapfile
+                        else:
+                            mapfile_polygon += mapfile
+
+        final_file.write(mapfile_polygon)
+        final_file.write(mapfile_line)
+        final_file.write(mapfile_point)
 
     final_file.write("""
 #

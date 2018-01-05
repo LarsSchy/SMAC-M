@@ -89,7 +89,7 @@ bash generateShapefiles.sh [ENC_ROOT] [output_path]
 Working with enhanced data allows to create mapfiles from the chartsymbols.xml file. This file contains all the specification of all symbols of the IENC symbology and is provided by OpenCPN. The file provided by OpenCPN does contains a few errors or limitation that are not currently handled.
 
  - Only point layers are created from the chartsymbols.xml file. Line and polygon layers are still generated from template mapfile.
- - The layer order is not managed at all. The layers are added to the map in pseudo random order.
+ - The layer order is only managed at type levels. Points are on top, followed by lines and then polygons. The layers of each types are added to the map in pseudo random order.
  - The data files contain a MinScale / MaxScale information and this is not directly used. We currently separate in only 6 levels:
    - 2000000
    - 600000
@@ -102,13 +102,15 @@ Working with enhanced data allows to create mapfiles from the chartsymbols.xml f
  - Symbology can be created from vector and bitmaps. We are only supporting bitmap symbology.
  - TOWERSxx symbols are present twice in the chartsymbols.xml. We only use the second one.
  - SOUNDG labels are set with FORCE TRUE. This make to many appear in the map at small scale.
- - Some layers a wrong types
+ - Some text layers (SBDARE) contain numeric values that must be transformed to string.
+ - Some layers are exported as LINE instead of POLYGON
  - Some layers defined in the chartsymbols.xml are pointing to non-existing data columns:
    - BCNSPP layer (lookup #1781) uses BOYSHP == 1 Expression, but this field is not present. We replaced it by BCNDHP == 1.
    - BCNSPP layer (lookup #1784) uses CATLAM == 1 Expression, but this field is not present. We replaced it by CATSPM == 1.
    - RADSTA layer (lookup #1222, #2340) uses COMCHA field for label, but this field is not present. We replaced it by OBJNAM.
    - RDOSTA layer (lookup #2350) uses DGPS field for label, but this field is not present. We replaced it by OBJNAM.
    - TOPMAR layer uses OBJNAM field for label, but this field is not present
+   - SOUNDG layer is in display-cat Other, it has been transfered to Standard
 
 ## Generating Symbolset
 
