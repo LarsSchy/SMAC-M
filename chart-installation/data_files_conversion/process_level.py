@@ -1,14 +1,14 @@
 #!/usr/bin/python2
 
-# TODO 
+# TODO
 # - Dont assume WGS84, instead read from input layer.
 # - Find a better way to separate different same object type with multiple
 # geometry types.
 
 import subprocess
 import multiprocessing as mp
-import osr
-import ogr
+from osgeo import osr
+from osgeo import ogr
 import sys
 import fnmatch
 import os
@@ -72,10 +72,10 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
 
                 if key not in result:
                     result[key] = []
-                
+
                 result[key].append(feature)
     send_progress(s,0,5,2)
-    
+
     out_driver = ogr.GetDriverByName(output_driver)
     # dont assume WGS84
     srs = osr.SpatialReference()
@@ -94,7 +94,7 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
     # PROCESS SOME OF THE LAYERS (SOUNDG, WRECKS and UWTROC)
     print "CL{} | Preprocessing".format(level)
 
-    # SOUNDG 
+    # SOUNDG
     print "CL{} | Preprocessing soundg".format(level)
 
     # get the soundg file path
@@ -160,7 +160,7 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
 
         # Fill the seabed material column with text
         fill_fields(layer,[("SEABED", fill_seabed, ())])
-                      
+
 
     # MIPARE
     print "CL{} | Preprocessing mipare".format(level)
@@ -168,7 +168,7 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
     mipare = [os.path.join(output_path,f) for f in out_files if ("MIPARE" in f) and ("poly" in f)]
     for m in mipare:
         subprocess.call(os.path.join(os.getcwd(), "preproc_MIPARE.sh {}").format(m[:-4]), shell=True)
-    
+
 
     # RESARE
     print "CL{} | Preprocessing resare".format(level)
@@ -196,7 +196,7 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
 
     if s:
         s.close()
-    return 
+    return
 
 def glob(source_path, CL):
     # Get all S57 basefiles (ending with .000) for a specific zoom level and
@@ -213,7 +213,7 @@ def shptree(f):
 
 def add_fields(layer,fielddefs):
     # fielddefs = [(new_field_name, data_type),...]
-    # 
+    #
     for fielddef in fielddefs:
         layer.CreateField(ogr.FieldDefn(fielddef[0],fielddef[1]))
 
@@ -234,7 +234,7 @@ def fill_preproc_value_frac(feature, depth_field):
         return 10 - frac
     else:
         return frac
-    
+
 def fill_seabed(feature):
     natsur_dic = {
             4:"S",
@@ -271,7 +271,7 @@ def fill_seabed(feature):
             print "ERROR: while processing natsur (%s)" % natsur
     else:
         natsur = []
-    
+
     # natqua = seabed structure
     natqua = feature.GetField("NATQUA")
     if natqua is not None:
@@ -282,7 +282,7 @@ def fill_seabed(feature):
     else:
         natqua = []
 
-    
+
     # Merge the two seabed type columns
     if natqua is not None:
         data = itertools.izip_longest(natsur,natqua)
@@ -333,13 +333,13 @@ def fill_fields(layer,fieldinfos):
 
 
 def feature_datatype(feature):
-    # returns the geometry datatype (point, line, polygon) of the feature 
+    # returns the geometry datatype (point, line, polygon) of the feature
     geomref = feature.GetGeometryRef()
     if geomref:
         return geomref.GetGeometryType()
     else:
         return None
-    
+
 
 def feature_datatype_name(feature):
     # returns the name of the geometry datatype of the feature
@@ -371,7 +371,7 @@ def featuresToFile(features, dst_drv, dst_name, dst_srs, layer_name=None,
     drv = ogr.GetDriverByName(dst_drv)
     if drv is None:
         print "Driver not available ({})".format(dst_drv)
-        return 
+        return
 
     dsrc = drv.CreateDataSource(dst_name)
     if dsrc is None:
@@ -403,4 +403,4 @@ def featuresToFile(features, dst_drv, dst_name, dst_srs, layer_name=None,
     # print layer_name
     for feature in features:
         layer.CreateFeature(feature)
-    
+

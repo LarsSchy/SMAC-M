@@ -1,8 +1,8 @@
 #!/usr/bin/python2
 
-import gdal
-import osr
-import ogr
+from osgeo import gdal
+from osgeo import osr
+from osgeo import ogr
 import argparse
 from subprocess import call
 
