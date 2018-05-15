@@ -10,6 +10,7 @@ gdal.UseExceptions()
 
 default_output_srs = "4326"
 
+
 def calculate_source_projection(raster_file_path):
     source = gdal.Open(raster_file_path)
     from_sys = osr.SpatialReference()
@@ -18,8 +19,10 @@ def calculate_source_projection(raster_file_path):
     # If no PROJCS tag can be found we assume default projection, WGS84
     return source_srs or default_output_srs
 
+
 def calculate_total_extent(data_path, list_of_files, to_srs):
-    total_extent = [sys.maxsize, sys.maxsize, -sys.maxsize - 1, -sys.maxsize - 1]
+    total_extent = [sys.maxsize, sys.maxsize, -
+                    sys.maxsize - 1, -sys.maxsize - 1]
     for f in list_of_files:
         name = f[1]
         sub_dir = f[0] or ""
@@ -37,7 +40,7 @@ def calculate_total_extent(data_path, list_of_files, to_srs):
 
         to_sys = osr.SpatialReference()
         to_sys.ImportFromEPSG(to_srs)
-        transformation = osr.CoordinateTransformation(from_sys,to_sys)
+        transformation = osr.CoordinateTransformation(from_sys, to_sys)
         minXY = transformation.TransformPoint(thisMinX, thisMinY)
         maxXY = transformation.TransformPoint(thisMaxX, thisMaxY)
 
@@ -52,28 +55,35 @@ def calculate_total_extent(data_path, list_of_files, to_srs):
     return total_extent
 
 # This method is to be used by clients of this class
+
+
 def find_all_raster_files(data_path, suffixes):
     return find_all_raster_files_internal(data_path, None, suffixes, True)
 
 # This is an internal method that recurse through the directory tree
+
+
 def find_all_raster_files_internal(data_path, sub_dir, suffixes, traverse_subdir):
     files = []
     for item in os.listdir(data_path):
-        if os.path.isdir(os.path.join(data_path,item)) and traverse_subdir:
+        if os.path.isdir(os.path.join(data_path, item)) and traverse_subdir:
             # Recurse and extend the layers list with the list from the subdir
-            files.extend(find_all_raster_files_internal(os.path.join(data_path,item), item, suffixes, False))
+            files.extend(find_all_raster_files_internal(
+                os.path.join(data_path, item), item, suffixes, False))
         _, filesuffix = os.path.splitext(item)
         if filesuffix in suffixes:
             files.append((sub_dir, item))
     return files
 
 # This mehod returns the proper azimuth angle for hillshading for the file given
+
+
 def get_proper_azimuth_for_file(tif_file):
-    bashCmd = ' '.join(["gdalinfo",  "-mm", tif_file, "| grep Min/Max | cut -d'=' -f 2"])
+    bashCmd = ' '.join(["gdalinfo",  "-mm", tif_file,
+                        "| grep Min/Max | cut -d'=' -f 2"])
     minmax = check_output(bashCmd, shell=True)
 #   If the values are below zero, treat the data as Depth
     if min(list(map(float, minmax.split(',', 1)))) < 0:
         return 135
     else:
         return 315
-

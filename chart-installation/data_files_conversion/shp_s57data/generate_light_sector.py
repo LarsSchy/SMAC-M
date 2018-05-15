@@ -26,23 +26,30 @@ pixel = None
 line = None
 #
 # =============================================================================
+
+
 def debug(str):
     if debugprint == 1:
         print(str)
 
 # =============================================================================
+
+
 def Usage():
     print('-----------------------------------------------------------------------------')
     print('This script let you create a light sector shapefiles based on LIGHTS dataset')
     print('')
-    print('Usage: python generate_light_sector.py [input_shapefile] [radius|"valmnr"]')
+    print(
+        'Usage: python generate_light_sector.py [input_shapefile] [radius|"valmnr"]')
     print('       NOTE 1: input shapefile must be named as *_LIGHTS_*.shp')
     print('       NOTE 2: if radius = valmnr distance will be take in data')
     print('Output: [input_shapefile]_sector.shp')
     print('-----------------------------------------------------------------------------')
-    sys.exit( 1 )
+    sys.exit(1)
 
 # =============================================================================
+
+
 def GetRGBCode(id_):
 
     # code,id,colour,colour_code,rgb
@@ -54,6 +61,7 @@ def GetRGBCode(id_):
     for row in reader:
         if str(row[1]) == str(id_):
             return row[4]
+
 
 def GetColourCode(id_):
 
@@ -79,10 +87,11 @@ def GetMeaning(id_):
         if str(row[1]) == str(id_):
             return row[2]
 
+
 # =============================================================================
 # Parse command line arguments.
 # =============================================================================
-if len(sys.argv)==2:
+if len(sys.argv) == 2:
     infile = sys.argv[1]
     radius = sys.argv[2]
 else:
@@ -92,9 +101,9 @@ if infile is None:
     Usage()
 
 # point light feature will need to be transform to 3857 later
-source_srs  = osr.SpatialReference()
+source_srs = osr.SpatialReference()
 source_srs.ImportFromEPSG(4326)
-target_srs  = osr.SpatialReference()
+target_srs = osr.SpatialReference()
 target_srs.ImportFromEPSG(3857)
 srs_transformation = osr.CoordinateTransformation(source_srs, target_srs)
 
@@ -109,12 +118,13 @@ ds_light_point = driver.Open(infile, GA_ReadOnly)
 # Check to see if shapefile is found.
 if ds_light_point is None:
     print(('Could not open %s' % (infile)))
-    sys.exit( 1 )
+    sys.exit(1)
 else:
     print(('Opened %s' % (infile)))
     layer_light_point = ds_light_point.GetLayer()
     featureCount = layer_light_point.GetFeatureCount()
-    print("Number of features in %s: %d" % (os.path.basename(infile),featureCount))
+    print("Number of features in %s: %d" %
+          (os.path.basename(infile), featureCount))
 
 
 # Create sector shapepath
@@ -129,13 +139,14 @@ shapeData = driver.CreateDataSource(filepath)
 
 if shapeData is None:
     print("Unable to create output shapefile!")
-    sys.exit( 1 )
+    sys.exit(1)
 
 # Create layer
 #layerName = os.path.splitext(os.path.split(filepath)[1])[0]
 layerName = infile[0:index] + '_SECTOR'
 debug('layerName: ' + layerName)
-sector_layer = shapeData.CreateLayer(layerName, target_srs, ogr.wkbMultiLineString)
+sector_layer = shapeData.CreateLayer(
+    layerName, target_srs, ogr.wkbMultiLineString)
 
 # add needed fields
 field_name = ogr.FieldDefn("COLOURRGB", ogr.OFTString)
@@ -189,12 +200,12 @@ for light_feature in layer_light_point:
 
     # set light sector value
     feature = ogr.Feature(sector_layer.GetLayerDefn())
-    feature.SetField("TYPE","RAYS")
-    feature.SetField("COLOURRGB",GetRGBCode(light_feature.GetFieldAsInteger("COLOUR")))
-    feature.SetField("VALNMR",valnmr)
-    feature.SetField("SECTR1",sectr1)
-    feature.SetField("SECTR2",sectr2)
-
+    feature.SetField("TYPE", "RAYS")
+    feature.SetField("COLOURRGB", GetRGBCode(
+        light_feature.GetFieldAsInteger("COLOUR")))
+    feature.SetField("VALNMR", valnmr)
+    feature.SetField("SECTR1", sectr1)
+    feature.SetField("SECTR2", sectr2)
 
     # Create the sector line geometry
     lineGeom = ogr.Geometry(ogr.wkbLineString)
@@ -204,7 +215,7 @@ for light_feature in layer_light_point:
     lineGeom.AddPoint(x, y)
 
     # create central point geometry
-    lineGeom.AddPoint(light_feature_3857.GetX(), light_feature_3857.GetY() )
+    lineGeom.AddPoint(light_feature_3857.GetX(), light_feature_3857.GetY())
 
     # create start point geometry
     x = light_feature_3857.GetX() - math.sin(math.radians(sectr2)) * valnmr * 1852
@@ -236,19 +247,21 @@ for light_feature in layer_light_point:
 
     # add all needed values to build the light signature on the arc
     feature = ogr.Feature(sector_layer.GetLayerDefn())
-    feature.SetField("TYPE","ARC")
-    feature.SetField("COLOURRGB",GetRGBCode(light_feature.GetFieldAsInteger("COLOUR")))
-    feature.SetField("COLOURCODE",GetColourCode(light_feature.GetFieldAsInteger("COLOUR")))
-    feature.SetField("VALNMR",light_feature.GetFieldAsInteger("VALNMR"))
-    feature.SetField("SECTR1",light_feature.GetFieldAsInteger("SECTR1"))
-    feature.SetField("SECTR2",light_feature.GetFieldAsInteger("SECTR2"))
-    feature.SetField("HEIGHT",light_feature.GetFieldAsInteger("HEIGHT"))
-    feature.SetField("LITCHR",light_feature.GetFieldAsInteger("LITCHR"))
-    feature.SetField("SIGGRP",light_feature.GetFieldAsInteger("SIGGRP"))
-    feature.SetField("SIGPER",light_feature.GetFieldAsInteger("SIGPER"))
-    feature.SetField("COLOUR",light_feature.GetFieldAsInteger("COLOUR"))
-    feature.SetField("MEANING",GetMeaning(light_feature.GetFieldAsInteger("LITCHR")))
-
+    feature.SetField("TYPE", "ARC")
+    feature.SetField("COLOURRGB", GetRGBCode(
+        light_feature.GetFieldAsInteger("COLOUR")))
+    feature.SetField("COLOURCODE", GetColourCode(
+        light_feature.GetFieldAsInteger("COLOUR")))
+    feature.SetField("VALNMR", light_feature.GetFieldAsInteger("VALNMR"))
+    feature.SetField("SECTR1", light_feature.GetFieldAsInteger("SECTR1"))
+    feature.SetField("SECTR2", light_feature.GetFieldAsInteger("SECTR2"))
+    feature.SetField("HEIGHT", light_feature.GetFieldAsInteger("HEIGHT"))
+    feature.SetField("LITCHR", light_feature.GetFieldAsInteger("LITCHR"))
+    feature.SetField("SIGGRP", light_feature.GetFieldAsInteger("SIGGRP"))
+    feature.SetField("SIGPER", light_feature.GetFieldAsInteger("SIGPER"))
+    feature.SetField("COLOUR", light_feature.GetFieldAsInteger("COLOUR"))
+    feature.SetField("MEANING", GetMeaning(
+        light_feature.GetFieldAsInteger("LITCHR")))
 
     # create the arc sector here, put lots of point on arc
     lineGeom = ogr.Geometry(ogr.wkbLineString)
@@ -271,6 +284,4 @@ for light_feature in layer_light_point:
     sector_layer.CreateFeature(feature)
 
 print("%d light sectors created" % numOfSector)
-sys.exit( 1 )
-
-
+sys.exit(1)

@@ -5,6 +5,7 @@ import re
 import math
 from xml.etree import ElementTree as etree
 
+
 class ChartSymbols():
 
     color_table = {}
@@ -135,7 +136,7 @@ END
 # END of  LAYER: {1}  LEVEL: {0}
         """.format(layer, feature, group, msd, data, classes)
 
-        ## Hack to add special layers for Light Sector.  TODO: this should be refactor in future phases
+        # Hack to add special layers for Light Sector.  TODO: this should be refactor in future phases
         if feature == 'LIGHTS':
             mapfile = """
 # LIGHTS features and lines
@@ -274,7 +275,6 @@ LAYER
 {1}
             """.format(layer, mapfile, group, msd)
 
-
         return mapfile
 
     def get_point_mapfile_data(self, layer, base, charts):
@@ -403,9 +403,9 @@ CONNECTIONTYPE OGR
             '3': 'T'
         }
         spaceHash = {
-            '1': '', # 1 Is not usde
-            '2': '', # Standard spaces
-            '3': 'MAXLENGTH 8\n            WRAP " "' # Wrap on spaces
+            '1': '',  # 1 Is not usde
+            '2': '',  # Standard spaces
+            '3': 'MAXLENGTH 8\n            WRAP " "'  # Wrap on spaces
         }
         details = details.split(',')
 
@@ -435,7 +435,7 @@ CONNECTIONTYPE OGR
             else:
                 return matches.group(0).replace(
                     matches.group(1),
-                    "' + tostring(["+ s +"], '"+matches.group(1)+"') + '")
+                    "' + tostring([" + s + "], '"+matches.group(1)+"') + '")
 
         text = re.sub(r'(%[^ ]*[a-z])[^a-z]', get_label_text, format)
         if ' + ' in text:
@@ -445,7 +445,7 @@ CONNECTIONTYPE OGR
             label_expr = 'EXPRESSION ("{}" > "0")'.format(label_field)
         except AttributeError:
             # AAA, ZZZ not found in the original string
-            label_expr = '' # apply your error handling
+            label_expr = ''  # apply your error handling
 
         return """
         LABEL  # {}

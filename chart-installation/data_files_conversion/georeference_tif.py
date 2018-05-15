@@ -16,13 +16,18 @@ target = osr.SpatialReference()
 target.ImportFromEPSG(3857)
 transform = osr.CoordinateTransformation(source, target)
 
+
 def parse_arguments():
-    parser = argparse.ArgumentParser(prog="georeference_tif", description="This program geo references a TIFF image to make a GeoTIFF")
+    parser = argparse.ArgumentParser(
+        prog="georeference_tif", description="This program geo references a TIFF image to make a GeoTIFF")
     parser.add_argument("src_file", nargs=1, help="Your input TIFF image")
     parser.add_argument("out_file", nargs=1, help="The output GeoTIFF image")
-    parser.add_argument("position", nargs=2, help="The upper left geographic position (Latitude Longitude)")
-    parser.add_argument("pixelsize", nargs=2, help="The pixel size in meters (Latitude Longitude)")
+    parser.add_argument(
+        "position", nargs=2, help="The upper left geographic position (Latitude Longitude)")
+    parser.add_argument("pixelsize", nargs=2,
+                        help="The pixel size in meters (Latitude Longitude)")
     return parser.parse_args()
+
 
 def main():
     args = parse_arguments()
@@ -36,7 +41,8 @@ def main():
     point.AddPoint(float(args.position[0]), float(args.position[1]))
     point.Transform(transform)
 
-    gt = [ point.GetX(), float(args.pixelsize[0]), 0, point.GetY(), 0, -float(args.pixelsize[1])]
+    gt = [point.GetX(), float(args.pixelsize[0]), 0,
+          point.GetY(), 0, -float(args.pixelsize[1])]
 
     dst_ds.SetGeoTransform(gt)
 
@@ -46,6 +52,7 @@ def main():
     dest_wkt = to_sys.ExportToWkt()
 
     dst_ds.SetProjection(dest_wkt)
+
 
 if __name__ == "__main__":
     main()

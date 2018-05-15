@@ -12,13 +12,17 @@ from string import Template
 # Regular expression to extract a double with decimals from a string
 find_double_regexp = '\d+\.*\d*'
 
+
 def calculate_total_extent(data_path, s57_definitions_path):
-    total_extent = [sys.maxsize, sys.maxsize, -sys.maxsize - 1, -sys.maxsize - 1]
+    total_extent = [sys.maxsize, sys.maxsize, -
+                    sys.maxsize - 1, -sys.maxsize - 1]
     for f in dirutils.get_all_files_with_suffix(data_path, [".000"]):
-        bashCmd = ' '.join(["ogrinfo", "-ro", f, "--config S57_PROFILE aml", "--config S57_CSV", s57_definitions_path, "M_COVR", "-summary", "| grep Extent"])
+        bashCmd = ' '.join(["ogrinfo", "-ro", f, "--config S57_PROFILE aml",
+                            "--config S57_CSV", s57_definitions_path, "M_COVR", "-summary", "| grep Extent"])
         a = check_output(bashCmd, shell=True)
         for extentline in a.splitlines():
-            extent = list(map(float, re.findall( find_double_regexp, extentline)))
+            extent = list(map(float, re.findall(
+                find_double_regexp, extentline)))
             if extent[0] < total_extent[0]:
                 total_extent[0] = extent[0]
             if extent[1] < total_extent[1]:
@@ -28,6 +32,7 @@ def calculate_total_extent(data_path, s57_definitions_path):
             if extent[3] > total_extent[3]:
                 total_extent[3] = extent[3]
     return total_extent
+
 
 def generate_includes(includes_dir, theme):
     # The layers that implements surfaces has to be sorted last,
@@ -54,26 +59,31 @@ def generate_includes(includes_dir, theme):
 
     # Update the list, adding mapserver keyword and relative path to the include files
     for i, item in enumerate(all_layers):
-        all_layers[i] = str.format("INCLUDE \"{}/{}\"", rel_includes_path, item)
+        all_layers[i] = str.format(
+            "INCLUDE \"{}/{}\"", rel_includes_path, item)
     return "\n    ".join(all_layers)
 
+
 def get_dictionary(data_path, theme, s57_definitions_path, map_path, fonts_path, aml_type, debug_string):
-    return  { 'THEME':theme,
-              'HOST':'http://mapserver/cgi-bin/mapserv.fcgi',
-              'AML_CSV_RUNTIME': s57_definitions_path,
-              'EXTENT': ' '.join(map(str, calculate_total_extent(data_path, s57_definitions_path))),
-              'DEBUG': debug_string,
-              'MAP_PATH':map_path,
-              'FONTS_PATH': fonts_path,
-              'AML_TYPE':aml_type,
-              'INCLUDES': generate_includes(os.path.join(map_path, "includes"), theme)}
+    return {'THEME': theme,
+            'HOST': 'http://mapserver/cgi-bin/mapserv.fcgi',
+            'AML_CSV_RUNTIME': s57_definitions_path,
+            'EXTENT': ' '.join(map(str, calculate_total_extent(data_path, s57_definitions_path))),
+            'DEBUG': debug_string,
+            'MAP_PATH': map_path,
+            'FONTS_PATH': fonts_path,
+            'AML_TYPE': aml_type,
+            'INCLUDES': generate_includes(os.path.join(map_path, "includes"), theme)}
+
 
 debug_template = '''CONFIG "MS_ERRORFILE" "/tmp/AML_{0}.log"
     DEBUG 5
     CONFIG "ON_MISSING_DATA" "LOG"'''
 
+
 def create_capability_files(data_path, template_path, themes_path, s57_definitions_path, map_path, fonts_path, aml_type, use_debug):
-    template = Template( open( os.path.join(template_path, "AML_THEME.map"), 'r' ).read() )
+    template = Template(
+        open(os.path.join(template_path, "AML_THEME.map"), 'r').read())
     for theme in os.listdir(themes_path):
         # Remove file suffix
         theme = os.path.splitext(theme)[0]
@@ -82,10 +92,12 @@ def create_capability_files(data_path, template_path, themes_path, s57_definitio
         if use_debug:
             debug_string = str.format(debug_template, theme)
 
-        d = get_dictionary(data_path, theme, s57_definitions_path, map_path, fonts_path, aml_type, debug_string)
+        d = get_dictionary(data_path, theme, s57_definitions_path,
+                           map_path, fonts_path, aml_type, debug_string)
 
-        fileout = open( os.path.join(map_path, "AML_" + theme + ".map"), 'w' )
-        fileout.write( template.substitute(d) )
+        fileout = open(os.path.join(map_path, "AML_" + theme + ".map"), 'w')
+        fileout.write(template.substitute(d))
+
 
 def generate_aml_config(data_path, map_path, rule_set_path, resource_path, force_overwrite, debug):
 
@@ -97,18 +109,22 @@ def generate_aml_config(data_path, map_path, rule_set_path, resource_path, force
         debug_string = "no"
     color_tables_dir = os.path.join(rule_set_path, "color_tables")
 
-    aml_type=""
+    aml_type = ""
     for f in dirutils.get_all_files_with_suffix(data_path, [".000"]):
         for theme in os.listdir(color_tables_dir):
-            bashCmd = ' '.join(["./process_aml_layers.sh", "aml_file=" + f, "rp=" + rule_set_path, "ct=" + os.path.join(color_tables_dir, theme), "mp=" + map_path, "d=" + debug_string])
+            bashCmd = ' '.join(["./process_aml_layers.sh", "aml_file=" + f, "rp=" + rule_set_path,
+                                "ct=" + os.path.join(color_tables_dir, theme), "mp=" + map_path, "d=" + debug_string])
             output = check_output(bashCmd, shell=True)
             print(output)
             aml_type = output[-4:-1]
 
     if (aml_type):
-        create_capability_files(data_path, os.path.join(resource_path, "templates"), os.path.join(rule_set_path, "color_tables"), os.path.join(resource_path, "aml_csv_files"), map_path, os.path.join(resource_path, "fonts", "fontset.lst"), aml_type, debug)
+        create_capability_files(data_path, os.path.join(resource_path, "templates"), os.path.join(rule_set_path, "color_tables"), os.path.join(
+            resource_path, "aml_csv_files"), map_path, os.path.join(resource_path, "fonts", "fontset.lst"), aml_type, debug)
 
-        dirutils.copy_and_replace(os.path.join(resource_path, "epsg"), os.path.join(map_path, "epsg"))
-        dirutils.copy_and_replace(os.path.join(resource_path, "symbols"), os.path.join(map_path, "symbols"))
+        dirutils.copy_and_replace(os.path.join(
+            resource_path, "epsg"), os.path.join(map_path, "epsg"))
+        dirutils.copy_and_replace(os.path.join(
+            resource_path, "symbols"), os.path.join(map_path, "symbols"))
     else:
         print("There were no AML-files to be processed")
