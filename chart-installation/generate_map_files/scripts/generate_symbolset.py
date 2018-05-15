@@ -70,7 +70,7 @@ for symEle in dom.getElementsByTagName("symbol"):
         height = int( btmEle[0].attributes["height"].value )
         x = locEle[0].attributes["x"].value
         y = locEle[0].attributes["y"].value
-        print "creating: %s" %(name)
+        print("creating: %s" %(name))
         #imagemagick to the rescue
         cmd = "convert %s -crop %sx%s+%s+%s %s/symbols-%s/%s.png" %(OCPN_source_symbol_file, width, height, x, y, output_directory, symboltype, name)
         os.popen(cmd)

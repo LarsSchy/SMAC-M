@@ -14,7 +14,7 @@ gl_objlist_file = "objlist.txt"
 #"Code","ObjectClass","Acronym","Attribute_A","Attribute_B","Attribute_C","Class","Primitives"
 
 f_obj = open(gl_objlist_file,"w")
-ifile  = open(gl_csv_file_obj, "rb")
+ifile  = open(gl_csv_file_obj, "r")
 reader = csv.reader(ifile)
 i=0
 for row in reader:
@@ -25,23 +25,23 @@ for row in reader:
 
         # read accronyme Uper lower case is realy important
         shp_name = row[2]
-    
+
         #read type geom avaible
         shp_type = row[7].split(";")
- 
+
         # for each type geom of ObjectClass, create a shapefiles
         for type_ in shp_type:
-  
+
             # we need to transform primitive
             if type_ == "Area":
                  s_prim = "POLYGON"
             elif type_ == "Point":
                  s_prim = "POINT"
             elif type_ == "Line":
-                 s_prim = "LINESTRING" 
+                 s_prim = "LINESTRING"
             else:
                  s_prim = ""
-            
+
             if s_prim != "":
                  f_obj.write(shp_name+","+s_prim+"\n")
 

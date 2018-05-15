@@ -8,7 +8,7 @@ def does_color_tables_exist(path):
     # Try to verify that that rule set direcory exists and is OK
     if (os.path.exists(path + "/color_tables") and
        os.listdir(path + "/color_tables") != []):
-            print "Existing color tables found at " + path + "/color_tables"
+            print("Existing color tables found at " + path + "/color_tables")
             return True
 
     return False
@@ -18,7 +18,7 @@ def does_layer_rules_exist(path):
     # Try to verify that that rule set direcory exists and is OK
     if (os.path.exists(rules_path) and
        os.listdir(rules_path) != []):
-            print "Existing layers found in " + rules_path
+            print("Existing layers found in " + rules_path)
             return True
 
     return False
@@ -46,7 +46,7 @@ def remove_files_from_folder(folder_name, file_suffix):
         for f in files:
             if f.endswith(file_suffix):
                 os.remove(os.path.join(root,f))
-                print "\t" + f + " was removed!"
+                print("\t" + f + " was removed!")
 
 # Forces a path to end with '/sub_folder'
 def force_sub_dir(folder_name, sub_folder):

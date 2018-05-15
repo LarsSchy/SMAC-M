@@ -100,7 +100,7 @@ def get_maxscaledenom(config):
     #  Read max scale denom values from a resource file (layer_msd.csv)
     #
     msd = {}
-    with open(config + '/layer_rules/layer_msd.csv', 'rb') as csvfile:
+    with open(config + '/layer_rules/layer_msd.csv', 'r') as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
             msd[row[0]] = row[1]
@@ -115,13 +115,13 @@ def get_colors(color_table):
     #  code, rgb_color, hex_color
     #
     colors = {}
-    with open(color_table, 'rb') as csvfile:
+    with open(color_table, 'r') as csvfile:
         reader = csv.reader(csvfile)
         for row in reader:
             colors[row[0]] = (row[1], row[2])
 
     return colors
-    
+
 
 def process_all_layers(data, target, config, tablename='Simplified', displaycategory=None, chartsymbols_file=None):
 
@@ -140,12 +140,12 @@ def process_all_layers(data, target, config, tablename='Simplified', displaycate
             'Line': 'LINESTRING',
             'Polygon': 'POLYGON',
         }
-        print "Check geometry of all layers..."
+        print("Check geometry of all layers...")
         for (dirpath, dirnames, filenames) in os.walk(data):
             for filename in filenames:
                 if filename.endswith('.shp'):
                     level = filename[2:3]
-                    print "checking {}".format(filename)
+                    print("checking {}".format(filename))
                     output = subprocess.check_output(
                         ["ogrinfo", "-al", "-so", '{}/{}/{}'.format(data, level, filename)],
                         stderr=subprocess.STDOUT).decode()
@@ -161,7 +161,7 @@ def process_all_layers(data, target, config, tablename='Simplified', displaycate
     #
 
     for color in os.listdir(config + '/color_tables'):
-        print "Loading " + color
+        print("Loading " + color)
         theme = os.path.splitext("path_to_file")[0]
         if chartsymbols:
             chartsymbols.load_colors(color[:-4])
@@ -202,7 +202,7 @@ def get_layer_mapfile(layer, feature, group, color_table, msd):
         return colors[match.group(1)][0]
 
     #print "Layer: {} Processing feature: {}.".format(layer, feature)
-    with open(template, 'rb') as templ:
+    with open(template, 'r') as templ:
         mapfile = templ.read()
     mapfile = re.sub(r'{CL}', layer, mapfile)
     mapfile = re.sub(r'{PATH}', '{}/{}'.format(layer, base), mapfile)
@@ -233,7 +233,7 @@ def process_layer_colors(layer, color_table, input_file, msd, data, target, char
         '{}/includes/{}_layer{}_inc.map'.format(target, theme, layer), 'w')
 
     if not chartsymbols:
-        with open(input_file, 'rb') as if_csv:
+        with open(input_file, 'r') as if_csv:
             reader = csv.reader(if_csv)
             next(reader, None)  # skip the headers
             for row in reader:

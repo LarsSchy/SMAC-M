@@ -44,7 +44,7 @@ def main():
     dirutils.clear_folder(output_path)
 
     if not os.path.exists(source_path):
-        print "That source folder does not exist"
+        print("That source folder does not exist")
         sys.exit(1)
 
     levels = get_levels_from_source(source_path)
@@ -77,4 +77,4 @@ def main():
 if __name__ == "__main__":
     start_time = time.time()
     main()
-    print "Execution took %s seconds" % (time.time() - start_time)
+    print("Execution took %s seconds" % (time.time() - start_time))

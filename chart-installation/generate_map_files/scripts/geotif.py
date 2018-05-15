@@ -60,7 +60,7 @@ def generate_tif_config(data_path, map_path, debug):
 
     if not os.path.isfile(main_template_path) or \
        not os.path.isfile(layer_template_path):
-       print "No templates found for this data type"
+       print("No templates found for this data type")
        sys.exit(1)
 
     main_template = Template(open(main_template_path, 'r').read())
@@ -78,6 +78,6 @@ def generate_tif_config(data_path, map_path, debug):
         output = open(os.path.join(map_path, 'Geotif.map'), 'w')
         output.write(main_template.substitute(dictionary2))
             
-        print "Generated:\n\t" + '\n\t'.join(os.listdir(map_path))
+        print("Generated:\n\t" + '\n\t'.join(os.listdir(map_path)))
     else:
-        print "Error: No data found in " + data_path
+        print("Error: No data found in " + data_path)

@@ -18,13 +18,13 @@ def watch_folder(limit_string):
     # The 'du' command does not tolerate an empty directory, thus checking the len(listdir) before continuing
     if len(os.listdir('.')) > 0:
         disk_usage = subprocess.check_output("du -s *", shell=True).splitlines()
-        limit = long(limit_string.replace(',', ''))
+        limit = int(limit_string.replace(',', ''))
 
         # Loop over all folders and folder sizes
         for entry in disk_usage:
             size, folder =  entry.split('\t')
-            if(long(size) > limit):
-                print "Clearing cache at " + os.path.join(os.getcwd(), folder)
+            if(int(size) > limit):
+                print("Clearing cache at " + os.path.join(os.getcwd(), folder))
 
                 try:
                     shutil.rmtree(folder)

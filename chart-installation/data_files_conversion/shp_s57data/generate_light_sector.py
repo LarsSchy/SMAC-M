@@ -4,12 +4,12 @@
 # Author:   Simon Mercier (smercier@mapgears.com)
 # Purpose:  This python script is based on Nexgis Navi2PG project
 #           See CreateLightsSectorsStrategy() from
-#           https://github.com/nextgis/navi2pg/blob/master/navi2pg.cpp 
+#           https://github.com/nextgis/navi2pg/blob/master/navi2pg.cpp
 # Date:     Dec 2017
 #
-# TODO:     This script read a merged S-57 data base on SMAC-M enhance data.  We 
+# TODO:     This script read a merged S-57 data base on SMAC-M enhance data.  We
 #           should be able to read data from S-57 source data and merge result into
-#           one dataset. 
+#           one dataset.
 #
 ###############################################################################
 from osgeo import ogr
@@ -24,11 +24,11 @@ debugprint = 0
 infile = None
 pixel = None
 line = None
-# 
+#
 # =============================================================================
 def debug(str):
     if debugprint == 1:
-        print str
+        print(str)
 
 # =============================================================================
 def Usage():
@@ -48,7 +48,7 @@ def GetRGBCode(id_):
     # code,id,colour,colour_code,rgb
     # 75,1,"white","W","255 240 99"
 
-    csvFile = open('colour_code.csv', "rb")
+    csvFile = open('colour_code.csv', "r")
     reader = csv.reader(csvFile)
 
     for row in reader:
@@ -60,7 +60,7 @@ def GetColourCode(id_):
     # code,id,colour,colour_code,rgb
     # 75,1,"white","W","255 240 99"
 
-    csvFile = open('colour_code.csv', "rb")
+    csvFile = open('colour_code.csv', "r")
     reader = csv.reader(csvFile)
 
     for row in reader:
@@ -72,7 +72,7 @@ def GetMeaning(id_):
 
     # "code","id","meaning"
     # 107,1,"F"
-    csvFile = open('litchr_code.csv', "rb")
+    csvFile = open('litchr_code.csv', "r")
     reader = csv.reader(csvFile)
 
     for row in reader:
@@ -108,13 +108,13 @@ ds_light_point = driver.Open(infile, GA_ReadOnly)
 
 # Check to see if shapefile is found.
 if ds_light_point is None:
-    print('Could not open %s' % (infile))
+    print(('Could not open %s' % (infile)))
     sys.exit( 1 )
 else:
-    print('Opened %s' % (infile))
+    print(('Opened %s' % (infile)))
     layer_light_point = ds_light_point.GetLayer()
     featureCount = layer_light_point.GetFeatureCount()
-    print "Number of features in %s: %d" % (os.path.basename(infile),featureCount)
+    print("Number of features in %s: %d" % (os.path.basename(infile),featureCount))
 
 
 # Create sector shapepath
@@ -123,12 +123,12 @@ filepath = infile[0:index] + '_LIGHTS_LINESTRING_SECTOR.shp'
 
 debug(filepath)
 
-if os.path.exists(filepath): 
+if os.path.exists(filepath):
     os.remove(filepath)
 shapeData = driver.CreateDataSource(filepath)
 
 if shapeData is None:
-    print "Unable to create output shapefile!"
+    print("Unable to create output shapefile!")
     sys.exit( 1 )
 
 # Create layer
@@ -163,7 +163,7 @@ sector_layer.CreateField(ogr.FieldDefn("HEIGHT", ogr.OFTReal))
 
 sector_layerDefinition = sector_layer.GetLayerDefn()
 
-# 
+#
 numOfSector = 0
 
 for light_feature in layer_light_point:
@@ -181,7 +181,7 @@ for light_feature in layer_light_point:
 
     # Transform light point to web mercator
     light_feature_3857 = light_feature.GetGeometryRef()
-    light_feature_3857.Transform(srs_transformation) 
+    light_feature_3857.Transform(srs_transformation)
 
     # ====================
     # Create rays sector
@@ -227,7 +227,7 @@ for light_feature in layer_light_point:
         angleFrom = sectr1
         angleTo = 360 + sectr2
 
-    # to fix the arc at a specific radius 
+    # to fix the arc at a specific radius
     if radius == 'valnmr':
         # to fix the arc at the end of rays
         radius = valnmr * 1852
@@ -270,7 +270,7 @@ for light_feature in layer_light_point:
 
     sector_layer.CreateFeature(feature)
 
-print "%d light sectors created" % numOfSector
+print("%d light sectors created" % numOfSector)
 sys.exit( 1 )
 
 

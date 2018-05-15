@@ -35,8 +35,8 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((host, int(port)))
         except:
-            print "Error Creating socket"
-    print "CL{} | Starting processing".format(level)
+            print("Error Creating socket")
+    print("CL{} | Starting processing".format(level))
     # setup OGR environment options
     os.environ["OGR_S57_OPTIONS"] = "SPLIT_MULTIPOINT=ON,ADD_SOUNDG_DEPTH=ON,RECODE_BY_DSSI=ON"
 
@@ -52,7 +52,7 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
     driver = ogr.GetDriverByName(input_driver)
 
     send_progress(s,0,5,0)
-    print "CL{} | Merging S57 features".format(level)
+    print("CL{} | Merging S57 features".format(level))
     for f in files:
         # print f[:-4]
         datasource = driver.Open(f, 0)
@@ -81,7 +81,7 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
     srs = osr.SpatialReference()
     srs.ImportFromEPSG(4326)
 
-    print "CL{} | Creating output shape files".format(level)
+    print("CL{} | Creating output shape files".format(level))
     out_files = []
     for key in result:
         objtype, geom_type = key.split("-")
@@ -92,10 +92,10 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
 
     send_progress(s,0,5,3)
     # PROCESS SOME OF THE LAYERS (SOUNDG, WRECKS and UWTROC)
-    print "CL{} | Preprocessing".format(level)
+    print("CL{} | Preprocessing".format(level))
 
     # SOUNDG
-    print "CL{} | Preprocessing soundg".format(level)
+    print("CL{} | Preprocessing soundg".format(level))
 
     # get the soundg file path
     try:
@@ -110,10 +110,10 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
         fill_fields(layer,[("WHOLE_NUM", fill_preproc_value_whole, ("DEPTH",)),
                            ("FRAC_NUM" , fill_preproc_value_frac , ("DEPTH",))])
     except IndexError:
-        print "CL{} | WARNING {} is not available in data sources file".format(level,dataset)
+        print("CL{} | WARNING {} is not available in data sources file".format(level,dataset))
 
     # WRECKS
-    print "CL{} | Preprocessing wrecks".format(level)
+    print("CL{} | Preprocessing wrecks".format(level))
 
     # get the wrecks file path
     try:
@@ -128,10 +128,10 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
         fill_fields(layer,[("WHOLE_NUM", fill_preproc_value_whole, ("VALSOU",)),
                            ("FRAC_NUM", fill_preproc_value_frac, ("VALSOU",))])
     except IndexError:
-        print "CL{} | WARNING {} is not available in data sources file".format(level,dataset)
+        print("CL{} | WARNING {} is not available in data sources file".format(level,dataset))
 
     # UWTROC
-    print "CL{} | Preprocessing uwtroc".format(level)
+    print("CL{} | Preprocessing uwtroc".format(level))
 
     # get the uwtroc file path
     try:
@@ -146,10 +146,10 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
         fill_fields(layer,[("WHOLE_NUM", fill_preproc_value_whole, ("VALSOU",)),
                            ("FRAC_NUM", fill_preproc_value_frac, ("VALSOU",))])
     except IndexError:
-        print "CL{} | WARNING {} is not available in data sources file".format(level,dataset)
+        print("CL{} | WARNING {} is not available in data sources file".format(level,dataset))
 
     # SBDARE
-    print "CL{} | Preprocessing sbdare".format(level)
+    print("CL{} | Preprocessing sbdare".format(level))
     sbdares = [os.path.join(output_path,f) for f in out_files if "SBDARE" in f]
     for sbdare in sbdares:
         dsrc = ogr.Open(sbdare, 1)
@@ -163,7 +163,7 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
 
 
     # MIPARE
-    print "CL{} | Preprocessing mipare".format(level)
+    print("CL{} | Preprocessing mipare".format(level))
     # get the file
     mipare = [os.path.join(output_path,f) for f in out_files if ("MIPARE" in f) and ("poly" in f)]
     for m in mipare:
@@ -171,13 +171,13 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
 
 
     # RESARE
-    print "CL{} | Preprocessing resare".format(level)
+    print("CL{} | Preprocessing resare".format(level))
     mipare = [os.path.join(output_path,f) for f in out_files if ("RESARE" in f) and ("poly" in f)]
     for m in mipare:
         subprocess.call(os.path.join(os.getcwd(), "preproc_RESARE.sh {}").format(m[:-4]), shell=True)
 
     # run shptree on the created shapefiles
-    print "CL{} | Indexing files".format(level)
+    print("CL{} | Indexing files".format(level))
     send_progress(s,0,5,4)
     processes = []
     for f in out_files:
@@ -192,7 +192,7 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
         p.join()
 
     send_progress(s,0,5,5)
-    print "CL{} | Done".format(level)
+    print("CL{} | Done".format(level))
 
     if s:
         s.close()
@@ -268,7 +268,7 @@ def fill_seabed(feature):
         try:
             natsur = [int(n) for n in natsur.split(",")]
         except:
-            print "ERROR: while processing natsur (%s)" % natsur
+            print("ERROR: while processing natsur (%s)" % natsur)
     else:
         natsur = []
 
@@ -278,14 +278,14 @@ def fill_seabed(feature):
         try:
             natqua = [int(n) for n in natqua.split(",")]
         except:
-            print "ERROR: while processing natqua (%s)" % natqua
+            print("ERROR: while processing natqua (%s)" % natqua)
     else:
         natqua = []
 
 
     # Merge the two seabed type columns
     if natqua is not None:
-        data = itertools.izip_longest(natsur,natqua)
+        data = itertools.zip_longest(natsur,natqua)
 
     res = []
     # build up the res list with strings to be merged to create the final text
@@ -365,17 +365,17 @@ def get_name(geom_type, level, objtype):
 def featuresToFile(features, dst_drv, dst_name, dst_srs, layer_name=None,
         geomtype=None,overwrite=True):
     if not features: # features is empty list
-        print "No Features Created"
+        print("No Features Created")
         return
 
     drv = ogr.GetDriverByName(dst_drv)
     if drv is None:
-        print "Driver not available ({})".format(dst_drv)
+        print("Driver not available ({})".format(dst_drv))
         return
 
     dsrc = drv.CreateDataSource(dst_name)
     if dsrc is None:
-        print "DataSource creation failed"
+        print("DataSource creation failed")
         return
 
     if not geomtype:

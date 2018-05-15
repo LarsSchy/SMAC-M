@@ -13,12 +13,12 @@ from string import Template
 find_double_regexp = '\d+\.*\d*'
 
 def calculate_total_extent(data_path, s57_definitions_path):
-    total_extent = [sys.maxint, sys.maxint, -sys.maxint - 1, -sys.maxint - 1]
+    total_extent = [sys.maxsize, sys.maxsize, -sys.maxsize - 1, -sys.maxsize - 1]
     for f in dirutils.get_all_files_with_suffix(data_path, [".000"]):
         bashCmd = ' '.join(["ogrinfo", "-ro", f, "--config S57_PROFILE aml", "--config S57_CSV", s57_definitions_path, "M_COVR", "-summary", "| grep Extent"])
         a = check_output(bashCmd, shell=True)
         for extentline in a.splitlines():
-            extent = map(float, re.findall( find_double_regexp, extentline))
+            extent = list(map(float, re.findall( find_double_regexp, extentline)))
             if extent[0] < total_extent[0]:
                 total_extent[0] = extent[0]
             if extent[1] < total_extent[1]:
@@ -102,7 +102,7 @@ def generate_aml_config(data_path, map_path, rule_set_path, resource_path, force
         for theme in os.listdir(color_tables_dir):
             bashCmd = ' '.join(["./process_aml_layers.sh", "aml_file=" + f, "rp=" + rule_set_path, "ct=" + os.path.join(color_tables_dir, theme), "mp=" + map_path, "d=" + debug_string])
             output = check_output(bashCmd, shell=True)
-            print output
+            print(output)
             aml_type = output[-4:-1]
 
     if (aml_type):
@@ -111,4 +111,4 @@ def generate_aml_config(data_path, map_path, rule_set_path, resource_path, force
         dirutils.copy_and_replace(os.path.join(resource_path, "epsg"), os.path.join(map_path, "epsg"))
         dirutils.copy_and_replace(os.path.join(resource_path, "symbols"), os.path.join(map_path, "symbols"))
     else:
-        print "There were no AML-files to be processed"
+        print("There were no AML-files to be processed")

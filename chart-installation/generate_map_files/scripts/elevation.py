@@ -72,30 +72,30 @@ def generate_virtual_and_overview(elev_gen_path, hill_gen_path, sub_dir, vrt_nam
 #   Create a .vrt and .ovr file in all valid directories
     try:
         vrt_filename = (sub_dir or vrt_name) + ".vrt"
-        print "Generating " + vrt_filename
+        print("Generating " + vrt_filename)
         sys.stdout.flush()
         vrt_file = os.path.join(elev_gen_path, sub_dir or "", vrt_filename)
         bashCmd = ' '.join(["gdalbuildvrt", "-q", "-vrtnodata", no_data_value, "-input_file_list", vrtlist_file, vrt_file])
         call(bashCmd, shell=True)
 
         tif_filename = (sub_dir or vrt_name) + ".tif"
-        print "Warping " + vrt_filename + " -> " + tif_filename
+        print("Warping " + vrt_filename + " -> " + tif_filename)
         sys.stdout.flush()
         tif_file = os.path.join(elev_gen_path, sub_dir or "", tif_filename)
         bashCmd = ' '.join(["gdalwarp", "-q", vrt_file, tif_file, "-r bilinear", "-t_srs EPSG:" + str(output_srs), "--config GDAL_CACHEMAX 500", "-wm 500", "-multi", "-co TILED=YES", "-co COMPRESS=DEFLATE", "-co predictor=2", "-dstnodata " + no_data_value])
         call(bashCmd, shell=True)
         
-        print "Creating overview for " + tif_filename
+        print("Creating overview for " + tif_filename)
         sys.stdout.flush()
         bashCmd = ' '.join(["gdaladdo", "-q", "-ro", tif_file, " ".join(compression_levels), "--config", "COMPRESS_OVERVIEW", "DEFLATE"])
         call(bashCmd, shell=True)
         
         generate_hillshade_and_overview(hill_gen_path, sub_dir, tif_file)
 
-        print "Elevation and hillshade finished for " + tif_filename
+        print("Elevation and hillshade finished for " + tif_filename)
     except Exception as e:
-        print e
-        print "Could not process data %s" % vrt_filename
+        print(e)
+        print("Could not process data %s" % vrt_filename)
 
 def generate_hillshade_and_overview(hill_gen_path, sub_dir, tif_file):
     hs_path = os.path.join(hill_gen_path, sub_dir or "")
@@ -103,21 +103,21 @@ def generate_hillshade_and_overview(hill_gen_path, sub_dir, tif_file):
         os.makedirs(hs_path)
     try:
         hs_filename = os.path.basename(tif_file)
-        print "Generating hillshade for " + hs_filename
+        print("Generating hillshade for " + hs_filename)
         sys.stdout.flush()
         hillshade_file = os.path.join(hs_path, hs_filename)
         azimuth = rasterutils.get_proper_azimuth_for_file(tif_file)
         bashCmd = ' '.join(["gdaldem", "hillshade", "-q", tif_file, hillshade_file, "-az", str(azimuth), "-alt 60", "-z 5", "-s 111120", "-co compress=deflate", "-compute_edges"])
         call(bashCmd, shell=True)
 
-        print "Generating hillshade overview for " + hs_filename
+        print("Generating hillshade overview for " + hs_filename)
         sys.stdout.flush()
         bashCmd = ' '.join(["gdaladdo","-q",  "-ro", hillshade_file, " ".join(compression_levels), "--config", "COMPRESS_OVERVIEW", "DEFLATE"])
         call(bashCmd, shell=True)
 
     except Exception as e:
-        print e
-        print "Could not process data %s" % hs_filename
+        print(e)
+        print("Could not process data %s" % hs_filename)
 
 # Create vrt and ovr files for all elevation data sets, in parallel
 def prepare_data(data_path, elev_gen_path, hill_gen_path):
@@ -155,7 +155,7 @@ def create_map_file(data_path, map_path, mapfile_name, file_suffix, main_templat
         output.write(main_template.substitute(dictionary))
 
     else:
-        print "Error: No data found in " + data_path
+        print("Error: No data found in " + data_path)
         sys.exit(1)
 
 
@@ -163,7 +163,7 @@ def generate_elevation_config(data_path, map_path, debug):
     elev_gen_path = os.path.normpath(os.path.join(data_path, elevation_folder_name))
     hill_gen_path = os.path.normpath(os.path.join(data_path, hillshade_folder_name))
     
-    print "Clearing folder with generated files"
+    print("Clearing folder with generated files")
     dirutils.clear_folder(map_path)
     dirutils.clear_folder(elev_gen_path)
     dirutils.clear_folder(hill_gen_path)
@@ -178,7 +178,7 @@ def generate_elevation_config(data_path, map_path, debug):
        not os.path.isfile(layer_template_path) or \
        not os.path.isfile(hillshade_main_template_path) or \
        not os.path.isfile(hillshade_layer_template_path):
-       print "No templates found for this data type"
+       print("No templates found for this data type")
        sys.exit(1)
 
     main_template = Template(open(main_template_path, 'r').read())
@@ -195,4 +195,4 @@ def generate_elevation_config(data_path, map_path, debug):
 #   Create hillshade map file
     create_map_file(hill_gen_path, map_path, 'Hillshade.map', ['.tif'], hillshade_main_template, hillshade_layer_template, debug)
 
-    print "Generated:\n\t" + '\n\t'.join(os.listdir(map_path))
+    print("Generated:\n\t" + '\n\t'.join(os.listdir(map_path)))

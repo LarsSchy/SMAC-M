@@ -19,7 +19,7 @@ def calculate_source_projection(raster_file_path):
     return source_srs or default_output_srs
 
 def calculate_total_extent(data_path, list_of_files, to_srs):
-    total_extent = [sys.maxint, sys.maxint, -sys.maxint - 1, -sys.maxint - 1]
+    total_extent = [sys.maxsize, sys.maxsize, -sys.maxsize - 1, -sys.maxsize - 1]
     for f in list_of_files:
         name = f[1]
         sub_dir = f[0] or ""
@@ -72,7 +72,7 @@ def get_proper_azimuth_for_file(tif_file):
     bashCmd = ' '.join(["gdalinfo",  "-mm", tif_file, "| grep Min/Max | cut -d'=' -f 2"])
     minmax = check_output(bashCmd, shell=True)
 #   If the values are below zero, treat the data as Depth
-    if min(map(float, minmax.split(',', 1))) < 0:
+    if min(list(map(float, minmax.split(',', 1)))) < 0:
         return 135
     else:
         return 315

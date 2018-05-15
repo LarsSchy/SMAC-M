@@ -63,19 +63,19 @@ def main():
     elif args.enhanced_data_path:
         enhanced_data = True
         if not args.chartsymbols:
-            print "Enhanced data require --chartsymbols option."
+            print("Enhanced data require --chartsymbols option.")
             sys.exit(1)
         data_path = os.path.abspath(os.path.normpath(args.enhanced_data_path[0]))
 
     if not data_path:
-        print "No data found"
+        print("No data found")
         sys.exit(1)
 
     chartsymbols = None
     tablename = 'Simplified'
     displaycategory =['Displaybase']
     if args.chartsymbols and not os.path.isfile(args.chartsymbols[0]):
-        print "chartsymbols.xml not found at: " + args.chartsymbols[0]
+        print("chartsymbols.xml not found at: " + args.chartsymbols[0])
         sys.exit(1)
     elif args.chartsymbols and enhanced_data:
         chartsymbols = os.path.abspath(os.path.normpath(args.chartsymbols[0]))
