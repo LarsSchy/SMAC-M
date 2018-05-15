@@ -19,7 +19,7 @@ if sys.argv[1] == "update":
     os.popen("wget https://raw.githubusercontent.com/OpenCPN/OpenCPN/master/data/s57data/chartsymbols.xml -O chartsymbols.xml")
     exit()
 
-if len(sys.argv) > 1:
+if len(sys.argv) > 2:
     symboltype = sys.argv[1]
     output_directory = sys.argv[2]
 
@@ -55,7 +55,7 @@ symbol_template = """
 SYMBOL
      NAME "[symname]"
      TYPE PIXMAP
-     IMAGE "symbols-%s/[symname].png" 
+     IMAGE "symbols-%s/[symname].png"
 END""" % (symboltype)
 
 f_symbols = open(symbolefile, "w")
@@ -75,7 +75,13 @@ for symEle in dom.getElementsByTagName("symbol"):
         print("creating: %s" % (name))
         # imagemagick to the rescue
         cmd = "convert %s -crop %sx%s+%s+%s %s/symbols-%s/%s.png" % (
-            OCPN_source_symbol_file, width, height, x, y, output_directory, symboltype, name)
+            OCPN_source_symbol_file,
+            width,
+            height, x,
+            y,
+            output_directory,
+            symboltype,
+            name)
         os.popen(cmd)
         str_to_add = symbol_template.replace("[symname]", name)
         f_symbols.write(str_to_add)

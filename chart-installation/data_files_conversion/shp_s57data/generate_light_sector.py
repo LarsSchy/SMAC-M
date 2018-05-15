@@ -14,7 +14,7 @@
 ###############################################################################
 from osgeo import ogr
 from osgeo import osr
-from osgeo.gdalconst import *
+from osgeo.gdalconst import GA_ReadOnly
 import os
 import sys
 import math
@@ -91,9 +91,8 @@ def GetMeaning(id_):
 # =============================================================================
 # Parse command line arguments.
 # =============================================================================
-if len(sys.argv) == 2:
-    infile = sys.argv[1]
-    radius = sys.argv[2]
+if len(sys.argv) == 3:
+    script, infile, radius = sys.argv
 else:
     Usage()
 
@@ -142,7 +141,7 @@ if shapeData is None:
     sys.exit(1)
 
 # Create layer
-#layerName = os.path.splitext(os.path.split(filepath)[1])[0]
+# layerName = os.path.splitext(os.path.split(filepath)[1])[0]
 layerName = infile[0:index] + '_SECTOR'
 debug('layerName: ' + layerName)
 sector_layer = shapeData.CreateLayer(

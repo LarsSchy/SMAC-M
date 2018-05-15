@@ -4,12 +4,13 @@ import os
 import sys
 import csv
 import re
-script_dir = os.path.normpath(sys.path[0])
-sys.path.append(os.path.abspath(os.path.join(script_dir, "../../utils/")))
 import subprocess
 import dirutils
 from string import Template
 from chartsymbols import ChartSymbols
+
+script_dir = os.path.normpath(sys.path[0])
+sys.path.append(os.path.abspath(os.path.join(script_dir, "../../utils/")))
 
 
 def generate_includes(includes_dir, theme):
