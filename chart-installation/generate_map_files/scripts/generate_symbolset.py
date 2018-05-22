@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # by Will Kamp <manimaul!gmail.com>
 # use this anyway you want
@@ -6,7 +6,7 @@
 # Add Mapserver symbolset fil creation
 # Simon Mercier
 
-# python gen_symbolset.py [day|dark|dusk] [output_directory]
+# python3 gen_symbolset.py [day|dark|dusk] [output_directory]
 
 from xml.dom.minidom import parseString
 import os
@@ -31,11 +31,11 @@ if len(sys.argv) > 2:
         OCPN_source_symbol_file = "rastersymbols-dusk.png"
     else:
         print(
-            "Usage : python generate_symbolset.py [day|dark|dusk] [output_directory]")
+            "Usage : python3 generate_symbolset.py [day|dark|dusk] [output_directory]")
         exit()
 else:
     print(
-        "Usage : python generate_symbolset.py [day|dark|dusk] [output_directory]")
+        "Usage : python3 generate_symbolset.py [day|dark|dusk] [output_directory]")
     exit()
 
 # Init variables

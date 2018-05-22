@@ -40,9 +40,9 @@ def Usage():
     print('This script let you create a light sector shapefiles based on LIGHTS dataset')
     print('')
     print(
-        'Usage: python generate_light_sector.py [input_shapefile] [radius|"valmnr"]')
+        'Usage: python3 generate_light_sector.py [input_shapefile] [radius|"valnmr"]')
     print('       NOTE 1: input shapefile must be named as *_LIGHTS_*.shp')
-    print('       NOTE 2: if radius = valmnr distance will be take in data')
+    print('       NOTE 2: if radius = valnmr distance will be take in data')
     print('Output: [input_shapefile]_sector.shp')
     print('-----------------------------------------------------------------------------')
     sys.exit(1)
