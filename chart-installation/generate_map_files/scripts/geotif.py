@@ -5,8 +5,8 @@ import sys
 script_dir = os.path.normpath(sys.path[0])
 sys.path.append(os.path.abspath(os.path.join(script_dir, "../../utils/")))
 import re
-import gdal
-import osr
+from osgeo import gdal
+from osgeo import osr
 from string import Template
 import dirutils
 import rasterutils

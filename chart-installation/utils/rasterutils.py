@@ -2,8 +2,8 @@
 
 import os
 import sys
-import gdal
-import osr
+from osgeo import gdal
+from osgeo import osr
 from subprocess import check_output
 
 gdal.UseExceptions()
