@@ -27,6 +27,7 @@ Furhter on a tool is provided to process tiff files and create mapfiles automati
  * GDAL/OGR (to convert S-57 source dataset)
  * Running Linux OS (Ubuntu 16.04 / Debian 8 tested)
  * Up to date GDAL/OGR S-57 metadata
+ * Python 3.5 with pipenv
 
 ## Up to date GDAL/OGR
 
@@ -60,6 +61,22 @@ To process sound depth points properly and other Multipoint dataset, you have to
 export OGR_S57_OPTIONS=SPLIT_MULTIPOINT=ON,ADD_SOUNDG_DEPTH=ON
 ```
 
+## Prepare the Pipenv Virtual Environment
+
+Before running the scripts for the first time, you must install their
+dependencies. This project uses [Pipenv](https://docs.pipenv.org/) to manage its
+virtual environment.
+
+After downloading a new version of the code, run `pipenv install` in the root
+directory to install the bulk of the dependencies.
+
+Due to the way GDAL works, it must be installed separately with the version that
+matches the version of GDAL installed on the system. To install GDAL in the
+virtual environment, run `pipenv run pip install "GDAL<=$(gdal-config --version)"`
+
+Once the packages have been installed, use `pipenv shell` to activate the
+environment.
+
 ## Convert S-57 dataset
 
 There's two way to convert data in project.  The first one convert all the requierded data for the basic map and the second one is needed when you want create a map service based on OpenCPN lookup table. 
@@ -71,7 +88,7 @@ input S-57 dataset files and output shapefiles
 
 ```
 cd chart-installation/data_files_conversion
-python ./S57_to_Shape.py [ENC_ROOT] [output_path]
+python3 ./S57_to_Shape.py [ENC_ROOT] [output_path]
 ```
 #### Data for enhance map service
 
@@ -92,7 +109,7 @@ In case you need to update Lights sector or change the default radius, you can s
 
 ```
 cd chart-installation/data_files_conversion/shp_s57data
-python generate_light_sector.py [input_lights_shp_path] [radius]
+python3 generate_light_sector.py [input_lights_shp_path] [radius]
   # NOTE 1: input shapefile must be named as *_LIGHTS_*.shp
   # NOTE 2: if radius = valnmr keyword, distance will be take from data
 ```
@@ -134,13 +151,13 @@ Need to download latest version of source files.  Up to datThose files
 
 ```
 cd chart-installation/generate_map_files/scripts/
-python ./generate_symbolset.py update
+python3 ./generate_symbolset.py update
 ```
 
 Create symbolset mapfile and generate all png image symbols. 
 
 ```
-python ./generate_symbolset.py [day|dusk|dark] [output_path]
+python3 ./generate_symbolset.py [day|dusk|dark] [output_path]
 ```
 
 ## Generating mapfiles
@@ -148,7 +165,7 @@ python ./generate_symbolset.py [day|dusk|dark] [output_path]
 Display all available options with help switch
 
 ```
-python ./generate_map_config.py -h   ---  shows all options
+python3 ./generate_map_config.py -h   ---  shows all options
 ```
 
 #### Basic mapservice
@@ -156,7 +173,7 @@ python ./generate_map_config.py -h   ---  shows all options
 Specify rules directory and shapefiles source directory.  The mapfiles are placed in /data/Chart_dir along with the converted data.
 
 ```
-python ./generate_map_config.py -rules ../resources/layer_rules/rules/ -basechartdata /data/Chart_dir
+python3 ./generate_map_config.py -rules ../resources/layer_rules/rules/ -basechartdata /data/Chart_dir
 ```
 
 #### Enhanced mapservice
@@ -164,7 +181,7 @@ python ./generate_map_config.py -rules ../resources/layer_rules/rules/ -basechar
 To build mapfiles for enhanced nautical chart map services based on OpenCPN lookup table, we have to specify the chartsymbols file, the enhance shapefiles path, the graphics style(tablename: `Paper`|`Simplify`) and choose the display category (dedault is `Displaybase,Standard`,  `All` display category is still not supported).  This script will create mapfile based on data found into `enhancedchartdata`.  If you update your enhance data repository you should run again this script to update your map service.
 
 ```
- python ./generate_map_config.py -rule-default-color IHO --chartsymbols ./chartsymbols_S57.xml -enhancedchartdata ./shp_s57data/shp --tablename Paper --displaycategory Standard --rule-set-path ../resources/layer_rules/rules/
+ python3 ./generate_map_config.py -rule-default-color IHO --chartsymbols ./chartsymbols_S57.xml -enhancedchartdata ./shp_s57data/shp --tablename Paper --displaycategory Standard --rule-set-path ../resources/layer_rules/rules/
 ```
 
 NOTE 1: The output mapfile directory will be saved in map folder under shapefiles directory.  In this example, mapfiles will be saved in `./shp_s57data/map` 

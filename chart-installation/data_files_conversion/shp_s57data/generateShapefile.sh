@@ -35,7 +35,7 @@ wget https://raw.githubusercontent.com/OpenCPN/OpenCPN/master/data/s57data/s57at
 # Step 2
 # we need to build an S-57 object list.  
 # Run gen_Obj.py script to build objlist.txt file used in loop
-python gen_obj.py
+python3 gen_obj.py
 
 # Step 3
 # generate catalogues of S-57 source dataset 
@@ -102,9 +102,9 @@ done < $TMPPATH/FILELIST
 
 # Run script to build light sector shapefiles
 # TODO: build a better integration.  Need modification on python script
-python generate_light_sector.py ${CATPATH}/1/CL1_LIGHTS_POINT.shp 3000
-python generate_light_sector.py ${CATPATH}/2/CL2_LIGHTS_POINT.shp 3000
-python generate_light_sector.py ${CATPATH}/3/CL3_LIGHTS_POINT.shp 3000
-python generate_light_sector.py ${CATPATH}/4/CL4_LIGHTS_POINT.shp 3000
-python generate_light_sector.py ${CATPATH}/5/CL5_LIGHTS_POINT.shp 3000
-python generate_light_sector.py ${CATPATH}/6/CL6_LIGHTS_POINT.shp 3000
+python3 generate_light_sector.py ${CATPATH}/1/CL1_LIGHTS_POINT.shp 3000
+python3 generate_light_sector.py ${CATPATH}/2/CL2_LIGHTS_POINT.shp 3000
+python3 generate_light_sector.py ${CATPATH}/3/CL3_LIGHTS_POINT.shp 3000
+python3 generate_light_sector.py ${CATPATH}/4/CL4_LIGHTS_POINT.shp 3000
+python3 generate_light_sector.py ${CATPATH}/5/CL5_LIGHTS_POINT.shp 3000
+python3 generate_light_sector.py ${CATPATH}/6/CL6_LIGHTS_POINT.shp 3000

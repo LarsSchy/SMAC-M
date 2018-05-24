@@ -17,7 +17,8 @@ import math
 import socket
 import itertools
 
-rundir="/opt/data/chart-installation/data_files_conversion/"
+rundir = "/opt/data/chart-installation/data_files_conversion/"
+
 
 def send_progress(socket, min, max, current):
     if socket:
@@ -25,7 +26,8 @@ def send_progress(socket, min, max, current):
         try:
             r = socket.sendall(s)
         except:
-            print ("Error sending progress information")
+            print("Error sending progress information")
+
 
 def process(level, source_path, output_path, progress_address=None, debug=None):
     s = None
@@ -35,14 +37,14 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             s.connect((host, int(port)))
         except:
-            print "Error Creating socket"
-    print "CL{} | Starting processing".format(level)
+            print("Error Creating socket")
+    print("CL{} | Starting processing".format(level))
     # setup OGR environment options
     os.environ["OGR_S57_OPTIONS"] = "SPLIT_MULTIPOINT=ON,ADD_SOUNDG_DEPTH=ON,RECODE_BY_DSSI=ON"
 
     input_driver = "S57"
     output_driver = "ESRI Shapefile"
-    output_path = os.path.join(output_path,str(level))
+    output_path = os.path.join(output_path, str(level))
 
     result = {}
     os.makedirs(output_path)
@@ -51,14 +53,14 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
 
     driver = ogr.GetDriverByName(input_driver)
 
-    send_progress(s,0,5,0)
-    print "CL{} | Merging S57 features".format(level)
+    send_progress(s, 0, 5, 0)
+    print("CL{} | Merging S57 features".format(level))
     for f in files:
         # print f[:-4]
         datasource = driver.Open(f, 0)
         for layer in datasource:
             srs = osr.SpatialReference()
-            srs.ImportFromEPSG(4326) # dont assume WGS84!
+            srs.ImportFromEPSG(4326)  # dont assume WGS84!
 
             objtype = layer.GetName()
             for feature in layer:
@@ -74,14 +76,18 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
                     result[key] = []
 
                 result[key].append(feature)
+<<<<<<< HEAD
     send_progress(s,0,5,2)
+=======
+    send_progress(s, 0, 5, 2)
+>>>>>>> Automatically fix a bunch of pep8 issues
 
     out_driver = ogr.GetDriverByName(output_driver)
     # dont assume WGS84
     srs = osr.SpatialReference()
     srs.ImportFromEPSG(4326)
 
-    print "CL{} | Creating output shape files".format(level)
+    print("CL{} | Creating output shape files".format(level))
     out_files = []
     for key in result:
         objtype, geom_type = key.split("-")
@@ -90,113 +96,140 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
         filepath = os.path.join(output_path, out_filename)
         featuresToFile(result[key], output_driver, filepath, srs, key)
 
-    send_progress(s,0,5,3)
+    send_progress(s, 0, 5, 3)
     # PROCESS SOME OF THE LAYERS (SOUNDG, WRECKS and UWTROC)
-    print "CL{} | Preprocessing".format(level)
+    print("CL{} | Preprocessing".format(level))
 
     # SOUNDG
-    print "CL{} | Preprocessing soundg".format(level)
+    print("CL{} | Preprocessing soundg".format(level))
 
     # get the soundg file path
     try:
-        soundgs = [os.path.join(output_path,f) for f in out_files if "SOUNDG" in f][0]
+        soundgs = [os.path.join(output_path, f)
+                   for f in out_files if "SOUNDG" in f][0]
         dsrc = ogr.Open(soundgs, 1)
         layer = dsrc.GetLayer()
 
         # add WHOLE NUM and FRACNUM fields
-        add_fields(layer, [("WHOLE_NUM",ogr.OFTInteger), ("FRAC_NUM", ogr.OFTInteger)])
+        add_fields(layer, [("WHOLE_NUM", ogr.OFTInteger),
+                           ("FRAC_NUM", ogr.OFTInteger)])
 
         # fill the WHOLE_NUM and FRAC_NUM fields
-        fill_fields(layer,[("WHOLE_NUM", fill_preproc_value_whole, ("DEPTH",)),
-                           ("FRAC_NUM" , fill_preproc_value_frac , ("DEPTH",))])
+        fill_fields(layer, [("WHOLE_NUM", fill_preproc_value_whole, ("DEPTH",)),
+                            ("FRAC_NUM", fill_preproc_value_frac, ("DEPTH",))])
     except IndexError:
-        print "CL{} | WARNING {} is not available in data sources file".format(level,dataset)
+        print("CL{} | WARNING {} is not available in data sources file".format(
+            level, dataset))
 
     # WRECKS
-    print "CL{} | Preprocessing wrecks".format(level)
+    print("CL{} | Preprocessing wrecks".format(level))
 
     # get the wrecks file path
     try:
-        wrecks = [os.path.join(output_path,f) for f in out_files if "WRECKS" in f][0]
+        wrecks = [os.path.join(output_path, f)
+                  for f in out_files if "WRECKS" in f][0]
         dsrc = ogr.Open(wrecks, 1)
         layer = dsrc.GetLayer()
 
         # add WHOLE NUM and FRACNUM fields
-        add_fields(layer, [("WHOLE_NUM",ogr.OFTInteger), ("FRAC_NUM", ogr.OFTInteger)])
+        add_fields(layer, [("WHOLE_NUM", ogr.OFTInteger),
+                           ("FRAC_NUM", ogr.OFTInteger)])
 
         # fill the WHOLE_NUM and FRAC_NUM fields
-        fill_fields(layer,[("WHOLE_NUM", fill_preproc_value_whole, ("VALSOU",)),
-                           ("FRAC_NUM", fill_preproc_value_frac, ("VALSOU",))])
+        fill_fields(layer, [("WHOLE_NUM", fill_preproc_value_whole, ("VALSOU",)),
+                            ("FRAC_NUM", fill_preproc_value_frac, ("VALSOU",))])
     except IndexError:
-        print "CL{} | WARNING {} is not available in data sources file".format(level,dataset)
+        print("CL{} | WARNING {} is not available in data sources file".format(
+            level, dataset))
 
     # UWTROC
-    print "CL{} | Preprocessing uwtroc".format(level)
+    print("CL{} | Preprocessing uwtroc".format(level))
 
     # get the uwtroc file path
     try:
-        uwtroc = [os.path.join(output_path,f) for f in out_files if "UWTROC" in f][0]
+        uwtroc = [os.path.join(output_path, f)
+                  for f in out_files if "UWTROC" in f][0]
         dsrc = ogr.Open(uwtroc, 1)
         layer = dsrc.GetLayer()
 
         # add WHOLE NUM and FRACNUM fields
-        add_fields(layer, [("WHOLE_NUM",ogr.OFTInteger), ("FRAC_NUM", ogr.OFTInteger)])
+        add_fields(layer, [("WHOLE_NUM", ogr.OFTInteger),
+                           ("FRAC_NUM", ogr.OFTInteger)])
 
         # fill the WHOLE_NUM and FRAC_NUM fields
-        fill_fields(layer,[("WHOLE_NUM", fill_preproc_value_whole, ("VALSOU",)),
-                           ("FRAC_NUM", fill_preproc_value_frac, ("VALSOU",))])
+        fill_fields(layer, [("WHOLE_NUM", fill_preproc_value_whole, ("VALSOU",)),
+                            ("FRAC_NUM", fill_preproc_value_frac, ("VALSOU",))])
     except IndexError:
-        print "CL{} | WARNING {} is not available in data sources file".format(level,dataset)
+        print("CL{} | WARNING {} is not available in data sources file".format(
+            level, dataset))
 
     # SBDARE
-    print "CL{} | Preprocessing sbdare".format(level)
-    sbdares = [os.path.join(output_path,f) for f in out_files if "SBDARE" in f]
+    print("CL{} | Preprocessing sbdare".format(level))
+    sbdares = [os.path.join(output_path, f)
+               for f in out_files if "SBDARE" in f]
     for sbdare in sbdares:
         dsrc = ogr.Open(sbdare, 1)
         layer = dsrc.GetLayer()
 
         # Add SEABED field for seabed material
-        add_fields(layer, [("SEABED",ogr.OFTString)])
+        add_fields(layer, [("SEABED", ogr.OFTString)])
 
         # Fill the seabed material column with text
+<<<<<<< HEAD
         fill_fields(layer,[("SEABED", fill_seabed, ())])
 
+=======
+        fill_fields(layer, [("SEABED", fill_seabed, ())])
+>>>>>>> Automatically fix a bunch of pep8 issues
 
     # MIPARE
-    print "CL{} | Preprocessing mipare".format(level)
+    print("CL{} | Preprocessing mipare".format(level))
     # get the file
-    mipare = [os.path.join(output_path,f) for f in out_files if ("MIPARE" in f) and ("poly" in f)]
+    mipare = [os.path.join(output_path, f)
+              for f in out_files if ("MIPARE" in f) and ("poly" in f)]
     for m in mipare:
+<<<<<<< HEAD
         subprocess.call(os.path.join(os.getcwd(), "preproc_MIPARE.sh {}").format(m[:-4]), shell=True)
 
+=======
+        subprocess.call(os.path.join(
+            os.getcwd(), "preproc_MIPARE.sh {}").format(m[:-4]), shell=True)
+>>>>>>> Automatically fix a bunch of pep8 issues
 
     # RESARE
-    print "CL{} | Preprocessing resare".format(level)
-    mipare = [os.path.join(output_path,f) for f in out_files if ("RESARE" in f) and ("poly" in f)]
+    print("CL{} | Preprocessing resare".format(level))
+    mipare = [os.path.join(output_path, f)
+              for f in out_files if ("RESARE" in f) and ("poly" in f)]
     for m in mipare:
-        subprocess.call(os.path.join(os.getcwd(), "preproc_RESARE.sh {}").format(m[:-4]), shell=True)
+        subprocess.call(os.path.join(
+            os.getcwd(), "preproc_RESARE.sh {}").format(m[:-4]), shell=True)
 
     # run shptree on the created shapefiles
-    print "CL{} | Indexing files".format(level)
-    send_progress(s,0,5,4)
+    print("CL{} | Indexing files".format(level))
+    send_progress(s, 0, 5, 4)
     processes = []
     for f in out_files:
-        processes.append(mp.Process(target=shptree, args=(output_path + "/" + f,)))
+        processes.append(mp.Process(
+            target=shptree, args=(output_path + "/" + f,)))
 
-    #start
+    # start
     for p in processes:
         p.start()
 
-    #join
+    # join
     for p in processes:
         p.join()
 
-    send_progress(s,0,5,5)
-    print "CL{} | Done".format(level)
+    send_progress(s, 0, 5, 5)
+    print("CL{} | Done".format(level))
 
     if s:
         s.close()
     return
+<<<<<<< HEAD
+=======
+
+>>>>>>> Automatically fix a bunch of pep8 issues
 
 def glob(source_path, CL):
     # Get all S57 basefiles (ending with .000) for a specific zoom level and
@@ -207,15 +240,17 @@ def glob(source_path, CL):
             matches.append(root + "/" + filename)
     return matches
 
+
 def shptree(f):
-    subprocess.call("shptree {} 1>/dev/null".format(f),shell=True)
+    subprocess.call("shptree {} 1>/dev/null".format(f), shell=True)
 
 
-def add_fields(layer,fielddefs):
+def add_fields(layer, fielddefs):
     # fielddefs = [(new_field_name, data_type),...]
     #
     for fielddef in fielddefs:
-        layer.CreateField(ogr.FieldDefn(fielddef[0],fielddef[1]))
+        layer.CreateField(ogr.FieldDefn(fielddef[0], fielddef[1]))
+
 
 def fill_preproc_value_whole(feature, depth_field):
     depth = feature.GetField(depth_field)
@@ -235,40 +270,44 @@ def fill_preproc_value_frac(feature, depth_field):
     else:
         return frac
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> Automatically fix a bunch of pep8 issues
 def fill_seabed(feature):
     natsur_dic = {
-            4:"S",
-            1:"M",
-            2:"Cy",
-            3:"Si",
-            5:"St",
-            6:"G",
-            7:"P",
-            8:"Cb",
-            9:"R",
-            18:"Bo",
-            14:"Co",
-            17:"Sh"
-        }
+        4: "S",
+        1: "M",
+        2: "Cy",
+        3: "Si",
+        5: "St",
+        6: "G",
+        7: "P",
+        8: "Cb",
+        9: "R",
+        18: "Bo",
+        14: "Co",
+        17: "Sh"
+    }
     natqua_dic = {
-            1:"f",
-            2:"m",
-            3:"c",
-            4:"bk",
-            5:"sy",
-            6:"so",
-            7:"sf",
-            8:"v",
-            9:"ca",
-            10:"h"
-        }
+        1: "f",
+        2: "m",
+        3: "c",
+        4: "bk",
+        5: "sy",
+        6: "so",
+        7: "sf",
+        8: "v",
+        9: "ca",
+        10: "h"
+    }
     # natsur = seabed material
     natsur = feature.GetField("NATSUR")
     if natsur is not None:
         try:
             natsur = [int(n) for n in natsur.split(",")]
         except:
-            print "ERROR: while processing natsur (%s)" % natsur
+            print("ERROR: while processing natsur (%s)" % natsur)
     else:
         natsur = []
 
@@ -278,14 +317,17 @@ def fill_seabed(feature):
         try:
             natqua = [int(n) for n in natqua.split(",")]
         except:
-            print "ERROR: while processing natqua (%s)" % natqua
+            print("ERROR: while processing natqua (%s)" % natqua)
     else:
         natqua = []
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> Automatically fix a bunch of pep8 issues
     # Merge the two seabed type columns
     if natqua is not None:
-        data = itertools.izip_longest(natsur,natqua)
+        data = itertools.zip_longest(natsur, natqua)
 
     res = []
     # build up the res list with strings to be merged to create the final text
@@ -311,7 +353,8 @@ def fill_seabed(feature):
         res.append(a)
     return ".".join(res)
 
-def fill_fields(layer,fieldinfos):
+
+def fill_fields(layer, fieldinfos):
     # Fills the fields of all features in layer. Fieldinfo says which fields to
     # change and to what.
 
@@ -324,7 +367,7 @@ def fill_fields(layer,fieldinfos):
             func = fieldinfo[1]
             args = fieldinfo[2]
 
-            data = func(feature,*args)
+            data = func(feature, *args)
             if data == None:
                 feature.UnsetField(field_name)
             else:
@@ -359,23 +402,23 @@ def get_name(geom_type, level, objtype):
     else:
         geom_type = geom_type.lower()
 
-    return "CL{}-{}-{}.shp".format(level,geom_type, objtype)
+    return "CL{}-{}-{}.shp".format(level, geom_type, objtype)
 
 
 def featuresToFile(features, dst_drv, dst_name, dst_srs, layer_name=None,
-        geomtype=None,overwrite=True):
-    if not features: # features is empty list
-        print "No Features Created"
+                   geomtype=None, overwrite=True):
+    if not features:  # features is empty list
+        print("No Features Created")
         return
 
     drv = ogr.GetDriverByName(dst_drv)
     if drv is None:
-        print "Driver not available ({})".format(dst_drv)
+        print("Driver not available ({})".format(dst_drv))
         return
 
     dsrc = drv.CreateDataSource(dst_name)
     if dsrc is None:
-        print "DataSource creation failed"
+        print("DataSource creation failed")
         return
 
     if not geomtype:
@@ -403,4 +446,3 @@ def featuresToFile(features, dst_drv, dst_name, dst_srs, layer_name=None,
     # print layer_name
     for feature in features:
         layer.CreateFeature(feature)
-

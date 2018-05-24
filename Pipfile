@@ -1,0 +1,14 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[dev-packages]
+"autopep8" = "*"
+"flake8" = "*"
+
+[packages]
+numpy = "*"
+
+[requires]
+python_version = "3.5"
