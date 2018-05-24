@@ -27,6 +27,7 @@ Furhter on a tool is provided to process tiff files and create mapfiles automati
  * GDAL/OGR (to convert S-57 source dataset)
  * Running Linux OS (Ubuntu 16.04 / Debian 8 tested)
  * Up to date GDAL/OGR S-57 metadata
+ * Python 3.5 with pipenv
 
 ## Up to date GDAL/OGR
 
@@ -59,6 +60,22 @@ To process sound depth points properly and other Multipoint dataset, you have to
 ```
 export OGR_S57_OPTIONS=SPLIT_MULTIPOINT=ON,ADD_SOUNDG_DEPTH=ON
 ```
+
+## Prepare the Pipenv Virtual Environment
+
+Before running the scripts for the first time, you must install their
+dependencies. This project uses [Pipenv](https://docs.pipenv.org/) to manage its
+virtual environment.
+
+After downloading a new version of the code, run `pipenv install` in the root
+directory to install the bulk of the dependencies.
+
+Due to the way GDAL works, it must be installed separately with the version that
+matches the version of GDAL installed on the system. To install GDAL in the
+virtual environment, run `pipenv run pip install "GDAL<=$(gdal-config --version)"`
+
+Once the packages have been installed, use `pipenv shell` to activate the
+environment.
 
 ## Convert S-57 dataset
 
