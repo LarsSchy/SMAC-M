@@ -9,6 +9,7 @@ name = "pypi"
 
 [packages]
 numpy = "*"
+wand = "*"
 
 [requires]
 python_version = "3.5"

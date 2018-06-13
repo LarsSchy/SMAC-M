@@ -5,10 +5,30 @@ import re
 import math
 from xml.etree import ElementTree as etree
 
+from instructions import get_command
+
+
+class Color:
+    def __init__(self, r, g, b):
+        self.r = r
+        self.g = g
+        self.b = b
+
+    @property
+    def hex(self):
+        return '"#{:02x}{:02x}{:02x}"'.format(self.r, self.g, self.b).upper()
+
+    @property
+    def rgb(self):
+        return ' '.join([self.r, self.g, self.b])
+
+    def __str__(self):
+        return self.hex
+
 
 class ChartSymbols():
 
-    color_table = {}
+    color_table = {}  # type: dict
 
     symbols_def = {}
 
@@ -20,39 +40,66 @@ class ChartSymbols():
 
     root = None
 
-    def __init__(self, file, table='Simplified', displaycategory=None, color_table='DAY_BRIGHT'):
+    mapfile_layer_template = """
+# LAYER: {feature}  LEVEL: {layer}
+
+LAYER
+    NAME "{feature}_{layer}"
+    GROUP "{group}"
+    METADATA
+        "ows_title" "{feature}"
+        "ows_enable_request"   "*"
+        "gml_include_items" "all"
+        "wms_feature_mime_type" "text/html"
+    END
+    TEMPLATE blank.html
+    TYPE {type}
+    STATUS ON
+    MAXSCALEDENOM {max_scale_denom}
+    {data}
+{classes}
+END
+
+# END of  LAYER: {feature}  LEVEL: {layer}
+"""
+
+    def __init__(self, file, table='Simplified', displaycategory=None,
+                 color_table='DAY_BRIGHT'):
         if not os.path.isfile(file):
             raise Exception('chartsymbol file do not exists')
+
         tree = etree.parse(file)
         root = tree.getroot()
         self.root = root
 
-        self.color_table = {}
+        self._color_tables = self.load_color_table(root)
+
+        self.load_colors(color_table)
+
         self.point_lookups = {}
         self.line_lookups = {}
         self.polygon_lookups = {}
 
-        self.load_color_table(root, color_table)
         self.load_symbols(root)
         self.load_lookups(root, table, displaycategory)
 
     def load_colors(self, color_table):
-        self.color_table = {}
-        self.load_color_table(self.root, color_table)
+        self.color_table = self._color_tables.get(color_table, {})
 
-    def load_color_table(self, root, color_table):
+    def load_color_table(self, root):
+        tables = {}
         for table in root.iter('color-table'):
             name = table.get('name')
-            if name != color_table:
-                continue
             colors = {}
             for color in table.iter('color'):
-                colors[color.get('name')] = [
+                colors[color.get('name')] = Color(
                     color.get('r'),
                     color.get('g'),
                     color.get('b')
-                ]
-            self.color_table = colors
+                )
+            tables[name] = colors
+
+        return tables
 
     def load_symbols(self, root):
         for symbol in root.iter('symbol'):
@@ -82,17 +129,23 @@ class ChartSymbols():
                 rules = []
                 for attr in lookup.findall('attrib-code'):
                     # Assumption: All attrib-code are in numerical order
-                    #index = int(attr.get('index'))
+                    # index = int(attr.get('index'))
                     rules.append((attr.text[:6], attr.text[6:]))
-            except:
+            except (KeyError, AttributeError):
                 continue
 
-            # Only load points for now
-            if lookup_type == 'Point' and style == table_name and \
-               (displaycategory is None or display in displaycategory):
-                if not name in self.point_lookups:
-                    self.point_lookups[name] = []
-                self.point_lookups[name].append({
+            if table_name in (style, 'Lines') and \
+                    (displaycategory is None or display in displaycategory):
+                if lookup_type == 'Point':
+                    lookup = self.point_lookups.setdefault(name, [])
+                elif lookup_type == 'Line':
+                    lookup = self.line_lookups.setdefault(name, [])
+                elif lookup_type == 'Area':
+                    lookup = self.polygon_lookups.setdefault(name, [])
+                else:
+                    lookup = []
+
+                lookup.append({
                     'id': id,
                     'table': table_name,
                     'display': display,
@@ -102,41 +155,22 @@ class ChartSymbols():
                 })
 
     def get_point_mapfile(self, layer, feature, group, msd):
-        mapfile = ''
         base = "CL{}_{}_POINT".format(layer, feature)
 
         try:
             charts = self.point_lookups[feature]
-        except:
-            return mapfile
+        except KeyError:
+            return ''
 
         data = self.get_point_mapfile_data(layer, base, charts)
         classes = self.get_point_mapfile_classes(charts)
 
-        mapfile = """
-# LAYER: {1}  LEVEL: {0}
+        mapfile = self.mapfile_layer_template.format(
+            layer=layer, feature=feature, group=group, max_scale_denom=msd,
+            type='POINT', data=data, classes=classes)
 
-LAYER
-    NAME "{1}_{0}"
-    GROUP "{2}"
-    METADATA
-        "ows_title" "{1}"
-        "ows_enable_request"   "*"
-        "gml_include_items" "all"
-        "wms_feature_mime_type" "text/html"
-    END
-    TEMPLATE blank.html
-    TYPE POINT
-    STATUS ON
-    MAXSCALEDENOM {3}
-    {4}
-{5}
-END
-
-# END of  LAYER: {1}  LEVEL: {0}
-        """.format(layer, feature, group, msd, data, classes)
-
-        # Hack to add special layers for Light Sector.  TODO: this should be refactor in future phases
+        # Hack to add special layers for Light Sector.
+        # TODO: this should be refactor in future phases
         if feature == 'LIGHTS':
             mapfile = """
 # LIGHTS features and lines
@@ -273,7 +307,7 @@ LAYER
      END
   END
 {1}
-            """.format(layer, mapfile, group, msd)
+            """.format(layer, mapfile, group, msd)  # noqa
 
         return mapfile
 
@@ -315,17 +349,51 @@ CONNECTIONTYPE OGR
 
         return classes
 
+    def get_line_mapfile(self, layer, feature_type, group, max_scale_denom):
+        base = "CL{}_{}_LINESTRING".format(layer, feature_type)
+
+        try:
+            lookups = self.line_lookups[feature_type]
+        except KeyError:
+            return ''
+
+        data = 'DATA "{}"'.format('{}/{}'.format(layer, base))
+        classes = self.get_line_mapfile_classes(lookups)
+
+        mapfile = self.mapfile_layer_template.format(
+            layer=layer, feature=feature_type, group=group, type='LINE',
+            max_scale_denom=max_scale_denom, data=data, classes=classes)
+
+        return mapfile
+
+    def get_line_mapfile_classes(self, lookups):
+        classes = []
+
+        for lookup in lookups:
+            expression = self.get_expression(lookup['rules'])
+            style = self.get_line_styleitems(lookup['instruction'])
+            if not style:
+                continue
+
+            classes.append("""
+    CLASS # id: {2}
+        {0}
+        {1}
+    END""".format(expression, style, lookup['id']))
+
+        return '\n'.join(classes)
+
     def get_expression(self, rules):
         expression = ""
 
         expr = []
-        for rule in rules:
-            if rule[1] == ' ':
-                expr.append('([{}] > 0)'.format(rule[0]))
-            elif rule[1].isdigit():
-                expr.append('([{}] == {})'.format(rule[0], rule[1]))
+        for attrib, value in rules:
+            if value == ' ':
+                expr.append('([{}] > 0)'.format(attrib))
+            elif value.isdigit():
+                expr.append('([{}] == {})'.format(attrib, value))
             else:
-                expr.append('("[{}]" == "{}")'.format(rule[0], rule[1]))
+                expr.append('("[{}]" == "{}")'.format(attrib, value))
 
         if expr:
             expression = "EXPRESSION (" + " AND ".join(expr) + ")"
@@ -333,7 +401,10 @@ CONNECTIONTYPE OGR
         return expression
 
     def get_point_style(self, instruction):
-        style = ""
+        style = []
+
+        if not instruction:
+            return ''
 
         # Split on ;
         try:
@@ -343,23 +414,34 @@ CONNECTIONTYPE OGR
                 details = part[3:-1]
 
                 # Symbol
-                if command == "SY":
-                    style += self.get_symbol(details)
+                # if command == "SY":
+                #    style.append(self.get_symbol(details))
 
-                if command in ["TX", "TE"]:
-                    style += self.get_label(command, details)
+                if command in ["TX", "TE", "SY"]:
+                    style.append(get_command(part)(self))
 
                 if command == 'CS':
                     # CS is special logic
                     if details[:-2] == 'SOUNDG':
-                        style += self.get_soundg()
+                        style.append(self.get_soundg())
                     if details[:-2] == 'LIGHTS':
-                        style += self.get_lights_point()
+                        style.append(self.get_lights_point())
 
         except:
             return ""
 
-        return style
+        return '\n'.join(style)
+
+    def get_line_styleitems(self, instruction):
+        style = []
+        try:
+            for part in instruction.split(';'):
+                command = get_command(part)
+                style.append(command(self))
+
+            return '\n'.join(filter(None, style))
+        except:
+            return ''
 
     def get_symbol(self, details):
         # Hardcoded value to skip typo in official XML
@@ -468,7 +550,7 @@ CONNECTIONTYPE OGR
             spaceHash[space],
             chars[-3:-1],
             xoffs, yoffs,
-            ' '.join(self.color_table[colour]),
+            self.color_table[colour].rgb,
             text
         )
 
@@ -553,4 +635,4 @@ CONNECTIONTYPE OGR
             SYMBOL 'LIGHTS13'
             OFFSET 9 9
         END
-        """
+        """  # noqa
