@@ -75,6 +75,18 @@ def generate_symbolset(symboltype, output_directory, force_update):
                 str_to_add = symbol_template.replace("[symname]", name)
                 f_symbols.write(str_to_add)
 
+        for symEle in dom.getElementsByTagName("line-style"):
+            name = symEle.getElementsByTagName("name")[0].firstChild.nodeValue
+            hpgl = symEle.getElementsByTagName("HPGL")
+            if hpgl:
+                hpgl = hpgl[0].firstChild.nodeValue
+                vector = symEle.getElementsByTagName('vector')[0]
+                origin = vector.getElementsByTagName('origin')[0]
+                offset_x = int(origin.attributes['x'].value)
+                offset_y = int(origin.attributes['y'].value)
+                symbol = parse_vector_symbol(name, hpgl, offset_x, offset_y)
+                f_symbols.write(symbol)
+
     # Include original symbols file
     f_symbols.write("""
 
@@ -83,6 +95,54 @@ def generate_symbolset(symboltype, output_directory, force_update):
 
     f_symbols.write("\nEND")
     f_symbols.close()
+
+
+def parse_vector_symbol(name, hpgl, offset_x, offset_y):
+    vector_template = """
+    SYMBOL
+        NAME "{symname}"
+        TYPE VECTOR
+        FILLED {filled}
+        POINTS
+        {points}
+        END
+    END"""
+
+    filled = False
+    points = []
+    for instruction in hpgl.split(';'):
+        if not instruction:
+            continue
+
+        command, args = instruction[:2], instruction[2:]
+        if command in ('SP', 'SW'):
+            # Select Pen
+            # Set Width
+            pass
+        elif command in ('PD', 'PU'):
+            # Pen Down
+            # Pen Up
+            if command == 'PU':
+                points += [-99, -99]
+
+            coordinates = map(int, args.split(','))
+
+            for x, y in zip(coordinates, coordinates):
+                points += [x - offset_x, y - offset_y]
+        elif command == 'CI':
+            # Circle
+            pass
+        elif command == 'FP':
+            # Fill Polygon
+            filled = True
+        else:
+            import warnings
+            warnings.warn('Not implemented: ' + command)
+
+    str_to_add = vector_template.format(symname=name,
+                                        filled=filled,
+                                        points=' '.join(map(str, points)))
+    return str_to_add
 
 
 def update_file(file, force=False):

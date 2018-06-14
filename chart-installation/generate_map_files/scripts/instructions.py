@@ -195,4 +195,19 @@ class SY(Command):
 
 class LC(Command):
     """ShowLine 9.3"""
-    # TODO: find a way to extract the symbols
+    def __init__(self, style):
+        self.symbol = style
+
+    def __call__(self, chartsymbols):
+        return """
+        STYLE
+            SYMBOL "{}"
+            COLOR {}
+
+           INITIALGAP 23
+           GAP -46
+           SIZE 46
+           WIDTH 1.2
+           ANGLE AUTO
+        END
+        """.format(self.symbol, chartsymbols.color_table['CHMGD'].rgb)
