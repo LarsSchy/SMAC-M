@@ -25,7 +25,7 @@ class Command:
     def set_command_name(self, command):
         self.command = command
 
-    def __call__(self, chartsymbols):
+    def __call__(self, chartsymbols, layer):
         warnings.warn('Command not implemented: {}'.format(self.command),
                       NotImplementedWarning)
         return ''
@@ -49,7 +49,7 @@ class LS(Command):
         self.width = width
         self.color = color
 
-    def __call__(self, chartsymbols):
+    def __call__(self, chartsymbols, layer):
         return '''
         STYLE
             COLOR {color}
@@ -98,7 +98,7 @@ class TE(Command):
         self.display = display
         super().__init__()
 
-    def __call__(self, chartsymbols):
+    def __call__(self, chartsymbols, layer):
 
         text = re.sub(r'(%[^ ]*[a-z])[^a-z]', self.get_label_text, self.format)
         if ' + ' in text:
@@ -168,7 +168,7 @@ class SY(Command):
         except ValueError:
             self.rot = '[{}_CAL]'.format(rot)
 
-    def __call__(self, chartsymbols):
+    def __call__(self, chartsymbols, layer):
         # Hardcoded value to skip typo in official XML
         # TODO: Validate that the symbol exists
         if self.symbol == 'BCNCON81':
@@ -199,7 +199,7 @@ class LC(Command):
     def __init__(self, style):
         self.symbol = style
 
-    def __call__(self, chartsymbols):
+    def __call__(self, chartsymbols, layer):
         symbol_data = chartsymbols.line_type_def[self.symbol]
         return """
         STYLE
@@ -219,3 +219,42 @@ class LC(Command):
             initialgap=symbol_data.gap / 2,
             size=symbol_data.size,
         )
+
+class CS(Command):
+    """ CallSymproc 9.5"""
+    # Dict of proc references to simpler styles.
+    # Entries are searched in this order:
+    #   1. Exact procname and layer name
+    #   2. Exact procname
+    #   3. Class code (First 6 characters of the procname)
+    procs = {
+        ('SLCONS03', 'SLCONS'): LS('SOLD', 2, 'CSTLN'),
+        ('QUAPOS03', 'COALNE'): LS('SOLD', 1, 'CSTLN'),
+
+        'QUAPOS01': LS('SOLD', 1, 'CSTLN'),
+        'DEPCNT02': LS('SOLD', 1, 'DEPCN'),
+
+        'OBSTRN': SY('ISODGR01'),
+    }
+    def __init__(self, proc):
+        self.proc = proc
+
+    def __call__(self, chartsymbols, layer):
+        #   1. Exact procname and layer name
+        subcmd = self.procs.get((self.proc, layer))
+
+        if subcmd is None:
+            #   2. Exact procname
+            subcmd = self.procs.get(self.proc)
+
+        if subcmd is None:
+            #   3. Class code (First 6 characters of the procname)
+            subcmd = self.procs.get(self.proc[:6])
+
+        if subcmd:
+            return subcmd(chartsymbols, layer)
+        else:
+            warnings.warn(
+                'Symproc not implemented: {}'.format((self.proc, layer)),
+                NotImplementedWarning)
+        return ''

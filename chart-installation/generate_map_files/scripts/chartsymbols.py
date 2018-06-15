@@ -196,8 +196,8 @@ END
         except KeyError:
             return ''
 
-        data = self.get_point_mapfile_data(layer, base, charts)
-        classes = self.get_point_mapfile_classes(charts)
+        data = self.get_mapfile_data(layer, base, charts)
+        classes = self.get_point_mapfile_classes(charts, feature)
 
         mapfile = self.mapfile_layer_template.format(
             layer=layer, feature=feature, group=group, max_scale_denom=msd,
@@ -345,7 +345,7 @@ LAYER
 
         return mapfile
 
-    def get_point_mapfile_data(self, layer, base, charts):
+    def get_mapfile_data(self, layer, base, charts):
 
         data = 'DATA "{}"'.format('{}/{}'.format(layer, base))
 
@@ -366,12 +366,12 @@ CONNECTIONTYPE OGR
 
         return data
 
-    def get_point_mapfile_classes(self, charts):
+    def get_point_mapfile_classes(self, charts, feature):
         classes = ""
 
         for chart in charts:
             expression = self.get_expression(chart['rules'])
-            style = self.get_point_style(chart['instruction'])
+            style = self.get_point_style(chart['instruction'], feature)
             if not style:
                 continue
             classes += """
@@ -391,8 +391,8 @@ CONNECTIONTYPE OGR
         except KeyError:
             return ''
 
-        data = 'DATA "{}"'.format('{}/{}'.format(layer, base))
-        classes = self.get_line_mapfile_classes(lookups)
+        data = self.get_mapfile_data(layer, base, lookups)
+        classes = self.get_line_mapfile_classes(lookups, feature_type)
 
         mapfile = self.mapfile_layer_template.format(
             layer=layer, feature=feature_type, group=group, type='LINE',
@@ -400,12 +400,12 @@ CONNECTIONTYPE OGR
 
         return mapfile
 
-    def get_line_mapfile_classes(self, lookups):
+    def get_line_mapfile_classes(self, lookups, feature):
         classes = []
 
         for lookup in lookups:
             expression = self.get_expression(lookup['rules'])
-            style = self.get_line_styleitems(lookup['instruction'])
+            style = self.get_line_styleitems(lookup['instruction'], feature)
             if not style:
                 continue
 
@@ -434,7 +434,7 @@ CONNECTIONTYPE OGR
 
         return expression
 
-    def get_point_style(self, instruction):
+    def get_point_style(self, instruction, feature):
         style = []
 
         if not instruction:
@@ -452,7 +452,8 @@ CONNECTIONTYPE OGR
                 #    style.append(self.get_symbol(details))
 
                 if command in ["TX", "TE", "SY"]:
-                    style.append(get_command(part)(self))
+                    command = get_command(part)
+                    style.append(command(self, feature))
 
                 if command == 'CS':
                     # CS is special logic
@@ -466,12 +467,12 @@ CONNECTIONTYPE OGR
 
         return '\n'.join(style)
 
-    def get_line_styleitems(self, instruction):
+    def get_line_styleitems(self, instruction, feature):
         style = []
         try:
             for part in instruction.split(';'):
                 command = get_command(part)
-                style.append(command(self))
+                style.append(command(self, feature))
 
             return '\n'.join(filter(None, style))
         except:
