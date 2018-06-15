@@ -189,6 +189,7 @@ class SY(Command):
             SYMBOL "{}"
             OFFSET {} {}
             ANGLE {}
+            GAP 2000
         END
         """.format(self.symbol, x, y, self.rot)
 
@@ -199,15 +200,22 @@ class LC(Command):
         self.symbol = style
 
     def __call__(self, chartsymbols):
+        symbol_data = chartsymbols.line_type_def[self.symbol]
         return """
         STYLE
-            SYMBOL "{}"
-            COLOR {}
+            SYMBOL "{symbol}"
+            COLOR {color}
 
-           INITIALGAP 23
-           GAP -46
-           SIZE 46
-           WIDTH 1.2
+           INITIALGAP {initialgap}
+           GAP -{gap}
+           SIZE {size}
+           WIDTH 0.5
            ANGLE AUTO
         END
-        """.format(self.symbol, chartsymbols.color_table['CHMGD'].rgb)
+        """.format(
+            symbol=self.symbol,
+            color=chartsymbols.color_table[symbol_data.color].rgb,
+            gap=symbol_data.gap,
+            initialgap=symbol_data.gap / 2,
+            size=symbol_data.size,
+        )

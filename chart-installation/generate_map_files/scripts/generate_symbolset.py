@@ -115,9 +115,12 @@ def parse_vector_symbol(name, hpgl, offset_x, offset_y):
             continue
 
         command, args = instruction[:2], instruction[2:]
-        if command in ('SP', 'SW'):
+        if command in ('SP', 'SW', 'PM', 'ST'):
+            # Noops
             # Select Pen
             # Set Width
+            # Polygon Mode
+            # Set Transparency
             pass
         elif command in ('PD', 'PU'):
             # Pen Down
@@ -130,7 +133,8 @@ def parse_vector_symbol(name, hpgl, offset_x, offset_y):
             for x, y in zip(coordinates, coordinates):
                 points += [x - offset_x, y - offset_y]
         elif command == 'CI':
-            # Circle
+            # Not implemented
+            # CIrcle
             pass
         elif command == 'FP':
             # Fill Polygon
