@@ -13,7 +13,7 @@ from __future__ import print_function
 import argparse
 import os
 from subprocess import call
-import xml.dom.minidom
+import xml.etree.ElementTree as etree
 
 from wand.image import Image
 
@@ -50,17 +50,18 @@ def generate_symbolset(symboltype, output_directory, force_update):
 
     f_symbols.write("SYMBOLSET\n")
 
-    dom = xml.dom.minidom.parse(OCPN_lookuptable)
+    root = etree.parse(OCPN_lookuptable)
+
     with Image(filename=OCPN_source_symbol_file) as source_symbols:
-        for symEle in dom.getElementsByTagName("symbol"):
-            name = symEle.getElementsByTagName("name")[0].firstChild.nodeValue
-            btmEle = symEle.getElementsByTagName("bitmap")
-            if len(btmEle):
-                locEle = btmEle[0].getElementsByTagName("graphics-location")
-                width = int(btmEle[0].attributes["width"].value)
-                height = int(btmEle[0].attributes["height"].value)
-                x = locEle[0].attributes["x"].value
-                y = locEle[0].attributes["y"].value
+        for symEle in root.iter('symbol'):
+            name = symEle.find('name').text
+            btmEle = symEle.find('bitmap')
+            if btmEle is not None:
+                locEle = btmEle.find("graphics-location")
+                width = int(btmEle.attrib['width'])
+                height = int(btmEle.attrib['height'])
+                x = locEle.attrib["x"]
+                y = locEle.attrib["y"]
                 print("creating: %s" % (name), end='\r', flush=True)
                 # imagemagick to the rescue
                 left = int(x)
@@ -75,15 +76,15 @@ def generate_symbolset(symboltype, output_directory, force_update):
                 str_to_add = symbol_template.replace("[symname]", name)
                 f_symbols.write(str_to_add)
 
-        for symEle in dom.getElementsByTagName("line-style"):
-            name = symEle.getElementsByTagName("name")[0].firstChild.nodeValue
-            hpgl = symEle.getElementsByTagName("HPGL")
-            if hpgl:
-                hpgl = hpgl[0].firstChild.nodeValue
-                vector = symEle.getElementsByTagName('vector')[0]
-                origin = vector.getElementsByTagName('origin')[0]
-                offset_x = int(origin.attributes['x'].value)
-                offset_y = int(origin.attributes['y'].value)
+        for symEle in root.iter("line-style"):
+            name = symEle.find('name').text
+            hpgl = symEle.find('HPGL')
+            if hpgl is not None:
+                hpgl = hpgl.text
+                vector = symEle.find('vector')
+                origin = vector.find('origin')
+                offset_x = int(origin.attrib['x'])
+                offset_y = int(origin.attrib['y'])
                 symbol = parse_vector_symbol(name, hpgl, offset_x, offset_y)
                 f_symbols.write(symbol)
 
