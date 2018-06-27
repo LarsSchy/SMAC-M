@@ -17,6 +17,8 @@ import xml.etree.ElementTree as etree
 
 from wand.image import Image
 
+from symbol import VectorSymbol
+
 
 def generate_symbolset(symboltype, output_directory, force_update):
     if symboltype == "day":
@@ -77,6 +79,10 @@ def generate_symbolset(symboltype, output_directory, force_update):
                 f_symbols.write(str_to_add)
 
         for symEle in root.iter("line-style"):
+            symbol = VectorSymbol(symEle)
+            if symbol is not None:
+                f_symbols.write(symbol.as_symbol)
+            continue
             name = symEle.find('name').text
             hpgl = symEle.find('HPGL')
             if hpgl is not None:

@@ -200,25 +200,9 @@ class LC(Command):
         self.symbol = style
 
     def __call__(self, chartsymbols, layer):
-        symbol_data = chartsymbols.line_type_def[self.symbol]
-        return """
-        STYLE
-            SYMBOL "{symbol}"
-            COLOR {color}
+        return chartsymbols.line_symbols[self.symbol].as_style(
+            chartsymbols.color_table)
 
-           INITIALGAP {initialgap}
-           GAP -{gap}
-           SIZE {size}
-           WIDTH 0.5
-           ANGLE AUTO
-        END
-        """.format(
-            symbol=self.symbol,
-            color=chartsymbols.color_table[symbol_data.color].rgb,
-            gap=symbol_data.gap,
-            initialgap=symbol_data.gap / 2,
-            size=symbol_data.size,
-        )
 
 class CS(Command):
     """ CallSymproc 9.5"""
@@ -236,6 +220,7 @@ class CS(Command):
 
         'OBSTRN': SY('ISODGR01'),
     }
+
     def __init__(self, proc):
         self.proc = proc
 

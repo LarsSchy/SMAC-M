@@ -2,7 +2,7 @@
 
 import os
 import re
-from types import SimpleNamespace
+from symbol import VectorSymbol
 import math
 from xml.etree import ElementTree as etree
 
@@ -82,7 +82,7 @@ END
         self.polygon_lookups = {}
 
         self.symbols_def = {}
-        self.line_type_def = {}
+        self.line_symbols = {}
 
         self.load_symbols(root)
         self.load_lookups(root, table, displaycategory)
@@ -120,35 +120,10 @@ END
             except:
                 continue
 
-        # Using CBLSUB06 as a yardstick: 500 OpenCPN units == 15 Mapserver unit
-        factor = 15 / 500
         for linestyle in root.iter('line-style'):
-            try:
-                name = linestyle.find('name').text
-                vector = linestyle.find('vector')
-                width = int(vector.attrib['width']) * factor
-                height = int(vector.attrib['height']) * factor
-                color_ref = linestyle.find('color-ref').text
-                colors = {}
-                while color_ref:
-                    color, color_ref = color_ref[:6], color_ref[6:]
-                    colors[color[0]] = color[1:]
-
-                color = 'NODTA'  # default to No Data color
-                hpgl = linestyle.find('HPGL').text
-                for i in hpgl.split(';'):
-                    cmd, arg = i[:2], i[2:]
-                    if cmd == 'SP':
-                        color = colors[arg]
-                        break
-
-                self.line_type_def[name] = SimpleNamespace(
-                    gap=width,
-                    size=height,
-                    color=color,
-                )
-            except:
-                continue
+            symbol = VectorSymbol(linestyle)
+            if symbol:
+                self.line_symbols[symbol.name] = symbol
 
     def load_lookups(self, root, style, displaycategory=None):
         for lookup in root.iter('lookup'):
