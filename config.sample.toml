@@ -1,0 +1,11 @@
+debug = false                 # Enable the Mapserver debug if true
+point_table = "Simplified"    # Style table used for point features
+area_table = "Plain"          # Style table used for area features
+displaycategory = "Standard"  # Comma-separated list of categories of symbols displayed
+
+[paths]  # All paths in this section are relative to this file's location
+chart = "ENC_ROOT"    # Path to the ENC_ROOT of this dataset (Not implemented yet)
+data = "data/shape"   # Path to the converted data files (Mandatory)
+map = "data/map"      # Path to the mapfile output directory. Defaults to a `map` directory adjacent to the data path
+chartsymbols = ""     # Path to the chartsymbols.xml to use for the generation. Defaults to the fixed chartsymbols_S57.xml file provided in this repository
+ruleset = ""          # Path to the rule set to use. Defaults to the resources provided in this repository
