@@ -5,7 +5,7 @@ MAP
     UNITS dd
     EXTENT -180 -90 180 90
 
-    CONFIG "MS_OPENLAYERS_JS_URL" "http://localhost/LocalOpenLayers/OpenLayers-ms60.js"
+    # CONFIG "MS_OPENLAYERS_JS_URL" "http://localhost/LocalOpenLayers/OpenLayers-ms60.js"
     ${DEBUG}
     #RESOLUTION 96
     #DEFRESOLUTION 96
@@ -32,7 +32,7 @@ MAP
         METADATA
           "ows_enable_request"   "*"
           'ows_title'           'SeaChart_${THEME}'
-          'ows_onlineresource'  '${HOST}?map=${MAP_PATH}/SeaChart_${THEME}.map&'
+          # 'ows_onlineresource'  '${HOST}?map=${MAP_PATH}/SeaChart_${THEME}.map&'
           'wms_srs'  'EPSG:32633 EPSG:3006 EPSG:3857 EPSG:4326 EPSG:900913'
           'wfs_srs'  'EPSG:32633 EPSG:3006 EPSG:3857 EPSG:4326 EPSG:900913'
           "labelcache_map_edge_buffer" "-10"
