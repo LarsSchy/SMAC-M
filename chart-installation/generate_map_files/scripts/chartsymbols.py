@@ -385,7 +385,7 @@ CONNECTIONTYPE OGR
     def _get_mapfile(self, layer, feature_type, group, max_scale_denom,
                      base, lookups, type):
         data = self.get_mapfile_data(layer, base, lookups)
-        classes = self.get_mapfile_classes(lookups, feature_type)
+        classes = self.get_mapfile_classes(lookups, feature_type, type)
 
         mapfile = self.mapfile_layer_template.format(
             layer=layer, feature=feature_type, group=group, type=type,
@@ -393,12 +393,13 @@ CONNECTIONTYPE OGR
 
         return mapfile
 
-    def get_mapfile_classes(self, lookups, feature):
+    def get_mapfile_classes(self, lookups, feature, geom_type):
         classes = []
 
         for lookup in lookups:
             expression = self.get_expression(lookup['rules'])
-            style = self.get_styleitems(lookup['instruction'], feature)
+            style = self.get_styleitems(lookup['instruction'], feature,
+                                        geom_type)
             if not style:
                 continue
 
@@ -446,7 +447,7 @@ CONNECTIONTYPE OGR
 
                 if command in ["TX", "TE", "SY"]:
                     command = get_command(part)
-                    style.append(command(self, feature))
+                    style.append(command(self, feature, 'POINT'))
 
                 if command == 'CS':
                     # CS is special logic
@@ -460,12 +461,12 @@ CONNECTIONTYPE OGR
 
         return '\n'.join(style)
 
-    def get_styleitems(self, instruction, feature):
+    def get_styleitems(self, instruction, feature, geom_type):
         style = []
         try:
             for part in instruction.split(';'):
                 command = get_command(part)
-                style.append(command(self, feature))
+                style.append(command(self, feature, geom_type))
 
             return '\n'.join(filter(None, style))
         except:

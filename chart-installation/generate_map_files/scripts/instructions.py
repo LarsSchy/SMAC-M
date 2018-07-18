@@ -25,7 +25,7 @@ class Command:
     def set_command_name(self, command):
         self.command = command
 
-    def __call__(self, chartsymbols, layer):
+    def __call__(self, chartsymbols, layer, geom_type):
         warnings.warn('Command not implemented: {}'.format(self.command),
                       NotImplementedWarning)
         return ''
@@ -49,7 +49,7 @@ class LS(Command):
         self.width = width
         self.color = color
 
-    def __call__(self, chartsymbols, layer):
+    def __call__(self, chartsymbols, layer, geom_type):
         return '''
         STYLE
             COLOR {color}
@@ -98,7 +98,7 @@ class TE(Command):
         self.display = display
         super().__init__()
 
-    def __call__(self, chartsymbols, layer):
+    def __call__(self, chartsymbols, layer, geom_type):
 
         text = re.sub(r'(%[^ ]*[a-z])[^a-z]', self.get_label_text, self.format)
         if ' + ' in text:
@@ -168,7 +168,7 @@ class SY(Command):
         except ValueError:
             self.rot = '[{}_CAL]'.format(rot)
 
-    def __call__(self, chartsymbols, layer):
+    def __call__(self, chartsymbols, layer, geom_type):
         # Hardcoded value to skip typo in official XML
         # TODO: Validate that the symbol exists
         if self.symbol == 'BCNCON81':
@@ -199,7 +199,7 @@ class LC(Command):
     def __init__(self, style):
         self.symbol = style
 
-    def __call__(self, chartsymbols, layer):
+    def __call__(self, chartsymbols, layer, geom_type):
         return chartsymbols.line_symbols[self.symbol].as_style(
             chartsymbols.color_table)
 
@@ -224,7 +224,7 @@ class CS(Command):
     def __init__(self, proc):
         self.proc = proc
 
-    def __call__(self, chartsymbols, layer):
+    def __call__(self, chartsymbols, layer, geom_type):
         #   1. Exact procname and layer name
         subcmd = self.procs.get((self.proc, layer))
 
