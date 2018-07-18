@@ -86,6 +86,14 @@ if __name__ == '__main__':
         print('Data path missing from configuration file', file=sys.stderr)
         sys.exit(1)
 
+    point_table = args.config.get('point_table', 'Simplified')
+    if 'tablename' in args.config:
+        print('WARNING: `tablename` configuration option is deprecated. '
+              'Use point_table instead\n')
+        point_table = args.config['tablename']
+
+    area_table = args.config.get('area_table', 'Plain')
+
     data_path = config_relative(data_path, args)
 
     map_path = args.config['paths'].get('map')
@@ -117,7 +125,6 @@ if __name__ == '__main__':
     if not os.path.isfile(chartsymbols):
         print("chartsymbols.xml not found at: " + chartsymbols)
 
-    tablename = args.config.get('tablename', 'Simplified')
     displaycategory = args.config.get('displaycategory',
                                       'Standard').split(',')
     displaycategory += ['Displaybase']
@@ -134,8 +141,8 @@ if __name__ == '__main__':
 
         generate_basechart_config(data_path, map_path, rule_set_path,
                                   RESOURCES_PATH, args.force,
-                                  debug, tablename, displaycategory,
-                                  chartsymbols)
+                                  debug, point_table, area_table,
+                                  displaycategory, chartsymbols)
     else:
         print('Data format "{}" has not yet been ported to the configuration '
               'file. Use the old script to generate your mapfiles'

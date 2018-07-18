@@ -46,8 +46,11 @@ def parse_arguments():
                         help="Use OpenCPN chartsymbols.xml file to generate layers")
     parser.add_argument("-y", "--displaycategory", nargs=1,
                         help="Comma separated list of OpenCPN Display Category to load. Displaybase is always loaded, default is Standard.")
-    parser.add_argument("-t", "--tablename", nargs=1,
-                        help="Which OpenCPN chartsymbols.xml table to generate. Default is Simplified.")
+    parser.add_argument("-t", "--tablename", '--point_table', nargs=1,
+                        help="Which OpenCPN chartsymbols.xml table to generate for point features. Default is Simplified.")
+    parser.add_argument("-a", "--area_table", default='Plain',
+                        choices=['Plain', 'Symbolized'],
+                        help="Which OpenCPN chartsymbols.xml table to generate for area features. Default is Plain.")
     args = parser.parse_args()
     if not ((args.basechart_data_path and args.rule_set_path) or
             (args.enhanced_data_path and args.rule_set_path) or
@@ -92,7 +95,8 @@ def main():
         sys.exit(1)
 
     chartsymbols = None
-    tablename = 'Simplified'
+    point_table = 'Simplified'
+    area_table = 'Plain'
     displaycategory = ['Displaybase']
     if args.chartsymbols and not os.path.isfile(args.chartsymbols[0]):
         print("chartsymbols.xml not found at: " + args.chartsymbols[0])
@@ -100,7 +104,10 @@ def main():
     elif args.chartsymbols and enhanced_data:
         chartsymbols = os.path.abspath(os.path.normpath(args.chartsymbols[0]))
         if args.tablename and args.tablename[0] in ['Simplified', 'Paper']:
-            tablename = args.tablename[0]
+            point_table = args.tablename[0]
+
+        area_table = args.area_table
+
         if args.displaycategory:
             displaycategory.extend(args.displaycategory[0].split(','))
         else:
@@ -131,7 +138,7 @@ def main():
                 rule_set_path, "layer_rules"))
         # Generate the BaseChart config ...
         generate_basechart_config(data_path, map_path, rule_set_path, resource_dir,
-                                  args.force_overwrite, args.debug, tablename, displaycategory, chartsymbols)
+                                  args.force_overwrite, args.debug, point_table, area_table, displaycategory, chartsymbols)
     elif args.geotif_data_path:
         # ... or the TIF config
         generate_tif_config(data_path, map_path, args.debug)

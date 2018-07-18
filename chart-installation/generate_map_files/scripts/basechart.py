@@ -92,7 +92,7 @@ def create_legend_files(template_path, themes_path, map_path, fonts_path,
 
 
 def generate_basechart_config(data_path, map_path, rule_set_path, resource_dir,
-                              force_overwrite, debug, tablename,
+                              force_overwrite, debug, point_table, area_table,
                               displaycategory, chartsymbols):
 
     # Generate new map files
@@ -100,8 +100,8 @@ def generate_basechart_config(data_path, map_path, rule_set_path, resource_dir,
 
     if chartsymbols:
         shapepath = data_path
-        process_all_layers(data_path, map_path, rule_set_path,
-                           tablename, displaycategory, chartsymbols)
+        process_all_layers(data_path, map_path, rule_set_path, point_table,
+                           area_table, displaycategory, chartsymbols)
     else:
         shapepath = None
         subprocess.call("./process_all_layers.sh data=" + data_path +
@@ -153,8 +153,9 @@ def get_colors(color_table):
     return colors
 
 
-def process_all_layers(data, target, config, tablename='Simplified',
-                       displaycategory=None, chartsymbols_file=None):
+def process_all_layers(data, target, config, point_table='Simplified',
+                       area_table='Plain', displaycategory=None,
+                       chartsymbols_file=None):
 
     # Reimplementation of the shel script of the same name
     msd = get_maxscaledenom(config)
@@ -162,7 +163,8 @@ def process_all_layers(data, target, config, tablename='Simplified',
     chartsymbols = None
     if chartsymbols_file:
         chartsymbols = ChartSymbols(
-            chartsymbols_file, tablename, displaycategory)
+            chartsymbols_file, point_table, area_table, displaycategory
+        )
 
     # Test if the shapefile is of the right Geometry
     shp_types = {}
@@ -197,7 +199,7 @@ def process_all_layers(data, target, config, tablename='Simplified',
 
     for color in os.listdir(config + '/color_tables'):
         print("Loading " + color)
-        theme = os.path.splitext("path_to_file")[0]
+        # theme = os.path.splitext("path_to_file")[0]
         if chartsymbols:
             chartsymbols.load_colors(color[:-4])
         for layer in os.listdir(data):
@@ -306,15 +308,9 @@ def process_layer_colors(layer, color_table, input_file, msd, data, target,
                     elif geom == 'LINESTRING':
                         mapfile_line += chartsymbols.get_line_mapfile(
                             layer, feature, 'default', msd)
-                    else:
-                        if filename in shp_types and shp_types[filename] != geom:
-                            continue
-                        mapfile = get_layer_mapfile(layer, '{}_{}'.format(
-                            feature, geom), 'default', color_table, msd)
-                        if geom == 'LINESTRING':
-                            mapfile_line += mapfile
-                        else:
-                            mapfile_polygon += mapfile
+                    elif geom == 'POLYGON':
+                        mapfile_polygon += chartsymbols.get_poly_mapfile(
+                            layer, feature, 'default', msd)
 
         final_file.write(mapfile_polygon)
         final_file.write(mapfile_line)

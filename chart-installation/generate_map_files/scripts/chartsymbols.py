@@ -64,8 +64,9 @@ END
 # END of  LAYER: {feature}  LEVEL: {layer}
 """
 
-    def __init__(self, file, table='Simplified', displaycategory=None,
-                 color_table='DAY_BRIGHT'):
+    def __init__(self, file, point_table='Simplified', area_table='Plain',
+                 displaycategory=None, color_table='DAY_BRIGHT'):
+
         if not os.path.isfile(file):
             raise Exception('chartsymbol file do not exists')
 
@@ -85,7 +86,7 @@ END
         self.line_symbols = {}
 
         self.load_symbols(root)
-        self.load_lookups(root, table, displaycategory)
+        self.load_lookups(root, point_table, area_table, displaycategory)
 
     def load_colors(self, color_table):
         self.color_table = self._color_tables.get(color_table, {})
@@ -125,7 +126,8 @@ END
             if symbol:
                 self.line_symbols[symbol.name] = symbol
 
-    def load_lookups(self, root, style, displaycategory=None):
+    def load_lookups(self, root, point_style, area_style,
+                     displaycategory=None):
         for lookup in root.iter('lookup'):
             try:
                 name = lookup.get('name')
@@ -143,7 +145,7 @@ END
             except (KeyError, AttributeError):
                 continue
 
-            if table_name in (style, 'Lines') and \
+            if table_name in (point_style, area_style, 'Lines') and \
                     (displaycategory is None or display in displaycategory):
                 if lookup_type == 'Point':
                     lookup = self.point_lookups.setdefault(name, [])
@@ -366,21 +368,37 @@ CONNECTIONTYPE OGR
         except KeyError:
             return ''
 
+        return self._get_mapfile(layer, feature_type, group, max_scale_denom,
+                                 base, lookups, 'LINE')
+
+    def get_poly_mapfile(self, layer, feature_type, group, max_scale_denom):
+        base = "CL{}_{}_POLYGON".format(layer, feature_type)
+
+        try:
+            lookups = self.polygon_lookups[feature_type]
+        except KeyError:
+            return ''
+
+        return self._get_mapfile(layer, feature_type, group, max_scale_denom,
+                                 base, lookups, 'POLYGON')
+
+    def _get_mapfile(self, layer, feature_type, group, max_scale_denom,
+                     base, lookups, type):
         data = self.get_mapfile_data(layer, base, lookups)
-        classes = self.get_line_mapfile_classes(lookups, feature_type)
+        classes = self.get_mapfile_classes(lookups, feature_type)
 
         mapfile = self.mapfile_layer_template.format(
-            layer=layer, feature=feature_type, group=group, type='LINE',
+            layer=layer, feature=feature_type, group=group, type=type,
             max_scale_denom=max_scale_denom, data=data, classes=classes)
 
         return mapfile
 
-    def get_line_mapfile_classes(self, lookups, feature):
+    def get_mapfile_classes(self, lookups, feature):
         classes = []
 
         for lookup in lookups:
             expression = self.get_expression(lookup['rules'])
-            style = self.get_line_styleitems(lookup['instruction'], feature)
+            style = self.get_styleitems(lookup['instruction'], feature)
             if not style:
                 continue
 
@@ -442,7 +460,7 @@ CONNECTIONTYPE OGR
 
         return '\n'.join(style)
 
-    def get_line_styleitems(self, instruction, feature):
+    def get_styleitems(self, instruction, feature):
         style = []
         try:
             for part in instruction.split(';'):
