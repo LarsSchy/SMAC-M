@@ -204,6 +204,22 @@ class LC(Command):
             chartsymbols.color_table)
 
 
+class AC(Command):
+    """ShowArea 9.4"""
+    def __init__(self, color, transparency=0):
+        self.color = color
+        # MapServer uses Opacity, OpenCPN uses trnasparency
+        self.opacity = (4 - transparency) * 25
+
+    def __call__(self, chartsymbols, layer, geom_type):
+        return """
+        STYLE
+            COLOR {}
+            OPACITY {}
+        END
+        """.format(chartsymbols.color_table[self.color].rgb, self.opacity)
+
+
 class CS(Command):
     """ CallSymproc 9.5"""
     # Dict of proc references to simpler styles.
