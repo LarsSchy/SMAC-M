@@ -188,6 +188,38 @@ NOTE 1: The output mapfile directory will be saved in map folder under shapefile
 
 NOTE 2: Please used chartsymbols_S57.xml file locates in the scripts directory.  This file has been modified to fix some issues found in original OpenCPN chartsymbols file.
 
+### Generating mapfiles using a configuration file
+
+To make it easier to rebuild a map using the same options, you can save the
+options in a configuration file. This configuration file is in
+[TOML](https://github.com/toml-lang/toml/wiki) format and contains the options
+for a particular map generation.
+
+You can easily generate a configuration file with the `generate_toml_config.py`
+script. This script accepts the same options as `generate_map_config.py` and
+creates a toml file with these options.
+
+```
+ python3 ./generate_toml_config.py \
+     -rule-default-color IHO \
+     --chartsymbols ./chartsymbols_S57.xml \
+     -enhancedchartdata ./shp_s57data/shp \
+     --tablename Paper \
+     --displaycategory Standard \
+     --rule-set-path ../resources/layer_rules/rules/ \
+     -o ./shp_s57data/config.toml
+```
+
+Once you have generated or handwritten your configuration file, you can use it
+with the `generate_map_config_v2.py` to generate the mapfiles.
+
+```
+ python3 ./generate_map_config_v2.py ./shp_s57data/config.toml
+```
+
+The `generate_map_config_v2.py` script currently only generates mapfiles for the
+enhanced dataset but may be expanded in the future to support other chart types.
+
 #### Testing
 
 Then You should be able to test the configuration in the built in open layers viewer with:

@@ -10,6 +10,7 @@ name = "pypi"
 [packages]
 numpy = "*"
 wand = "*"
+toml = "*"
 
 [requires]
 python_version = "3.5"

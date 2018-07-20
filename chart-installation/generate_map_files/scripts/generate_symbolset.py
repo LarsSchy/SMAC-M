@@ -19,6 +19,12 @@ from wand.image import Image
 
 from symbol import VectorSymbol
 
+__all__ = ['symbolsets', 'generate_symbolset']
+
+here = os.path.dirname(__file__)
+
+symbolsets = ('day', 'dusk', 'dark')
+
 
 def generate_symbolset(symboltype, output_directory, force_update):
     if symboltype == "day":
@@ -29,6 +35,7 @@ def generate_symbolset(symboltype, output_directory, force_update):
         OCPN_source_symbol_file = "rastersymbols-dusk.png"
 
     update_file(OCPN_source_symbol_file, force=force_update)
+    OCPN_source_symbol_file = os.path.join(here, OCPN_source_symbol_file)
 
     # Init variables
     OCPN_lookuptable = "chartsymbols.xml"
@@ -52,7 +59,7 @@ def generate_symbolset(symboltype, output_directory, force_update):
 
     f_symbols.write("SYMBOLSET\n")
 
-    root = etree.parse(OCPN_lookuptable)
+    root = etree.parse(os.path.join(here, OCPN_lookuptable))
 
     with Image(filename=OCPN_source_symbol_file) as source_symbols:
         for symEle in root.iter('symbol'):
@@ -95,12 +102,11 @@ def generate_symbolset(symboltype, output_directory, force_update):
 
 def update_file(file, force=False):
     url = "https://raw.githubusercontent.com/OpenCPN/OpenCPN/master/data/s57data/"  # noqa
-    if force or not os.path.exists(file):
-        call(["wget", url + file, "-O", file])
+    if force or not os.path.exists(os.path.join(here, file)):
+        call(["wget", url + file, "-O", os.path.join(here, file)])
 
 
 if __name__ == '__main__':
-    symbolsets = ('day', 'dusk', 'dark')
     parser = argparse.ArgumentParser()
     parser.add_argument('--update', '-u',
                         help='Update the symbol definition files',
