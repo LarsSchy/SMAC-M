@@ -302,6 +302,10 @@ def process_layer_colors(layer, color_table, input_file, msd, data, target,
                 if filename.endswith('.shp'):
                     feature = os.path.splitext(filename)[0][4:10]
                     geom = os.path.splitext(filename)[0][11:]
+                    if shp_types and shp_types[filename] != geom:
+                        print("{} does not match geometry: {} != {}".format(
+                            filename, shp_types[filename], geom))
+                        continue
                     if geom == 'POINT':
                         mapfile_point += chartsymbols.get_point_mapfile(
                             layer, feature, 'default', msd)

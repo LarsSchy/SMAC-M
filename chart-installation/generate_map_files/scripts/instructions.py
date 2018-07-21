@@ -200,16 +200,21 @@ class LC(Command):
         self.symbol = style
 
     def __call__(self, chartsymbols, layer, geom_type):
-        return chartsymbols.line_symbols[self.symbol].as_style(
+        style = chartsymbols.line_symbols[self.symbol].as_style(
             chartsymbols.color_table)
+        if geom_type == 'POLYGON':
+            print(layer)
+            return {'LINE': style}
+        else:
+            return style
 
 
 class AC(Command):
     """ShowArea 9.4"""
-    def __init__(self, color, transparency=0):
+    def __init__(self, color, transparency='0'):
         self.color = color
         # MapServer uses Opacity, OpenCPN uses trnasparency
-        self.opacity = (4 - transparency) * 25
+        self.opacity = (4 - int(transparency)) * 25
 
     def __call__(self, chartsymbols, layer, geom_type):
         return """
@@ -253,7 +258,7 @@ class CS(Command):
             subcmd = self.procs.get(self.proc[:6])
 
         if subcmd:
-            return subcmd(chartsymbols, layer)
+            return subcmd(chartsymbols, layer, geom_type)
         else:
             warnings.warn(
                 'Symproc not implemented: {}'.format((self.proc, layer)),

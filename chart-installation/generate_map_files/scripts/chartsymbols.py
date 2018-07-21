@@ -385,31 +385,44 @@ CONNECTIONTYPE OGR
     def _get_mapfile(self, layer, feature_type, group, max_scale_denom,
                      base, lookups, type):
         data = self.get_mapfile_data(layer, base, lookups)
-        classes = self.get_mapfile_classes(lookups, feature_type, type)
+        typed_classes = self.get_mapfile_classes(lookups, feature_type, type)
 
-        mapfile = self.mapfile_layer_template.format(
-            layer=layer, feature=feature_type, group=group, type=type,
-            max_scale_denom=max_scale_denom, data=data, classes=classes)
+        mapfile = '';
+        for geom_type in ['POLYGON', 'LINE', 'POINT']:
+            classes = typed_classes[geom_type]
+            if(classes):
+                mapfile += self.mapfile_layer_template.format(
+                    layer=layer, feature=feature_type, group=group,
+                    type=geom_type, max_scale_denom=max_scale_denom,
+                    data=data, classes=classes)
 
         return mapfile
 
     def get_mapfile_classes(self, lookups, feature, geom_type):
-        classes = []
+        classes = {
+            'POINT': [],
+            'LINE': [],
+            'POLYGON': [],
+        }
 
         for lookup in lookups:
             expression = self.get_expression(lookup['rules'])
-            style = self.get_styleitems(lookup['instruction'], feature,
+            styles = self.get_styleitems(lookup['instruction'], feature,
                                         geom_type)
-            if not style:
-                continue
+            for style_geom_type, style in styles.items():
+                if not style:
+                    continue
 
-            classes.append("""
+                classes[style_geom_type].append("""
     CLASS # id: {2}
         {0}
         {1}
     END""".format(expression, style, lookup['id']))
 
-        return '\n'.join(classes)
+        classes['POINT'] = '\n'.join(classes['POINT'])
+        classes['LINE'] = '\n'.join(classes['LINE'])
+        classes['POLYGON'] = '\n'.join(classes['POLYGON'])
+        return classes
 
     def get_expression(self, rules):
         expression = ""
@@ -462,15 +475,31 @@ CONNECTIONTYPE OGR
         return '\n'.join(style)
 
     def get_styleitems(self, instruction, feature, geom_type):
-        style = []
+        style = {
+            'POINT': [],
+            'LINE': [],
+            'POLYGON': [],
+        }
         try:
             for part in instruction.split(';'):
                 command = get_command(part)
-                style.append(command(self, feature, geom_type))
+                styles = command(self, feature, geom_type)
+                if isinstance(styles, str):
+                    style[geom_type].append(styles)
+                elif styles:
+                    for style_type, style_str in styles.items():
+                        style[style_type].append(style_str)
 
-            return '\n'.join(filter(None, style))
+            style['POINT'] = '\n'.join(filter(None, style['POINT']))
+            style['LINE'] = '\n'.join(filter(None, style['LINE']))
+            style['POLYGON'] = '\n'.join(filter(None, style['POLYGON']))
+            return style
         except:
-            return ''
+            return {
+                'POINT': [],
+                'LINE': [],
+                'POLYGON': [],
+            }
 
     def get_symbol(self, details):
         # Hardcoded value to skip typo in official XML

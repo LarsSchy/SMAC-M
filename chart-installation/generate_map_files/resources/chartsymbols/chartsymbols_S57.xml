@@ -1942,7 +1942,7 @@
 			<radar-prio>Supressed</radar-prio>
 			<table-name>Plain</table-name>
 			<attrib-code index="0">CATREA27</attrib-code>
-			<instruction>SY(ESSARE01);LC(ESSARE01)</instruction>
+			<instruction>LC(ESSARE01)</instruction>
 			<display-cat>Standard</display-cat>
 			<comment>26010</comment>
 		</lookup>
@@ -1952,7 +1952,7 @@
 			<radar-prio>Supressed</radar-prio>
 			<table-name>Plain</table-name>
 			<attrib-code index="0">CATREA28</attrib-code>
-			<instruction>SY(PSSARE01);LC(ESSARE01)</instruction>
+			<instruction>LC(ESSARE01)</instruction>
 			<display-cat>Standard</display-cat>
 			<comment>26010</comment>
 		</lookup>
@@ -5283,7 +5283,7 @@
 			<radar-prio>Supressed</radar-prio>
 			<table-name>Symbolized</table-name>
 			<attrib-code index="0">CATREA27</attrib-code>
-			<instruction>SY(ESSARE01);LC(ESSARE01)</instruction>
+			<instruction>LC(ESSARE01)</instruction>
 			<display-cat>Standard</display-cat>
 			<comment>26010</comment>
 		</lookup>
@@ -5293,7 +5293,7 @@
 			<radar-prio>Supressed</radar-prio>
 			<table-name>Symbolized</table-name>
 			<attrib-code index="0">CATREA28</attrib-code>
-			<instruction>SY(PSSARE01);LC(ESSARE01)</instruction>
+			<instruction>LC(ESSARE01)</instruction>
 			<display-cat>Standard</display-cat>
 			<comment>26010</comment>
 		</lookup>

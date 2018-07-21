@@ -141,6 +141,7 @@ Working with enhanced data allows to create mapfiles from the chartsymbols.xml f
    - RDOSTA layer (lookup #2350) uses DGPS field for label, but this field is not present. We replaced it by OBJNAM.
    - TOPMAR layer uses OBJNAM field for label, but this field is not present
    - SOUNDG layer is in display-cat Other, it has been transfered to Standard
+   - RESARE layer (lookup #164) uses SY(ESSARE01) and SY(PSSARE01) symbols, but those symbols are not present. They were removed.
 
 ## Generating Symbolset
 
