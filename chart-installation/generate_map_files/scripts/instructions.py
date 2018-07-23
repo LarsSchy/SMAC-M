@@ -50,7 +50,7 @@ class LS(Command):
         self.color = color
 
     def __call__(self, chartsymbols, layer, geom_type):
-        return '''
+        style = '''
         STYLE
             COLOR {color}
             WIDTH {width}
@@ -63,6 +63,10 @@ class LS(Command):
                 width=self.units(self.width),
                 pattern=self.patterns.get(self.pattern, ''),
             )
+        if geom_type == 'POLYGON':
+            return {'LINE': style}
+        else:
+            return style
 
 
 class TE(Command):
@@ -203,7 +207,6 @@ class LC(Command):
         style = chartsymbols.line_symbols[self.symbol].as_style(
             chartsymbols.color_table)
         if geom_type == 'POLYGON':
-            print(layer)
             return {'LINE': style}
         else:
             return style
