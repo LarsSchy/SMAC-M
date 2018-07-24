@@ -137,11 +137,12 @@ Working with enhanced data allows to create mapfiles from the chartsymbols.xml f
  - Some layers defined in the chartsymbols.xml are pointing to non-existing data columns:
    - BCNSPP layer (lookup #1781) uses BOYSHP == 1 Expression, but this field is not present. We replaced it by BCNDHP == 1.
    - BCNSPP layer (lookup #1784) uses CATLAM == 1 Expression, but this field is not present. We replaced it by CATSPM == 1.
+   - LNDELV layer (lookup #2210) uses HEIGHT TX instruction, but this field is not present. The instruction was removed.
    - RADSTA layer (lookup #1222, #2340) uses COMCHA field for label, but this field is not present. We replaced it by OBJNAM.
    - RDOSTA layer (lookup #2350) uses DGPS field for label, but this field is not present. We replaced it by OBJNAM.
+   - RESARE layer (lookup #164) uses SY(ESSARE01) and SY(PSSARE01) symbols, but those symbols are not present. They were removed.
    - TOPMAR layer uses OBJNAM field for label, but this field is not present
    - SOUNDG layer is in display-cat Other, it has been transfered to Standard
-   - RESARE layer (lookup #164) uses SY(ESSARE01) and SY(PSSARE01) symbols, but those symbols are not present. They were removed.
 
 ## Generating Symbolset
 
