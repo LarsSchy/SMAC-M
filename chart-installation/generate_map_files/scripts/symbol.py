@@ -1,4 +1,7 @@
+import abc
+from enum import Enum
 from operator import attrgetter
+import os
 
 
 class VectorSymbol:
@@ -228,3 +231,146 @@ class SubSymbol:
             initialgap=self.center * 0.04,
             gap=self.parent.width * 0.04,
         )
+
+
+class Pattern(metaclass=abc.ABCMeta):
+
+    class FillType(Enum):
+        Linear = 'L'
+        Staggered = 'S'
+
+    color = 'NODTA'
+    gap = 0
+    height = 0
+    width = 0
+    stroke_width = 0
+
+    @classmethod
+    def from_element(cls, element):
+        if element.find('bitmap'):
+            return BitmapPattern(element)
+        if element.find('vector'):
+            return VectorPattern(element)
+
+    def __init__(self, element):
+        self.name = element.find('name').text
+        self.fill_type = self.FillType(element.find('filltype').text)
+
+    def generate_bitmap(self, image, output_path):
+        # Default implementation noops; BitmapPattern will override
+        pass
+
+    @property
+    def size(self):
+        return max(self.height, self.width)
+
+    def as_style(self, color_table, ttt):
+        return '''
+    STYLE
+        SYMBOL "{symbol}"
+        COLOR {color}
+
+        GAP {gap}
+        SIZE {size}
+        WIDTH {stroke_width}
+    END
+    '''.format(
+        ttt=ttt,
+        symbol=self.name,
+        color=color_table[self.color].rgb,
+        gap=self.size + self.gap,
+        size=self.size,
+        stroke_width=self.stroke_width,
+    )
+
+    @abc.abstractmethod
+    def as_symbol(self, subdir):
+        pass
+
+
+class BitmapPattern(Pattern):
+    def __init__(self, element):
+        super().__init__(element)
+        bitmap = element.find('bitmap')
+        self.gap = int(bitmap.find('distance').attrib['min'])
+        self.width = int(bitmap.attrib['width'])
+        self.height = int(bitmap.attrib['height'])
+
+        pivot = bitmap.find('pivot')
+        self.pivot_x = int(pivot.attrib['x'])
+        self.pivot_y = int(pivot.attrib['y'])
+
+        location = bitmap.find('graphics-location')
+        self.bitmap_x = int(location.attrib['x'])
+        self.bitmap_y = int(location.attrib['y'])
+
+    def generate_bitmap(self, image, output_path):
+        with image[self.bitmap_x:self.bitmap_x + self.width,
+                   self.bitmap_y:self.bitmap_y + self.height] as symbol:
+            symbol.save(filename=os.path.join(output_path,
+                                              self.name + '.png'))
+
+    def as_symbol(self, symboltype):
+        return """
+    SYMBOL
+        NAME "{symname}"
+        TYPE PIXMAP
+        IMAGE "symbols-{symboltype}/{symname}.png"
+    END""".format(symname=self.name, symboltype=symboltype)
+
+
+class VectorPattern(Pattern):
+    def __init__(self, element):
+        super().__init__(element)
+        self.hpgl = element.find('HPGL').text
+        vector = element.find('vector')
+        origin = vector.find('origin')
+        self.offset_x = int(origin.attrib['x'])
+        self.offset_y = int(origin.attrib['y'])
+        self.width = int(vector.attrib['width']) * 0.03
+        self.height = int(vector.attrib['height']) * 0.03
+        color_ref = element.find('color-ref').text
+        self.color = color_ref[1:] or 'NODTA'  # Assume only one colour
+        distance = vector.find('distance')
+        self.gap = int(distance.attrib['min']) * 0.03
+
+        self._parse_vector()
+
+    def _parse_vector(self):
+        self.points = []
+        for instruction in self.hpgl.split(';'):
+            if not instruction:
+                continue
+
+            command, args = instruction[:2], instruction[2:]
+            if command == 'SP':
+                pass  # Assume only one pen
+            elif command == 'SW':
+                self.stroke_width = int(args) * 0.3
+            elif command == 'PU':
+                if self.points:
+                    self.points += [-99, -99]
+
+                x, y = map(int, args.split(','))
+                self.points += [x - self.offset_x, y - self.offset_y]
+            elif command == 'PD':
+                if not args:
+                    continue  # The PU already set our point
+
+                coordinates = map(int, args.split(','))
+                for x, y in zip(coordinates, coordinates):
+                    self.points += [x - self.offset_x, y - self.offset_y]
+            else:
+                import warnings
+                warnings.warn('Pattern command not implemented: ' + command)
+
+
+    def as_symbol(self, symboltype):
+        return """
+    SYMBOL
+        NAME "{symname}"
+        TYPE VECTOR
+        POINTS
+        {points}
+        END
+    END""".format(symname=self.name, points=' '.join(map(str, self.points)))

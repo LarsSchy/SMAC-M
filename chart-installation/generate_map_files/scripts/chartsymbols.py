@@ -2,7 +2,7 @@
 
 import os
 import re
-from symbol import VectorSymbol
+from symbol import VectorSymbol, Pattern
 import math
 from xml.etree import ElementTree as etree
 
@@ -84,6 +84,7 @@ END
 
         self.symbols_def = {}
         self.line_symbols = {}
+        self.area_symbols = {}
 
         self.load_symbols(root)
         self.load_lookups(root, point_table, area_table, displaycategory)
@@ -125,6 +126,11 @@ END
             symbol = VectorSymbol(linestyle)
             if symbol:
                 self.line_symbols[symbol.name] = symbol
+
+        for pattern in root.iter('pattern'):
+            symbol = Pattern.from_element(pattern)
+            if symbol:
+                self.area_symbols[symbol.name] = symbol
 
     def load_lookups(self, root, point_style, area_style,
                      displaycategory=None):

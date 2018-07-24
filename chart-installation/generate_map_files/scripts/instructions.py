@@ -109,7 +109,7 @@ class TE(Command):
             text = '({})'.format(text)
 
         try:
-            label_field = re.search('(\[[^\]]+\])', text).group(1)
+            label_field = re.search(r'(\[[^\]]+\])', text).group(1)
             label_expr = 'EXPRESSION ("{}" > "0")'.format(label_field)
         except AttributeError:
             # AAA, ZZZ not found in the original string
@@ -228,6 +228,16 @@ class AC(Command):
         """.format(chartsymbols.color_table[self.color].rgb, self.opacity)
 
 
+class AP(Command):
+    """ShowArea 9.4"""
+    def __init__(self, pattern):
+        self.pattern = pattern
+
+    def __call__(self, chartsymbols, layer, geom_type):
+        return chartsymbols.area_symbols[self.pattern].as_style(
+            chartsymbols.color_table, layer)
+
+
 class CS(Command):
     """ CallSymproc 9.5"""
     # Dict of proc references to simpler styles.
@@ -243,6 +253,7 @@ class CS(Command):
         'DEPCNT02': LS('SOLD', 1, 'DEPCN'),
 
         'OBSTRN': SY('ISODGR01'),
+        'DEPARE': AC('DEPMS'),
     }
 
     def __init__(self, proc):

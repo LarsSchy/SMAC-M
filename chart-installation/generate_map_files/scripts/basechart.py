@@ -186,7 +186,7 @@ def process_all_layers(data, target, config, point_table='Simplified',
                             '{}/{}/{}'.format(data, level, filename)],
                         stderr=subprocess.STDOUT).decode()
                     geomtype = re.search(
-                        'Geometry: (\w+)', output, re.IGNORECASE)
+                        r'Geometry: (\w+)', output, re.IGNORECASE)
                     if geomtype:
                         try:
                             shp_types[filename] = geometries[geomtype.group(1)]
