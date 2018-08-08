@@ -7,6 +7,7 @@ import math
 from xml.etree import ElementTree as etree
 
 from instructions import get_command
+from cs import lookups_from_cs
 
 
 class Color:
@@ -162,14 +163,37 @@ END
                 else:
                     lookup = []
 
-                lookup.append({
-                    'id': id,
-                    'table': table_name,
-                    'display': display,
-                    'comment': comment,
-                    'instruction': instruction,
-                    'rules': rules,
-                })
+                # If we have a CS instruction, explode it in many lookups
+                cs_instruction = False
+                parts = instruction.split(';')
+                for part in parts:
+                    command = part[:2]
+                    details = part[3:-1]
+                    if command == 'CS':
+                        cs_instruction = True
+                        for cs_lookup in lookups_from_cs(details):
+                            # Merge lookup with what was returned
+                            cs_lookup.update({
+                                'id': '{}-CS({})'.format(id, details),
+                                'table': table_name,
+                                'display': display,
+                                'comment': comment
+                            })
+                            cs_lookup['rules'].extend(rules)
+                            cs_lookup['instruction'] += ';' + instruction
+
+                            # Add to lookup list
+                            lookup.append(cs_lookup)
+
+                if not cs_instruction:
+                    lookup.append({
+                        'id': id,
+                        'table': table_name,
+                        'display': display,
+                        'comment': comment,
+                        'instruction': instruction,
+                        'rules': rules,
+                    })
 
     def get_point_mapfile(self, layer, feature, group, msd):
         base = "CL{}_{}_POINT".format(layer, feature)
@@ -439,6 +463,11 @@ CONNECTIONTYPE OGR
                 expr.append('([{}] > 0)'.format(attrib))
             elif value.isdigit():
                 expr.append('([{}] == {})'.format(attrib, value))
+            if len(value) > 1 and value[0] in ['>', '<'] and \
+               value[1:].isdigit():
+                operator = value[0]
+                digit = value[1:]
+                expr.append('([{}] {} {} )'.format(attrib, operator, digit))
             else:
                 expr.append('("[{}]" == "{}")'.format(attrib, value))
 
