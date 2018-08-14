@@ -2,11 +2,12 @@
 
 import os
 import re
-from symbol import VectorSymbol
+from symbol import VectorSymbol, Pattern
 import math
 from xml.etree import ElementTree as etree
 
 from instructions import get_command
+from cs import lookups_from_cs
 
 
 class Color:
@@ -64,8 +65,9 @@ END
 # END of  LAYER: {feature}  LEVEL: {layer}
 """
 
-    def __init__(self, file, table='Simplified', displaycategory=None,
-                 color_table='DAY_BRIGHT'):
+    def __init__(self, file, point_table='Simplified', area_table='Plain',
+                 displaycategory=None, color_table='DAY_BRIGHT'):
+
         if not os.path.isfile(file):
             raise Exception('chartsymbol file do not exists')
 
@@ -83,9 +85,10 @@ END
 
         self.symbols_def = {}
         self.line_symbols = {}
+        self.area_symbols = {}
 
         self.load_symbols(root)
-        self.load_lookups(root, table, displaycategory)
+        self.load_lookups(root, point_table, area_table, displaycategory)
 
     def load_colors(self, color_table):
         self.color_table = self._color_tables.get(color_table, {})
@@ -125,7 +128,13 @@ END
             if symbol:
                 self.line_symbols[symbol.name] = symbol
 
-    def load_lookups(self, root, style, displaycategory=None):
+        for pattern in root.iter('pattern'):
+            symbol = Pattern.from_element(pattern)
+            if symbol:
+                self.area_symbols[symbol.name] = symbol
+
+    def load_lookups(self, root, point_style, area_style,
+                     displaycategory=None):
         for lookup in root.iter('lookup'):
             try:
                 name = lookup.get('name')
@@ -143,7 +152,7 @@ END
             except (KeyError, AttributeError):
                 continue
 
-            if table_name in (style, 'Lines') and \
+            if table_name in (point_style, area_style, 'Lines') and \
                     (displaycategory is None or display in displaycategory):
                 if lookup_type == 'Point':
                     lookup = self.point_lookups.setdefault(name, [])
@@ -154,14 +163,37 @@ END
                 else:
                     lookup = []
 
-                lookup.append({
-                    'id': id,
-                    'table': table_name,
-                    'display': display,
-                    'comment': comment,
-                    'instruction': instruction,
-                    'rules': rules,
-                })
+                # If we have a CS instruction, explode it in many lookups
+                cs_instruction = False
+                parts = instruction.split(';')
+                for part in parts:
+                    command = part[:2]
+                    details = part[3:-1]
+                    if command == 'CS':
+                        cs_instruction = True
+                        for cs_lookup in lookups_from_cs(details):
+                            # Merge lookup with what was returned
+                            cs_lookup.update({
+                                'id': '{}-CS({})'.format(id, details),
+                                'table': table_name,
+                                'display': display,
+                                'comment': comment
+                            })
+                            cs_lookup['rules'].extend(rules)
+                            cs_lookup['instruction'] += ';' + instruction
+
+                            # Add to lookup list
+                            lookup.append(cs_lookup)
+
+                if not cs_instruction:
+                    lookup.append({
+                        'id': id,
+                        'table': table_name,
+                        'display': display,
+                        'comment': comment,
+                        'instruction': instruction,
+                        'rules': rules,
+                    })
 
     def get_point_mapfile(self, layer, feature, group, msd):
         base = "CL{}_{}_POINT".format(layer, feature)
@@ -366,31 +398,61 @@ CONNECTIONTYPE OGR
         except KeyError:
             return ''
 
-        data = self.get_mapfile_data(layer, base, lookups)
-        classes = self.get_line_mapfile_classes(lookups, feature_type)
+        return self._get_mapfile(layer, feature_type, group, max_scale_denom,
+                                 base, lookups, 'LINE')
 
-        mapfile = self.mapfile_layer_template.format(
-            layer=layer, feature=feature_type, group=group, type='LINE',
-            max_scale_denom=max_scale_denom, data=data, classes=classes)
+    def get_poly_mapfile(self, layer, feature_type, group, max_scale_denom):
+        base = "CL{}_{}_POLYGON".format(layer, feature_type)
+
+        try:
+            lookups = self.polygon_lookups[feature_type]
+        except KeyError:
+            return ''
+
+        return self._get_mapfile(layer, feature_type, group, max_scale_denom,
+                                 base, lookups, 'POLYGON')
+
+    def _get_mapfile(self, layer, feature_type, group, max_scale_denom,
+                     base, lookups, type):
+        data = self.get_mapfile_data(layer, base, lookups)
+        typed_classes = self.get_mapfile_classes(lookups, feature_type, type)
+
+        mapfile = '';
+        for geom_type in ['POLYGON', 'LINE', 'POINT']:
+            classes = typed_classes[geom_type]
+            if(classes):
+                mapfile += self.mapfile_layer_template.format(
+                    layer=layer, feature=feature_type, group=group,
+                    type=geom_type, max_scale_denom=max_scale_denom,
+                    data=data, classes=classes)
 
         return mapfile
 
-    def get_line_mapfile_classes(self, lookups, feature):
-        classes = []
+    def get_mapfile_classes(self, lookups, feature, geom_type):
+        classes = {
+            'POINT': [],
+            'LINE': [],
+            'POLYGON': [],
+        }
 
         for lookup in lookups:
             expression = self.get_expression(lookup['rules'])
-            style = self.get_line_styleitems(lookup['instruction'], feature)
-            if not style:
-                continue
+            styles = self.get_styleitems(lookup['instruction'], feature,
+                                        geom_type)
+            for style_geom_type, style in styles.items():
+                if not style:
+                    continue
 
-            classes.append("""
+                classes[style_geom_type].append("""
     CLASS # id: {2}
         {0}
         {1}
     END""".format(expression, style, lookup['id']))
 
-        return '\n'.join(classes)
+        classes['POINT'] = '\n'.join(classes['POINT'])
+        classes['LINE'] = '\n'.join(classes['LINE'])
+        classes['POLYGON'] = '\n'.join(classes['POLYGON'])
+        return classes
 
     def get_expression(self, rules):
         expression = ""
@@ -401,6 +463,11 @@ CONNECTIONTYPE OGR
                 expr.append('([{}] > 0)'.format(attrib))
             elif value.isdigit():
                 expr.append('([{}] == {})'.format(attrib, value))
+            if len(value) > 1 and value[0] in ['>', '<'] and \
+               value[1:].isdigit():
+                operator = value[0]
+                digit = value[1:]
+                expr.append('([{}] {} {} )'.format(attrib, operator, digit))
             else:
                 expr.append('("[{}]" == "{}")'.format(attrib, value))
 
@@ -428,7 +495,7 @@ CONNECTIONTYPE OGR
 
                 if command in ["TX", "TE", "SY"]:
                     command = get_command(part)
-                    style.append(command(self, feature))
+                    style.append(command(self, feature, 'POINT'))
 
                 if command == 'CS':
                     # CS is special logic
@@ -442,16 +509,32 @@ CONNECTIONTYPE OGR
 
         return '\n'.join(style)
 
-    def get_line_styleitems(self, instruction, feature):
-        style = []
+    def get_styleitems(self, instruction, feature, geom_type):
+        style = {
+            'POINT': [],
+            'LINE': [],
+            'POLYGON': [],
+        }
         try:
             for part in instruction.split(';'):
                 command = get_command(part)
-                style.append(command(self, feature))
+                styles = command(self, feature, geom_type)
+                if isinstance(styles, str):
+                    style[geom_type].append(styles)
+                elif styles:
+                    for style_type, style_str in styles.items():
+                        style[style_type].append(style_str)
 
-            return '\n'.join(filter(None, style))
+            style['POINT'] = '\n'.join(filter(None, style['POINT']))
+            style['LINE'] = '\n'.join(filter(None, style['LINE']))
+            style['POLYGON'] = '\n'.join(filter(None, style['POLYGON']))
+            return style
         except:
-            return ''
+            return {
+                'POINT': [],
+                'LINE': [],
+                'POLYGON': [],
+            }
 
     def get_symbol(self, details):
         # Hardcoded value to skip typo in official XML

@@ -1942,7 +1942,7 @@
 			<radar-prio>Supressed</radar-prio>
 			<table-name>Plain</table-name>
 			<attrib-code index="0">CATREA27</attrib-code>
-			<instruction>SY(ESSARE01);LC(ESSARE01)</instruction>
+			<instruction>LC(ESSARE01)</instruction>
 			<display-cat>Standard</display-cat>
 			<comment>26010</comment>
 		</lookup>
@@ -1952,7 +1952,7 @@
 			<radar-prio>Supressed</radar-prio>
 			<table-name>Plain</table-name>
 			<attrib-code index="0">CATREA28</attrib-code>
-			<instruction>SY(PSSARE01);LC(ESSARE01)</instruction>
+			<instruction>LC(ESSARE01)</instruction>
 			<display-cat>Standard</display-cat>
 			<comment>26010</comment>
 		</lookup>
@@ -5283,7 +5283,7 @@
 			<radar-prio>Supressed</radar-prio>
 			<table-name>Symbolized</table-name>
 			<attrib-code index="0">CATREA27</attrib-code>
-			<instruction>SY(ESSARE01);LC(ESSARE01)</instruction>
+			<instruction>LC(ESSARE01)</instruction>
 			<display-cat>Standard</display-cat>
 			<comment>26010</comment>
 		</lookup>
@@ -5293,7 +5293,7 @@
 			<radar-prio>Supressed</radar-prio>
 			<table-name>Symbolized</table-name>
 			<attrib-code index="0">CATREA28</attrib-code>
-			<instruction>SY(PSSARE01);LC(ESSARE01)</instruction>
+			<instruction>LC(ESSARE01)</instruction>
 			<display-cat>Standard</display-cat>
 			<comment>26010</comment>
 		</lookup>
@@ -22785,7 +22785,7 @@
 			<disp-prio>Point Symbol</disp-prio>
 			<radar-prio>On Top</radar-prio>
 			<table-name>Paper</table-name>
-			<instruction>SY(POSGEN04);TX(ELEVAT,3,2,2,'15110',1,-1,CHBLK,31);TX(HEIGHT,3,2,2,'15110',1,-1,CHBLK,31)</instruction>
+			<instruction>SY(POSGEN04);TX(ELEVAT,3,2,2,'15110',1,-1,CHBLK,31)</instruction>
 			<display-cat>Other</display-cat>
 			<comment>32010</comment>
 		</lookup>

@@ -10,7 +10,8 @@ import sys
 import toml
 
 DEFAULTS = {
-    'tablename': 'Simplified',
+    'point_table': 'Simplified',
+    'area_table': 'Plain',
     'displaycategory': 'Standard',
     'paths': {
     }
@@ -59,9 +60,15 @@ def parse_arguments():
         help="Comma separated list of OpenCPN Display Category to load. "
         "Displaybase is always loaded, default is Standard.")
     parser.add_argument(
-        "-t", "--tablename",
-        help="Which OpenCPN chartsymbols.xml table to generate. "
-        "Default is Simplified.")
+        "-t", '--point_table', "--tablename",
+        choices=['Paper', 'Simplified'],
+        help="Which OpenCPN chartsymbols.xml table to generate for point "
+        "features. Default is Simplified.")
+    parser.add_argument(
+        "-a", '--area_table',
+        choices=['Plain', 'Symbolized'],
+        help="Which OpenCPN chartsymbols.xml table to generate for area "
+        "features. Default is Plain.")
     parser.add_argument('-o', '--output', type=argparse.FileType('w'),
                         required=True,
                         help='Configuration file to create')
@@ -93,8 +100,11 @@ if __name__ == '__main__':
 
     params['debug'] = args.debug
 
-    if args.tablename:
-        params['tablename'] = args.tablename
+    if args.point_table:
+        params['point_table'] = args.point_table
+
+    if args.area_table:
+        params['area_table'] = args.area_table
 
     if args.displaycategory:
         params['displaycategory'] = args.displaycategory

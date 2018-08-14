@@ -25,7 +25,7 @@ class Command:
     def set_command_name(self, command):
         self.command = command
 
-    def __call__(self, chartsymbols, layer):
+    def __call__(self, chartsymbols, layer, geom_type):
         warnings.warn('Command not implemented: {}'.format(self.command),
                       NotImplementedWarning)
         return ''
@@ -49,8 +49,8 @@ class LS(Command):
         self.width = width
         self.color = color
 
-    def __call__(self, chartsymbols, layer):
-        return '''
+    def __call__(self, chartsymbols, layer, geom_type):
+        style = '''
         STYLE
             COLOR {color}
             WIDTH {width}
@@ -63,6 +63,10 @@ class LS(Command):
                 width=self.units(self.width),
                 pattern=self.patterns.get(self.pattern, ''),
             )
+        if geom_type == 'POLYGON':
+            return {'LINE': style}
+        else:
+            return style
 
 
 class TE(Command):
@@ -98,14 +102,14 @@ class TE(Command):
         self.display = display
         super().__init__()
 
-    def __call__(self, chartsymbols, layer):
+    def __call__(self, chartsymbols, layer, geom_type):
 
         text = re.sub(r'(%[^ ]*[a-z])[^a-z]', self.get_label_text, self.format)
         if ' + ' in text:
             text = '({})'.format(text)
 
         try:
-            label_field = re.search('(\[[^\]]+\])', text).group(1)
+            label_field = re.search(r'(\[[^\]]+\])', text).group(1)
             label_expr = 'EXPRESSION ("{}" > "0")'.format(label_field)
         except AttributeError:
             # AAA, ZZZ not found in the original string
@@ -168,7 +172,7 @@ class SY(Command):
         except ValueError:
             self.rot = '[{}_CAL]'.format(rot)
 
-    def __call__(self, chartsymbols, layer):
+    def __call__(self, chartsymbols, layer, geom_type):
         # Hardcoded value to skip typo in official XML
         # TODO: Validate that the symbol exists
         if self.symbol == 'BCNCON81':
@@ -199,9 +203,39 @@ class LC(Command):
     def __init__(self, style):
         self.symbol = style
 
-    def __call__(self, chartsymbols, layer):
-        return chartsymbols.line_symbols[self.symbol].as_style(
+    def __call__(self, chartsymbols, layer, geom_type):
+        style = chartsymbols.line_symbols[self.symbol].as_style(
             chartsymbols.color_table)
+        if geom_type == 'POLYGON':
+            return {'LINE': style}
+        else:
+            return style
+
+
+class AC(Command):
+    """ShowArea 9.4"""
+    def __init__(self, color, transparency='0'):
+        self.color = color
+        # MapServer uses Opacity, OpenCPN uses trnasparency
+        self.opacity = (4 - int(transparency)) * 25
+
+    def __call__(self, chartsymbols, layer, geom_type):
+        return """
+        STYLE
+            COLOR {}
+            OPACITY {}
+        END
+        """.format(chartsymbols.color_table[self.color].rgb, self.opacity)
+
+
+class AP(Command):
+    """ShowArea 9.4"""
+    def __init__(self, pattern):
+        self.pattern = pattern
+
+    def __call__(self, chartsymbols, layer, geom_type):
+        return chartsymbols.area_symbols[self.pattern].as_style(
+            chartsymbols.color_table, layer)
 
 
 class CS(Command):
@@ -219,12 +253,13 @@ class CS(Command):
         'DEPCNT02': LS('SOLD', 1, 'DEPCN'),
 
         'OBSTRN': SY('ISODGR01'),
+        'DEPARE': AC('DEPMS'),
     }
 
     def __init__(self, proc):
         self.proc = proc
 
-    def __call__(self, chartsymbols, layer):
+    def __call__(self, chartsymbols, layer, geom_type):
         #   1. Exact procname and layer name
         subcmd = self.procs.get((self.proc, layer))
 
@@ -237,7 +272,7 @@ class CS(Command):
             subcmd = self.procs.get(self.proc[:6])
 
         if subcmd:
-            return subcmd(chartsymbols, layer)
+            return subcmd(chartsymbols, layer, geom_type)
         else:
             warnings.warn(
                 'Symproc not implemented: {}'.format((self.proc, layer)),

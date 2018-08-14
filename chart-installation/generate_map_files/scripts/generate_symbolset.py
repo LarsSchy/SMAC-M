@@ -17,7 +17,7 @@ import xml.etree.ElementTree as etree
 
 from wand.image import Image
 
-from symbol import VectorSymbol
+from symbol import VectorSymbol, Pattern
 
 __all__ = ['symbolsets', 'generate_symbolset']
 
@@ -35,7 +35,6 @@ def generate_symbolset(symboltype, output_directory, force_update):
         OCPN_source_symbol_file = "rastersymbols-dusk.png"
 
     update_file(OCPN_source_symbol_file, force=force_update)
-    OCPN_source_symbol_file = os.path.join(here, OCPN_source_symbol_file)
 
     # Init variables
     OCPN_lookuptable = "chartsymbols.xml"
@@ -62,6 +61,8 @@ def generate_symbolset(symboltype, output_directory, force_update):
     root = etree.parse(os.path.join(here, OCPN_lookuptable))
 
     with Image(filename=OCPN_source_symbol_file) as source_symbols:
+        base_path = '{}/symbols-{}/'.format(
+            output_directory, symboltype)
         for symEle in root.iter('symbol'):
             name = symEle.find('name').text
             btmEle = symEle.find('bitmap')
@@ -78,8 +79,8 @@ def generate_symbolset(symboltype, output_directory, force_update):
                 right = left + int(width)
                 bottom = top + int(height)
                 with source_symbols[left:right, top:bottom] as symbol:
-                    symbol_path = '{}/symbols-{}/{}.png'.format(
-                        output_directory, symboltype, name)
+                    symbol_path = '{}/{}.png'.format(
+                        base_path, name)
                     symbol.save(filename=symbol_path)
 
                 str_to_add = symbol_template.replace("[symname]", name)
@@ -89,6 +90,12 @@ def generate_symbolset(symboltype, output_directory, force_update):
             symbol = VectorSymbol(symEle)
             if symbol is not None:
                 f_symbols.write(symbol.as_symbol)
+
+        for symEle in root.iter("pattern"):
+            symbol = Pattern.from_element(symEle)
+            if symbol is not None:
+                symbol.generate_bitmap(source_symbols, base_path)
+                f_symbols.write(symbol.as_symbol(symboltype))
 
     # Include original symbols file
     f_symbols.write("""
