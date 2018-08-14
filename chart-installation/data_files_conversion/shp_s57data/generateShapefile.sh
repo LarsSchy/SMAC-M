@@ -84,8 +84,9 @@ do
             fi
                         
             ## ogr2ogr s-57 to shapefiles
-            echo ogr2ogr -append -skipfailures -f "ESRI Shapefile" -lco FID=OGC_FID $output_shp $where $_FILE $name    
+            set -x
             ogr2ogr -append -skipfailures -f "ESRI Shapefile" --config S57_PROFILE iw $output_shp $where $_FILE $name >> /tmp/errors 2>&1 
+            { set +x; } 2>/dev/null
 
             # add a special dataset to support Lignts signature...
             if [[ "${name}" == "LIGHTS" ]]
@@ -93,8 +94,9 @@ do
                 cat=CL${usage}_${name}_${type}
 
                 # using cast(${cat}.HEIGHT as numeric(30,5)) -> https://trac.osgeo.org/gdal/ticket/6803
-                echo ogr2ogr -sql "SELECT ${cat}.VALNMR as VALNMR, ${cat}.LITCHR as LITCHR, ${cat}.SIGGRP as SIGGRP, cast(${cat}.SIGPER as numeric(4,1)) as SIGPER, cast(${cat}.HEIGHT as numeric(30,5))  as HEIGHT, ${cat}.COLOUR as COLOUR, ${cat}.EXCLIT as EXCLIT,litchr_code.Meaning as Meaning,colour_code.Colour_code as Colour_cod FROM '${output_shp}'.${cat} LEFT JOIN 'litchr_code.csv'.litchr_code litchr_code ON ${cat}.LITCHR = litchr_code.ID LEFT JOIN 'colour_code.csv'.colour_code colour_code ON ${cat}.COLOUR = colour_code.ID" ${CATPATH}${usage}/CL${usage}_${name}_${type}_SIGNATURE.shp ${output_shp}
-                ogr2ogr -sql "SELECT ${cat}.VALNMR as VALNMR,  ${cat}.LITCHR as LITCHR, ${cat}.SIGGRP as SIGGRP, cast(${cat}.SIGPER as numeric(4,1)) as SIGPER, cast(${cat}.HEIGHT as numeric(30,5))  as HEIGHT, ${cat}.COLOUR as COLOUR, ${cat}.EXCLIT as EXCLIT,litchr_code.Meaning as Meaning,colour_code.Colour_code as Colour_cod FROM '${output_shp}'.${cat} LEFT JOIN 'litchr_code.csv'.litchr_code litchr_code ON ${cat}.LITCHR = litchr_code.ID LEFT JOIN  'colour_code.csv'.colour_code colour_code ON ${cat}.COLOUR = colour_code.ID" ${CATPATH}${usage}/CL${usage}_${name}_${type}_SIGNATURE.shp ${output_shp}
+                set -x
+                ogr2ogr -sql "SELECT ${cat}.VALNMR as VALNMR,  ${cat}.LITCHR as LITCHR, ${cat}.SIGGRP as SIGGRP, cast(${cat}.SIGPER as numeric(4,1)) as SIGPER, cast(${cat}.HEIGHT as numeric(30,5))  as HEIGHT, ${cat}.COLOUR as COLOUR, ${cat}.EXCLIT as EXCLIT,litchr_code.Meaning as Meaning,colour_code.Colour_code as Colour_cod FROM '${output_shp}'.${cat} LEFT JOIN 'litchr_code.csv'.litchr_code litchr_code ON ${cat}.LITCHR = litchr_code.ID LEFT JOIN  'colour_code.csv'.colour_code colour_code ON ${cat}.COLOUR = colour_code.ID" ${CATPATH}/${usage}/CL${usage}_${name}_${type}_SIGNATURE.shp ${output_shp}
+                { set +x; } 2>/dev/null
             fi
         fi
     done < objlist.txt

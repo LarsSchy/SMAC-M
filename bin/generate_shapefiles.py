@@ -44,7 +44,6 @@ def main():
         os.path.dirname(os.path.abspath(__file__)),
         '../chart-installation/data_files_conversion/shp_s57data'
     ))
-    print (os.listdir())
     return subprocess.call(['bash', './generateShapefile.sh',
                             chart_path, data_path])
 
