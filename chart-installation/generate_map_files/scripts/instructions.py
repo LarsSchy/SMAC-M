@@ -6,7 +6,7 @@ class NotImplementedWarning(UserWarning):
     pass
 
 
-pattern = re.compile(r'^([^(]+)\(([^)]+)\)$')
+pattern = re.compile(r'^([^(]+)\((.+)\)$', re.DOTALL)
 
 
 def get_command(instruction):
@@ -91,7 +91,7 @@ class TE(Command):
     def __init__(self, format, attributes, hjust, vjust, space, chars,
                  xoffs, yoffs, colour, display):
         self.format = format
-        self.attributes = attributes.replace("'", '')
+        self.attributes = attributes.strip("'")
         self.hjust = hjust
         self.vjust = vjust
         self.space = space
@@ -278,3 +278,18 @@ class CS(Command):
                 'Symproc not implemented: {}'.format((self.proc, layer)),
                 NotImplementedWarning)
         return ''
+
+class _MS(Command):
+    """Command that emits hardcoded mapserver code.
+
+    To be used with CS procedures that are too complex to be represented by S52
+    instructions.
+    """
+
+    def __init__(self, *style):
+        # get_command splits on comma. we need to readd the commas if there
+        # were any
+        self.style = ','.join(style)
+
+    def __call__(self, chartsymbols, layer, geom_type):
+        return self.style.format(color=chartsymbols.color_table)
