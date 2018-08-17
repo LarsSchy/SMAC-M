@@ -5,13 +5,13 @@ class NotImplementedWarning(UserWarning):
     pass
 
 
-def lookups_from_cs(detail):
+def lookups_from_cs(detail, lookup_type):
 
     function_name = detail[:6]
     function = globals().get(function_name)
 
     if function:
-        return function()
+        return function(lookup_type)
 
     warnings.warn('Symproc not implemented: {}'.format(function_name),
                   NotImplementedWarning)
@@ -23,7 +23,7 @@ def lookups_from_cs(detail):
     }]
 
 
-def DEPARE():
+def DEPARE(lookup_type):
 
     # These values are normally passed by the mariner
     # safety_contour = 10
@@ -50,16 +50,16 @@ def DEPARE():
     }]
 
 
-def LIGHTS():
+def LIGHTS(lookup_type):
     return [{
         'instruction': 'SY(LIGHTS82)',
-        'rules': [('__MS__', '[CATLIT] == 11 OR [CATLIT] == 8')],
+        'rules': [('__OR__', [('CATLIT', '11'), ('CATLIT', '8')])],
     }, {
         'instruction': 'SY(LIGHTS81)',
         'rules': [('CATLIT', '9')],
     }, {
         'instruction': 'SY(LIGHTS81)',
-        'rules': [('__MS__', '[CATLIT] == 1 OR [CATLIT] == 16'),
+        'rules': [('__OR__', [('CATLIT', '1'), ('CATLIT', '16')]),
                   ('ORIENT', 'null')],
     }, {
         'instruction': '',
@@ -68,20 +68,19 @@ def LIGHTS():
                   ('__MS__', '[LITCHR] != 12')],
     }, {
         'instruction': 'SY(LIGHTS11)',
-        'rules': [('__MS__', '"[COLOUR]" == "3,1" OR "[COLOUR]" == "3"')],
+        'rules': [('__OR__', [('COLOUR', '3,1'), ('COLOUR', '3')])],
     }, {
         'instruction': 'SY(LIGHTS12)',
-        'rules': [('__MS__', '"[COLOUR]" == "4,1" OR "[COLOUR]" == "4"')]
+        'rules': [('__OR__', [('COLOUR', '4,1'), ('COLOUR', '4')])]
     }, {
         'instruction': 'SY(LIGHTS13)',
-        'rules': [
-            ('__MS__',
-             '"[COLOUR]" == "11" OR "[COLOUR]" == "6" OR "[COLOUR]" == "1"')
-        ],
+        'rules': [('__OR__', [
+            ('COLOUR', '11'), ('COLOUR', '6'), ('COLOUR', '1')
+        ])],
     }]
 
 
-def SOUNDG():
+def SOUNDG(lookup_type):
     return [{
         'instruction':
         '''_MS(

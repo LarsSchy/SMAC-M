@@ -8,6 +8,13 @@ from instructions import get_command
 from cs import lookups_from_cs
 
 
+class MissingFieldException(Exception):
+    """Exception for get_expression if a field is missing from the dataset.
+
+    If raised, the expression would logically never match and should be
+    replaced by FALSE
+    """
+
 class Color:
     def __init__(self, r, g, b):
         self.r = r
@@ -169,7 +176,7 @@ END
                     details = part[3:-1]
                     if command == 'CS':
                         cs_instruction = True
-                        for cs_lookup in lookups_from_cs(details):
+                        for cs_lookup in lookups_from_cs(details, lookup_type):
                             # Merge lookup with what was returned
                             cs_lookup.update({
                                 'id': '{}-CS({})'.format(id, details),
@@ -194,7 +201,7 @@ END
                         'rules': rules,
                     })
 
-    def get_point_mapfile(self, layer, feature, group, msd):
+    def get_point_mapfile(self, layer, feature, group, msd, fields):
         base = "CL{}_{}_POINT".format(layer, feature)
 
         try:
@@ -203,7 +210,7 @@ END
             return ''
 
         data = self.get_mapfile_data(layer, base, charts)
-        classes = self.get_point_mapfile_classes(charts, feature)
+        classes = self.get_point_mapfile_classes(charts, feature, fields)
 
         mapfile = self.mapfile_layer_template.format(
             layer=layer, feature=feature, group=group, max_scale_denom=msd,
@@ -372,11 +379,11 @@ CONNECTIONTYPE OGR
 
         return data
 
-    def get_point_mapfile_classes(self, charts, feature):
+    def get_point_mapfile_classes(self, charts, feature, fields):
         classes = ""
 
         for chart in charts:
-            expression = self.get_expression(chart['rules'])
+            expression = self.get_expression(chart['rules'], fields)
             style = self.get_point_style(chart['instruction'], feature)
             if not style:
                 continue
@@ -389,7 +396,8 @@ CONNECTIONTYPE OGR
 
         return classes
 
-    def get_line_mapfile(self, layer, feature_type, group, max_scale_denom):
+    def get_line_mapfile(self, layer, feature_type, group, max_scale_denom,
+                         fields):
         base = "CL{}_{}_LINESTRING".format(layer, feature_type)
 
         try:
@@ -398,9 +406,10 @@ CONNECTIONTYPE OGR
             return ''
 
         return self._get_mapfile(layer, feature_type, group, max_scale_denom,
-                                 base, lookups, 'LINE')
+                                 base, lookups, 'LINE', fields)
 
-    def get_poly_mapfile(self, layer, feature_type, group, max_scale_denom):
+    def get_poly_mapfile(self, layer, feature_type, group, max_scale_denom,
+                         fields):
         base = "CL{}_{}_POLYGON".format(layer, feature_type)
 
         try:
@@ -409,14 +418,15 @@ CONNECTIONTYPE OGR
             return ''
 
         return self._get_mapfile(layer, feature_type, group, max_scale_denom,
-                                 base, lookups, 'POLYGON')
+                                 base, lookups, 'POLYGON', fields)
 
     def _get_mapfile(self, layer, feature_type, group, max_scale_denom,
-                     base, lookups, type):
+                     base, lookups, type, fields):
         data = self.get_mapfile_data(layer, base, lookups)
-        typed_classes = self.get_mapfile_classes(lookups, feature_type, type)
+        typed_classes = self.get_mapfile_classes(lookups, feature_type, type,
+                                                 fields)
 
-        mapfile = '';
+        mapfile = ''
         for geom_type in ['POLYGON', 'LINE', 'POINT']:
             classes = typed_classes[geom_type]
             if(classes):
@@ -427,7 +437,7 @@ CONNECTIONTYPE OGR
 
         return mapfile
 
-    def get_mapfile_classes(self, lookups, feature, geom_type):
+    def get_mapfile_classes(self, lookups, feature, geom_type, fields):
         classes = {
             'POINT': [],
             'LINE': [],
@@ -435,7 +445,7 @@ CONNECTIONTYPE OGR
         }
 
         for lookup in lookups:
-            expression = self.get_expression(lookup['rules'])
+            expression = self.get_expression(lookup['rules'], fields)
             styles = self.get_styleitems(lookup['instruction'], feature,
                                         geom_type)
             for style_geom_type, style in styles.items():
@@ -453,29 +463,47 @@ CONNECTIONTYPE OGR
         classes['POLYGON'] = '\n'.join(classes['POLYGON'])
         return classes
 
-    def get_expression(self, rules):
+    def get_expression(self, rules, fields):
         expression = ""
 
-        expr = []
-        for attrib, value in rules:
-            if attrib == '__MS__':
-                expr.append('({})'.format(value))
-            elif value == ' ':
-                expr.append('([{}] > 0)'.format(attrib))
-            elif value.isdigit():
-                expr.append('([{}] == {})'.format(attrib, value))
-            elif len(value) > 1 and value[0] in ['>', '<'] and \
-               value[1:].isdigit():
-                operator = value[0]
-                digit = value[1:]
-                expr.append('([{}] {} {} )'.format(attrib, operator, digit))
-            else:
-                expr.append('("[{}]" == "{}")'.format(attrib, value))
+        try:
+            expr = self.get_subexpression(rules, fields)
+        except MissingFieldException:
+            expr = ['FALSE']
 
         if expr:
             expression = "EXPRESSION (" + " AND ".join(expr) + ")"
 
         return expression
+
+    def get_subexpression(self, rules, fields):
+
+        expr = []
+        for attrib, value in rules:
+            if attrib == '__OR__':
+                expr.append(' OR '.join(self.get_subexpression(value, fields)))
+            elif attrib == '__MS__':
+                expr.append('({})'.format(value))
+            else:
+                if fields and attrib not in fields:
+                    raise MissingFieldException()
+
+                if value == ' ':
+                    expr.append('([{}] > 0)'.format(attrib))
+                elif value.isdigit():
+                    expr.append('([{}] == {})'.format(attrib, value))
+                elif len(value) > 1 and value[0] in ['>', '<'] and \
+                value[1:].isdigit():
+                    operator = value[0]
+                    digit = value[1:]
+                    expr.append(
+                        '([{}] {} {} )'.format(attrib, operator, digit)
+                    )
+                else:
+                    expr.append('("[{}]" == "{}")'.format(attrib, value))
+
+        return expr
+
 
     def get_point_style(self, instruction, feature):
         style = []
