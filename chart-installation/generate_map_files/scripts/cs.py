@@ -16,9 +16,10 @@ def lookups_from_cs(detail, lookup_type):
     warnings.warn('Symproc not implemented: {}'.format(function_name),
                   NotImplementedWarning)
 
-    # Return default lookup
+    # Return default lookup; leave CS as is, maybe CS in instruction.py can
+    # make something useful
     return [{
-        'instruction': '',
+        'instruction': 'CS({})'.format(detail),
         'rules': [],
     }]
 
@@ -62,6 +63,9 @@ def LIGHTS(lookup_type):
         'rules': [('__OR__', [('CATLIT', '1'), ('CATLIT', '16')]),
                   ('ORIENT', 'null')],
     }, {
+        'instruction': 'SY(LIGHTS81)',
+        'rules': [('__OR__', [('CATLIT', '1'), ('CATLIT', '16')])],
+    }, {
         'instruction': '',
         'rules': [('VALNMR', '>10'),
                   ('__MS__', 'NOT ("[CATLIT]" ~ "5" OR "[CATLIT]" ~ "6")'),
@@ -78,6 +82,53 @@ def LIGHTS(lookup_type):
             ('COLOUR', '11'), ('COLOUR', '6'), ('COLOUR', '1')
         ])],
     }]
+
+
+def QUALIN(lookuptype):
+    return [{
+        'instruction': 'LC(LOWACC21)',
+        'rules': [
+            # QUAPOS only has values 1 to 11. QUAPOS not in 1, 10, 11 is
+            # equivalent to the below rules
+            ('QUAPOS', '>1'),
+            ('QUAPOS', '<10')
+        ]
+    }, {
+        # Missing "Is Calling Object COALNE"
+        # 'instruction': 'LS(SOLD,1,CSTLN)',
+        # 'rules': [???]
+        # }, {
+
+        'instruction': 'LS(SOLD,3,CHMGF);LS(SOLD,1,CSTLN)',
+        'rules': [('CONRAD', '1')]
+    }, {
+        # CONRAD missing and CONRAD != 1 both lead here
+        'instruction': 'LS(SOLD,1,CSTLN)',
+        'rules': []
+    }]
+
+
+def QUAPNT(lookup_type):
+    return [{
+        'instruction': 'SY(LOWACC01)',
+        'rules': [('__OR__', [
+            ('QUAPOS', '2'),
+            ('QUAPOS', '3'),
+            ('QUAPOS', '4'),
+            ('QUAPOS', '5'),
+            ('QUAPOS', '6'),
+            ('QUAPOS', '7'),
+            ('QUAPOS', '8'),
+            ('QUAPOS', '9'),
+        ])]
+    }]
+
+
+def QUAPOS(lookup_type):
+    if lookup_type == 'Point':
+        return QUAPNT(lookup_type)
+    else:
+        return QUALIN(lookup_type)
 
 
 def SOUNDG(lookup_type):
