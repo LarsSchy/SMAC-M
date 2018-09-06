@@ -246,9 +246,6 @@ class CS(Command):
     #   2. Exact procname
     #   3. Class code (First 6 characters of the procname)
     procs = {
-        ('SLCONS03', 'SLCONS'): LS('SOLD', 2, 'CSTLN'),
-        ('QUAPOS03', 'COALNE'): LS('SOLD', 1, 'CSTLN'),
-
         'QUAPOS01': LS('SOLD', 1, 'CSTLN'),
         'DEPCNT02': LS('SOLD', 1, 'DEPCN'),
 

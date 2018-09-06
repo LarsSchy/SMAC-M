@@ -131,6 +131,42 @@ def QUAPOS(lookup_type):
         return QUALIN(lookup_type)
 
 
+def SLCONS(lookup_type):
+    return [{
+        'instruction': 'SY(LOWACC01)',
+        'rules': [
+            # QUAPOS only has values 1 to 11. QUAPOS not in 1, 10, 11 is
+            # equivalent to the below rules
+            ('QUAPOS', '>1'),
+            ('QUAPOS', '<10')
+        ]
+    }, {
+        'instruction': 'LC(LOWACC21)',
+        'rules': [
+            # QUAPOS only has values 1 to 11. QUAPOS not in 1, 10, 11 is
+            # equivalent to the below rules
+            ('QUAPOS', '>1'),
+            ('QUAPOS', '<10')
+        ]
+    }, {
+        'instruction': 'LS(DASH,1,CSTLN)',
+        'rules': [('__OR__', [('CONDTN', '1'), ('CONDTN', '2')])]
+    }, {
+        'instruction': 'LS(SOLD,4,CSTLN)',
+        'rules': [(
+            '__OR__', [('CATSLC', '6'), ('CATSLC', '15'), ('CATSLC', '16')]
+        )]
+    }, {
+        'instruction': 'LS(DASH,2,CSTLN)',
+        'rules': [(
+            '__OR__', [('WATLEV', '3'), ('WATLEV', '4')]
+        )]
+    }, {
+        'instruction': 'LS(SOLD,2,CSTLN)',
+        'rules': []
+    }]
+
+
 def SOUNDG(lookup_type):
     return [{
         'instruction':
