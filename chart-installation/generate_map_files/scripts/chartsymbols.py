@@ -8,13 +8,6 @@ from instructions import get_command
 from cs import lookups_from_cs
 
 
-class MissingFieldException(Exception):
-    """Exception for get_expression if a field is missing from the dataset.
-
-    If raised, the expression would logically never match and should be
-    replaced by FALSE
-    """
-
 class Color:
     def __init__(self, r, g, b):
         self.r = r
@@ -466,10 +459,7 @@ CONNECTIONTYPE OGR
     def get_expression(self, rules, fields):
         expression = ""
 
-        try:
-            expr = self.get_subexpression(rules, fields)
-        except MissingFieldException:
-            expr = ['FALSE']
+        expr = self.get_subexpression(rules, fields)
 
         if expr:
             expression = "EXPRESSION (" + " AND ".join(expr) + ")"
@@ -486,9 +476,8 @@ CONNECTIONTYPE OGR
                 expr.append('({})'.format(value))
             else:
                 if fields and attrib not in fields:
-                    raise MissingFieldException()
-
-                if value == ' ':
+                    expr.append('FALSE')
+                elif value == ' ':
                     expr.append('([{}] > 0)'.format(attrib))
                 elif value.isdigit():
                     expr.append('([{}] == {})'.format(attrib, value))
