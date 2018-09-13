@@ -24,6 +24,13 @@ def lookups_from_cs(detail, lookup_type):
     }]
 
 
+def DATCVR(lookup_type):
+    return [{
+        'instruction': 'LC(HODATA01)',
+        'rules': [],
+    }]
+
+
 def DEPARE(lookup_type):
 
     # These values are normally passed by the mariner
