@@ -1,3 +1,5 @@
+from operator import itemgetter
+import os
 import warnings
 
 
@@ -43,16 +45,16 @@ def DEPARE(lookup_type):
     return [{
         'instruction': 'AC(DEPIT)',
         'rules': [('DRVAL2', '<0')],
-    },{
+    }, {
         'instruction': 'AC(DEPVS)',
         'rules': [('DRVAL2', '<10')],
-    },{
+    }, {
         'instruction': 'AC(DEPMS)',
         'rules': [('DRVAL2', '<20')],
-    },{
+    }, {
         'instruction': 'AC(DEPMD)',
         'rules': [('DRVAL2', '<30')],
-    },{
+    }, {
         'instruction': 'AC(DEPDW)',
         'rules': [],
     }]
@@ -216,4 +218,61 @@ def SOUNDG(lookup_type):
         END
     )''',
         'rules': []
+    }]
+
+
+topshp_to_sy = [
+    # (topshp, floating, rigid),
+    ('1', 'TOPMAR02', 'TOPMAR22'),
+    ('2', 'TOPMAR04', 'TOPMAR24'),
+    ('3', 'TOPMAR10', 'TOPMAR30'),
+    ('4', 'TOPMAR12', 'TOPMAR32'),
+    ('5', 'TOPMAR13', 'TOPMAR33'),
+    ('6', 'TOPMAR14', 'TOPMAR34'),
+    ('7', 'TOPMAR65', 'TOPMAR85'),
+    ('8', 'TOPMAR17', 'TOPMAR86'),
+    ('9', 'TOPMAR16', 'TOPMAR36'),
+    ('10', 'TOPMAR08', 'TOPMAR28'),
+    ('11', 'TOPMAR07', 'TOPMAR27'),
+    ('12', 'TOPMAR14', 'TOPMAR14'),
+    ('13', 'TOPMAR05', 'TOPMAR25'),
+    ('14', 'TOPMAR06', 'TOPMAR26'),
+    ('15', 'TMARDEF2', 'TOPMAR88'),
+    ('16', 'TMARDEF2', 'TOPMAR87'),
+    ('17', 'TMARDEF2', 'TMARDEF1'),
+    ('18', 'TOPMAR10', 'TOPMAR30'),
+    ('19', 'TOPMAR13', 'TOPMAR33'),
+    ('20', 'TOPMAR14', 'TOPMAR34'),
+    ('21', 'TOPMAR13', 'TOPMAR33'),
+    ('22', 'TOPMAR14', 'TOPMAR34'),
+    ('23', 'TOPMAR14', 'TOPMAR34'),
+    ('24', 'TOPMAR02', 'TOPMAR22'),
+    ('25', 'TOPMAR04', 'TOPMAR24'),
+    ('26', 'TOPMAR10', 'TOPMAR30'),
+    ('27', 'TOPMAR17', 'TOPMAR86'),
+    ('28', 'TOPMAR18', 'TOPMAR89'),
+    ('29', 'TOPMAR02', 'TOPMAR22'),
+    ('30', 'TOPMAR17', 'TOPMAR86'),
+    ('31', 'TOPMAR14', 'TOPMAR14'),
+    ('32', 'TOPMAR10', 'TOPMAR30'),
+    ('33', 'TMARDEF2', 'TMARDEF1'),
+    (' ', 'TMARDEF2', 'TMARDEF1'),
+]
+
+
+def TOPMAR(lookup_type):
+    if os.environ.get('TOPMAR_FLOAT'):
+        sy_getter = itemgetter(0)
+    else:
+        sy_getter = itemgetter(1)
+
+    return [{
+        'instruction': 'SY({})'.format(sy),
+        'rules': [('TOPSHP', shp)]
+    }
+        for shp, floating, rigid in topshp_to_sy
+        for sy in [sy_getter([floating, rigid])]
+    ] + [{
+        'instruction': 'SY(QUESMRK1)',
+        'rules': [],
     }]

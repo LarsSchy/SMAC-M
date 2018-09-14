@@ -2,6 +2,7 @@ debug = false                 # Enable the Mapserver debug if true
 point_table = "Simplified"    # Style table used for point features
 area_table = "Plain"          # Style table used for area features
 displaycategory = "Standard"  # Comma-separated list of categories of symbols displayed
+topmark_type = "rigid"        # Type of top marks to display
 
 [paths]  # All paths in this section are relative to this file's location
 chart = "ENC_ROOT"    # Path to the ENC_ROOT of this dataset (Not implemented yet)

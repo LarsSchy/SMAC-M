@@ -143,6 +143,11 @@ Working with enhanced data allows to create mapfiles from the chartsymbols.xml f
    - RESARE layer (lookup #164) uses SY(ESSARE01) and SY(PSSARE01) symbols, but those symbols are not present. They were removed.
    - TOPMAR layer uses OBJNAM field for label, but this field is not present
    - SOUNDG layer is in display-cat Other, it has been transfered to Standard
+ - The TOPMAR conditional symbol does not check other features for floating or rigid platforms. 
+   All top marks are displayed as rigid by default.
+   You can choose to display all top marks as floating instead by changing
+   `topmark_style` from `rigid` to `floating` in the configuration file or by setting the
+   `TOPMARK_FLOATING` environment variable.
 
 ## Generating Symbolset
 
