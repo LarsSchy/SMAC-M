@@ -60,6 +60,19 @@ def DEPARE(lookup_type):
     }]
 
 
+def DEPCNT(lookup_type):
+    return [{
+        'rules': [
+            ('QUAPOS', '>1'),
+            ('QUAPOS', '<10')
+        ],
+        'instruction': 'LS(DASH,1,DEPCN)',
+    }, {
+        'rules': [],
+        'instruction': 'LS(SOLD,1,DEPCN)',
+    }]
+
+
 def LEGLIN(lookup_type):
     plnspd = "TE('%d kt',plnspd,3,2,2,’15110’,0,0,CHBLK,50)"
 
