@@ -123,6 +123,13 @@ def LIGHTS(lookup_type):
     }]
 
 
+def OWNSHP(lookuptype):
+    return [{
+        'rules': [],
+        'instruction': 'SY(OWNSHP01)',
+    }]
+
+
 def QUALIN(lookuptype):
     return [{
         'instruction': 'LC(LOWACC21)',

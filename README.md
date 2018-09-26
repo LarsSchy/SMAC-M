@@ -152,6 +152,7 @@ Working with enhanced data allows to create mapfiles from the chartsymbols.xml f
    in the features. All NEWOBJ features will use the generic symbolization
  - The LEGLIN conditional symbol does not take into account the DISTANCE_TAGS
    value selected by the mariner and does not display the course.
+ - The OWNSHP will always symbolize as the OWNSHP01 symbol.
 
 ## Generating Symbolset
 
