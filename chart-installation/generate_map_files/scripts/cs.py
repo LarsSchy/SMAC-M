@@ -60,6 +60,36 @@ def DEPARE(lookup_type):
     }]
 
 
+def LEGLIN(lookup_type):
+    plnspd = "TE('%d kt',plnspd,3,2,2,’15110’,0,0,CHBLK,50)"
+
+    return [{
+        'rules': [('select', '1'), ('plnspd', ' ')],
+        'instruction': ';'.join([
+            'LC(PLNRTE03)',
+            'SY(PLNSPD03)',
+            plnspd
+        ]),
+    }, {
+        'rules': [('select', '1')],
+        'instruction': ';'.join([
+            'LC(PLNRTE03)',
+        ]),
+    }, {
+        'rules': [('plnspd', ' ')],
+        'instruction': ';'.join([
+            'LS(DOTT,2,APLRT)',
+            'SY(PLNSPD04)',
+            plnspd
+        ]),
+    }, {
+        'rules': [],
+        'instruction': ';'.join([
+            'LS(DOTT,2,APLRT)',
+        ]),
+    }]
+
+
 def LIGHTS(lookup_type):
     return [{
         'instruction': 'SY(LIGHTS82)',

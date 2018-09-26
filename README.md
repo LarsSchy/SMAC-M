@@ -150,6 +150,8 @@ Working with enhanced data allows to create mapfiles from the chartsymbols.xml f
    `TOPMARK_FLOATING` environment variable.
  - The SYMINS conditional symbol does not attempt to use the instructions found
    in the features. All NEWOBJ features will use the generic symbolization
+ - The LEGLIN conditional symbol does not take into account the DISTANCE_TAGS
+   value selected by the mariner and does not display the course.
 
 ## Generating Symbolset
 
