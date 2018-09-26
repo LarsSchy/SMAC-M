@@ -7,13 +7,13 @@ class NotImplementedWarning(UserWarning):
     pass
 
 
-def lookups_from_cs(detail, lookup_type):
+def lookups_from_cs(detail, lookup_type, name):
 
     function_name = detail[:6]
     function = globals().get(function_name)
 
     if function:
-        return function(lookup_type)
+        return function(lookup_type, name)
 
     warnings.warn('Symproc not implemented: {}'.format(function_name),
                   NotImplementedWarning)
@@ -26,14 +26,14 @@ def lookups_from_cs(detail, lookup_type):
     }]
 
 
-def DATCVR(lookup_type):
+def DATCVR(lookup_type, name):
     return [{
         'instruction': 'LC(HODATA01)',
         'rules': [],
     }]
 
 
-def DEPARE(lookup_type):
+def DEPARE(lookup_type, name):
 
     # These values are normally passed by the mariner
     # safety_contour = 10
@@ -60,7 +60,7 @@ def DEPARE(lookup_type):
     }]
 
 
-def DEPCNT(lookup_type):
+def DEPCNT(lookup_type, name):
     return [{
         'rules': [
             ('QUAPOS', '>1'),
@@ -73,7 +73,7 @@ def DEPCNT(lookup_type):
     }]
 
 
-def LEGLIN(lookup_type):
+def LEGLIN(lookup_type, name):
     plnspd = "TE('%d kt',plnspd,3,2,2,’15110’,0,0,CHBLK,50)"
 
     return [{
@@ -103,7 +103,7 @@ def LEGLIN(lookup_type):
     }]
 
 
-def LIGHTS(lookup_type):
+def LIGHTS(lookup_type, name):
     return [{
         'instruction': 'SY(LIGHTS82)',
         'rules': [('__OR__', [('CATLIT', '11'), ('CATLIT', '8')])],
@@ -136,15 +136,15 @@ def LIGHTS(lookup_type):
     }]
 
 
-def OWNSHP(lookuptype):
+def OWNSHP(lookuptype, name):
     return [{
         'rules': [],
         'instruction': 'SY(OWNSHP01)',
     }]
 
 
-def QUALIN(lookuptype):
-    return [{
+def QUALIN(lookuptype, name):
+    common_rule = [{
         'instruction': 'LC(LOWACC21)',
         'rules': [
             # QUAPOS only has values 1 to 11. QUAPOS not in 1, 10, 11 is
@@ -152,22 +152,25 @@ def QUALIN(lookuptype):
             ('QUAPOS', '>1'),
             ('QUAPOS', '<10')
         ]
-    }, {
-        # Missing "Is Calling Object COALNE"
-        # 'instruction': 'LS(SOLD,1,CSTLN)',
-        # 'rules': [???]
-        # }, {
-
-        'instruction': 'LS(SOLD,3,CHMGF);LS(SOLD,1,CSTLN)',
-        'rules': [('CONRAD', '1')]
-    }, {
-        # CONRAD missing and CONRAD != 1 both lead here
-        'instruction': 'LS(SOLD,1,CSTLN)',
-        'rules': []
     }]
 
+    if name == 'COALNE':
+        return common_rule + [{
+            'instruction': 'LS(SOLD,1,CSTLN)',
+            'rules': []
+        }]
+    else:
+        return common_rule + [{
+            'instruction': 'LS(SOLD,3,CHMGF);LS(SOLD,1,CSTLN)',
+            'rules': [('CONRAD', '1')]
+        }, {
+            # CONRAD missing and CONRAD != 1 both lead here
+            'instruction': 'LS(SOLD,1,CSTLN)',
+            'rules': []
+        }]
 
-def QUAPNT(lookup_type):
+
+def QUAPNT(lookup_type, name):
     return [{
         'instruction': 'SY(LOWACC01)',
         'rules': [('__OR__', [
@@ -183,14 +186,14 @@ def QUAPNT(lookup_type):
     }]
 
 
-def QUAPOS(lookup_type):
+def QUAPOS(lookup_type, name):
     if lookup_type == 'Point':
-        return QUAPNT(lookup_type)
+        return QUAPNT(lookup_type, name)
     else:
-        return QUALIN(lookup_type)
+        return QUALIN(lookup_type, name)
 
 
-def SLCONS(lookup_type):
+def SLCONS(lookup_type, name):
     return [{
         'instruction': 'SY(LOWACC01)',
         'rules': [
@@ -226,7 +229,7 @@ def SLCONS(lookup_type):
     }]
 
 
-def SOUNDG(lookup_type):
+def SOUNDG(lookup_type, name):
     return [{
         'instruction':
         '''_MS(
@@ -271,7 +274,7 @@ def SOUNDG(lookup_type):
     }]
 
 
-def SYMINS(lookup_type):
+def SYMINS(lookup_type, name):
     instructions = {
         'Point': 'SY(NEWOBJ01)',
         'Line': 'LC(NEWOBJ01)',
@@ -323,7 +326,7 @@ topshp_to_sy = [
 ]
 
 
-def TOPMAR(lookup_type):
+def TOPMAR(lookup_type, name):
     if os.environ.get('TOPMAR_FLOAT'):
         sy_getter = itemgetter(0)
     else:

@@ -169,7 +169,8 @@ END
                     details = part[3:-1]
                     if command == 'CS':
                         cs_instruction = True
-                        for cs_lookup in lookups_from_cs(details, lookup_type):
+                        for cs_lookup in lookups_from_cs(details, lookup_type,
+                                                         name):
                             # Merge lookup with what was returned
                             cs_lookup.update({
                                 'id': '{}-CS({})'.format(id, details),
