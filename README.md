@@ -148,6 +148,8 @@ Working with enhanced data allows to create mapfiles from the chartsymbols.xml f
    You can choose to display all top marks as floating instead by changing
    `topmark_style` from `rigid` to `floating` in the configuration file or by setting the
    `TOPMARK_FLOATING` environment variable.
+ - The SYMINS conditional symbol does not attempt to use the instructions found
+   in the features. All NEWOBJ features will use the generic symbolization
 
 ## Generating Symbolset
 

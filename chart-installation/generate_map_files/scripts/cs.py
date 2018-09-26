@@ -221,6 +221,19 @@ def SOUNDG(lookup_type):
     }]
 
 
+def SYMINS(lookup_type):
+    instructions = {
+        'Point': 'SY(NEWOBJ01)',
+        'Line': 'LC(NEWOBJ01)',
+        'Area': 'SY(NEWOBJ01);LS(DASH,2,CHMGD)',
+    }
+
+    return [{
+        'rules': [],
+        'instruction': instructions[lookup_type],
+    }]
+
+
 topshp_to_sy = [
     # (topshp, floating, rigid),
     ('1', 'TOPMAR02', 'TOPMAR22'),
