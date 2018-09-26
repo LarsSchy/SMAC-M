@@ -146,6 +146,9 @@ Working with enhanced data allows to create mapfiles from the chartsymbols.xml f
      Light arcs are written directly to the mapfile.
    - DEPARE only takes into account the DRVAL2 attribute and renders a flat color.
    - DEPCNT does not draw the contour labels.
+   - OBSTRN does not take into account the underwater hazard procedure 
+     or sounding and low accuracy symbols, 
+     and assumes a safety depth of 30 metres
  - Symbols in MapServer are anchored to the map in the center vs in the top-left corner for OpenCPN. This brings a disparity in the symbol placement when they are stacked together.
  - Current implementation stack levels as you zoom in so you get level 1 features and labels in level 2 maps.
  - Symbology can be created from vector and bitmaps. We are only supporting bitmap symbology.

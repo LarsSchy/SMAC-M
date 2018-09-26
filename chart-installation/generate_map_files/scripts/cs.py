@@ -136,6 +136,113 @@ def LIGHTS(lookup_type, name):
     }]
 
 
+def OBSTRN(lookup_type, name):
+    if lookup_type == 'Point':
+        return OBSTRN_point(name)
+
+    if lookup_type == 'Line':
+        return OBSTRN_line(name)
+
+    return OBSTRN_area(name)
+
+
+def OBSTRN_area(name):
+    return [{
+        'rules': [('VALSOU', '>30')],
+        'instruction': 'LS(DASH,2,CHGRD)'
+    }, {
+        'rules': [('VALSOU', ' ')],
+        'instruction': 'LS(DOTT,2,CHBLK)'
+    }, {
+        'rules': [('CATOBS', '6')],
+        'instruction': 'AP(FOULAR01);LS(DOTT,2,CHBLK)'
+    }, {
+        'rules': [('__OR__', [('WATLEV', '1'), ('WATLEV', '2')])],
+        'instruction': 'AC(CHBRN);LS(SOLD,2,CSTLN)'
+    }, {
+        'rules': [('WATLEV', '4')],
+        'instruction': 'AC(DEPIT);LS(DASH,2,CSTLN)'
+    }, {
+        'rules': [],
+        'instruction': 'AC(DEPVS);LS(DOTT,2,CHBLK)'
+    }]
+
+
+def OBSTRN_line(name):
+    return [{
+        'rules': [('VALSOU', '>30')],
+        'instruction': 'LS(DASH,2,CHBLK)'
+    }, {
+        # VALSOU missing and <= SAFETY_DEPTH both lead here
+        'rules': [],
+        'instruction': 'LS(DOTT,2,CHBLK)'
+    }]
+
+
+def OBSTRN_point(name):
+    common_rule = [{
+        'rules': [('VALSOU', '>30')],
+        'instruction': 'SY(DANGER02)'
+    }]
+
+    if name =='UWTROC':
+        return common_rule + [{
+            'rules': [('VALSOU', ' '), ('__OR__', [
+                ('WATLEV', '4'),
+                ('WATLEV', '5'),
+            ])],
+            'instruction': 'SY(UWTROC04)'
+        }, {
+            'rules': [('VALSOU', ' ')],
+            'instruction': 'SY(DANGER01)'
+        }, {
+            'rules': [('WATLEV', '3')],
+            'instruction': 'SY(UWTROC03)'
+        }, {
+            'rules': [],
+            'instruction': 'SY(UWTROC04)'
+        }]
+
+    else:
+        return common_rule + [{
+            'rules': [('VALSOU', ' '), ('CATOBS', '6')],
+            'instruction': 'SY(DANGER01)'
+        }, {
+            'rules': [('VALSOU', ' '), ('__OR__', [
+                ('WATLEV', '1'),
+                ('WATLEV', '2'),
+            ])],
+            'instruction': 'SY(OBSTRN11)'
+        }, {
+            'rules': [('VALSOU', ' '), ('__OR__', [
+                ('WATLEV', '4'),
+                ('WATLEV', '5'),
+            ])],
+            'instruction': 'SY(DANGER03)'
+        }, {
+            'rules': [('VALSOU', ' ')],
+            'instruction': 'SY(DANGER01)'
+        }, {
+            'rules': [('CATOBS', '6')],
+            'instruction': 'SY(OBSTRN01)'
+        }, {
+            'rules': [('__OR__', [
+                ('WATLEV', '1'),
+                ('WATLEV', '2'),
+            ])],
+            'instruction': 'SY(OBSTRN11)'
+        }, {
+            'rules': [('__OR__', [
+                ('WATLEV', '4'),
+                ('WATLEV', '5'),
+            ])],
+            'instruction': 'SY(OBSTRN03)'
+        }, {
+            'rules': [],
+            'instruction': 'SY(OBSTRN01)'
+        }]
+
+
 def OWNSHP(lookuptype, name):
     return [{
         'rules': [],
