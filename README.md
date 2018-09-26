@@ -126,7 +126,25 @@ Working with enhanced data allows to create mapfiles from the chartsymbols.xml f
    - 150000
    - 50000
    - 25000
- - Symbology is created from SY, TE and TX instruction. Basic CS(LIGHTSxx) support have been added, but is not complete. Other CS code are not supported yet.
+ - Basic symbology is created from SY, TE, TX, LC, LS, AP and AC instructions.
+   CS instructions are implemented as a series of these basic instructions
+   subject to the following limitations:
+   - TOPMAR does not check other features for floating or rigid platforms. 
+     All top marks are displayed as rigid by default.
+     You can choose to display all top marks as floating instead 
+     by changing `topmark_style` from `rigid` to `floating` in the configuration file 
+     or by setting the `TOPMARK_FLOATING` environment variable.
+   - SYMINS does not attempt to use the instructions found in the features'
+     SYMINS attribute. 
+     All NEWOBJ features will use the generic symbolization
+   - LEGLIN does not take into account the DISTANCE_TAGS value selected by the mariner 
+     and does not display the course.
+   - OWNSHP always symbolizes as the OWNSHP01 symbol.
+   - SOUNDG are drawn as special MapServer labels 
+     instead of Presentation Library instructions
+   - LIGHTS only selects the color of the symbol.
+     Light arcs are written directly to the mapfile.
+   - DEPARE only takes into account the DRVAL2 attribute and renders a flat color.
  - Symbols in MapServer are anchored to the map in the center vs in the top-left corner for OpenCPN. This brings a disparity in the symbol placement when they are stacked together.
  - Current implementation stack levels as you zoom in so you get level 1 features and labels in level 2 maps.
  - Symbology can be created from vector and bitmaps. We are only supporting bitmap symbology.
@@ -143,16 +161,6 @@ Working with enhanced data allows to create mapfiles from the chartsymbols.xml f
    - RESARE layer (lookup #164) uses SY(ESSARE01) and SY(PSSARE01) symbols, but those symbols are not present. They were removed.
    - TOPMAR layer uses OBJNAM field for label, but this field is not present
    - SOUNDG layer is in display-cat Other, it has been transfered to Standard
- - The TOPMAR conditional symbol does not check other features for floating or rigid platforms. 
-   All top marks are displayed as rigid by default.
-   You can choose to display all top marks as floating instead by changing
-   `topmark_style` from `rigid` to `floating` in the configuration file or by setting the
-   `TOPMARK_FLOATING` environment variable.
- - The SYMINS conditional symbol does not attempt to use the instructions found
-   in the features. All NEWOBJ features will use the generic symbolization
- - The LEGLIN conditional symbol does not take into account the DISTANCE_TAGS
-   value selected by the mariner and does not display the course.
- - The OWNSHP will always symbolize as the OWNSHP01 symbol.
 
 ## Generating Symbolset
 
