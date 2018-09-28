@@ -449,3 +449,73 @@ def TOPMAR(lookup_type, name):
         'instruction': 'SY(QUESMRK1)',
         'rules': [],
     }]
+
+def WRECKS(lookup_type, name):
+    if lookup_type == 'Point':
+        return WRECKS_Point(lookup_type, name)
+    else:
+        return WRECKS_other(lookup_type, name)
+
+
+def WRECKS_other(lookup_type, name):
+    # TODO: add rules for background
+    return [{
+        'rules': [
+            ('QUAPOS', '>1'),
+            ('QUAPOS', '<10')
+        ],
+        'instruction': 'LC(LOWACC41)'
+    }, {
+        'rules': [('VALSOU', '>30')],
+        'instruction': 'LS(DASH,2,CHBLK)'
+    }, {
+        'rules': [('VALSOU', ' ')],
+        'instruction': 'LS(DOTT,2,CHBLK)'
+    }, {
+        'rules': [('__OR__', [
+            ('WATLEV', '1'),
+            ('WATLEV', '2')
+        ])],
+        'instruction': 'LS(SOLD,2,CSTLN);AC(CHBRN)'
+    }, {
+        'rules': [('WATLEV', '4')],
+        'instruction': 'LS(DASH,2,CSTLN);AC(DEPIT)'
+    }, {
+        'rules': [('__OR__', [
+            ('WATLEV', '3'),
+            ('WATLEV', '5')
+        ])],
+        'instruction': 'LS(DOTT,2,CSTLN);AC(DEPVS)'
+    }, {
+        'rules': [],
+        'instruction': 'LS(DOTT,2,CSTLN);AC(DEPVS)'
+    }]
+
+
+def WRECKS_Point(lookup_type, name):
+    return [{
+        'rules': [('VALSOU', '>30')],
+        'instruction': 'SY(DANGER02)'
+    }, {
+        'rules': [('VALSOU', ' ')],
+        'instruction': 'SY(DANGER01)'
+    }, {
+        'rules': [('CATWRK', '1'), ('WATLEV', '3')],
+        'instruction': 'SY(WRECKS04)'
+    }, {
+        'rules': [('CATWRK', '2'), ('WATLEV', '3')],
+        'instruction': 'SY(WRECKS05)'
+    }, {
+        'rules': [('__OR__', [
+            ('CATWRK', '4'),
+            ('CATWRK', '5'),
+            ('WATLEV', '1'),
+            ('WATLEV', '2'),
+            ('WATLEV', '3'),
+            ('WATLEV', '4'),
+        ])],
+        'instruction': 'SY(WRECKS01)'
+    }, {
+        'rules': [],
+        'instruction': 'SY(WRECKS05)'
+    }]
