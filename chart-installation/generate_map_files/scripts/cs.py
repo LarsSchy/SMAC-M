@@ -2,7 +2,7 @@ from operator import itemgetter
 import os
 import warnings
 
-from filters import MSNoRules, MSCompare, MSHasValue, MSRawFilter
+from filters import MSNoRules, MSCompare, MSStrCompare, MSHasValue, MSRawFilter
 
 
 class NotImplementedWarning(UserWarning):
@@ -294,6 +294,77 @@ def QUAPOS(lookup_type, name):
         return QUAPNT(lookup_type, name)
     else:
         return QUALIN(lookup_type, name)
+
+
+def RESTRN(lookup_type, name):
+    def includes(field, *values):
+        return MSStrCompare(
+            field,
+            r'\b({})\b'.format('|'.join(str(v) for v in values)),
+            MSStrCompare.OP.RE
+        )
+
+    return [{
+        'rules': (
+            includes('RESTRN', 7, 8, 14)
+            & includes('RESTRN', 1, 2, 3, 4, 5, 13, 16, 17, 23, 24, 25, 26, 27)
+        ),
+        'instruction': 'SY(ENTRES61)',
+    }, {
+        'rules': (
+            includes('RESTRN', 7, 8, 14)
+            & includes('RESTRN', 9, 10, 11, 12, 15, 18, 19, 20, 21, 22)
+        ),
+        'instruction': 'SY(ENTRES71)',
+    }, {
+        'rules': includes('RESTRN', 7, 8, 14),
+        'instruction': 'SY(ENTRES51)',
+    }, {
+        'rules': (
+            includes('RESTRN', 1, 2)
+            & includes('RESTRN', 3, 4, 5, 6, 13, 16, 17, 23, 24, 25, 26, 27)
+        ),
+        'instruction': 'SY(ACHRES61)',
+    }, {
+        'rules': (
+            includes('RESTRN', 1, 2)
+            & includes('RESTRN', 9, 10, 11, 12, 15, 18, 19, 20, 21, 22)
+        ),
+        'instruction': 'SY(ACHRES71)',
+    }, {
+        'rules': includes('RESTRN', 1, 2),
+        'instruction': 'SY(ACHRES51)',
+    }, {
+        'rules': (
+            includes('RESTRN', 3, 4, 5, 6, 24)
+            & includes('RESTRN', 13, 16, 17, 23, 25, 26, 27)
+        ),
+        'instruction': 'SY(FHSRES61)',
+    }, {
+        'rules': (
+            includes('RESTRN', 3, 4, 5, 6, 24)
+            & includes('RESTRN', 9, 10, 11, 12, 15, 18, 19, 20, 21, 22)
+        ),
+        'instruction': 'SY(FHSRES71)',
+    }, {
+        'rules': includes('RESTRN', 3, 4, 5, 6, 24),
+        'instruction': 'SY(FHSRES51)',
+    }, {
+        'rules': (
+            includes('RESTRN', 13, 16, 17, 23, 25, 26, 27)
+            & includes('RESTRN', 9, 10, 11, 12, 15, 18, 19, 20, 21, 22)
+        ),
+        'instruction': 'SY(CTYARE71)',
+    }, {
+        'rules': includes('RESTRN', 13, 16, 17, 23, 25, 26, 27),
+        'instruction': 'SY(CTYARE51)',
+    }, {
+        'rules': includes('RESTRN', 9, 10, 11, 12, 15, 18, 19, 20, 21, 22),
+        'instruction': 'SY(INFARE51)',
+    }, {
+        'rules': MSNoRules(),
+        'instruction': 'SY(RSRDEF51)',
+    }]
 
 
 def SLCONS(lookup_type, name):

@@ -81,8 +81,12 @@ class MSCompare(MSFilter):
         LE = '<='
         GT = '>'
         GE = '>='
-        EQ = '=='
+        EQ = '='
         NE = '!='
+
+        # Operators for strings
+        RE = '~'
+        IRE = '~*'
 
     def __init__(self, field, value, op=OP.EQ):
         super().__init__(field)
