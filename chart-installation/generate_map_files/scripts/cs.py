@@ -129,13 +129,27 @@ def LIGHTS(lookup_type, name):
             & MSCompare('LITCHR', '12', MSCompare.OP.NE)
         ),
     }, {
-        'instruction': 'SY(LIGHTS11)',
+        # TODO: Figure out why a simple SY instruction ends up with a bad
+        # offset
+        'instruction': '''_MS(
+        STYLE
+            SYMBOL 'LIGHTS11'
+            OFFSET 9 9
+        END)''',
         'rules': MSCompare('COLOUR', '3,1') | MSCompare('COLOUR', '3'),
     }, {
-        'instruction': 'SY(LIGHTS12)',
+        'instruction': '''_MS(
+        STYLE
+            SYMBOL 'LIGHTS12'
+            OFFSET 9 9
+        END)''',
         'rules': MSCompare('COLOUR', '4,1') | MSCompare('COLOUR', '4')
     }, {
-        'instruction': 'SY(LIGHTS13)',
+        'instruction': '''_MS(
+        STYLE
+            SYMBOL 'LIGHTS13'
+            OFFSET 9 9
+        END)''',
         'rules': (
             MSCompare('COLOUR', '11')
             | MSCompare('COLOUR', '6')
