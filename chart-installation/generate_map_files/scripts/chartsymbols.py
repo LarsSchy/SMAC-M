@@ -6,6 +6,7 @@ from xml.etree import ElementTree as etree
 
 from instructions import get_command
 from cs import lookups_from_cs
+from filters import MSAnd, MSFilter
 
 
 class Color:
@@ -142,11 +143,8 @@ END
                 display = lookup.find('display-cat').text
                 comment = lookup.find('comment').text
                 instruction = lookup.find('instruction').text or ''
-                rules = []
-                for attr in lookup.findall('attrib-code'):
-                    # Assumption: All attrib-code are in numerical order
-                    # index = int(attr.get('index'))
-                    rules.append((attr.text[:6], attr.text[6:]))
+                rules = MSAnd(*(MSFilter.from_attrcode(attr.text)
+                                for attr in lookup.findall('attrib-code')))
             except (KeyError, AttributeError):
                 continue
 
@@ -178,7 +176,7 @@ END
                                 'display': display,
                                 'comment': comment
                             })
-                            cs_lookup['rules'].extend(rules)
+                            cs_lookup['rules'] &= rules
                             cs_lookup['instruction'] = instruction.replace(
                                 part, cs_lookup['instruction'])
 
@@ -460,40 +458,10 @@ CONNECTIONTYPE OGR
     def get_expression(self, rules, fields):
         expression = ""
 
-        expr = self.get_subexpression(rules, fields)
-
-        if expr:
-            expression = "EXPRESSION (" + " AND ".join(expr) + ")"
+        if rules:
+            expression = "EXPRESSION (" + rules.to_expression(fields) + ")"
 
         return expression
-
-    def get_subexpression(self, rules, fields):
-
-        expr = []
-        for attrib, value in rules:
-            if attrib == '__OR__':
-                expr.append(' OR '.join(self.get_subexpression(value, fields)))
-            elif attrib == '__MS__':
-                expr.append('({})'.format(value))
-            else:
-                if fields and attrib not in fields:
-                    expr.append('FALSE')
-                elif value == ' ':
-                    expr.append('([{}] > 0)'.format(attrib))
-                elif value.isdigit():
-                    expr.append('([{}] == {})'.format(attrib, value))
-                elif len(value) > 1 and value[0] in ['>', '<'] and \
-                value[1:].isdigit():
-                    operator = value[0]
-                    digit = value[1:]
-                    expr.append(
-                        '([{}] {} {} )'.format(attrib, operator, digit)
-                    )
-                else:
-                    expr.append('("[{}]" == "{}")'.format(attrib, value))
-
-        return expr
-
 
     def get_point_style(self, instruction, feature):
         style = []
