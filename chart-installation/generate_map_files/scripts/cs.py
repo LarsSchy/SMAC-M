@@ -2,7 +2,7 @@ from operator import itemgetter
 import os
 import warnings
 
-from lookup import Lookup
+from lookup import Lookup, LookupCollection
 from instructions import _MS, SY, LC, LS, CS, AC, AP, TE
 from filters import MSNoRules, MSCompare, MSStrCompare, MSHasValue, MSRawFilter
 
@@ -29,10 +29,7 @@ def lookups_from_cs(detail, lookup_type, name):
             'rules': MSNoRules(),
         }]
 
-    return (Lookup(id='-CS({})'.format(detail), **lookup)
-            if isinstance(lookup, dict)
-            else lookup
-            for lookup in lookups)
+    return LookupCollection(lookups, id='-CS({})'.format(detail))
 
 
 def DATCVR(lookup_type, name):
@@ -305,13 +302,171 @@ def QUAPOS(lookup_type, name):
         return QUALIN(lookup_type, name)
 
 
-def RESTRN(lookup_type, name):
-    def includes(field, *values):
-        return MSStrCompare(
-            field,
-            r'\b({})\b'.format('|'.join(str(v) for v in values)),
-            MSStrCompare.OP.RE
+def RESARE(lookup_type, name):
+    includes = MSStrCompare.includes
+    return (
+        Lookup(
+            id='-CS(RESARE)',
+            rules=includes('RESTRN', 7, 8, 14)
+        ) @ RESARE_continuation_A()
+        + Lookup(
+            id='-CS(RESARE)',
+            rules=includes('RESTRN', 1, 2)
+        ) @ RESARE_continuation_B()
+        + Lookup(
+            id='-CS(RESARE)',
+            rules=includes('RESTRN', 3, 4, 5, 6, 24)
+        ) @ RESARE_continuation_C()
+        + Lookup(
+            id='-CS(RESARE)',
+            rules=includes('RESTRN', 13, 16, 17, 23, 25, 26, 27)
+        ) @ RESARE_continuation_D()
+        + Lookup(
+            id='-CS(RESARE)',
+            rules=MSHasValue('RESTRN')
+        ) @ RESARE_no_continuation()
+        + Lookup(
+            id='-CS(RESARE)'
+        ) @ RESARE_continuation_E()
+    )
+
+
+def RESARE_no_continuation():
+    return LookupCollection([
+        Lookup(
+            rules=MSStrCompare.includes('RESTRN',
+                                        9, 10, 11, 12, 15, 18, 19, 20, 21, 22),
+            instruction=SY('INFARE51')
+        ),
+        Lookup(
+            rules=MSNoRules(),
+            instruction=SY('RSRDEF51')
         )
+    ]) @ LookupCollection([
+        Lookup(instruction=LS('DASH', 2, 'CHMGD'), table='Plain'),
+        Lookup(instruction=LC('CTYARE51'), table='Symbolized')
+    ])
+
+
+def RESARE_continuation_A():
+    includes = MSStrCompare.includes
+    return LookupCollection([
+        Lookup(
+            rules=(
+                includes('RESTRN',
+                         1, 2, 3, 4, 5, 6, 13, 16, 17, 23, 24, 25, 26, 27)
+                | includes('CATREA', 1, 8, 9, 12, 14, 18, 19, 21, 24, 25, 26)
+            ),
+            instruction=SY('ENTRES61')
+        ),
+        Lookup(
+            rules=(
+                includes('RESTRN', 9, 10, 11, 12, 15, 18, 19, 20, 21, 22)
+                | includes('CATREA', 4, 5, 6, 7, 10, 20, 22, 23)
+            ),
+            instruction=SY('ENTRES71')
+        ),
+        Lookup(instruction=SY('ENTRES51'))
+    ]) @ LookupCollection([
+        Lookup(instruction=LS('DASH', 2, 'CHMGD'), table='Plain', id='PLAIN'),
+        Lookup(instruction=LC('ENTRES51'), table='Symbolized', id='SYM')
+    ])
+
+
+def RESARE_continuation_B():
+    includes = MSStrCompare.includes
+    return LookupCollection([
+        Lookup(
+            rules=(
+                includes('RESTRN', 3, 4, 5, 6, 13, 16, 17, 23, 24, 25, 26, 27)
+                | includes('CATREA', 1, 8, 9, 12, 14, 18, 19, 21, 24, 25, 26)
+            ),
+            instruction=SY('ACHRES61')
+        ),
+        Lookup(
+            rules=(
+                includes('RESTRN', 9, 10, 11, 12, 15, 18, 19, 20, 21, 22)
+                | includes('CATREA', 4, 5, 6, 7, 10, 20, 22, 23)
+            ),
+            instruction=SY('ACHRES71')
+        ),
+        Lookup(instruction=SY('ACHRES51'))
+    ]) @ LookupCollection([
+        Lookup(instruction=LS('DASH', 2, 'CHMGD'), table='Plain'),
+        Lookup(instruction=LC('ACHRES51'), table='Symbolized')
+    ])
+
+
+def RESARE_continuation_C():
+    includes = MSStrCompare.includes
+    return LookupCollection([
+        Lookup(
+            rules=(
+                includes('RESTRN', 13, 16, 17, 23, 24, 25, 26, 27)
+                | includes('CATREA', 1, 8, 9, 12, 14, 18, 19, 21, 24, 25, 26)
+            ),
+            instruction=SY('FSHRES61')
+        ),
+        Lookup(
+            rules=(
+                includes('RESTRN', 9, 10, 11, 12, 15, 18, 19, 20, 21, 22)
+                | includes('CATREA', 4, 5, 6, 7, 10, 20, 22, 23)
+            ),
+            instruction=SY('FSHRES71')
+        ),
+        Lookup(instruction=SY('FSHRES51'))
+    ]) @ LookupCollection([
+        Lookup(instruction=LS('DASH', 2, 'CHMGD'), table='Plain'),
+        Lookup(instruction=LC('FSHRES51'), table='Symbolized')
+    ])
+
+
+def RESARE_continuation_D():
+    includes = MSStrCompare.includes
+    return LookupCollection([
+        Lookup(
+            rules=(
+                includes('RESTRN', 9, 10, 11, 12, 15, 18, 19, 20, 21, 22)
+                | includes('CATREA', 4, 5, 6, 7, 10, 20, 22, 23)
+            ),
+            instruction=SY('CTYARE71')
+        ),
+        Lookup(instruction=SY('CTYARE51'))
+    ]) @ LookupCollection([
+        Lookup(instruction=LS('DASH', 2, 'CHMGD'), table='Plain'),
+        Lookup(instruction=LC('CTYARE51'), table='Symbolized')
+    ])
+
+
+def RESARE_continuation_E():
+    rule_a = MSStrCompare.includes('CATREA',
+                                   1, 8, 9, 12, 14, 18, 19, 21, 24, 25, 26)
+    rule_b = MSStrCompare.includes('CATREA', 4, 5, 6, 7, 10, 20, 22, 23)
+
+    return LookupCollection([
+        Lookup(
+            rules=rule_a & rule_b,
+            instruction=SY('CTYARE71')
+        ),
+        Lookup(
+            rules=rule_a,
+            instruction=SY('CTYARE51')
+        ),
+        Lookup(
+            rules=MSHasValue('CATREA') & rule_b,
+            instruction=SY('INFARE51')
+        ),
+        Lookup(
+            instruction=SY('RSRDEF51')
+        )
+    ]) @ LookupCollection([
+        Lookup(instruction=LS('DASH', 2, 'CHMGD'), table='Plain'),
+        Lookup(instruction=LC('CTYARE51'), table='Symbolized')
+    ])
+
+
+def RESTRN(lookup_type, name):
+    includes = MSStrCompare.includes
 
     return [{
         'rules': (

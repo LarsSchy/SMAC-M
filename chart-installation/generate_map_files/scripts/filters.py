@@ -102,6 +102,14 @@ class MSStrCompare(MSCompare):
     def render_expression(self):
         return '"[{}]" {} "{}"'.format(self.field, self.op, self.value)
 
+    @classmethod
+    def includes(cls, field, *values):
+        return cls(
+            field,
+            r'\b({})\b'.format('|'.join(str(v) for v in values)),
+            cls.OP.RE
+        )
+
 
 class _MSCombiner(list, _MSFilterBase):
     __slots__ = ()

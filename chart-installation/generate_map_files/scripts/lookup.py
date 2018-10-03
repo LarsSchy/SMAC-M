@@ -37,6 +37,15 @@ class Lookup:
 class LookupCollection(list):
     __slots__ = ()
 
+    def __init__(self, seq, *, id=''):
+        super().__init__(Lookup(id=id, **lookup)
+            if isinstance(lookup, dict)
+            else lookup
+            for lookup in seq)
+
+        if not all(isinstance(item, Lookup) for item in self):
+            raise TypeError('LookupCollection can only contain Lookups')
+
     def add_instruction(self, instruction):
         for lookup in self:
             lookup.add_instruction(instruction)
@@ -44,16 +53,17 @@ class LookupCollection(list):
     def __matmul__(self, other):
         return self.__class__(
             Lookup(l.id + r.id,
-                   l.table,
-                   l.display,
+                   l.table or r.table,
+                   l.display or r.display,
                    l.comment + r.comment,
                    l.instruction + r.instruction,
                    l.rules & r.rules)
             for l in self
             for r in other
-            if (r.table is None or r.display == l.display)
-            and (r.display is None or r.display == l.display)
+            if (r.table is None or l.table is None or r.table == l.table)
+            and (r.display is None or l.display is None
+                 or r.display == l.display)
         )
 
     def __add__(self, other):
-        return self.__class__(self + other)
+        return self.__class__(list.__add__(self, other))
