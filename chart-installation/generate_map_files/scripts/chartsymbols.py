@@ -4,7 +4,8 @@ import os
 from symbol import VectorSymbol, Pattern
 from xml.etree import ElementTree as etree
 
-from instructions import get_command
+from lookup import Lookup
+from instructions import get_command, CS, SY
 from cs import lookups_from_cs
 from filters import MSAnd, MSFilter
 
@@ -134,6 +135,13 @@ END
 
     def load_lookups(self, root, point_style, area_style,
                      displaycategory=None):
+        if displaycategory is None:
+            class AllInclusive:
+                def __contains__(self, val):
+                    return True
+
+            displaycategory = AllInclusive()
+
         for lookup in root.iter('lookup'):
             try:
                 name = lookup.get('name')
@@ -142,56 +150,48 @@ END
                 table_name = lookup.find('table-name').text
                 display = lookup.find('display-cat').text
                 comment = lookup.find('comment').text
-                instruction = lookup.find('instruction').text or ''
+                str_instruction = lookup.find('instruction').text or ''
                 rules = MSAnd(*(MSFilter.from_attrcode(attr.text)
                                 for attr in lookup.findall('attrib-code')))
             except (KeyError, AttributeError):
                 continue
 
             if table_name in (point_style, area_style, 'Lines') and \
-                    (displaycategory is None or display in displaycategory):
+                    display in displaycategory:
                 if lookup_type == 'Point':
-                    lookup = self.point_lookups.setdefault(name, [])
+                    lookup_table = self.point_lookups.setdefault(name, [])
                 elif lookup_type == 'Line':
-                    lookup = self.line_lookups.setdefault(name, [])
+                    lookup_table = self.line_lookups.setdefault(name, [])
                 elif lookup_type == 'Area':
-                    lookup = self.polygon_lookups.setdefault(name, [])
+                    lookup_table = self.polygon_lookups.setdefault(name, [])
                 else:
-                    lookup = []
+                    lookup_table = []
+
+                lookups = Lookup(
+                    id=id,
+                    table=table_name,
+                    display=display,
+                    comment=comment,
+                    instruction=[],
+                    rules=rules,
+                )
 
                 # If we have a CS instruction, explode it in many lookups
-                cs_instruction = False
-                parts = instruction.split(';')
+                parts = str_instruction.split(';')
                 for part in parts:
-                    command = part[:2]
-                    details = part[3:-1]
-                    if command == 'CS':
-                        cs_instruction = True
-                        for cs_lookup in lookups_from_cs(details, lookup_type,
-                                                         name):
-                            # Merge lookup with what was returned
-                            cs_lookup.update({
-                                'id': '{}-CS({})'.format(id, details),
-                                'table': table_name,
-                                'display': display,
-                                'comment': comment
-                            })
-                            cs_lookup['rules'] &= rules
-                            cs_lookup['instruction'] = instruction.replace(
-                                part, cs_lookup['instruction'])
+                    if not part:
+                        continue
 
-                            # Add to lookup list
-                            lookup.append(cs_lookup)
+                    command = get_command(part)
+                    if isinstance(command, CS):
+                        details = command.proc
+                        lookups @= lookups_from_cs(details, lookup_type, name)
 
-                if not cs_instruction:
-                    lookup.append({
-                        'id': id,
-                        'table': table_name,
-                        'display': display,
-                        'comment': comment,
-                        'instruction': instruction,
-                        'rules': rules,
-                    })
+                    else:
+                        lookups.add_instruction(command)
+
+                for lookup in lookups:
+                    lookup_table.append(lookup)
 
     def get_point_mapfile(self, layer, feature, group, msd, fields):
         base = "CL{}_{}_POINT".format(layer, feature)
@@ -357,17 +357,14 @@ LAYER
         for chart in charts:
             if not chart['instruction']:
                 continue
-            parts = chart['instruction'].split(';')
-            for part in parts:
-                command = part[:2]
-                details = part[3:-1]
-                if command == 'SY' and ',' in details:
-                    symbol, angle = details.split(',')
+            parts = chart['instruction']
+            for command in parts:
+                if isinstance(command, SY) and command.rot_field:
                     return """
 CONNECTIONTYPE OGR
     CONNECTION "{0}/{1}.shp"
     DATA "SELECT *, 360 - {2} as {2}_CAL FROM {1}"
-                    """.format(layer, base, angle)
+                    """.format(layer, base, command.rot_field)
 
         return data
 
@@ -471,9 +468,7 @@ CONNECTIONTYPE OGR
 
         # Split on ;
         try:
-            parts = instruction.split(';')
-            for part in parts:
-                command = get_command(part)
+            for command in instruction:
                 style.append(command(self, feature, 'POINT'))
 
         except:
@@ -488,8 +483,7 @@ CONNECTIONTYPE OGR
             'POLYGON': [],
         }
         try:
-            for part in instruction.split(';'):
-                command = get_command(part)
+            for command in instruction:
                 styles = command(self, feature, geom_type)
                 if isinstance(styles, str):
                     style[geom_type].append(styles)

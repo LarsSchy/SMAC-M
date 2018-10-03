@@ -6,11 +6,15 @@ class NotImplementedWarning(UserWarning):
     pass
 
 
-pattern = re.compile(r'^([^(]+)\((.+)\)$', re.DOTALL)
+pattern = re.compile(r'^([^(]+)\((.+?)\)?$', re.DOTALL)
 
 
 def get_command(instruction):
     match = pattern.match(instruction)
+    if match is None:
+        command = Command()
+        command.set_command_name(instruction)
+        return command
 
     Command_ = globals().get(match.group(1), Command)
     command = Command_(*match.group(2).split(','))
@@ -29,6 +33,25 @@ class Command:
         warnings.warn('Command not implemented: {}'.format(self.command),
                       NotImplementedWarning)
         return ''
+
+    def __iter__(self):
+        return iter([self])
+
+    def __add__(self, other):
+        if isinstance(other, Command):
+            return [self, other]
+
+        if isinstance(other, list):
+            return [self] + other
+
+        return NotImplemented
+
+    def __radd__(self, other):
+        if isinstance(other, list):
+            return other + [self]
+
+        return NotImplemented
+
 
     @staticmethod
     def units(value):
@@ -167,9 +190,11 @@ class SY(Command):
 
     def __init__(self, symbol, rot=0):
         self.symbol = symbol
+        self.rot_field = None
         try:
             self.rot = int(rot)
         except ValueError:
+            self.rot_field = rot
             self.rot = '[{}_CAL]'.format(rot)
 
     def __call__(self, chartsymbols, layer, geom_type):
