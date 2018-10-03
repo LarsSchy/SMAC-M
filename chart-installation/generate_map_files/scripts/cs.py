@@ -746,3 +746,11 @@ def WRECKS_Point(lookup_type, name):
         'rules': MSNoRules(),
         'instruction': SY('WRECKS05')
     }]
+
+
+def no_symbology(lookup_type, name):
+    "Generic function for CS with no symbology"
+    return []
+
+
+CLRLIN = VRMEBL = PASTRK = VESSEL = no_symbology
