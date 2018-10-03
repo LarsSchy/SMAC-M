@@ -265,40 +265,14 @@ class AP(Command):
 
 class CS(Command):
     """ CallSymproc 9.5"""
-    # Dict of proc references to simpler styles.
-    # Entries are searched in this order:
-    #   1. Exact procname and layer name
-    #   2. Exact procname
-    #   3. Class code (First 6 characters of the procname)
-    procs = {
-        'QUAPOS01': LS('SOLD', 1, 'CSTLN'),
-        'DEPCNT02': LS('SOLD', 1, 'DEPCN'),
-
-        'OBSTRN': SY('ISODGR01'),
-        'DEPARE': AC('DEPMS'),
-    }
-
     def __init__(self, proc):
         self.proc = proc
 
     def __call__(self, chartsymbols, layer, geom_type):
-        #   1. Exact procname and layer name
-        subcmd = self.procs.get((self.proc, layer))
+        warnings.warn(
+            'Symproc left in lookup: {}'.format((self.proc, layer)),
+            NotImplementedWarning)
 
-        if subcmd is None:
-            #   2. Exact procname
-            subcmd = self.procs.get(self.proc)
-
-        if subcmd is None:
-            #   3. Class code (First 6 characters of the procname)
-            subcmd = self.procs.get(self.proc[:6])
-
-        if subcmd:
-            return subcmd(chartsymbols, layer, geom_type)
-        else:
-            warnings.warn(
-                'Symproc not implemented: {}'.format((self.proc, layer)),
-                NotImplementedWarning)
         return ''
 
 class _MS(Command):
