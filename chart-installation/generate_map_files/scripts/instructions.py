@@ -213,14 +213,20 @@ class SY(Command):
             y = symbol['size'][1] // 2
             y -= symbol['pivot'][1]
 
+        geomtransform = ''
+        if geom_type == 'POLYGON':
+            geomtransform = 'GEOMTRANSFORM centroid'
+
         return """
         STYLE
-            SYMBOL "{}"
-            OFFSET {} {}
-            ANGLE {}
+            {geomtransform}
+            SYMBOL "{symbol}"
+            OFFSET {x} {y}
+            ANGLE {angle}
             GAP 2000
         END
-        """.format(self.symbol, x, y, self.rot)
+        """.format(symbol=self.symbol, x=x, y=y, angle=self.rot,
+                   geomtransform=geomtransform)
 
 
 class LC(Command):
