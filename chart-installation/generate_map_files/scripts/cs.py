@@ -505,7 +505,6 @@ topshp_to_sy = [
     ('31', 'TOPMAR14', 'TOPMAR14'),
     ('32', 'TOPMAR10', 'TOPMAR30'),
     ('33', 'TMARDEF2', 'TMARDEF1'),
-    (' ', 'TMARDEF2', 'TMARDEF1'),
 ]
 
 
@@ -522,6 +521,9 @@ def TOPMAR(lookup_type, name):
         for shp, floating, rigid in topshp_to_sy
         for sy in [sy_getter([floating, rigid])]
     ] + [{
+        'instruction': SY(sy_getter(('TMARDEF2', 'TMARDEF1'))),
+        'rules': MSHasValue('TOPSHP')
+    }, {
         'instruction': SY('QUESMRK1'),
         'rules': MSNoRules(),
     }]
