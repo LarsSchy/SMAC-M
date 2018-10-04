@@ -92,7 +92,8 @@ class VectorSymbol:
                 subsymbols.append(SubSymbol(self, pen, width, opacity,
                                             polygon_buffer))
             elif command == 'CI':
-                pass
+                subsymbols.append(CircleSubSymbol(self, pen, width, opacity,
+                                                  int(args), position[0]))
             else:
                 import warnings
                 warnings.warn('Not implemented: ' + command)
@@ -178,7 +179,7 @@ class SubSymbol:
 
     @property
     def height(self):
-        return self.bottom - self.top
+        return (self.bottom - self.top) or self.parent.height
 
     @property
     def normalised_points(self):
@@ -231,6 +232,39 @@ class SubSymbol:
             initialgap=self.center * 0.04,
             gap=self.parent.width * 0.04,
         )
+
+
+class CircleSubSymbol(SubSymbol):
+    vector_template = """
+    SYMBOL
+        NAME "{symname}"
+        TYPE ELLIPSE
+        FILLED {filled}
+        POINTS
+        {points}
+        END
+    END"""
+
+    center = None
+
+    def __and__(self, other):
+        return False
+
+    def __rand__(self, other):
+        return False
+
+    def __init__(self, parent, pen, width, opacity, radius, center):
+        self.center = center
+        super().__init__(parent, pen, width, opacity, (radius, radius),
+                       filled=False)
+
+    @property
+    def normalised_points(self):
+        return self.points
+
+    @property
+    def width(self):
+        return self.points[0] * 2
 
 
 class Pattern(metaclass=abc.ABCMeta):
