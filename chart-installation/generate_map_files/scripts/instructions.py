@@ -6,11 +6,15 @@ class NotImplementedWarning(UserWarning):
     pass
 
 
-pattern = re.compile(r'^([^(]+)\(([^)]+)\)$')
+pattern = re.compile(r'^([^(]+)\((.+?)\)?$', re.DOTALL)
 
 
 def get_command(instruction):
     match = pattern.match(instruction)
+    if match is None:
+        command = Command()
+        command.set_command_name(instruction)
+        return command
 
     Command_ = globals().get(match.group(1), Command)
     command = Command_(*match.group(2).split(','))
@@ -29,6 +33,25 @@ class Command:
         warnings.warn('Command not implemented: {}'.format(self.command),
                       NotImplementedWarning)
         return ''
+
+    def __iter__(self):
+        return iter([self])
+
+    def __add__(self, other):
+        if isinstance(other, Command):
+            return [self, other]
+
+        if isinstance(other, list):
+            return [self] + other
+
+        return NotImplemented
+
+    def __radd__(self, other):
+        if isinstance(other, list):
+            return other + [self]
+
+        return NotImplemented
+
 
     @staticmethod
     def units(value):
@@ -91,7 +114,7 @@ class TE(Command):
     def __init__(self, format, attributes, hjust, vjust, space, chars,
                  xoffs, yoffs, colour, display):
         self.format = format
-        self.attributes = attributes.replace("'", '')
+        self.attributes = attributes.strip("'")
         self.hjust = hjust
         self.vjust = vjust
         self.space = space
@@ -167,9 +190,11 @@ class SY(Command):
 
     def __init__(self, symbol, rot=0):
         self.symbol = symbol
+        self.rot_field = None
         try:
             self.rot = int(rot)
         except ValueError:
+            self.rot_field = rot
             self.rot = '[{}_CAL]'.format(rot)
 
     def __call__(self, chartsymbols, layer, geom_type):
@@ -188,14 +213,20 @@ class SY(Command):
             y = symbol['size'][1] // 2
             y -= symbol['pivot'][1]
 
+        geomtransform = ''
+        if geom_type == 'POLYGON':
+            geomtransform = 'GEOMTRANSFORM centroid'
+
         return """
         STYLE
-            SYMBOL "{}"
-            OFFSET {} {}
-            ANGLE {}
+            {geomtransform}
+            SYMBOL "{symbol}"
+            OFFSET {x} {y}
+            ANGLE {angle}
             GAP 2000
         END
-        """.format(self.symbol, x, y, self.rot)
+        """.format(symbol=self.symbol, x=x, y=y, angle=self.rot,
+                   geomtransform=geomtransform)
 
 
 class LC(Command):
@@ -240,41 +271,27 @@ class AP(Command):
 
 class CS(Command):
     """ CallSymproc 9.5"""
-    # Dict of proc references to simpler styles.
-    # Entries are searched in this order:
-    #   1. Exact procname and layer name
-    #   2. Exact procname
-    #   3. Class code (First 6 characters of the procname)
-    procs = {
-        ('SLCONS03', 'SLCONS'): LS('SOLD', 2, 'CSTLN'),
-        ('QUAPOS03', 'COALNE'): LS('SOLD', 1, 'CSTLN'),
-
-        'QUAPOS01': LS('SOLD', 1, 'CSTLN'),
-        'DEPCNT02': LS('SOLD', 1, 'DEPCN'),
-
-        'OBSTRN': SY('ISODGR01'),
-        'DEPARE': AC('DEPMS'),
-    }
-
     def __init__(self, proc):
         self.proc = proc
 
     def __call__(self, chartsymbols, layer, geom_type):
-        #   1. Exact procname and layer name
-        subcmd = self.procs.get((self.proc, layer))
+        warnings.warn(
+            'Symproc left in lookup: {}'.format((self.proc, layer)),
+            NotImplementedWarning)
 
-        if subcmd is None:
-            #   2. Exact procname
-            subcmd = self.procs.get(self.proc)
-
-        if subcmd is None:
-            #   3. Class code (First 6 characters of the procname)
-            subcmd = self.procs.get(self.proc[:6])
-
-        if subcmd:
-            return subcmd(chartsymbols, layer, geom_type)
-        else:
-            warnings.warn(
-                'Symproc not implemented: {}'.format((self.proc, layer)),
-                NotImplementedWarning)
         return ''
+
+class _MS(Command):
+    """Command that emits hardcoded mapserver code.
+
+    To be used with CS procedures that are too complex to be represented by S52
+    instructions.
+    """
+
+    def __init__(self, *style):
+        # get_command splits on comma. we need to readd the commas if there
+        # were any
+        self.style = ','.join(style)
+
+    def __call__(self, chartsymbols, layer, geom_type):
+        return self.style.format(color=chartsymbols.color_table)

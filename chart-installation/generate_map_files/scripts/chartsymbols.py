@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 
 import os
-import re
 from symbol import VectorSymbol, Pattern
-import math
 from xml.etree import ElementTree as etree
 
-from instructions import get_command
+from lookup import Lookup
+from instructions import get_command, CS, SY
 from cs import lookups_from_cs
+from filters import MSAnd, MSFilter
 
 
 class Color:
@@ -135,6 +135,13 @@ END
 
     def load_lookups(self, root, point_style, area_style,
                      displaycategory=None):
+        if displaycategory is None:
+            class AllInclusive:
+                def __contains__(self, val):
+                    return True
+
+            displaycategory = AllInclusive()
+
         for lookup in root.iter('lookup'):
             try:
                 name = lookup.get('name')
@@ -143,59 +150,50 @@ END
                 table_name = lookup.find('table-name').text
                 display = lookup.find('display-cat').text
                 comment = lookup.find('comment').text
-                instruction = lookup.find('instruction').text
-                rules = []
-                for attr in lookup.findall('attrib-code'):
-                    # Assumption: All attrib-code are in numerical order
-                    # index = int(attr.get('index'))
-                    rules.append((attr.text[:6], attr.text[6:]))
+                str_instruction = lookup.find('instruction').text or ''
+                rules = MSAnd(*(MSFilter.from_attrcode(attr.text)
+                                for attr in lookup.findall('attrib-code')))
             except (KeyError, AttributeError):
                 continue
 
             if table_name in (point_style, area_style, 'Lines') and \
-                    (displaycategory is None or display in displaycategory):
+                    display in displaycategory:
                 if lookup_type == 'Point':
-                    lookup = self.point_lookups.setdefault(name, [])
+                    lookup_table = self.point_lookups.setdefault(name, [])
                 elif lookup_type == 'Line':
-                    lookup = self.line_lookups.setdefault(name, [])
+                    lookup_table = self.line_lookups.setdefault(name, [])
                 elif lookup_type == 'Area':
-                    lookup = self.polygon_lookups.setdefault(name, [])
+                    lookup_table = self.polygon_lookups.setdefault(name, [])
                 else:
-                    lookup = []
+                    lookup_table = []
+
+                lookups = Lookup(
+                    id=id,
+                    table=table_name,
+                    display=display,
+                    comment=comment,
+                    instruction=[],
+                    rules=rules,
+                )
 
                 # If we have a CS instruction, explode it in many lookups
-                cs_instruction = False
-                parts = instruction.split(';')
+                parts = str_instruction.split(';')
                 for part in parts:
-                    command = part[:2]
-                    details = part[3:-1]
-                    if command == 'CS':
-                        cs_instruction = True
-                        for cs_lookup in lookups_from_cs(details):
-                            # Merge lookup with what was returned
-                            cs_lookup.update({
-                                'id': '{}-CS({})'.format(id, details),
-                                'table': table_name,
-                                'display': display,
-                                'comment': comment
-                            })
-                            cs_lookup['rules'].extend(rules)
-                            cs_lookup['instruction'] += ';' + instruction
+                    if not part:
+                        continue
 
-                            # Add to lookup list
-                            lookup.append(cs_lookup)
+                    command = get_command(part)
+                    if isinstance(command, CS):
+                        details = command.proc
+                        lookups @= lookups_from_cs(details, lookup_type, name)
 
-                if not cs_instruction:
-                    lookup.append({
-                        'id': id,
-                        'table': table_name,
-                        'display': display,
-                        'comment': comment,
-                        'instruction': instruction,
-                        'rules': rules,
-                    })
+                    else:
+                        lookups.add_instruction(command)
 
-    def get_point_mapfile(self, layer, feature, group, msd):
+                for lookup in lookups:
+                    lookup_table.append(lookup)
+
+    def get_point_mapfile(self, layer, feature, group, msd, fields):
         base = "CL{}_{}_POINT".format(layer, feature)
 
         try:
@@ -204,7 +202,7 @@ END
             return ''
 
         data = self.get_mapfile_data(layer, base, charts)
-        classes = self.get_point_mapfile_classes(charts, feature)
+        classes = self.get_point_mapfile_classes(charts, feature, fields)
 
         mapfile = self.mapfile_layer_template.format(
             layer=layer, feature=feature, group=group, max_scale_denom=msd,
@@ -359,25 +357,22 @@ LAYER
         for chart in charts:
             if not chart['instruction']:
                 continue
-            parts = chart['instruction'].split(';')
-            for part in parts:
-                command = part[:2]
-                details = part[3:-1]
-                if command == 'SY' and ',' in details:
-                    symbol, angle = details.split(',')
+            parts = chart['instruction']
+            for command in parts:
+                if isinstance(command, SY) and command.rot_field:
                     return """
 CONNECTIONTYPE OGR
     CONNECTION "{0}/{1}.shp"
     DATA "SELECT *, 360 - {2} as {2}_CAL FROM {1}"
-                    """.format(layer, base, angle)
+                    """.format(layer, base, command.rot_field)
 
         return data
 
-    def get_point_mapfile_classes(self, charts, feature):
+    def get_point_mapfile_classes(self, charts, feature, fields):
         classes = ""
 
         for chart in charts:
-            expression = self.get_expression(chart['rules'])
+            expression = self.get_expression(chart['rules'], fields)
             style = self.get_point_style(chart['instruction'], feature)
             if not style:
                 continue
@@ -390,7 +385,8 @@ CONNECTIONTYPE OGR
 
         return classes
 
-    def get_line_mapfile(self, layer, feature_type, group, max_scale_denom):
+    def get_line_mapfile(self, layer, feature_type, group, max_scale_denom,
+                         fields):
         base = "CL{}_{}_LINESTRING".format(layer, feature_type)
 
         try:
@@ -399,9 +395,10 @@ CONNECTIONTYPE OGR
             return ''
 
         return self._get_mapfile(layer, feature_type, group, max_scale_denom,
-                                 base, lookups, 'LINE')
+                                 base, lookups, 'LINE', fields)
 
-    def get_poly_mapfile(self, layer, feature_type, group, max_scale_denom):
+    def get_poly_mapfile(self, layer, feature_type, group, max_scale_denom,
+                         fields):
         base = "CL{}_{}_POLYGON".format(layer, feature_type)
 
         try:
@@ -410,14 +407,15 @@ CONNECTIONTYPE OGR
             return ''
 
         return self._get_mapfile(layer, feature_type, group, max_scale_denom,
-                                 base, lookups, 'POLYGON')
+                                 base, lookups, 'POLYGON', fields)
 
     def _get_mapfile(self, layer, feature_type, group, max_scale_denom,
-                     base, lookups, type):
+                     base, lookups, type, fields):
         data = self.get_mapfile_data(layer, base, lookups)
-        typed_classes = self.get_mapfile_classes(lookups, feature_type, type)
+        typed_classes = self.get_mapfile_classes(lookups, feature_type, type,
+                                                 fields)
 
-        mapfile = '';
+        mapfile = ''
         for geom_type in ['POLYGON', 'LINE', 'POINT']:
             classes = typed_classes[geom_type]
             if(classes):
@@ -428,7 +426,7 @@ CONNECTIONTYPE OGR
 
         return mapfile
 
-    def get_mapfile_classes(self, lookups, feature, geom_type):
+    def get_mapfile_classes(self, lookups, feature, geom_type, fields):
         classes = {
             'POINT': [],
             'LINE': [],
@@ -436,7 +434,7 @@ CONNECTIONTYPE OGR
         }
 
         for lookup in lookups:
-            expression = self.get_expression(lookup['rules'])
+            expression = self.get_expression(lookup['rules'], fields)
             styles = self.get_styleitems(lookup['instruction'], feature,
                                         geom_type)
             for style_geom_type, style in styles.items():
@@ -454,25 +452,11 @@ CONNECTIONTYPE OGR
         classes['POLYGON'] = '\n'.join(classes['POLYGON'])
         return classes
 
-    def get_expression(self, rules):
+    def get_expression(self, rules, fields):
         expression = ""
 
-        expr = []
-        for attrib, value in rules:
-            if value == ' ':
-                expr.append('([{}] > 0)'.format(attrib))
-            elif value.isdigit():
-                expr.append('([{}] == {})'.format(attrib, value))
-            if len(value) > 1 and value[0] in ['>', '<'] and \
-               value[1:].isdigit():
-                operator = value[0]
-                digit = value[1:]
-                expr.append('([{}] {} {} )'.format(attrib, operator, digit))
-            else:
-                expr.append('("[{}]" == "{}")'.format(attrib, value))
-
-        if expr:
-            expression = "EXPRESSION (" + " AND ".join(expr) + ")"
+        if rules:
+            expression = "EXPRESSION (" + rules.to_expression(fields) + ")"
 
         return expression
 
@@ -484,25 +468,8 @@ CONNECTIONTYPE OGR
 
         # Split on ;
         try:
-            parts = instruction.split(';')
-            for part in parts:
-                command = part[:2]
-                details = part[3:-1]
-
-                # Symbol
-                # if command == "SY":
-                #    style.append(self.get_symbol(details))
-
-                if command in ["TX", "TE", "SY"]:
-                    command = get_command(part)
-                    style.append(command(self, feature, 'POINT'))
-
-                if command == 'CS':
-                    # CS is special logic
-                    if details[:-2] == 'SOUNDG':
-                        style.append(self.get_soundg())
-                    if details[:-2] == 'LIGHTS':
-                        style.append(self.get_lights_point())
+            for command in instruction:
+                style.append(command(self, feature, 'POINT'))
 
         except:
             return ""
@@ -516,8 +483,7 @@ CONNECTIONTYPE OGR
             'POLYGON': [],
         }
         try:
-            for part in instruction.split(';'):
-                command = get_command(part)
+            for command in instruction:
                 styles = command(self, feature, geom_type)
                 if isinstance(styles, str):
                     style[geom_type].append(styles)
@@ -535,197 +501,3 @@ CONNECTIONTYPE OGR
                 'LINE': [],
                 'POLYGON': [],
             }
-
-    def get_symbol(self, details):
-        # Hardcoded value to skip typo in official XML
-        # TODO: Validate that the symbol exists
-        if details == 'BCNCON81':
-            return ''
-
-        # OFFSET
-        x = 0
-        y = 0
-        if details in self.symbols_def:
-            symbol = self.symbols_def[details]
-            x = math.floor(symbol['size'][0] / 2) * -1
-            x += symbol['pivot'][0]
-            y = math.floor(symbol['size'][1] / 2)
-            y -= symbol['pivot'][1]
-
-        # ANGLE
-        angle = 0
-        if ',' in details:
-            details, angle = details.split(',')
-            angle = '[{}_CAL]'.format(angle)
-
-        return """
-        STYLE
-            SYMBOL "{}"
-            OFFSET {} {}
-            ANGLE {}
-        END
-        """.format(details, x, y, angle)
-
-    def get_label(self, command, details):
-        hjustHash = {
-            '1': 'C',
-            '2': 'R',
-            '3': 'L'
-        }
-        vjustHash = {
-            '1': 'L',
-            '2': 'C',
-            '3': 'T'
-        }
-        spaceHash = {
-            '1': '',  # 1 Is not usde
-            '2': '',  # Standard spaces
-            '3': 'MAXLENGTH 8\n            WRAP " "'  # Wrap on spaces
-        }
-        details = details.split(',')
-
-        # label TX
-        # FORMAT:
-        #   (STRING, HJUST, VJUST, SPACE, "CHARS", XOFFS, YOFFS,
-        #    COLOUR, DISPLAY);
-        if command == "TX":
-            format = "'%s'"
-            details.insert(0, format)
-
-        # label TE
-        # FORMAT:
-        #   ("FORMAT", "ATTRIB1,ATTRIB2,...", HJUST, VJUST, SPACE,
-        #    CHARS, XOFFS, YOFFS, COLOUR, DISPLAY);
-
-        format, attributes, hjust, vjust, space, chars, \
-            xoffs, yoffs, colour, display = details
-
-        # TODO: Support multi attributes
-        def get_label_text(matches):
-            s = attributes
-            if "'" in attributes:
-                s = attributes[1:-1]
-            if matches.group(1) == '%s':
-                return matches.group(0).replace('%s', '[{}]'.format(s))
-            else:
-                return matches.group(0).replace(
-                    matches.group(1),
-                    "' + tostring([" + s + "], '"+matches.group(1)+"') + '")
-
-        text = re.sub(r'(%[^ ]*[a-z])[^a-z]', get_label_text, format)
-        if ' + ' in text:
-            text = '({})'.format(text)
-        try:
-            label_field = re.search('(\[[^\]]+\])', text).group(1)
-            label_expr = 'EXPRESSION ("{}" > "0")'.format(label_field)
-        except AttributeError:
-            # AAA, ZZZ not found in the original string
-            label_expr = ''  # apply your error handling
-
-        return """
-        LABEL  # {}
-            {}
-            TYPE TRUETYPE
-            FONT SC
-            PARTIALS TRUE
-            MINDISTANCE 0
-            POSITION {}
-            {}
-            SIZE {}
-            OFFSET {} {}
-            COLOR {}
-            TEXT {}
-        END
-        """.format(
-            command,
-            label_expr,
-            vjustHash[vjust] + hjustHash[hjust],
-            spaceHash[space],
-            chars[-3:-1],
-            xoffs, yoffs,
-            self.color_table[colour].rgb,
-            text
-        )
-
-    def get_soundg(self):
-        return """
-        LABEL
-            TEXT (round([DEPTH]+(-0.5),1))
-            TYPE TRUETYPE
-            FONT sc
-            COLOR 136 152 139
-            SIZE 8
-            ANTIALIAS TRUE
-            FORCE TRUE
-        END
-
-        LABEL
-            EXPRESSION ([DEPTH] > 10 AND [DEPTH] < 31)
-            TEXT ( [DEPTH] * 10 % 10)
-            OFFSET 8 4
-            TYPE TRUETYPE
-            FONT sc
-            COLOR 136 152 139
-            SIZE 7
-            ANTIALIAS TRUE
-            FORCE TRUE
-        END
-
-        LABEL
-            EXPRESSION ([DEPTH] < 10)
-            TEXT ( [DEPTH] * 10 % 10)
-            OFFSET 5 4
-            TYPE TRUETYPE
-            FONT sc
-            COLOR 136 152 139
-            SIZE 6
-            ANTIALIAS TRUE
-            FORCE TRUE
-        END
-        """
-
-    def get_lights_point(self):
-        # See 13.2.4 Conditional Symbology Procedure LIGHTS06
-        return """
-         EXPRESSION ([CATLIT] == 11 OR [CATLIT] == 8)
-         STYLE
-             SYMBOL 'LIGHTS82'
-         END
-     END
-     CLASS
-        EXPRESSION ([CATLIT] == 9)
-        STYLE
-            SYMBOL 'LIGHTS81'
-        END
-     END
-     CLASS
-        EXPRESSION (([CATLIT] == 1 OR [CATLIT] == 16) AND "[ORIENT]" == "null")
-        STYLE
-            SYMBOL 'LIGHTS81'
-        END
-     END
-     # No symbol
-     CLASS
-        EXPRESSION ([VALNMR] >= 10 AND NOT ("[CATLIT]" ~ "5" OR "[CATLIT]" ~ "6") AND [LITCHR] != 12)
-     END
-     CLASS
-        EXPRESSION ("[COLOUR]" == "3,1" OR "[COLOUR]" == "3")
-        STYLE
-            SYMBOL 'LIGHTS11'
-            OFFSET 9 9
-        END
-     END
-     CLASS
-        EXPRESSION ("[COLOUR]" == "4,1" OR "[COLOUR]" == "4")
-        STYLE
-            SYMBOL 'LIGHTS12'
-            OFFSET 9 9
-        END
-     END
-     CLASS
-        EXPRESSION ("[COLOUR]" == "11" OR "[COLOUR]" == "6" OR "[COLOUR]" == "1")
-        STYLE
-            SYMBOL 'LIGHTS13'
-            OFFSET 9 9
-        END
-        """  # noqa

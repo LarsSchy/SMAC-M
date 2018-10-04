@@ -129,6 +129,15 @@ if __name__ == '__main__':
                                       'Standard').split(',')
     displaycategory += ['Displaybase']
 
+    topmar_type = args.config.get('topmark_type', 'rigid').lower()
+    if topmar_type == 'rigid':
+        os.environ['TOPMAR_FLOATING'] = ''
+    elif topmar_type == 'floating':
+        os.environ['TOPMAR_FLOATING'] = '1'
+    else:
+        print('topmark_type must be either floating or rigid')
+        sys.exit(2)
+
     if args.format is Format.Chart:
         layer_definitions_exist = dirutils.does_layer_rules_exist(
             rule_set_path)

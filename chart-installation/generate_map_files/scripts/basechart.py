@@ -7,6 +7,9 @@ import csv
 import re
 import subprocess
 import dirutils
+
+from osgeo import ogr
+
 from string import Template
 from chartsymbols import ChartSymbols
 
@@ -168,11 +171,13 @@ def process_all_layers(data, target, config, point_table='Simplified',
 
     # Test if the shapefile is of the right Geometry
     shp_types = {}
+    shp_fields = {}
     if chartsymbols:
         geometries = {
             'Point': 'POINT',
             'Line': 'LINESTRING',
             'Polygon': 'POLYGON',
+            '3D Point': 'POINT',
         }
         print("Check geometry of all layers...")
         for (dirpath, dirnames, filenames) in os.walk(data):
@@ -186,12 +191,22 @@ def process_all_layers(data, target, config, point_table='Simplified',
                             '{}/{}/{}'.format(data, level, filename)],
                         stderr=subprocess.STDOUT).decode()
                     geomtype = re.search(
-                        r'Geometry: (\w+)', output, re.IGNORECASE)
+                        r'Geometry: (.+)$', output, re.IGNORECASE)
                     if geomtype:
                         try:
                             shp_types[filename] = geometries[geomtype.group(1)]
                         except:
                             shp_types[filename] = 'UNKNOWN'
+                    ds = ogr.Open('{}/{}/{}'.format(data, level, filename))
+                    try:
+                        layer = ds.GetLayer()
+                        defn = layer.GetLayerDefn()
+                        shp_fields[filename] = [
+                            defn.GetFieldDefn(i).GetName()
+                            for i in range(defn.GetFieldCount())
+                        ]
+                    finally:
+                        ds.Destroy()
 
     #
     #  Process all color themes
@@ -209,7 +224,7 @@ def process_all_layers(data, target, config, point_table='Simplified',
             input_file = config + '/layer_rules/layer_groups.csv'
             process_layer_colors(layer, color_table, input_file,
                                  msd[layer], data, target, chartsymbols,
-                                 shp_types)
+                                 shp_types, shp_fields)
 
 
 def get_layer_mapfile(layer, feature, group, color_table, msd):
@@ -263,7 +278,7 @@ def get_layer_mapfile(layer, feature, group, color_table, msd):
 
 
 def process_layer_colors(layer, color_table, input_file, msd, data, target,
-                         chartsymbols=None, shp_types={}):
+                         chartsymbols=None, shp_types={}, shp_fields={}):
     #  Reimplementation of the shell script of the same name
 
     # Create directory
@@ -308,13 +323,16 @@ def process_layer_colors(layer, color_table, input_file, msd, data, target,
                         continue
                     if geom == 'POINT':
                         mapfile_point += chartsymbols.get_point_mapfile(
-                            layer, feature, 'default', msd)
+                            layer, feature, 'default', msd,
+                            shp_fields[filename])
                     elif geom == 'LINESTRING':
                         mapfile_line += chartsymbols.get_line_mapfile(
-                            layer, feature, 'default', msd)
+                            layer, feature, 'default', msd,
+                            shp_fields[filename])
                     elif geom == 'POLYGON':
                         mapfile_polygon += chartsymbols.get_poly_mapfile(
-                            layer, feature, 'default', msd)
+                            layer, feature, 'default', msd,
+                            shp_fields[filename])
 
         final_file.write(mapfile_polygon)
         final_file.write(mapfile_line)
