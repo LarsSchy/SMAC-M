@@ -118,7 +118,6 @@ python3 generate_light_sector.py [input_lights_shp_path] [radius]
 
 Working with enhanced data allows to create mapfiles from the chartsymbols.xml file. This file contains all the specification of all symbols of the IENC symbology and is provided by OpenCPN. The file provided by OpenCPN does contains a few errors or limitation that are not currently handled.
 
- - Only point layers are created from the chartsymbols.xml file. Line and polygon layers are still generated from template mapfile.
  - The layer order is only managed at type levels. Points are on top, followed by lines and then polygons. The layers of each types are added to the map in pseudo random order.
  - The data files contain a MinScale / MaxScale information and this is not directly used. We currently separate in only 6 levels:
    - 2000000
