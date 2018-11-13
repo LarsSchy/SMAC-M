@@ -1,4 +1,3 @@
-# This file is kept only for backwards compatibility. Edit the one in ../mapgen
 import re
 import warnings
 

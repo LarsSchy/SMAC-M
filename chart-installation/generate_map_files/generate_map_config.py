@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# This file is kept only for backwards compatibility. Edit the one in ../
 """Generate a mapserver configuration for different kinds of geographical data.
 
 The resulting mapserver configuration will be put in the folder 'map' in the
@@ -13,17 +12,17 @@ import os
 import sys
 import toml
 
-script_dir = os.path.normpath(sys.path[0])
-sys.path.append(os.path.abspath(os.path.join(script_dir, "../../utils/")))
+# script_dir = os.path.normpath(sys.path[0])
+# sys.path.append(os.path.abspath(os.path.join(script_dir, "../utils/")))
 
-from basechart import generate_basechart_config  # noqa: E402
-from generate_symbolset import symbolsets, generate_symbolset  # noqa: E402
-import dirutils  # noqa: E402
-from ruleutils import create_layer_rules, create_color_rules  # noqa: E402
+from mapgen.basechart import generate_basechart_config  # noqa: E402
+from mapgen.generate_symbolset import symbolsets, generate_symbolset  # noqa: E402
+from utils import dirutils  # noqa: E402
+from utils.ruleutils import create_layer_rules, create_color_rules  # noqa: E402
 
 RESOURCES_PATH = os.path.abspath(
     os.path.normpath(
-        os.path.join(os.path.dirname(__file__), '../resources')
+        os.path.join(os.path.dirname(__file__), 'resources')
     )
 )
 

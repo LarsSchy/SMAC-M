@@ -1,21 +1,16 @@
 #!/usr/bin/python2
-# This file is kept only for backwards compatibility. Edit the one in ../mapgen
 from __future__ import print_function
 
 import os
-import sys
 import csv
 import re
 import subprocess
-import dirutils
+from string import Template
 
 from osgeo import ogr
 
-from string import Template
-from chartsymbols import ChartSymbols
-
-script_dir = os.path.normpath(sys.path[0])
-sys.path.append(os.path.abspath(os.path.join(script_dir, "../../utils/")))
+from .chartsymbols import ChartSymbols
+from utils import dirutils
 
 
 def generate_includes(includes_dir, theme):
@@ -106,11 +101,6 @@ def generate_basechart_config(data_path, map_path, rule_set_path, resource_dir,
         shapepath = data_path
         process_all_layers(data_path, map_path, rule_set_path, point_table,
                            area_table, displaycategory, chartsymbols)
-    else:
-        shapepath = None
-        subprocess.call("./process_all_layers.sh data=" + data_path +
-                        " target=" + map_path + " config=" + rule_set_path,
-                        shell=True)
 
     fonts_path = os.path.join("./fonts", "fontset.lst")
     create_capability_files(os.path.join(resource_dir, "templates"),

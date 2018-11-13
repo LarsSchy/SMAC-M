@@ -1,4 +1,3 @@
-# This file is kept only for backwards compatibility. Edit the one in ../mapgen
 import abc
 from enum import Enum
 from operator import attrgetter

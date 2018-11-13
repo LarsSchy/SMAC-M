@@ -206,8 +206,14 @@ python3 ./generate_map_config.py -rules ../resources/layer_rules/rules/ -basecha
 
 To build mapfiles for enhanced nautical chart map services based on OpenCPN lookup table, we have to specify the chartsymbols file, the enhance shapefiles path, the graphics style(tablename: `Paper`|`Simplify`) and choose the display category (dedault is `Displaybase,Standard`,  `All` display category is still not supported).  This script will create mapfile based on data found into `enhancedchartdata`.  If you update your enhance data repository you should run again this script to update your map service.
 
+All the scripts below are run from the generate_map_files directory
 ```
- python3 ./generate_map_config.py -rule-default-color IHO --chartsymbols ./chartsymbols_S57.xml -enhancedchartdata ./shp_s57data/shp --tablename Paper --displaycategory Standard --rule-set-path ../resources/layer_rules/rules/
+cd chart-installation/generate_map_files/
+```
+
+
+```
+ python3 ./scripts/generate_map_config.py -rule-default-color IHO --chartsymbols ./chartsymbols_S57.xml -enhancedchartdata ./shp_s57data/shp --tablename Paper --displaycategory Standard --rule-set-path ../resources/layer_rules/rules/
 ```
 
 NOTE 1: The output mapfile directory will be saved in map folder under shapefiles directory.  In this example, mapfiles will be saved in `./shp_s57data/map` 
@@ -226,7 +232,7 @@ script. This script accepts the same options as `generate_map_config.py` and
 creates a toml file with these options.
 
 ```
- python3 ./generate_toml_config.py \
+ python3 ./scripts/generate_toml_config.py \
      -rule-default-color IHO \
      --chartsymbols ./chartsymbols_S57.xml \
      -enhancedchartdata ./shp_s57data/shp \
@@ -240,10 +246,10 @@ Once you have generated or handwritten your configuration file, you can use it
 with the `generate_map_config_v2.py` to generate the mapfiles.
 
 ```
- python3 ./generate_map_config_v2.py ./shp_s57data/config.toml
+ python3 ./generate_map_config.py ./shp_s57data/config.toml
 ```
 
-The `generate_map_config_v2.py` script currently only generates mapfiles for the
+The `generate_map_config.py` script currently only generates mapfiles for the
 enhanced dataset but may be expanded in the future to support other chart types.
 
 #### Testing

@@ -1,4 +1,3 @@
-# This file is kept only for backwards compatibility. Edit the one in ../mapgen
 from abc import ABC, abstractmethod
 from enum import Enum
 

@@ -82,7 +82,7 @@ def get_proper_azimuth_for_file(tif_file):
     bashCmd = ' '.join(["gdalinfo",  "-mm", tif_file,
                         "| grep Min/Max | cut -d'=' -f 2"])
     minmax = check_output(bashCmd, shell=True)
-#   If the values are below zero, treat the data as Depth
+    #   If the values are below zero, treat the data as Depth
     if min(list(map(float, minmax.split(',', 1)))) < 0:
         return 135
     else:

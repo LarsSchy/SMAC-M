@@ -1,5 +1,3 @@
-#!/usr/bin/env python3
-# This file is kept only for backwards compatibility. Edit the one in ../mapgen
 # -*- coding: utf-8 -*-
 # by Will Kamp <manimaul!gmail.com>
 # use this anyway you want
@@ -11,16 +9,15 @@
 
 from __future__ import print_function
 
-import argparse
 import os
 from subprocess import call
 import xml.etree.ElementTree as etree
 
 from wand.image import Image
 
-from symbol import VectorSymbol, Pattern
+from .symbol import VectorSymbol, Pattern
 
-__all__ = ['symbolsets', 'generate_symbolset']
+__all__ = ['symbolsets', 'generate_symbolset', 'update_file']
 
 here = os.path.dirname(__file__)
 
@@ -36,6 +33,7 @@ def generate_symbolset(symboltype, output_directory, force_update):
         OCPN_source_symbol_file = "rastersymbols-dusk.png"
 
     update_file(OCPN_source_symbol_file, force=force_update)
+    OCPN_source_symbol_file = os.path.join(here, OCPN_source_symbol_file)
 
     # Init variables
     OCPN_lookuptable = "chartsymbols.xml"
@@ -114,20 +112,3 @@ def update_file(file, force=False):
         call(["wget", url + file, "-O", os.path.join(here, file)])
 
 
-if __name__ == '__main__':
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--update', '-u',
-                        help='Update the symbol definition files',
-                        action='store_true')
-    parser.add_argument('symbolset', help='Symbolset to generate',
-                        choices=symbolsets + ('all',))
-    parser.add_argument('destination', help='Dataset destination folder')
-
-    args = parser.parse_args()
-
-    update_file('chartsymbols.xml', force=args.update)
-    if args.symbolset == 'all':
-        for symbolset in symbolsets:
-            generate_symbolset(symbolset, args.destination, args.update)
-    else:
-        generate_symbolset(args.symbolset, args.destination, args.update)

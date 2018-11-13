@@ -1,9 +1,9 @@
-# This file is kept only for backwards compatibility. Edit the one in ../mapgen
+from .filters import MSAnd
+
 class Lookup:
     def __init__(self, id='', table=None, display=None, comment='',
                  instruction=None, rules=None):
         if rules is None:
-            from filters import MSAnd
             rules = MSAnd()
 
         if instruction is None:

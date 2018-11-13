@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
-# This file is kept only for backwards compatibility. Edit the one in ../mapgen
 
 import os
-from symbol import VectorSymbol, Pattern
 from xml.etree import ElementTree as etree
 
-from lookup import Lookup
-from instructions import get_command, CS, SY
-from cs import lookups_from_cs
-from filters import MSAnd, MSFilter
+from .cs import lookups_from_cs
+from .filters import MSAnd, MSFilter
+from .instructions import get_command, CS, SY
+from .lookup import Lookup
+from .symbol import VectorSymbol, Pattern
+
+from . import templates
 
 
 class Color:
@@ -43,28 +44,7 @@ class ChartSymbols():
 
     root = None
 
-    mapfile_layer_template = """
-# LAYER: {feature}  LEVEL: {layer}
-
-LAYER
-    NAME "{feature}_{layer}"
-    GROUP "{group}"
-    METADATA
-        "ows_title" "{feature}"
-        "ows_enable_request"   "*"
-        "gml_include_items" "all"
-        "wms_feature_mime_type" "text/html"
-    END
-    TEMPLATE blank.html
-    TYPE {type}
-    STATUS ON
-    MAXSCALEDENOM {max_scale_denom}
-    {data}
-{classes}
-END
-
-# END of  LAYER: {feature}  LEVEL: {layer}
-"""
+    mapfile_layer_template = templates.mapfile_layer_template
 
     def __init__(self, file, point_table='Simplified', area_table='Plain',
                  displaycategory=None, color_table='DAY_BRIGHT'):
@@ -137,10 +117,6 @@ END
     def load_lookups(self, root, point_style, area_style,
                      displaycategory=None):
         if displaycategory is None:
-            class AllInclusive:
-                def __contains__(self, val):
-                    return True
-
             displaycategory = AllInclusive()
 
         for lookup in root.iter('lookup'):
@@ -152,8 +128,10 @@ END
                 display = lookup.find('display-cat').text
                 comment = lookup.find('comment').text
                 str_instruction = lookup.find('instruction').text or ''
-                rules = MSAnd(*(MSFilter.from_attrcode(attr.text)
-                                for attr in lookup.findall('attrib-code')))
+                rules = MSAnd(
+                    *(MSFilter.from_attrcode(attr.text)
+                      for attr in lookup.findall('attrib-code'))
+                )
             except (KeyError, AttributeError):
                 continue
 
@@ -212,147 +190,12 @@ END
         # Hack to add special layers for Light Sector.
         # TODO: this should be refactor in future phases
         if feature == 'LIGHTS':
-            mapfile = """
-# LIGHTS features and lines
-LAYER
-     NAME RAYS_SECTOR
-     TYPE LINE
-     DATA '{0}/CL{0}_LIGHTS_LINESTRING_SECTOR'
-     MAXSCALEDENOM {3}
-     GROUP "{2}"
-     TOLERANCE 10
-     TEMPLATE dummy.html
-     PROJECTION
-        "init=epsg:3857"
-     END
-     CLASS
-        EXPRESSION ('[TYPE]'='RAYS')
-        STYLE
-            COLOR  77 77 77
-            PATTERN 5 5 5 5 END
-            WIDTH 1
-        END
-     END
-     METADATA
-        "oms_title" "RAYS_SECTOR"
-        "ows_enable_request"   "*"
-        "gml_include_items" "all"
-        "wms_feature_mime_type" "text/html"
-     END
- END
- LAYER
-     NAME ARC_LIGHTS_SECTOR
-     TYPE LINE
-     DATA '{0}/CL{0}_LIGHTS_LINESTRING_SECTOR'
-     MAXSCALEDENOM {3}
-     GROUP "{2}"
-     TOLERANCE 10
-     TEMPLATE dummy.html
-     PROJECTION
-        "init=epsg:3857"
-     END
-     CLASS
-         EXPRESSION ('[TYPE]'='ARC' AND [VALNMR]!=0)
-         STYLE
-            COLOR [COLOURRGB]
-            WIDTH 3
-         END
-         TEXT ('[MEANING]'+'.'+tostring([SIGGRP],"%.2g")+ '.' + '[COLOURCODE]'+tostring([SIGPER],"%.2g")+ 's' + tostring([HEIGHT],"%.2g") + 'm'+ tostring([VALNMR],"%.2g") + 'M')
-         LABEL
-             TYPE TRUETYPE
-             FONT sc
-             COLOR 0 0 0
-             OUTLINECOLOR 255 255 255
-             SIZE 8
-             ANTIALIAS TRUE
-             #FORCE TRUE
-             POSITION AUTO
-             ANGLE FOLLOW
-             MINFEATURESIZE AUTO
-         END
-     END
-     CLASS
-         EXPRESSION ('[TYPE]'='ARC' AND [SIGPER]!=0)
-         TEXT ('[MEANING]'+'.'+'[SIGGRP]'+ '.' + '[COLOURCODE]'+tostring([SIGPER],"%.2g")+ 's')
-         STYLE
-            COLOR [COLOURRGB]
-            WIDTH 3
-         END
-         LABEL
-             TYPE TRUETYPE
-             FONT sc
-             COLOR 0 0 0
-             OUTLINECOLOR 255 255 255
-             SIZE 8
-             ANTIALIAS TRUE
-             #FORCE TRUE
-             POSITION AUTO
-             ANGLE FOLLOW
-             MINFEATURESIZE AUTO
-         END
-     END
-     METADATA
-        "oms_title" "ARC_LIGHTS_SECTOR"
-        "ows_enable_request"   "*"
-        "gml_include_items" "all"
-        "wms_feature_mime_type" "text/html"
-     END
- END
- LAYER
-     NAME LIGHTS_POINT_SIGNATURE
-     TYPE POINT
-     DATA '{0}/CL{0}_LIGHTS_POINT_SIGNATURE'
-     MAXSCALEDENOM {3}
-     GROUP "{2}"
-     TOLERANCE 10
-     TEMPLATE dummy.html
-     PROJECTION
-        "init=epsg:4326"
-     END
-     CLASS
-         EXPRESSION ([VALNMR]!=0)
-         TEXT ('[MEANING]'+'.'+'[SIGGRP]'+ '.' + '[COLOUR_COD]'+tostring([SIGPER],"%.2g")+ 's' + tostring([HEIGHT],"%.2g") + 'm'+ tostring([VALNMR],"%.2g") + 'M')
-         LABEL
-             TYPE TRUETYPE
-             FONT sc
-             COLOR 0 0 0
-             ##OUTLINECOLOR 255 255 255
-             SIZE 8
-             ANTIALIAS TRUE
-             ##FORCE TRUE
-             POSITION cc
-             OFFSET 65 12
-         END
-     END
-     CLASS
-         EXPRESSION ([SIGPER]!=0)
-         TEXT ('[MEANING]'+'.'+tostring([SIGGRP],"%.2g")+ '.' + '[COLOUR_COD]'+tostring([SIGPER],"%.2g")+ 's')
-         LABEL
-             TYPE TRUETYPE
-             FONT sc
-             COLOR 0 0 0
-             ##OUTLINECOLOR 255 255 255
-             SIZE 8
-             ANTIALIAS TRUE
-             ##FORCE TRUE
-             POSITION cc
-             OFFSET 65 12
-         END
-     END
-     METADATA
-        "oms_title" "LIGHTS_POINT_SIGNATURE"
-        "ows_enable_request"   "*"
-        "gml_include_items" "all"
-        "wms_feature_mime_type" "text/html"
-     END
-  END
-{1}
-            """.format(layer, mapfile, group, msd)  # noqa
+            mapfile = templates.lights_layer_template.format(layer, mapfile,
+                                                             group, msd)
 
         return mapfile
 
     def get_mapfile_data(self, layer, base, charts):
-
         data = 'DATA "{}"'.format('{}/{}'.format(layer, base))
 
         for chart in charts:
@@ -361,11 +204,8 @@ LAYER
             parts = chart['instruction']
             for command in parts:
                 if isinstance(command, SY) and command.rot_field:
-                    return """
-CONNECTIONTYPE OGR
-    CONNECTION "{0}/{1}.shp"
-    DATA "SELECT *, 360 - {2} as {2}_CAL FROM {1}"
-                    """.format(layer, base, command.rot_field)
+                    return templates.dynamic_data_instruction.format(
+                        layer, base, command.rot_field)
 
         return data
 
@@ -377,12 +217,8 @@ CONNECTIONTYPE OGR
             style = self.get_point_style(chart['instruction'], feature)
             if not style:
                 continue
-            classes += """
-    CLASS # id: {2}
-        {0}
-        {1}
-    END
-            """.format(expression, style, chart['id'])
+            classes += templates.class_template.format(expression, style,
+                                                       chart['id'])
 
         return classes
 
@@ -442,11 +278,11 @@ CONNECTIONTYPE OGR
                 if not style:
                     continue
 
-                classes[style_geom_type].append("""
-    CLASS # id: {2}
-        {0}
-        {1}
-    END""".format(expression, style, lookup['id']))
+                classes[style_geom_type].append(
+                    templates.class_template.format(
+                        expression, style, lookup['id']
+                    )
+                )
 
         classes['POINT'] = '\n'.join(classes['POINT'])
         classes['LINE'] = '\n'.join(classes['LINE'])
@@ -502,3 +338,8 @@ CONNECTIONTYPE OGR
                 'LINE': [],
                 'POLYGON': [],
             }
+
+
+class AllInclusive:
+    def __contains__(self, val):
+        return True

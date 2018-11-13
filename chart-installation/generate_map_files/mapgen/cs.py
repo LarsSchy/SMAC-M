@@ -1,11 +1,10 @@
-# This file is kept only for backwards compatibility. Edit the one in ../mapgen
 from operator import itemgetter
 import os
 import warnings
 
-from lookup import Lookup, LookupCollection
-from instructions import _MS, SY, LC, LS, CS, AC, AP, TE
-from filters import MSNoRules, MSCompare, MSStrCompare, MSHasValue, MSRawFilter
+from .filters import MSNoRules, MSCompare, MSStrCompare, MSHasValue, MSRawFilter
+from .instructions import _MS, SY, LC, LS, CS, AC, AP, TE
+from .lookup import Lookup, LookupCollection
 
 
 class NotImplementedWarning(UserWarning):

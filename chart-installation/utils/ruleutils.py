@@ -1,9 +1,14 @@
 #!/usr/bin/python2
 
 import os
-from dirutils import clear_folder, copy_and_replace, force_sub_dir
-from userutils import ask_user
 import subprocess
+
+try:
+    from dirutils import clear_folder, copy_and_replace, force_sub_dir
+    from userutils import ask_user
+except ImportError:
+    from .dirutils import clear_folder, copy_and_replace, force_sub_dir
+    from .userutils import ask_user
 
 
 def index_containing_substring(the_list, substring):
