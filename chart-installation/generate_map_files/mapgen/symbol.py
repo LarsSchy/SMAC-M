@@ -279,6 +279,17 @@ class Pattern(metaclass=abc.ABCMeta):
     width = 0
     stroke_width = 0
 
+    style_template = '''
+    STYLE
+        SYMBOL "{symbol}"
+        COLOR {color}
+
+        GAP {gap}
+        SIZE {size}
+        WIDTH {stroke_width}
+    END
+    '''
+
     @classmethod
     def from_element(cls, element):
         if element.find('bitmap'):
@@ -298,24 +309,14 @@ class Pattern(metaclass=abc.ABCMeta):
     def size(self):
         return max(self.height, self.width)
 
-    def as_style(self, color_table, ttt):
-        return '''
-    STYLE
-        SYMBOL "{symbol}"
-        COLOR {color}
-
-        GAP {gap}
-        SIZE {size}
-        WIDTH {stroke_width}
-    END
-    '''.format(
-        ttt=ttt,
-        symbol=self.name,
-        color=color_table[self.color].rgb,
-        gap=self.size + self.gap,
-        size=self.size,
-        stroke_width=self.stroke_width,
-    )
+    def as_style(self, color_table):
+        return self.style_template.format(
+            symbol=self.name,
+            color=color_table[self.color].rgb,
+            gap=self.size + self.gap,
+            size=self.size,
+            stroke_width=self.stroke_width,
+        )
 
     @abc.abstractmethod
     def as_symbol(self, subdir):
@@ -323,6 +324,12 @@ class Pattern(metaclass=abc.ABCMeta):
 
 
 class BitmapPattern(Pattern):
+    symbol_template = """
+    SYMBOL
+        NAME "{symname}"
+        TYPE PIXMAP
+        IMAGE "symbols-{symboltype}/{symname}.png"
+    END"""
     def __init__(self, element):
         super().__init__(element)
         bitmap = element.find('bitmap')
@@ -345,15 +352,19 @@ class BitmapPattern(Pattern):
                                               self.name + '.png'))
 
     def as_symbol(self, symboltype):
-        return """
-    SYMBOL
-        NAME "{symname}"
-        TYPE PIXMAP
-        IMAGE "symbols-{symboltype}/{symname}.png"
-    END""".format(symname=self.name, symboltype=symboltype)
+        return self.symbol_template.format(symname=self.name,
+                                           symboltype=symboltype)
 
 
 class VectorPattern(Pattern):
+    symbol_template = """
+    SYMBOL
+        NAME "{symname}"
+        TYPE VECTOR
+        POINTS
+        {points}
+        END
+    END"""
     def __init__(self, element):
         super().__init__(element)
         self.hpgl = element.find('HPGL').text
@@ -398,13 +409,8 @@ class VectorPattern(Pattern):
                 import warnings
                 warnings.warn('Pattern command not implemented: ' + command)
 
-
     def as_symbol(self, symboltype):
-        return """
-    SYMBOL
-        NAME "{symname}"
-        TYPE VECTOR
-        POINTS
-        {points}
-        END
-    END""".format(symname=self.name, points=' '.join(map(str, self.points)))
+        return self.symbol_template.format(
+            symname=self.name,
+            points=' '.join(map(str, self.points))
+        )

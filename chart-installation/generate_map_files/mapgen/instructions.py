@@ -126,7 +126,6 @@ class TE(Command):
         super().__init__()
 
     def __call__(self, chartsymbols, layer, geom_type):
-
         text = re.sub(r'(%[^ ]*[a-z])[^a-z]', self.get_label_text, self.format)
         if ' + ' in text:
             text = '({})'.format(text)
@@ -280,6 +279,7 @@ class CS(Command):
             NotImplementedWarning)
 
         return ''
+
 
 class _MS(Command):
     """Command that emits hardcoded mapserver code.

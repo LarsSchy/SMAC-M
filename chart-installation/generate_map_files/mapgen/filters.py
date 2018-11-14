@@ -27,6 +27,7 @@ class _MSFilterBase(ABC):
 
         return MSOr(other, self)
 
+
 class MSFilter(_MSFilterBase):
     __slots__ = ('field',)
     def __init__(self, field):

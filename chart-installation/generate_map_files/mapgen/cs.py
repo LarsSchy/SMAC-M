@@ -683,6 +683,7 @@ def TOPMAR(lookup_type, name):
         'rules': MSNoRules(),
     }]
 
+
 def WRECKS(lookup_type, name):
     if lookup_type == 'Point':
         return WRECKS_Point(lookup_type, name)
