@@ -1,8 +1,11 @@
 from .filters import MSAnd
+from .instructions import SY
+from .layer import DisplayPriority
 
 class Lookup:
     def __init__(self, id='', table=None, display=None, comment='',
-                 instruction=None, rules=None):
+                 instruction=None, rules=None,
+                 display_priority=DisplayPriority.NotSet):
         if rules is None:
             rules = MSAnd()
 
@@ -15,6 +18,35 @@ class Lookup:
         self.comment = comment
         self.instruction = instruction
         self.rules = rules
+        self.display_priority = display_priority
+
+    @property
+    def rot_field(self):
+        for command in self.instruction:
+            if isinstance(command, SY) and command.rot_field:
+                return command.rot_field
+
+    def get_expression(self, fields):
+        if self.rules:
+            return 'EXPRESSION ({})'.format(self.rules.to_expression(fields))
+
+        return ''
+
+    def get_styleitems(self, chartsymbols, feature_name, geom_type):
+        style = {
+            'POINT': [],
+            'LINE': [],
+            'POLYGON': [],
+        }
+        for command in self.instruction:
+            styleitem = command(chartsymbols, feature_name, geom_type)
+            if isinstance(styleitem, str):
+                style[geom_type].append(styleitem)
+            else:
+                for style_type, style_str in styleitem.items():
+                    style[style_type].append(style_str)
+
+        return style
 
     def add_instruction(self, instruction):
         self.instruction.append(instruction)
@@ -58,7 +90,9 @@ class LookupCollection(list):
                    l.display or r.display,
                    l.comment + r.comment,
                    l.instruction + r.instruction,
-                   l.rules & r.rules)
+                   l.rules & r.rules,
+                   max(l.display_priority, r.display_priority),
+                   )
             for l in self
             for r in other
             if (r.table is None or l.table is None or r.table == l.table)

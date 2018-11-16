@@ -265,7 +265,7 @@ class AP(Command):
 
     def __call__(self, chartsymbols, layer, geom_type):
         return chartsymbols.area_symbols[self.pattern].as_style(
-            chartsymbols.color_table, layer)
+            chartsymbols.color_table)
 
 
 class CS(Command):

@@ -300,9 +300,7 @@ def process_layer_colors(layer, color_table, input_file, msd, data, target,
                     if mapfile:
                         final_file.write(mapfile)
     else:
-        mapfile_point = ''
-        mapfile_line = ''
-        mapfile_polygon = ''
+        layers = []
         for (base, dirs, filenames) in os.walk('{0}/{1}/'.format(data, layer)):
             for filename in filenames:
                 if filename.endswith('.shp'):
@@ -312,22 +310,25 @@ def process_layer_colors(layer, color_table, input_file, msd, data, target,
                         print("{} does not match geometry: {} in {}".format(
                             filename, shp_types[filename], geom))
                         continue
+
                     if geom == 'POINT':
-                        mapfile_point += chartsymbols.get_point_mapfile(
+                        l = chartsymbols.get_point_mapfile(
                             layer, feature, 'default', msd,
                             shp_fields[filename])
                     elif geom == 'LINESTRING':
-                        mapfile_line += chartsymbols.get_line_mapfile(
+                        l = chartsymbols.get_line_mapfile(
                             layer, feature, 'default', msd,
                             shp_fields[filename])
                     elif geom == 'POLYGON':
-                        mapfile_polygon += chartsymbols.get_poly_mapfile(
+                        l = chartsymbols.get_poly_mapfile(
                             layer, feature, 'default', msd,
                             shp_fields[filename])
+                    else:
+                        continue
 
-        final_file.write(mapfile_polygon)
-        final_file.write(mapfile_line)
-        final_file.write(mapfile_point)
+                    layers.append(l)
+
+        final_file.write('\n'.join(l.mapfile for l in sorted(layers) if l))
 
     final_file.write("""
 #

@@ -5,7 +5,8 @@ from xml.etree import ElementTree as etree
 
 from .cs import lookups_from_cs
 from .filters import MSAnd, MSFilter
-from .instructions import get_command, CS, SY
+from .instructions import get_command, CS
+from .layer import DisplayPriority, Layer, LightsLayer
 from .lookup import Lookup
 from .symbol import VectorSymbol, Pattern
 
@@ -30,7 +31,7 @@ class Color:
         return self.hex
 
 
-class ChartSymbols():
+class ChartSymbols:
 
     color_table = {}  # type: dict
 
@@ -43,8 +44,6 @@ class ChartSymbols():
     polygon_lookups = {}
 
     root = None
-
-    mapfile_layer_template = templates.mapfile_layer_template
 
     def __init__(self, file, point_table='Simplified', area_table='Plain',
                  displaycategory=None, color_table='DAY_BRIGHT'):
@@ -132,6 +131,7 @@ class ChartSymbols():
                     *(MSFilter.from_attrcode(attr.text)
                       for attr in lookup.findall('attrib-code'))
                 )
+                display_priority = lookup.find('disp-prio').text
             except (KeyError, AttributeError):
                 continue
 
@@ -153,6 +153,7 @@ class ChartSymbols():
                     comment=comment,
                     instruction=[],
                     rules=rules,
+                    display_priority=DisplayPriority.get(display_priority)
                 )
 
                 # If we have a CS instruction, explode it in many lookups
@@ -173,171 +174,25 @@ class ChartSymbols():
                     lookup_table.append(lookup)
 
     def get_point_mapfile(self, layer, feature, group, msd, fields):
-        base = "CL{}_{}_POINT".format(layer, feature)
-
-        try:
-            charts = self.point_lookups[feature]
-        except KeyError:
-            return ''
-
-        data = self.get_mapfile_data(layer, base, charts)
-        classes = self.get_point_mapfile_classes(charts, feature, fields)
-
-        mapfile = self.mapfile_layer_template.format(
-            layer=layer, feature=feature, group=group, max_scale_denom=msd,
-            type='POINT', data=data, classes=classes)
-
-        # Hack to add special layers for Light Sector.
-        # TODO: this should be refactor in future phases
+        layer = Layer(layer, feature, 'POINT', group, msd,
+                      fields, self.point_lookups.get(feature, []), self
+                      )
         if feature == 'LIGHTS':
-            mapfile = templates.lights_layer_template.format(layer, mapfile,
-                                                             group, msd)
+            layer = LightsLayer(layer)
 
-        return mapfile
-
-    def get_mapfile_data(self, layer, base, charts):
-        data = 'DATA "{}"'.format('{}/{}'.format(layer, base))
-
-        for chart in charts:
-            if not chart['instruction']:
-                continue
-            parts = chart['instruction']
-            for command in parts:
-                if isinstance(command, SY) and command.rot_field:
-                    return templates.dynamic_data_instruction.format(
-                        layer, base, command.rot_field)
-
-        return data
-
-    def get_point_mapfile_classes(self, charts, feature, fields):
-        classes = ""
-
-        for chart in charts:
-            expression = self.get_expression(chart['rules'], fields)
-            style = self.get_point_style(chart['instruction'], feature)
-            if not style:
-                continue
-            classes += templates.class_template.format(expression, style,
-                                                       chart['id'])
-
-        return classes
+        return layer
 
     def get_line_mapfile(self, layer, feature_type, group, max_scale_denom,
                          fields):
-        base = "CL{}_{}_LINESTRING".format(layer, feature_type)
-
-        try:
-            lookups = self.line_lookups[feature_type]
-        except KeyError:
-            return ''
-
-        return self._get_mapfile(layer, feature_type, group, max_scale_denom,
-                                 base, lookups, 'LINE', fields)
+        return Layer(layer, feature_type, 'LINE', group, max_scale_denom,
+                     fields, self.line_lookups.get(feature_type, []), self
+                     )
 
     def get_poly_mapfile(self, layer, feature_type, group, max_scale_denom,
                          fields):
-        base = "CL{}_{}_POLYGON".format(layer, feature_type)
-
-        try:
-            lookups = self.polygon_lookups[feature_type]
-        except KeyError:
-            return ''
-
-        return self._get_mapfile(layer, feature_type, group, max_scale_denom,
-                                 base, lookups, 'POLYGON', fields)
-
-    def _get_mapfile(self, layer, feature_type, group, max_scale_denom,
-                     base, lookups, type, fields):
-        data = self.get_mapfile_data(layer, base, lookups)
-        typed_classes = self.get_mapfile_classes(lookups, feature_type, type,
-                                                 fields)
-
-        mapfile = ''
-        for geom_type in ['POLYGON', 'LINE', 'POINT']:
-            classes = typed_classes[geom_type]
-            if(classes):
-                mapfile += self.mapfile_layer_template.format(
-                    layer=layer, feature=feature_type, group=group,
-                    type=geom_type, max_scale_denom=max_scale_denom,
-                    data=data, classes=classes)
-
-        return mapfile
-
-    def get_mapfile_classes(self, lookups, feature, geom_type, fields):
-        classes = {
-            'POINT': [],
-            'LINE': [],
-            'POLYGON': [],
-        }
-
-        for lookup in lookups:
-            expression = self.get_expression(lookup['rules'], fields)
-            styles = self.get_styleitems(lookup['instruction'], feature,
-                                        geom_type)
-            for style_geom_type, style in styles.items():
-                if not style:
-                    continue
-
-                classes[style_geom_type].append(
-                    templates.class_template.format(
-                        expression, style, lookup['id']
-                    )
-                )
-
-        classes['POINT'] = '\n'.join(classes['POINT'])
-        classes['LINE'] = '\n'.join(classes['LINE'])
-        classes['POLYGON'] = '\n'.join(classes['POLYGON'])
-        return classes
-
-    def get_expression(self, rules, fields):
-        expression = ""
-
-        if rules:
-            expression = "EXPRESSION (" + rules.to_expression(fields) + ")"
-
-        return expression
-
-    def get_point_style(self, instruction, feature):
-        style = []
-
-        if not instruction:
-            return ''
-
-        # Split on ;
-        try:
-            for command in instruction:
-                style.append(command(self, feature, 'POINT'))
-
-        except:
-            return ""
-
-        return '\n'.join(style)
-
-    def get_styleitems(self, instruction, feature, geom_type):
-        style = {
-            'POINT': [],
-            'LINE': [],
-            'POLYGON': [],
-        }
-        try:
-            for command in instruction:
-                styles = command(self, feature, geom_type)
-                if isinstance(styles, str):
-                    style[geom_type].append(styles)
-                elif styles:
-                    for style_type, style_str in styles.items():
-                        style[style_type].append(style_str)
-
-            style['POINT'] = '\n'.join(filter(None, style['POINT']))
-            style['LINE'] = '\n'.join(filter(None, style['LINE']))
-            style['POLYGON'] = '\n'.join(filter(None, style['POLYGON']))
-            return style
-        except:
-            return {
-                'POINT': [],
-                'LINE': [],
-                'POLYGON': [],
-            }
+        return Layer(layer, feature_type, 'POLYGON', group, max_scale_denom,
+                     fields, self.polygon_lookups.get(feature_type, []), self
+                     )
 
 
 class AllInclusive:
