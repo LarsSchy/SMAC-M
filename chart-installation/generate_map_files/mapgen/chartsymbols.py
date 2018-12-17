@@ -43,6 +43,8 @@ class ChartSymbols:
 
     polygon_lookups = {}
 
+    excluded_lookups = ['M_QUAL']
+
     root = None
 
     def __init__(self, file, point_table='Simplified', area_table='Plain',
@@ -133,6 +135,9 @@ class ChartSymbols:
                 )
                 display_priority = lookup.find('disp-prio').text
             except (KeyError, AttributeError):
+                continue
+
+            if name in self.excluded_lookups:
                 continue
 
             if table_name in (point_style, area_style, 'Lines') and \
