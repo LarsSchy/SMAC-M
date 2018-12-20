@@ -50,7 +50,7 @@ def DEPARE(lookup_type, name):
     # We are missing all the line and fill symbology
     return [{
         'instruction': AC('DEPIT'),
-        'rules': MSCompare('DRVAL2', '0', MSCompare.OP.LT),
+        'rules': MSCompare('DRVAL2', '0', MSCompare.OP.LE),
     }, {
         'instruction': AC('DEPVS'),
         'rules': MSCompare('DRVAL2', '10', MSCompare.OP.LT),

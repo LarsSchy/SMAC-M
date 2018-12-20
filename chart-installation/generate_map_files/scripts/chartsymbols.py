@@ -41,6 +41,8 @@ class ChartSymbols():
 
     polygon_lookups = {}
 
+    excluded_lookups = ['M_QUAL']
+
     root = None
 
     mapfile_layer_template = """
@@ -155,6 +157,9 @@ END
                 rules = MSAnd(*(MSFilter.from_attrcode(attr.text)
                                 for attr in lookup.findall('attrib-code')))
             except (KeyError, AttributeError):
+                continue
+
+            if name in self.excluded_lookups:
                 continue
 
             if table_name in (point_style, area_style, 'Lines') and \

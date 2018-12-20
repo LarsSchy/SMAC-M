@@ -155,10 +155,11 @@ Working with enhanced data allows to create mapfiles from the chartsymbols.xml f
      and assumes a safety depth of 30 metres
  - Symbols in MapServer are anchored to the map in the center vs in the top-left corner for OpenCPN. This brings a disparity in the symbol placement when they are stacked together.
  - Current implementation stack levels as you zoom in so you get level 1 features and labels in level 2 maps.
- - Symbology can be created from vector and bitmaps. We are only supporting bitmap symbology.
+ - Symbology can be created from vector and bitmaps. We are only supporting bitmap symbology for points and vector symbology for lines and polygons.
  - TOWERSxx symbols are present twice in the chartsymbols.xml. We only use the second one.
  - SOUNDG labels are set with FORCE TRUE. This make to many appear in the map at small scale.
  - Some text layers (SBDARE) contain numeric values that must be transformed to string.
+ - Some layers are excluded from the map as they are useful in a WMS context. Right now only M_QUAL is excluded.
  - Some layers are exported as LINE instead of POLYGON
  - Some layers defined in the chartsymbols.xml are pointing to non-existing data columns:
    - BCNSPP layer (lookup #1781) uses BOYSHP == 1 Expression, but this field is not present. We replaced it by BCNDHP == 1.
