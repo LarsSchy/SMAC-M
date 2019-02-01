@@ -197,19 +197,22 @@ class SY(Command):
             self.rot = '[{}_CAL]'.format(rot)
 
     def __call__(self, chartsymbols, layer, geom_type):
+        # OFFSET
+        x = 0
+        y = 0
+
         # Hardcoded value to skip typo in official XML
         # TODO: Validate that the symbol exists
         if self.symbol == 'BCNCON81':
             return ''
+        if self.symbol == 'FOGSIG01':
+            x = -15
 
-        # OFFSET
-        x = 0
-        y = 0
         if self.symbol in chartsymbols.symbols_def:
             symbol = chartsymbols.symbols_def[self.symbol]
-            x = -(symbol['size'][0] // 2)
+            x += -(symbol['size'][0] // 2)
             x += symbol['pivot'][0]
-            y = symbol['size'][1] // 2
+            y += symbol['size'][1] // 2
             y -= symbol['pivot'][1]
 
         geomtransform = ''

@@ -336,7 +336,7 @@ def process_layer_colors(layer, color_table, input_file, msd, data, target,
 #
 LAYER
    NAME "force_label_draw_CL${CL}"
-   GROUP "base"
+   GROUP "default"
    TYPE POINT
    PROCESSING FORCE_DRAW_LABEL_CACHE=FLUSH
    TRANSFORM FALSE
