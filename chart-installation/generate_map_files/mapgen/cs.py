@@ -42,28 +42,42 @@ def DATCVR(lookup_type, name):
 def DEPARE(lookup_type, name):
 
     # These values are normally passed by the mariner
-    # safety_contour = 10
-    # shallow_contour = 20
-    # deep_contour = 30
+    safety_contour = 10
+    shallow_contour = 20
+    deep_contour = 30
 
     # Basic implementation of DEPARE constructed symbol.
     # We are missing all the line and fill symbology
-    return [{
-        'instruction': AC('DEPIT'),
-        'rules': MSCompare('DRVAL2', '0', MSCompare.OP.LE),
-    }, {
-        'instruction': AC('DEPVS'),
-        'rules': MSCompare('DRVAL2', '10', MSCompare.OP.LT),
-    }, {
-        'instruction': AC('DEPMS'),
-        'rules': MSCompare('DRVAL2', '20', MSCompare.OP.LT),
-    }, {
-        'instruction': AC('DEPMD'),
-        'rules': MSCompare('DRVAL2', '30', MSCompare.OP.LT),
-    }, {
-        'instruction': AC('DEPDW'),
-        'rules': MSNoRules(),
-    }]
+    rules = LookupCollection([
+        Lookup(
+            rules=MSCompare('DRVAL1', deep_contour, MSCompare.OP.GE),
+            instruction=AC('DEPDW')
+        ),
+        Lookup(
+            rules=MSCompare('DRVAL1', safety_contour, MSCompare.OP.GE),
+            instruction=AC('DEPMD')
+        ),
+        Lookup(  # unused until safety_contour is configurable
+            rules=MSCompare('DRVAL1', shallow_contour, MSCompare.OP.GE),
+            instruction=AC('DEPMS')
+        ),
+        Lookup(
+            # Should be GE, but null == 0 and needs to use DEPIT
+            rules=MSCompare('DRVAL1', '0', MSCompare.OP.GT),
+            instruction=AC('DEPVS')
+        ),
+        Lookup(
+            instruction=AC('DEPIT')
+        ),
+    ])
+
+    if name == 'DRGARE':
+        rules = rules @ Lookup(
+            id='-DRGARE',
+            instruction=AP('DRGARE01') + LS('DASH', 1, 'CHGRF'),
+        )
+
+    return rules
 
 
 def DEPCNT(lookup_type, name):

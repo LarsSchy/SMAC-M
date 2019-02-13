@@ -146,6 +146,9 @@ Working with enhanced data allows to create mapfiles from the chartsymbols.xml f
    - LIGHTS only selects the color of the symbol.
      Light arcs are written directly to the mapfile.
    - DEPARE only takes into account the DRVAL2 attribute and renders a flat color.
+     - A DRVAL1 value of 0 should be rendered in DEPVS but is instead drawn in
+       DEPIT. This is because a missing DRVAL1 value is interpreted by Mapserver
+       as 0, but should be rendered in DEPIT
    - DEPCNT does not draw the contour labels.
    - OBSTRN does not take into account the underwater hazard procedure 
      or sounding and low accuracy symbols, 
