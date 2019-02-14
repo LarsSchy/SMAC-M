@@ -3,6 +3,11 @@ from enum import Enum
 
 class _MSFilterBase(ABC):
     __slots__ = ()
+
+    @property
+    def require_ogr(self):
+        return False
+
     def __and__(self, other):
         if isinstance(other, MSAnd):
             return NotImplemented
@@ -71,6 +76,11 @@ class MSRawFilter(_MSFilterBase):
 
 class MSHasValue(MSFilter):
     __slots__ = ()
+
+    @property
+    def require_ogr(self):
+        return True
+
     def render_expression(self):
         return '"[{0}]" != ""'.format(self.field)
 
@@ -94,8 +104,23 @@ class MSCompare(MSFilter):
         self.op = op
         self.value = value
 
+    @property
+    def require_ogr(self):
+        return self.op == self.OP.EQ and self.value == '0'
+
     def render_expression(self):
-        return '[{}] {} {}'.format(self.field, self.op, self.value)
+        tests = []
+
+        if self.require_ogr:
+            tests.append('"[{}]" != ""'.format(self.field))
+
+        tests.append('[{0}] {1} {2}'.format(
+            self.field,
+            self.op,
+            self.value
+        ))
+
+        return ' AND '.join(tests)
 
 
 class MSStrCompare(MSCompare):
@@ -116,6 +141,10 @@ class _MSCombiner(list, _MSFilterBase):
     __slots__ = ()
     def __init__(self, *filters):
         super().__init__(filters)
+
+    @property
+    def require_ogr(self):
+        return any(f.require_ogr for f in self)
 
     def to_expression(self, fields):
         return '({})'.format(self.separator.join(f.to_expression(fields)

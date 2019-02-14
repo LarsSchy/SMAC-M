@@ -77,6 +77,9 @@ class Layer(LayerBase):
                 lookups, key=attrgetter('display_priority')
             ).display_priority
 
+        self.require_ogr = any(rule.require_ogr
+                               for lookup in lookups
+                               for rule in lookup.rules)
         self.sublayers = self._parse_lookups(lookups, fields, chartsymbols)
 
     def __bool__(self):
@@ -121,6 +124,10 @@ class Layer(LayerBase):
         if self.rot_field:
             return templates.dynamic_data_instruction.format(
                 self.layer_level, self.base, self.rot_field)
+
+        if self.require_ogr:
+            return templates.ogr_data_instruction.format(self.layer_level,
+                                                         self.base)
 
         return 'DATA "{}/{}"'.format(self.layer_level, self.base)
 

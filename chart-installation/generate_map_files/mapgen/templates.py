@@ -160,6 +160,13 @@ LAYER
 {1}
 """  # noqa
 
+ogr_data_instruction = """
+CONNECTIONTYPE OGR
+    CONNECTION "{0}/{1}.shp"
+    DATA "SELECT * FROM {1}"
+"""
+
+
 dynamic_data_instruction = """
 CONNECTIONTYPE OGR
     CONNECTION "{0}/{1}.shp"
