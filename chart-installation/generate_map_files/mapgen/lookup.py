@@ -32,14 +32,14 @@ class Lookup:
 
         return ''
 
-    def get_styleitems(self, chartsymbols, feature_name, geom_type):
+    def get_styleitems(self, chartsymbols, feature_name, geom_type, fields):
         style = {
             'POINT': [],
             'LINE': [],
             'POLYGON': [],
         }
         for command in self.instruction:
-            styleitem = command(chartsymbols, feature_name, geom_type)
+            styleitem = command(chartsymbols, feature_name, geom_type, fields)
             if isinstance(styleitem, str):
                 style[geom_type].append(styleitem)
             else:

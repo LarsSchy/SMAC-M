@@ -27,6 +27,7 @@ class DisplayPriority(OrderedEnum):
         except KeyError:
             return cls.NotSet
 
+
 class GeomType(str, Enum):
     Polygon = 'POLYGON', 'POLYGON'
     Line = 'LINE', 'LINESTRING'
@@ -57,6 +58,7 @@ class LayerBase:
             return self.priority == other.priority
 
         return NotImplemented
+
 
 class Layer(LayerBase):
     rot_field = None
@@ -93,7 +95,8 @@ class Layer(LayerBase):
             expression = lookup.get_expression(fields)
             styleitems = lookup.get_styleitems(chartsymbols,
                                                self.feature_name,
-                                               self.geom_type.value)
+                                               self.geom_type.value,
+                                               fields)
             for geom_type, styleitem in styleitems.items():
                 if styleitem:
                     classes[GeomType(geom_type)].append(
@@ -155,4 +158,3 @@ class SubLayer:
             data=parent.data,
             classes='\n'.join(self.classes),
         )
-

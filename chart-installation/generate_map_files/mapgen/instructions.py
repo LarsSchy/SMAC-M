@@ -29,7 +29,7 @@ class Command:
     def set_command_name(self, command):
         self.command = command
 
-    def __call__(self, chartsymbols, layer, geom_type):
+    def __call__(self, chartsymbols, layer, geom_type, fields):
         warnings.warn('Command not implemented: {}'.format(self.command),
                       NotImplementedWarning)
         return ''
@@ -52,7 +52,6 @@ class Command:
 
         return NotImplemented
 
-
     @staticmethod
     def units(value):
         return float(value)
@@ -72,7 +71,7 @@ class LS(Command):
         self.width = width
         self.color = color
 
-    def __call__(self, chartsymbols, layer, geom_type):
+    def __call__(self, chartsymbols, layer, geom_type, fields):
         style = '''
         STYLE
             COLOR {color}
@@ -125,10 +124,19 @@ class TE(Command):
         self.display = display
         super().__init__()
 
-    def __call__(self, chartsymbols, layer, geom_type):
+    def __call__(self, chartsymbols, layer, geom_type, fields):
         text = re.sub(r'(%[^ ]*[a-z])[^a-z]', self.get_label_text, self.format)
         if ' + ' in text:
             text = '({})'.format(text)
+
+        def force_labels(match):
+            field = match.group(1)
+            if field + '_txt' in fields:
+                return '[{}_txt]'.format(field)
+
+            return match.group(0)
+
+        text = re.sub(r'\[([^\]]+)\]', force_labels, text)
 
         try:
             label_field = re.search(r'(\[[^\]]+\])', text).group(1)
@@ -196,7 +204,7 @@ class SY(Command):
             self.rot_field = rot
             self.rot = '[{}_CAL]'.format(rot)
 
-    def __call__(self, chartsymbols, layer, geom_type):
+    def __call__(self, chartsymbols, layer, geom_type, fields):
         # OFFSET
         x = 0
         y = 0
@@ -236,7 +244,7 @@ class LC(Command):
     def __init__(self, style):
         self.symbol = style
 
-    def __call__(self, chartsymbols, layer, geom_type):
+    def __call__(self, chartsymbols, layer, geom_type, fields):
         style = chartsymbols.line_symbols[self.symbol].as_style(
             chartsymbols.color_table)
         if geom_type == 'POLYGON':
@@ -252,7 +260,7 @@ class AC(Command):
         # MapServer uses Opacity, OpenCPN uses trnasparency
         self.opacity = (4 - int(transparency)) * 25
 
-    def __call__(self, chartsymbols, layer, geom_type):
+    def __call__(self, chartsymbols, layer, geom_type, fields):
         return """
         STYLE
             COLOR {}
@@ -266,7 +274,7 @@ class AP(Command):
     def __init__(self, pattern):
         self.pattern = pattern
 
-    def __call__(self, chartsymbols, layer, geom_type):
+    def __call__(self, chartsymbols, layer, geom_type, fields):
         return chartsymbols.area_symbols[self.pattern].as_style(
             chartsymbols.color_table)
 
@@ -276,7 +284,7 @@ class CS(Command):
     def __init__(self, proc):
         self.proc = proc
 
-    def __call__(self, chartsymbols, layer, geom_type):
+    def __call__(self, chartsymbols, layer, geom_type, fields):
         warnings.warn(
             'Symproc left in lookup: {}'.format((self.proc, layer)),
             NotImplementedWarning)
@@ -296,5 +304,5 @@ class _MS(Command):
         # were any
         self.style = ','.join(style)
 
-    def __call__(self, chartsymbols, layer, geom_type):
+    def __call__(self, chartsymbols, layer, geom_type, fields):
         return self.style.format(color=chartsymbols.color_table)
