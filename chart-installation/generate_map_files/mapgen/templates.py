@@ -12,6 +12,7 @@ LAYER
         "gml_include_items" "all"
         "wms_feature_mime_type" "text/html"
     END
+    PROCESSING "LABEL_NO_CLIP=True"
     TEMPLATE blank.html
     TYPE {type}
     STATUS ON
