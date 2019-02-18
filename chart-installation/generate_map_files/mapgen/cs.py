@@ -648,7 +648,7 @@ def SOUNDG(lookup_type, name):
         END
 
         LABEL
-            EXPRESSION ([DEPTH] > 10 AND [DEPTH] < 31)
+            EXPRESSION ([DEPTH] > 10 AND [DEPTH] < 31 AND ([DEPTH] * 10 % 10))
             TEXT ( [DEPTH] * 10 % 10)
             OFFSET 8 4
             TYPE TRUETYPE
@@ -661,7 +661,7 @@ def SOUNDG(lookup_type, name):
         END
 
         LABEL
-            EXPRESSION ([DEPTH] < 10)
+            EXPRESSION ([DEPTH] < 10 AND ([DEPTH] * 10 % 10))
             TEXT ( [DEPTH] * 10 % 10)
             OFFSET 5 4
             TYPE TRUETYPE
