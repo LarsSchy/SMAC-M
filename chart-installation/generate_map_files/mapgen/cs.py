@@ -2,7 +2,14 @@ from operator import itemgetter
 import os
 import warnings
 
-from .filters import MSNoRules, MSCompare, MSStrCompare, MSHasValue, MSRawFilter
+from .filters import (
+    MSCompare,
+    MSHasValue,
+    MSNoRules,
+    MSNot,
+    MSRawFilter,
+    MSStrCompare,
+)
 from .instructions import _MS, SY, LC, LS, CS, AC, AP, TE
 from .lookup import Lookup, LookupCollection
 
@@ -112,6 +119,13 @@ def LEGLIN(lookup_type, name):
 
 
 def LIGHTS(lookup_type, name):
+    def LIGHTS(num):
+        return _MS('''
+        STYLE
+            SYMBOL 'LIGHTS{}'
+            OFFSET 9 9
+        END'''.format(num))
+
     return [{
         'instruction': SY('LIGHTS82'),
         'rules': MSCompare('CATLIT', '11') | MSCompare('CATLIT', '8'),
@@ -137,31 +151,64 @@ def LIGHTS(lookup_type, name):
     }, {
         # TODO: Figure out why a simple SY instruction ends up with a bad
         # offset
-        'instruction': _MS('''
-        STYLE
-            SYMBOL 'LIGHTS11'
-            OFFSET 9 9
-        END'''),
+        'instruction': LIGHTS(11),
         'rules': MSCompare('COLOUR', '3,1') | MSCompare('COLOUR', '3'),
     }, {
-        'instruction': _MS('''
-        STYLE
-            SYMBOL 'LIGHTS12'
-            OFFSET 9 9
-        END'''),
+        'instruction': LIGHTS(12),
         'rules': MSCompare('COLOUR', '4,1') | MSCompare('COLOUR', '4')
     }, {
-        'instruction': _MS('''
-        STYLE
-            SYMBOL 'LIGHTS13'
-            OFFSET 9 9
-        END'''),
+        'instruction': LIGHTS(13),
         'rules': (
             MSCompare('COLOUR', '11')
             | MSCompare('COLOUR', '6')
             | MSCompare('COLOUR', '1')
         ),
-    }]
+    }] + (
+        Lookup(
+            rules=MSNot(MSHasValue('SECTR1') | MSHasValue('SECTR2'))
+        ) @ (
+            (Lookup(
+                rules=MSCompare('VALNMR', '10', MSCompare.OP.LT),
+                id='-flare',
+            ) @ LookupCollection([
+                Lookup(
+                    id='-red',
+                    rules=MSStrCompare.includes('COLOUR', 3),
+                    instruction=LIGHTS(11)
+                ),
+                Lookup(
+                    id='-green',
+                    rules=MSStrCompare.includes('COLOUR', 4),
+                    instruction=LIGHTS(12)
+                ),
+                Lookup(
+                    id='-yellow',
+                    rules=MSStrCompare.includes('COLOUR', 1, 6, 11),
+                    instruction=LIGHTS(13)
+                ),
+            ])) + LookupCollection([
+                Lookup(
+                    id='-red',
+                    rules=MSStrCompare.includes('COLOUR', 3),
+                    instruction=SY('LIGHTS96')
+                ),
+                Lookup(
+                    id='-green',
+                    rules=MSStrCompare.includes('COLOUR', 4),
+                    instruction=SY('LIGHTS95')
+                ),
+                Lookup(
+                    id='-yellow',
+                    rules=MSStrCompare.includes('COLOUR', 1, 6, 11),
+                    instruction=SY('LIGHTS91')
+                ),
+                Lookup(
+                    id='-magenta',
+                    instruction=SY('LIGHTS90')
+                ),
+            ])
+        )
+    )
 
 
 def OBSTRN(lookup_type, name):

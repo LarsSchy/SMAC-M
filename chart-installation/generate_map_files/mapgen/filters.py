@@ -137,6 +137,20 @@ class MSStrCompare(MSCompare):
         )
 
 
+class MSNot(_MSFilterBase):
+    __slots__ = ('filter',)
+
+    def __init__(self, filter):
+        self.filter = filter
+
+    @property
+    def require_ogr(self):
+        return self.filter.require_ogr
+
+    def to_expression(self, fields):
+        return '(! {})'.format(self.filter.to_expression(fields))
+
+
 class _MSCombiner(list, _MSFilterBase):
     __slots__ = ()
     def __init__(self, *filters):

@@ -11,6 +11,7 @@ from .lookup import Lookup
 from .symbol import VectorSymbol, Pattern
 
 from . import templates
+from utils import ExclusiveSet
 
 
 class Color:
@@ -44,6 +45,7 @@ class ChartSymbols:
     polygon_lookups = {}
 
     excluded_lookups = ['M_QUAL']
+    # excluded_lookups = ExclusiveSet('LIGHTS BCNLAT'.split())
 
     root = None
 
