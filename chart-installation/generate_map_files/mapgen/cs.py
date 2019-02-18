@@ -785,9 +785,11 @@ def WRECKS_Point(lookup_type, name):
     return [{
         'rules': MSCompare('VALSOU', '30', MSCompare.OP.GT),
         'instruction': SY('DANGER02')
+        + TE('Wk', '', 2, 1, 2, '15110', 1, 0, 'CHBLK', 21)
     }, {
         'rules': MSHasValue('VALSOU'),
         'instruction': SY('DANGER01')
+        + TE('Wk', '', 2, 1, 2, '15110', 1, 0, 'CHBLK', 21)
     }, {
         'rules': MSCompare('CATWRK', '1') & MSCompare('WATLEV', '3'),
         'instruction': SY('WRECKS04')

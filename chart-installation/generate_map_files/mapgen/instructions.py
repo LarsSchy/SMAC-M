@@ -114,9 +114,9 @@ class TE(Command):
                  xoffs, yoffs, colour, display):
         self.format = format
         self.attributes = attributes.strip("'")
-        self.hjust = hjust
-        self.vjust = vjust
-        self.space = space
+        self.hjust = str(hjust)
+        self.vjust = str(vjust)
+        self.space = str(space)
         self.chars = chars
         self.xoffs = xoffs
         self.yoffs = yoffs
@@ -146,28 +146,30 @@ class TE(Command):
             label_expr = ''  # apply your error handling
 
         return """
-        LABEL  # {}
-            {}
+        LABEL  # {command}
+            {label}
             TYPE TRUETYPE
             FONT SC
             PARTIALS TRUE
             MINDISTANCE 0
-            POSITION {}
-            {}
-            SIZE {}
-            OFFSET {} {}
-            COLOR {}
-            TEXT {}
+            POSITION {vjust}{hjust}
+            {space}
+            SIZE {size}
+            OFFSET {xoff} {yoff}
+            COLOR {color}
+            TEXT {text}
         END
         """.format(
-            self.command,
-            label_expr,
-            self.vjustHash[self.vjust] + self.hjustHash[self.hjust],
-            self.spaceHash[self.space],
-            self.chars[-3:-1],
-            self.xoffs, self.yoffs,
-            chartsymbols.color_table[self.colour].rgb,
-            text
+            command=self.command,
+            label=label_expr,
+            vjust=self.vjustHash[self.vjust],
+            hjust=self.hjustHash[self.hjust],
+            space=self.spaceHash[self.space],
+            size=self.chars[-3:-1],
+            xoff=self.xoffs,
+            yoff=self.yoffs,
+            color=chartsymbols.color_table[self.colour].rgb,
+            text=text
         )
 
     def get_label_text(self, matches):
