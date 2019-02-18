@@ -69,8 +69,12 @@ def DEPARE(lookup_type, name):
             instruction=AC('DEPMS')
         ),
         Lookup(
+            instruction=AC('DEPIT'),
+            rules=~MSHasValue('DRVAL1')
+        ),
+        Lookup(
             # Should be GE, but null == 0 and needs to use DEPIT
-            rules=MSCompare('DRVAL1', '0', MSCompare.OP.GT),
+            rules=MSCompare('DRVAL1', '0', MSCompare.OP.GE),
             instruction=AC('DEPVS')
         ),
         Lookup(

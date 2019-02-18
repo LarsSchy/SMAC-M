@@ -8,6 +8,9 @@ class _MSFilterBase(ABC):
     def require_ogr(self):
         return False
 
+    def __invert__(self):
+        return MSNot(self)
+
     def __and__(self, other):
         if isinstance(other, MSAnd):
             return NotImplemented
@@ -142,6 +145,9 @@ class MSNot(_MSFilterBase):
 
     def __init__(self, filter):
         self.filter = filter
+
+    def __invert__(self):
+        return self.filter
 
     @property
     def require_ogr(self):
