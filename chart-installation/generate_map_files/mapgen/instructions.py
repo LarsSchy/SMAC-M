@@ -219,11 +219,15 @@ class SY(Command):
             x = -15
 
         if self.symbol in chartsymbols.symbols_def:
-            symbol = chartsymbols.symbols_def[self.symbol]
-            x += -(symbol['size'][0] // 2)
-            x += symbol['pivot'][0]
-            y += symbol['size'][1] // 2
-            y -= symbol['pivot'][1]
+            symbol_name = self.symbol
+        else:
+            symbol_name = 'QUESMRK1'
+
+        symbol = chartsymbols.symbols_def[symbol_name]
+        x += -(symbol['size'][0] // 2)
+        x += symbol['pivot'][0]
+        y += symbol['size'][1] // 2
+        y -= symbol['pivot'][1]
 
         geomtransform = ''
         if geom_type == 'POLYGON':
@@ -237,7 +241,7 @@ class SY(Command):
             ANGLE {angle}
             GAP 2000
         END
-        """.format(symbol=self.symbol, x=x, y=y, angle=self.rot,
+        """.format(symbol=symbol_name, x=x, y=y, angle=self.rot,
                    geomtransform=geomtransform)
 
 
