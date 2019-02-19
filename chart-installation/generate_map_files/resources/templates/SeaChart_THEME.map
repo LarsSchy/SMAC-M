@@ -33,8 +33,8 @@ MAP
           "ows_enable_request"   "*"
           'ows_title'           'SeaChart_${THEME}'
           # 'ows_onlineresource'  '${HOST}?map=${MAP_PATH}/SeaChart_${THEME}.map&'
-          'wms_srs'  'EPSG:32633 EPSG:3006 EPSG:3857 EPSG:4326 EPSG:900913'
-          'wfs_srs'  'EPSG:32633 EPSG:3006 EPSG:3857 EPSG:4326 EPSG:900913'
+          "wms_srs" "EPSG:4326 EPSG:3857 EPSG:2950 EPSG:2949 EPSG:32188 EPSG:32187 EPSG:42403 EPSG:3857 EPSG:3979"
+          "wfs_srs" "EPSG:4326 EPSG:3857 EPSG:2950 EPSG:2949 EPSG:32188 EPSG:32187 EPSG:42403 EPSG:3857 EPSG:3979"
           "labelcache_map_edge_buffer" "-50"
           "wms_bbox_extended" "true"
         END
