@@ -158,7 +158,6 @@ Working with enhanced data allows to create mapfiles from the chartsymbols.xml f
  - Symbology can be created from vector and bitmaps. We are only supporting bitmap symbology for points and vector symbology for lines and polygons.
  - TOWERSxx symbols are present twice in the chartsymbols.xml. We only use the second one.
  - SOUNDG labels are set with FORCE TRUE. This make to many appear in the map at small scale.
- - Some text layers (SBDARE) contain numeric values that must be transformed to string.
  - Some layers are excluded from the map as they are useful in a WMS context. Right now only M_QUAL is excluded.
  - Some layers are exported as LINE instead of POLYGON
  - Some layers defined in the chartsymbols.xml are pointing to non-existing data columns:
