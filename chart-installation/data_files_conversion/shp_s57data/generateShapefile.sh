@@ -103,6 +103,7 @@ do
 done < $TMPPATH/FILELIST
 
 python3 convert_labels.py "${CATPATH}" NATSUR
+python3 extract_soundings.py "${CATPATH}"
 # Run script to build light sector shapefiles
 # TODO: build a better integration.  Need modification on python script
 python3 generate_light_sector.py ${CATPATH}/1/CL1_LIGHTS_POINT.shp 3000

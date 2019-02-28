@@ -10,8 +10,8 @@ from .layer import DisplayPriority, Layer, LightsLayer
 from .lookup import Lookup
 from .symbol import VectorSymbol, Pattern
 
-from . import templates
-from utils import ExclusiveSet
+# Imported for easier debugging
+from utils import ExclusiveSet  # noqa
 
 
 class Color:
@@ -179,6 +179,17 @@ class ChartSymbols:
 
                 for lookup in lookups:
                     lookup_table.append(lookup)
+
+            # Add virtual lookup for X-SNDG
+            self.point_lookups['X-SNDG'] = list(
+                Lookup(
+                    id='X-SNDG',
+                    comment='non-SOUNDG features with sounding',
+                    display_priority=DisplayPriority.AreaSymbol,
+                )
+                @ [Lookup(table='Paper'), Lookup(table='Simplified')]
+                @ lookups_from_cs('SOUNDG', 'Point', 'X-SNDG')
+            )
 
     def get_point_mapfile(self, layer, feature, group, msd, fields):
         layer = Layer(layer, feature, 'POINT', group, msd,

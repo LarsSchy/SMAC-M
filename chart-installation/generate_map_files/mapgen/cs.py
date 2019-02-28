@@ -633,14 +633,13 @@ def SLCONS(lookup_type, name):
 
 
 def SOUNDG(lookup_type, name):
-    return [{
-        'instruction':
-        _MS('''
+    safety_depth = 30
+    label_template = '''
         LABEL
             TEXT (round([DEPTH]+(-0.5),1))
             TYPE TRUETYPE
             FONT sc
-            COLOR {color[CHGRD].rgb}
+            COLOR {{color[{colour}].rgb}}
             # COLOR 136 152 139
             SIZE 8
             ANTIALIAS TRUE
@@ -653,7 +652,7 @@ def SOUNDG(lookup_type, name):
             OFFSET 8 4
             TYPE TRUETYPE
             FONT sc
-            COLOR {color[CHGRD].rgb}
+            COLOR {{color[{colour}].rgb}}
             # COLOR 136 152 139
             SIZE 7
             ANTIALIAS TRUE
@@ -666,14 +665,19 @@ def SOUNDG(lookup_type, name):
             OFFSET 5 4
             TYPE TRUETYPE
             FONT sc
-            COLOR {color[CHGRD].rgb}
+            COLOR {{color[{colour}].rgb}}
             # COLOR 136 152 139
             SIZE 6
             ANTIALIAS TRUE
             FORCE TRUE
         END
-    '''),
-        'rules': MSNoRules()
+    '''
+
+    return [{
+        'instruction': _MS(label_template.format(colour='CHGRD')),
+        'rules': MSCompare('DEPTH', safety_depth, MSCompare.OP.LE)
+    }, {
+        'instruction': _MS(label_template.format(colour='CHGRF')),
     }]
 
 
