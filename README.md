@@ -77,31 +77,56 @@ virtual environment, run `pipenv run pip install "GDAL<=$(gdal-config --version)
 Once the packages have been installed, use `pipenv shell` to activate the
 environment.
 
-## Convert S-57 dataset
+## Generating the mapfile
 
-There's two way to convert data in project.  The first one convert all the requierded data for the basic map and the second one is needed when you want create a map service based on OpenCPN lookup table. 
+### Generate a configuration file
 
-#### Data for basic map service
+This configuration file contains the options for a particular map generation.
+It is in [TOML](https://github.com/toml-lang/toml/wiki) format.
 
-Create a folder that contains all your S-57 files and run the conversion script by specifying 
-input S-57 dataset files and output shapefiles
-
-```
-cd chart-installation/data_files_conversion
-python3 ./S57_to_Shape.py [ENC_ROOT] [output_path]
-```
-#### Data for enhance map service
-
-This script will build all data needed for enhance nautical charts map service based on OpenCPN configuration file and support light sectors layers.  This script will create shapefiles based on data configuration from OpenCPN project (s57objectclasses.csv and s57attributes.csv).  The script will create shapefile for S-57 object ONLY if data is found in your source files.
+You can easily generate a configuration file with the `generate_toml_config.py`
+script. 
+This script accepts the same options as the legacy
+`generate_map_config.py` and creates a toml file with these options.
 
 ```
-cd chart-installation/data_files_conversion/shp_s57data
-bash generateShapefiles.sh [ENC_ROOT] [output_path]
+ python3 bin/generate_toml_config.py \
+     --chart ./shp_s57data/ENC_ROOT \
+     -rule-default-color IHO \
+     --chartsymbols ./chartsymbols_S57.xml \
+     -enhancedchartdata ./shp_s57data/shp \
+     --tablename Paper \
+     --displaycategory Standard \
+     --rule-set-path ../resources/layer_rules/rules/ \
+     -o configfile.toml
 ```
 
-#### Light sector
+If you prefer to create your configuration file manually, 
+you can use [config.sample.toml](config.sample.toml) as a base.
 
-This project will automatically create lights sector shapefiles based on LIGHTS dataset create by enhance data process.  
+For the rest of these instructions, 
+the configuration file will be referred to as `configfile.toml`
+
+### Convert S-57 dataset
+
+This script will build all data needed for nautical charts map service 
+based on OpenCPN configuration file 
+and support light sectors layers. 
+
+The script will create shapefiles for S-57 objects 
+ONLY if data is found in your source files.
+
+```
+python3 bin/generate_shapefiles.py configfile.toml
+```
+
+This same script can be used whenever the S-57 dataset is updated 
+to regenerate the shapefiles.
+
+
+### Light sector
+
+This project will automatically create lights sector shapefiles based on LIGHTS dataset when generating the shapefiles
 
 ![S-57-lioghts_sector](/doc/S-57-lights_sector.png)
 
@@ -114,7 +139,15 @@ python3 generate_light_sector.py [input_lights_shp_path] [radius]
   # NOTE 2: if radius = valnmr keyword, distance will be take from data
 ```
 
-### Enhanced data mapfile and limitation
+### Generating mapfiles
+
+The mapfiles can be generated from the information in the configuration file.
+
+```
+python3 chart-installation/generate_map_files/generate_map_config.py configfile.toml
+```
+
+#### Enhanced data mapfile limitations
 
 Working with enhanced data allows to create mapfiles from the chartsymbols.xml file. This file contains all the specification of all symbols of the IENC symbology and is provided by OpenCPN. The file provided by OpenCPN does contains a few errors or limitation that are not currently handled.
 
@@ -176,91 +209,13 @@ Working with enhanced data allows to create mapfiles from the chartsymbols.xml f
    - TOPMAR layer uses OBJNAM field for label, but this field is not present
    - SOUNDG layer is in display-cat Other, it has been transfered to Standard
 
-## Generating Symbolset
+### Generating Symbolset
 
-To create symbolset used by generated mapfile, we used source files download from s57data 
-directory of OpenCPN Repository.
+The symbols are automatically generated from the OpenCPN symbols 
+when the mapfiles are updated.
+They do not need to be generated manually
 
-Need to download latest version of source files.  Up to datThose files
-
-```
-cd chart-installation/generate_map_files/scripts/
-python3 ./generate_symbolset.py update
-```
-
-Create symbolset mapfile and generate all png image symbols. 
-
-```
-python3 ./generate_symbolset.py [day|dusk|dark] [output_path]
-```
-
-## Generating mapfiles
-
-Display all available options with help switch
-
-```
-python3 ./generate_map_config.py -h   ---  shows all options
-```
-
-#### Basic mapservice
-
-Specify rules directory and shapefiles source directory.  The mapfiles are placed in /data/Chart_dir along with the converted data.
-
-```
-python3 ./generate_map_config.py -rules ../resources/layer_rules/rules/ -basechartdata /data/Chart_dir
-```
-
-#### Enhanced mapservice
-
-To build mapfiles for enhanced nautical chart map services based on OpenCPN lookup table, we have to specify the chartsymbols file, the enhance shapefiles path, the graphics style(tablename: `Paper`|`Simplify`) and choose the display category (dedault is `Displaybase,Standard`,  `All` display category is still not supported).  This script will create mapfile based on data found into `enhancedchartdata`.  If you update your enhance data repository you should run again this script to update your map service.
-
-All the scripts below are run from the generate_map_files directory
-```
-cd chart-installation/generate_map_files/
-```
-
-
-```
- python3 ./scripts/generate_map_config.py -rule-default-color IHO --chartsymbols ./chartsymbols_S57.xml -enhancedchartdata ./shp_s57data/shp --tablename Paper --displaycategory Standard --rule-set-path ../resources/layer_rules/rules/
-```
-
-NOTE 1: The output mapfile directory will be saved in map folder under shapefiles directory.  In this example, mapfiles will be saved in `./shp_s57data/map` 
-
-NOTE 2: Please used chartsymbols_S57.xml file locates in the scripts directory.  This file has been modified to fix some issues found in original OpenCPN chartsymbols file.
-
-### Generating mapfiles using a configuration file
-
-To make it easier to rebuild a map using the same options, you can save the
-options in a configuration file. This configuration file is in
-[TOML](https://github.com/toml-lang/toml/wiki) format and contains the options
-for a particular map generation.
-
-You can easily generate a configuration file with the `generate_toml_config.py`
-script. This script accepts the same options as `generate_map_config.py` and
-creates a toml file with these options.
-
-```
- python3 ./scripts/generate_toml_config.py \
-     -rule-default-color IHO \
-     --chartsymbols ./chartsymbols_S57.xml \
-     -enhancedchartdata ./shp_s57data/shp \
-     --tablename Paper \
-     --displaycategory Standard \
-     --rule-set-path ../resources/layer_rules/rules/ \
-     -o ./shp_s57data/config.toml
-```
-
-Once you have generated or handwritten your configuration file, you can use it
-with the `generate_map_config_v2.py` to generate the mapfiles.
-
-```
- python3 ./generate_map_config.py ./shp_s57data/config.toml
-```
-
-The `generate_map_config.py` script currently only generates mapfiles for the
-enhanced dataset but may be expanded in the future to support other chart types.
-
-#### Testing
+### Testing
 
 Then You should be able to test the configuration in the built in open layers viewer with:
 
@@ -268,8 +223,12 @@ Then You should be able to test the configuration in the built in open layers vi
 
 NOTE: You should adjust to EPSG:3857 and a suitable BBOX for your data.
 
+## Basic map service
 
-## General information
+The commands used to generate the basic map service have been moved to 
+[their separate readme](README.basic.md).
+
+##  General information
 
 IENC (S-57) data is compiled for a variety of navigational purposes.  This project is built to
 mainely support all of them.  First version will support the first 6 navigation purpose.

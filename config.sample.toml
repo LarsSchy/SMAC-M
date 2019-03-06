@@ -5,7 +5,7 @@ displaycategory = "Standard"  # Comma-separated list of categories of symbols di
 topmark_type = "rigid"        # Type of top marks to display
 
 [paths]  # All paths in this section are relative to this file's location
-chart = "ENC_ROOT"    # Path to the ENC_ROOT of this dataset (Not implemented yet)
+chart = "ENC_ROOT"    # Path to the ENC_ROOT of this dataset
 data = "data/shape"   # Path to the converted data files (Mandatory)
 map = "data/map"      # Path to the mapfile output directory. Defaults to a `map` directory adjacent to the data path
 chartsymbols = ""     # Path to the chartsymbols.xml to use for the generation. Defaults to the fixed chartsymbols_S57.xml file provided in this repository
