@@ -2,6 +2,7 @@ from .filters import MSAnd
 from .instructions import SY
 from .layer import DisplayPriority
 
+
 class Lookup:
     def __init__(self, id='', table=None, display=None, comment='',
                  instruction=None, rules=None,
@@ -72,9 +73,9 @@ class LookupCollection(list):
 
     def __init__(self, seq, *, id=''):
         super().__init__(Lookup(id=id, **lookup)
-            if isinstance(lookup, dict)
-            else lookup
-            for lookup in seq)
+                         if isinstance(lookup, dict)
+                         else lookup
+                         for lookup in seq)
 
         if not all(isinstance(item, Lookup) for item in self):
             raise TypeError('LookupCollection can only contain Lookups')

@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from enum import Enum
 
+
 class _MSFilterBase(ABC):
     __slots__ = ()
 
@@ -38,6 +39,7 @@ class _MSFilterBase(ABC):
 
 class MSFilter(_MSFilterBase):
     __slots__ = ('field',)
+
     def __init__(self, field):
         self.field = field
 
@@ -67,6 +69,7 @@ class MSFilter(_MSFilterBase):
 
 class MSRawFilter(_MSFilterBase):
     __slots__ = ('expression',)
+
     def __init__(self, expression):
         self.expression = expression
 
@@ -90,6 +93,7 @@ class MSHasValue(MSFilter):
 
 class MSCompare(MSFilter):
     __slots__ = ('op', 'value')
+
     class OP(str, Enum):
         LT = '<'
         LE = '<='
@@ -128,6 +132,7 @@ class MSCompare(MSFilter):
 
 class MSStrCompare(MSCompare):
     __slots__ = ()
+
     def render_expression(self):
         return '"[{}]" {} "{}"'.format(self.field, self.op, self.value)
 
@@ -159,6 +164,7 @@ class MSNot(_MSFilterBase):
 
 class _MSCombiner(list, _MSFilterBase):
     __slots__ = ()
+
     def __init__(self, *filters):
         super().__init__(filters)
 

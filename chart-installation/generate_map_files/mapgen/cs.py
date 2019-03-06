@@ -27,7 +27,7 @@ def lookups_from_cs(detail, lookup_type, name):
         lookups = function(lookup_type, name)
     else:
         warnings.warn('Symproc not implemented: {}'.format(function_name),
-                    NotImplementedWarning)
+                      NotImplementedWarning)
 
         # Return default lookup; leave CS as is, maybe CS in instruction.py can
         # make something useful
@@ -264,7 +264,7 @@ def OBSTRN_point(name):
         'instruction': SY('DANGER02')
     }]
 
-    if name =='UWTROC':
+    if name == 'UWTROC':
         return common_rule + [{
             'rules': (
                 MSHasValue('VALSOU')

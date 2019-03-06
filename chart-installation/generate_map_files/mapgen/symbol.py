@@ -256,7 +256,7 @@ class CircleSubSymbol(SubSymbol):
     def __init__(self, parent, pen, width, opacity, radius, center):
         self.center = center
         super().__init__(parent, pen, width, opacity, (radius, radius),
-                       filled=False)
+                         filled=False)
 
     @property
     def normalised_points(self):
@@ -330,6 +330,7 @@ class BitmapPattern(Pattern):
         TYPE PIXMAP
         IMAGE "symbols-{symboltype}/{symname}.png"
     END"""
+
     def __init__(self, element):
         super().__init__(element)
         bitmap = element.find('bitmap')
@@ -365,6 +366,7 @@ class VectorPattern(Pattern):
         {points}
         END
     END"""
+
     def __init__(self, element):
         super().__init__(element)
         self.hpgl = element.find('HPGL').text

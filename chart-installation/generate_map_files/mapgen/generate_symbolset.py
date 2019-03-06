@@ -110,5 +110,3 @@ def update_file(file, force=False):
     url = "https://raw.githubusercontent.com/OpenCPN/OpenCPN/master/data/s57data/"  # noqa
     if force or not os.path.exists(os.path.join(here, file)):
         call(["wget", url + file, "-O", os.path.join(here, file)])
-
-

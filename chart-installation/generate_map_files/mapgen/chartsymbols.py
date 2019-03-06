@@ -104,7 +104,7 @@ class ChartSymbols:
                     'pivot': [int(pivot.get('x')), int(pivot.get('y'))],
                     'size': [width, height],
                 }
-            except:
+            except Exception:
                 continue
 
         for linestyle in root.iter('line-style'):

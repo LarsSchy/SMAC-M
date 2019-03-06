@@ -12,13 +12,10 @@ import os
 import sys
 import toml
 
-# script_dir = os.path.normpath(sys.path[0])
-# sys.path.append(os.path.abspath(os.path.join(script_dir, "../utils/")))
-
-from mapgen.basechart import generate_basechart_config  # noqa: E402
-from mapgen.generate_symbolset import symbolsets, generate_symbolset  # noqa: E402
-from utils import dirutils  # noqa: E402
-from utils.ruleutils import create_layer_rules, create_color_rules  # noqa: E402
+from mapgen.basechart import generate_basechart_config
+from mapgen.generate_symbolset import symbolsets, generate_symbolset
+from utils import dirutils
+from utils.ruleutils import create_layer_rules, create_color_rules
 
 RESOURCES_PATH = os.path.abspath(
     os.path.normpath(

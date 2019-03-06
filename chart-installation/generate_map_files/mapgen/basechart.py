@@ -186,7 +186,7 @@ def process_all_layers(data, target, config, point_table='Simplified',
                     if geomtype:
                         try:
                             shp_types[filename] = geometries[geomtype.group(1)]
-                        except:
+                        except KeyError:
                             shp_types[filename] = 'UNKNOWN'
                     ds = ogr.Open('{}/{}/{}'.format(data, level, filename))
                     try:
@@ -312,21 +312,21 @@ def process_layer_colors(layer, color_table, input_file, msd, data, target,
                         continue
 
                     if geom == 'POINT':
-                        l = chartsymbols.get_point_mapfile(
+                        layer_obj = chartsymbols.get_point_mapfile(
                             layer, feature, 'default', msd,
                             shp_fields[filename])
                     elif geom == 'LINESTRING':
-                        l = chartsymbols.get_line_mapfile(
+                        layer_obj = chartsymbols.get_line_mapfile(
                             layer, feature, 'default', msd,
                             shp_fields[filename])
                     elif geom == 'POLYGON':
-                        l = chartsymbols.get_poly_mapfile(
+                        layer_obj = chartsymbols.get_poly_mapfile(
                             layer, feature, 'default', msd,
                             shp_fields[filename])
                     else:
                         continue
 
-                    layers.append(l)
+                    layers.append(layer_obj)
 
         final_file.write('\n'.join(l.mapfile for l in sorted(layers) if l))
 
