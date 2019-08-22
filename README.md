@@ -29,43 +29,18 @@ Furhter on a tool is provided to process tiff files and create mapfiles automati
  * Up to date GDAL/OGR S-57 metadata
  * Python 3.5 with pipenv
 
-## Up to date GDAL/OGR
-
-GDAL/OGR used OpenCPN configuration file to read and extract data from S-57 dataset. If you don't have up to date metadata file on your system, you will be unable to read all the data available in S-57 dataset. You have to make sure to update those files on your system to make run properly data converter script.  In [S-57 OGR driver](http://www.gdal.org/drv_s57.html) documentation said: _The S-57 reader depends on having two supporting files, s57objectclasses.csv, and s57attributes.csv available at runtime in order to translate features in an object class specific manner. These should be in the directory pointed to by the environment variable S57_CSV, **or in the current working directory**_
-
-For your setup and future usage, be sure to find GDAL/OGR S-57 configuration file, and update them like this:
 
 ```
-$ ogrinfo --version
-GDAL 2.2.2, released ...
-$ find / -name s57objectclasses_iw.csv
-/usr/share/gdal/2.2/s57objectclasses_iw.csv
+sudo apt install python3 python3-pip python3-venv gdal-bin python3-gdal build-essential libgdal-dev imagemagick xmlstarlet
+git clone https://github.com/LarsSchy/SMAC-M
+```
+ 
+## Python 3 virtual environment
 
-$ wget https://raw.githubusercontent.com/OpenCPN/OpenCPN/master/data/s57data/s57objectclasses.csv
-$ wget https://raw.githubusercontent.com/OpenCPN/OpenCPN/master/data/s57data/s57attributes.csv
-$ cp s57objectclasses.csv /usr/share/gdal/2.2/s57objectclasses_iw.csv
-$ cp s57attributes.csv /usr/share/gdal/2.2/
-```
-
-You can test your setup by using `ogrinfo` and other `ogr2ogr` tools with S57 profile like this:
-```
-ogrinfo --config S57_PROFILE iw -ro CA479099.000 | grep "SLOTOP"
-```
-Or add extra OGR environment variable on your system
-```
-export S57_PROFILE
-```
-
-To process sound depth points properly and other Multipoint dataset, you have to set OGR environment variable on your system
-```
-export OGR_S57_OPTIONS=SPLIT_MULTIPOINT=ON,ADD_SOUNDG_DEPTH=ON
-```
-
-## Prepare the Pipenv Virtual Environment
-
-Before running the scripts for the first time, you must install their
-dependencies. This project uses [Pipenv](https://docs.pipenv.org/) to manage its
-virtual environment.
+A good way to run and test this tool is to create a development virtual 
+environment available only for the active user.  Before running the scripts for 
+the first time, you must install their dependencies. This project uses 
+[Pipenv](https://docs.pipenv.org/) to manage its virtual environment.
 
 After downloading a new version of the code, run `pipenv install` in the root
 directory to install the bulk of the dependencies.
@@ -76,6 +51,48 @@ virtual environment, run `pipenv run pip install "GDAL<=$(gdal-config --version)
 
 Once the packages have been installed, use `pipenv shell` to activate the
 environment.
+
+```
+cd ./SMAC-M
+echo 'PATH="$HOME/.local/bin/:$PATH"' >>~/.bashrc
+pip3 install --user pipenv
+pipenv install
+pipenv run pip install "GDAL<=$(gdal-config --version)"
+pipenv shell
+```
+
+## Up to date GDAL/OGR
+
+GDAL/OGR used OpenCPN configuration file to read and extract data from S-57 dataset. If you don't have up to date metadata file on your system, you will be unable to read all the data available in S-57 dataset. You have to make sure to update those files on your system to make run properly data converter script.  In [S-57 OGR driver](http://www.gdal.org/drv_s57.html) documentation said: _The S-57 reader depends on having two supporting files, s57objectclasses.csv, and s57attributes.csv available at runtime in order to translate features in an object class specific manner. These should be in the directory pointed to by the environment variable S57_CSV, **or in the current working directory**_
+
+For your setup and future usage, be sure to find GDAL/OGR S-57 configuration file, and update them like this:
+
+```
+$ ogrinfo --version
+GDAL 2.2.2, released ...
+$ ls /usr/share/gdal/
+2.2
+```
+Create up to date s57 object files in GDAL data folder `/usr/share/gdal/2.2/`
+```
+$ wget https://raw.githubusercontent.com/OpenCPN/OpenCPN/master/data/s57data/s57objectclasses.csv
+$ wget https://raw.githubusercontent.com/OpenCPN/OpenCPN/master/data/s57data/s57attributes.csv
+$ cp s57objectclasses.csv /usr/share/gdal/2.2/s57objectclasses_iw.csv
+$ cp s57attributes.csv /usr/share/gdal/2.2/s57attributes_iw.csv
+```
+Add extra OGR environment variable on your system
+```
+export S57_PROFILE
+```
+To process sound depth points properly and other Multipoint dataset, you have to set OGR environment variable on your system
+```
+export OGR_S57_OPTIONS=SPLIT_MULTIPOINT=ON,ADD_SOUNDG_DEPTH=ON
+```
+You can test your setup by using `ogrinfo` and other `ogr2ogr` tools with S57 profile like this:
+```
+$ ogrinfo --config S57_PROFILE iw -ro ./datatest/US5OH10M/US5OH10M.000 | grep "SLOTOP"
+48: SLOTOP
+```
 
 ## Generating the mapfile
 
@@ -216,6 +233,9 @@ when the mapfiles are updated.
 They do not need to be generated manually
 
 ### Testing
+
+Follow those steps to get mapserver up and running.
+https://github.com/mapserver/mapserver/wiki/Install-mapserver-on-ubuntu-18.04-from-official-repository
 
 Then You should be able to test the configuration in the built in open layers viewer with:
 

@@ -1,0 +1,185 @@
+NOAA ENC®
+
+NATIONAL OCEANIC AND ATMOSPHERIC ADMINISTRATION
+
+US5OH10M - ISLANDS IN LAKE ERIE
+
+INDEX:
+NOTE A
+AIDS TO NAVIGATION
+BRIDGE AND OVERHEAD CABLE CLEARANCES
+AUTHORITIES
+POLLUTION REPORTS
+CAUTION - LOW WATER DATUM
+SUPPLEMENTAL INFORMATION
+CAUTION - TEMPORARY CHANGES
+WARNING - PRUDENT MARINER
+CAUTION - MARINERS
+RADAR REFLECTORS
+CAUTION - SUBMARINE PIPELINES AND CABLES
+CAUTION - DREDGED AREAS
+RACING BUOYS
+NOAA WEATHER RADIO BROADCASTS
+CAUTION - LIMITATIONS
+SAILING DIRECTIONS
+SAILING COURSES
+CAUTION - LAKE ERIE FISH NETTING AREAS
+TIDAL INFORMATION
+ADDITIONAL INFORMATION
+
+
+
+NOTES:
+NOTE A
+Navigation regulations are published in Chapter 2, U.S. 
+Coast Pilot 6. Additions or revisions to Chapter 2 are pub-
+lished in the Notice to Mariners.  Information concerning 
+the regulation may be obtained at the Office of the Com-
+mander, 9th Coast Guard District in Cleveland Ohio or at 
+the Office of the District Engineer, Corps of Engineers in 
+Buffalo, New York.
+Refer to charted regulation section numbers.
+
+
+AIDS TO NAVIGATION
+Consult U.S. Coast Guard Light List for supplemental information 
+concerning aids to navigation.  See Canadian list of Lights, Buoys and Fog Signals for information 
+not included in the U.S. Coast Guard Light List.
+
+
+BRIDGE AND OVERHEAD CABLE CLEARANCES. 
+When the water surface is above Low Water Datum, bridge and overhead 
+clearances are reduced correspondingly.  For clearances see U.S. 
+Coast Pilot 6.
+
+
+AUTHORITIES
+Hydrography and topography by the National Ocean Service, Coast Survey, 
+with additional data from the Corps of Engineers, Geological Survey, U.S. Coast Guard, and 
+Canadian Authorities.
+
+
+POLLUTION REPORTS
+Report all spills of oil and hazardous sub-
+stances to the National Response Center via 
+1-800-424-8802 (toll free), or to the nearest U.S. 
+Coast Guard facility if telephone communication 
+is impossible (33 CFR 153).
+
+
+CAUTION - LOW WATER DATUM
+Due to periodic high water conditions in the Great Lakes, some 
+features charted as visible at Low Water Datum may be submerged, 
+particularly in the near shore areas. Mariners should proceed with 
+caution.
+
+
+SUPPLEMENTAL INFORMATION
+Consult U.S. Coast Pilot 6 for important 
+supplemental information.
+
+
+CAUTION - TEMPORARY CHANGES
+Temporary changes or defects in aids to 
+navigation are not indicated. See
+Local Notice to Mariners.
+During some winter months or when endan-
+gered by ice, certain aids to navigation are
+replaced by other types or removed. for details
+see U.S. Coast Guard Light List.
+
+
+WARNING - PRUDENT MARINER
+The prudent mariner will not rely solely on any single aid 
+to navigation, particularly on floating aids. See U.S. Coast 
+Guard Light list and U.S. Coast Pilot for details.
+
+
+CAUTION - MARINERS
+Mariners are warned that numerous uncharted stakes and fishing structures, 
+some submerged, may exist in the area of this chart. Such structures are not 
+charted unless known to be permanent
+
+
+RADAR REFLECTORS
+Radar reflectors have been placed on many
+floating aids to navigation.  Individual radar
+reflector identification on these aids has been
+omitted from this chart.
+
+
+CAUTION - SUBMARINE PIPELINES AND CABLES
+Additional uncharted submarine pipelines and 
+submarine cables may exist within the area of
+this chart. Not all submarine pipelines and sub-
+marine cables are required to be buried, and 
+those that were originally buried may have 
+become exposed.  Mariners should use extreme
+caution when operating vessels in depths of 
+water comparable to their draft in areas where 
+pipelines and cables may exist, and when 
+anchoring, dragging or trawling.
+Covered wells may be marked by lighted or 
+unlighted buoys.
+
+
+CAUTION - DREDGED AREAS
+Improved channels are 
+subject to shoaling, particularly at the edges.
+
+
+RACING BUOYS
+Racing buoys within the limits of this chart 
+are not shown hereon.  Information may be 
+obtained from the U.S. Coast Guard District 
+Offices as racing and other private buoys are 
+not all listed in the U.S. Coast Guard Light List.
+
+
+NOAA WEATHER RADIO BROADCASTS
+The NOAA Weather Radio stations listed 
+below provide continuous weather broadcasts.  
+The reception range is typically 20 to 40 
+nautical miles from the antenna site, but can be
+as much as 100 nautical miles for stations at
+high elevations.
+
+Detroit, MI		KEC-63		162.550 MHz
+Sandusky, OH	        KHB-97		162.400 MHz
+Toledo, OH		WXL-51		162.550 MHz
+
+
+CAUTION - LIMITATIONS
+Limitations on the use of radio signals as
+aids to marine navigation can be found in the
+U.S. Coast Guard Light Lists and National
+Geospatial-Intelligence Agency Publication 117.
+Radio direction-finder bearings to commercial
+broadcasting stations are subject to error and
+should be used with caution.
+
+
+SAILING DIRECTIONS
+Bearings of sailing courses are true and distances given thereon are in 
+statute miles between points of departure.
+
+SAILING COURSES
+Sailing courses and limits are recommended by 
+the Lake carriers Association and the Canadian Shipowners Association.
+
+
+CAUTION - LAKE ERIE FISH NETTING AREAS
+Various types of nets are employed in Lake Erie of
+which gill nets, impounding nets and trap nets may
+create a hazard to mariners. These are marked by
+buoys or stakes. 
+
+
+TIDAL INFORMATION 
+For tidal information see the NOS Tide Table publication or go to http://co-ops.nos.noaa.gov.
+
+
+ADDITIONAL INFORMATION
+Additional information can be obtained at www.nauticalcharts.noaa.gov
+
+END OF FILE

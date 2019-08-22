@@ -1,0 +1,4 @@
+For bascule bridges, whose spans do not
+open to a full upright or vertical position, unlimited
+vertical clearance is not available for the entire
+charted horizontal clearance.
