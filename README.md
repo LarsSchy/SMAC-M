@@ -243,10 +243,10 @@ Then You should be able to test the configuration in the built in open layers vi
 
 NOTE: You should adjust to EPSG:3857 and a suitable BBOX for your data.
 
-## Basic map service
+### NOAA ENC service
 
-The commands used to generate the basic map service have been moved to 
-[their separate readme](README.basic.md).
+The commands used to generate a basic NOAA ENC map service have been moved to 
+[their separate readme](README.noaa.md).
 
 ##  General information
 
