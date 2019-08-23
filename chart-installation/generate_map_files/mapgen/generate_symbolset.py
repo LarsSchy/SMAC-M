@@ -36,7 +36,7 @@ def generate_symbolset(symboltype, output_directory, force_update):
     OCPN_source_symbol_file = os.path.join(here, OCPN_source_symbol_file)
 
     # Init variables
-    OCPN_lookuptable = "chartsymbols.xml"
+    OCPN_lookuptable = "../resources/chartsymbols/chartsymbols_S57.xml"
     symbolefile = "%s/symbols-%s.map" % (output_directory, symboltype)
 
     # Create output directory
