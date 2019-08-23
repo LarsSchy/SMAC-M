@@ -191,26 +191,26 @@ class ChartSymbols:
                 @ lookups_from_cs('SOUNDG', 'Point', 'X-SNDG')
             )
 
-    def get_point_mapfile(self, layer, feature, group, msd, fields):
+    def get_point_mapfile(self, layer, feature, group, msd, fields,metadata_name):
         layer = Layer(layer, feature, 'POINT', group, msd,
-                      fields, self.point_lookups.get(feature, []), self
-                      )
+                      fields, self.point_lookups.get(feature, []), self,
+                      metadata_name)
         if feature == 'LIGHTS':
             layer = LightsLayer(layer)
 
         return layer
 
     def get_line_mapfile(self, layer, feature_type, group, max_scale_denom,
-                         fields):
+                         fields,metadata_name):
         return Layer(layer, feature_type, 'LINE', group, max_scale_denom,
-                     fields, self.line_lookups.get(feature_type, []), self
-                     )
+                     fields, self.line_lookups.get(feature_type, []), self,
+                     metadata_name)
 
     def get_poly_mapfile(self, layer, feature_type, group, max_scale_denom,
-                         fields):
+                         fields,metadata_name):
         return Layer(layer, feature_type, 'POLYGON', group, max_scale_denom,
-                     fields, self.polygon_lookups.get(feature_type, []), self
-                     )
+                     fields, self.polygon_lookups.get(feature_type, []), self,
+                     metadata_name)
 
 
 class AllInclusive:

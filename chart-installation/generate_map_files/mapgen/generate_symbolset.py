@@ -24,7 +24,7 @@ here = os.path.dirname(__file__)
 symbolsets = ('day', 'dusk', 'dark')
 
 
-def generate_symbolset(symboltype, output_directory, force_update):
+def generate_symbolset(symboltype, output_directory, force_update,OCPN_lookuptable):
     if symboltype == "day":
         OCPN_source_symbol_file = "rastersymbols-day.png"
     elif symboltype == "dark":
@@ -36,7 +36,7 @@ def generate_symbolset(symboltype, output_directory, force_update):
     OCPN_source_symbol_file = os.path.join(here, OCPN_source_symbol_file)
 
     # Init variables
-    OCPN_lookuptable = "../resources/chartsymbols/chartsymbols_S57.xml"
+    # OCPN_lookuptable = "../resources/chartsymbols/chartsymbols_S57.xml"
     symbolefile = "%s/symbols-%s.map" % (output_directory, symboltype)
 
     # Create output directory

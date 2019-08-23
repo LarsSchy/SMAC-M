@@ -64,12 +64,13 @@ class Layer(LayerBase):
     rot_field = None
 
     def __init__(self, layer_level, feature_name, geom_type, group, msd,
-                 fields, lookups, chartsymbols):
+                 fields, lookups, chartsymbols, metadata_name):
         self.layer_level = layer_level
         self.feature_name = feature_name
         self.geom_type = GeomType(geom_type)
         self.group = group
         self.msd = msd
+        self.metadata_name = metadata_name
         self.base = "CL{}_{}_{}".format(layer_level, feature_name,
                                         self.geom_type.filename)
         if lookups:
@@ -159,6 +160,7 @@ class SubLayer:
         return templates.mapfile_layer_template.format(
             layer=parent.layer_level,
             feature=parent.feature_name,
+            metadata_name=parent.metadata_name,
             group=parent.group,
             type=self.geom_type,
             max_scale_denom=parent.msd,

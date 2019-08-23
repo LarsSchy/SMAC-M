@@ -7,7 +7,7 @@ LAYER
     NAME "{feature}_{layer}"
     GROUP "{group}"
     METADATA
-        "ows_title" "{feature}"
+        "ows_title" "{metadata_name}"
         "ows_enable_request"   "*"
         "gml_include_items" "all"
         "wms_feature_mime_type" "text/html"
@@ -46,7 +46,7 @@ LAYER
         END
      END
      METADATA
-        "oms_title" "RAYS_SECTOR"
+        "oms_title" "Light sector rays"
         "ows_enable_request"   "*"
         "gml_include_items" "all"
         "wms_feature_mime_type" "text/html"
@@ -152,7 +152,7 @@ LAYER
          END
      END
      METADATA
-        "oms_title" "LIGHTS_POINT_SIGNATURE"
+        "oms_title" "Lights signature"
         "ows_enable_request"   "*"
         "gml_include_items" "all"
         "wms_feature_mime_type" "text/html"
