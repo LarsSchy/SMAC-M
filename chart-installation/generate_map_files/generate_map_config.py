@@ -135,6 +135,8 @@ if __name__ == '__main__':
         print('topmark_type must be either floating or rigid')
         sys.exit(2)
 
+    excluded_lookups = args.config.get('excluded_lookups', None)
+
     if args.format is Format.Chart:
         layer_definitions_exist = dirutils.does_layer_rules_exist(
             rule_set_path)
@@ -148,7 +150,8 @@ if __name__ == '__main__':
         generate_basechart_config(data_path, map_path, rule_set_path,
                                   RESOURCES_PATH, args.force,
                                   debug, point_table, area_table,
-                                  displaycategory, chartsymbols)
+                                  displaycategory, chartsymbols,
+                                  excluded_lookups)
     else:
         print('Data format "{}" has not yet been ported to the configuration '
               'file. Use the old script to generate your mapfiles'

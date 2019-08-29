@@ -50,10 +50,13 @@ class ChartSymbols:
     root = None
 
     def __init__(self, file, point_table='Simplified', area_table='Plain',
-                 displaycategory=None, color_table='DAY_BRIGHT'):
-
+                 displaycategory=None, color_table='DAY_BRIGHT',
+                 excluded_lookups=None):
         if not os.path.isfile(file):
             raise Exception('chartsymbol file do not exists')
+
+        if excluded_lookups is not None:
+            self.excluded_lookups = excluded_lookups
 
         tree = etree.parse(file)
         root = tree.getroot()
