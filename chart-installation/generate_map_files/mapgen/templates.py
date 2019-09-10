@@ -162,14 +162,14 @@ LAYER
 """  # noqa
 
 ogr_data_instruction = """
-CONNECTIONTYPE OGR
+    CONNECTIONTYPE OGR
     CONNECTION "{0}/{1}.shp"
     DATA "SELECT * FROM {1}"
 """
 
 
 dynamic_data_instruction = """
-CONNECTIONTYPE OGR
+    CONNECTIONTYPE OGR
     CONNECTION "{0}/{1}.shp"
     DATA "SELECT *, 360 - {2} as {2}_CAL FROM {1}"
 """
