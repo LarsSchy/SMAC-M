@@ -94,13 +94,34 @@ if __name__ == '__main__':
     data_path = config_relative(data_path, args)
 
     map_path = args.config['paths'].get('map')
+    if not map_path:
+        map_path = os.path.normpath(os.path.join(data_path, '../map'))
+    else:
+        map_path = config_relative(map_path, args)
 
     rule_set_path = args.config['paths'].get('ruleset')
+    if not rule_set_path:
+        rule_set_path = RESOURCES_PATH
+    else:
+        rule_set_path = config_relative(rule_set_path, args)
 
-    color_tables_exist =os.path.join(rule_set_path, 'color_table')
+    rule_set_path = dirutils.force_sub_dir(rule_set_path, 'rules')
+
+    color_tables_exist = dirutils.does_color_tables_exist(rule_set_path)
+    if not color_tables_exist:
+        create_color_rules(RESOURCES_PATH, os.path.join(
+            rule_set_path, "color_tables"), None)
 
     chartsymbols = args.config['paths'].get('chartsymbols')
-    
+     if not chartsymbols:
+        chartsymbols = os.path.abspath(
+            os.path.join(RESOURCES_PATH, 'chartsymbols/chartsymbols_S57.xml'))
+    else:
+        chartsymbols = config_relative(chartsymbols, args)
+
+    if not os.path.isfile(chartsymbols):
+        print("chartsymbols.xml not found at: " + chartsymbols)   
+
     displaycategory = args.config.get('displaycategory',
                                       'Standard').split(',')
     displaycategory += ['Displaybase']
@@ -117,6 +138,9 @@ if __name__ == '__main__':
     if args.format is Format.Chart:
         layer_definitions_exist = dirutils.does_layer_rules_exist(
             rule_set_path)
+        if not layer_definitions_exist or args.force:
+            create_layer_rules(RESOURCES_PATH, os.path.join(
+                rule_set_path, "layer_rules"))
 
         # TODO: Let this script run from anywhere and skip the chdir
         os.chdir(os.path.dirname(__file__))
