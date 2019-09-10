@@ -123,11 +123,16 @@ def main():
     if interactive:
         stdout = sys.stdout
         stderr = sys.stderr
-        env = os.environ
+        env = ChainMap(os.environ)
     else:
         stderr = subprocess.PIPE
         stdout = subprocess.PIPE
         env = ChainMap({'QUIET': '1'}, os.environ)
+
+    env = env.new_child({
+        'PATH':
+        os.path.dirname(sys.executable) + os.pathsep + env.get('PATH', '')
+    })
 
     try:
         # TODO: Convert the actual script to python
