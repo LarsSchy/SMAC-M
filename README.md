@@ -5,8 +5,8 @@ utilities to convert data from S57 to a shapefiles and to create mapfiles for a 
 This package uses the a python script and bash scripts to build a complete mapfiles from a set 
 of templates and styling information to enable display of nautical data in the format S57.
  
-![S-57-overview](/doc/S-57-overview.png)
-![S-57-boy](/doc/S-57-boy.png)
+![greenhead-caostal](/doc/greenhead-caostal.png)
+![wingaersheekbeach-harbour](/doc/wingaersheekbeach-harbour.png)
 
 The package enables mapserver to display nautical charts in different color modes and with 
 alternative color tables.  Currently only simplified S52 symbology is carried out. But future 
@@ -145,7 +145,7 @@ to regenerate the shapefiles.
 
 This project will automatically create lights sector shapefiles based on LIGHTS dataset when generating the shapefiles
 
-![S-57-lioghts_sector](/doc/S-57-lights_sector.png)
+![capsmall-lightsector](/doc/capsmall-lightsector.png)
 
 In case you need to update Lights sector or change the default radius, you can simply run this script:
 
