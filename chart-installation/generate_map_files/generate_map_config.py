@@ -113,7 +113,7 @@ if __name__ == '__main__':
             rule_set_path, "color_tables"), None)
 
     chartsymbols = args.config['paths'].get('chartsymbols')
-     if not chartsymbols:
+    if not chartsymbols:
         chartsymbols = os.path.abspath(
             os.path.join(RESOURCES_PATH, 'chartsymbols/chartsymbols_S57.xml'))
     else:

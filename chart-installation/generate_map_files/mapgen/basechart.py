@@ -384,9 +384,8 @@ LAYER
       POINTS 1 1 END
    END
    METADATA
-      "oms_title" "Force layer to flush cache"
-      "wms_enable_request" "* !GetFeatureInfo"
-      "ows_enable_request"   "*"
+      "ows_title" "Force layer to flush cache"
+      "ows_enable_request" "* !GetFeatureInfo"
       "gml_include_items" "all"
       "wms_feature_mime_type" "text/html"
    END

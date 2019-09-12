@@ -163,7 +163,7 @@ class ChartSymbols:
                     display_priority=DisplayPriority.get(display_priority)
                 )
 
-                # If we have a CS instruction, explode it in many lookups
+                # If we have a CS instruction, explode it in many lookups                
                 parts = str_instruction.split(';')
                 for part in parts:
                     if not part:
@@ -211,7 +211,6 @@ class ChartSymbols:
         return Layer(layer, feature_type, 'POLYGON', group, max_scale_denom,
                      fields, self.polygon_lookups.get(feature_type, []), self,
                      metadata_name)
-
 
 class AllInclusive:
     def __contains__(self, val):

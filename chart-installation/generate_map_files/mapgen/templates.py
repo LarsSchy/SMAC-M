@@ -7,7 +7,7 @@ LAYER
     NAME "{feature}_{layer}"
     GROUP "{group}"
     METADATA
-        "ows_title" "{metadata_name}"
+        "ows_title" "{metadata_name} {geomtype_humanreadable}"
         "ows_enable_request"   "*"
         "gml_include_items" "all"
         "wms_feature_mime_type" "text/html"
@@ -27,7 +27,7 @@ END
 lights_layer_template = """
 # LIGHTS features and lines
 LAYER
-     NAME RAYS_SECTOR
+     NAME "Light sector rays"
      TYPE LINE
      DATA '{0}/CL{0}_LIGHTS_LINESTRING_SECTOR'
      MAXSCALEDENOM {3}
@@ -46,14 +46,14 @@ LAYER
         END
      END
      METADATA
-        "oms_title" "Light sector rays"
+        "ows_title" "Light sector rays"
         "ows_enable_request"   "*"
         "gml_include_items" "all"
         "wms_feature_mime_type" "text/html"
      END
  END
  LAYER
-     NAME ARC_LIGHTS_SECTOR
+     NAME "Arc light sectors"
      TYPE LINE
      DATA '{0}/CL{0}_LIGHTS_LINESTRING_SECTOR'
      MAXSCALEDENOM {3}
@@ -104,14 +104,14 @@ LAYER
          END
      END
      METADATA
-        "oms_title" "ARC_LIGHTS_SECTOR"
+        "ows_title" "Arc light sectors"
         "ows_enable_request"   "*"
         "gml_include_items" "all"
         "wms_feature_mime_type" "text/html"
      END
  END
  LAYER
-     NAME LIGHTS_POINT_SIGNATURE
+     NAME "Lights signature"
      TYPE POINT
      DATA '{0}/CL{0}_LIGHTS_POINT_SIGNATURE'
      MAXSCALEDENOM {3}
@@ -152,7 +152,7 @@ LAYER
          END
      END
      METADATA
-        "oms_title" "Lights signature"
+        "ows_title" "Lights signature"
         "ows_enable_request"   "*"
         "gml_include_items" "all"
         "wms_feature_mime_type" "text/html"

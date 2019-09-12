@@ -154,6 +154,18 @@ class SubLayer:
         self.geom_type = geom_type
         self.classes = classes
 
+    def get_human_readable_geomtype(self):
+        t = str(self.geom_type)
+        if t == 'GeomType.Point':
+            g = '(Point)'
+        elif t == 'GeomType.Line':
+            g = '(Line)'
+        elif t == 'GeomType.Polygon':
+            g = '(Polygon)'
+        else:
+            g = t
+        return g
+
     @property
     def mapfile(self):
         parent = self.layer_parent
@@ -161,6 +173,7 @@ class SubLayer:
             layer=parent.layer_level,
             feature=parent.feature_name,
             metadata_name=parent.metadata_name,
+            geomtype_humanreadable=self.get_human_readable_geomtype(),
             group=parent.group,
             type=self.geom_type,
             max_scale_denom=parent.msd,
