@@ -198,7 +198,10 @@ class ChartSymbols:
         layer = Layer(layer, feature, 'POINT', group, msd,
                       fields, self.point_lookups.get(feature, []), self
                       )
-        if feature == 'LIGHTS':
+        # ajusting max scale for sounding point and add extra layer for lights
+        if feature == 'SOUNDG' or feature == 'X-SNDG':
+            msd = str(round(int(msd)* 0.4),0)
+        elif feature == 'LIGHTS':
             layer = LightsLayer(layer)
 
         return layer
