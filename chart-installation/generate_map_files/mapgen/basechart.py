@@ -205,7 +205,7 @@ def process_all_layers(data, target, config, point_table='Simplified',
     #  Process all color themes
     #
 
-    for color in os.listdir(config + '/color_tables'):
+    for color in os.listdir(config + '/color_tables/'):
         print("Loading " + color)
         # theme = os.path.splitext("path_to_file")[0]
         if chartsymbols:
@@ -270,6 +270,42 @@ def get_layer_mapfile(layer, feature, group, color_table, msd):
     return mapfile
 
 
+def get_navigation_level(layer):
+
+   if layer == '1':
+       nl = 'Overview'
+   elif layer == '2':
+       nl = 'General'
+   elif layer == '3':
+       nl = 'Coastal'
+   elif layer == '4':
+       nl = 'Approach'
+   elif layer == '5':
+        nl = 'Harbour'
+   elif layer == '6':
+        nl = 'Berthing'
+   else:
+        nl = 'default'
+
+   return nl
+
+def get_metadata_name(s57objectname):
+    
+    # Extract a readable layer name
+    # csv file looks like this
+    # "Code","ObjectClass","Acronym","Attribute_A","Attribute_B","Attribute_C","Class","Primitives"
+    # 1,Administration area (Named),ADMARE,JRSDTN;NATION;NOBJNM;OBJNAM;,INFORM;NINFOM;NTXTDS;PICREP;SCAMAX;SCAMIN;TXTDSC;,RECDAT;RECIND;SORDAT;SORIND;,G,Area;
+
+    r=s57objectname
+    with open('../../s57objectclasses.csv', 'r') as objFile:
+        reader = csv.reader(objFile)
+        for row in reader:
+            if row[2]==s57objectname:
+                r = row[1]
+    objFile.close()
+    return r
+
+
 def process_layer_colors(layer, color_table, input_file, msd, data, target,
                          chartsymbols=None, shp_types={}, shp_fields={}):
     #  Reimplementation of the shell script of the same name
@@ -312,22 +348,24 @@ def process_layer_colors(layer, color_table, input_file, msd, data, target,
                         print("{} does not match geometry: {} in {}".format(
                             filename, shp_types[filename], geom))
                         continue
-
+                    # we will push a readable name in metadata for this layer
+                    metadata_name = get_metadata_name(feature)
+                    # we will push a readdable Group name based on Navigation level
+                    group_layer = get_navigation_level(layer)
                     if geom == 'POINT':
                         layer_obj = chartsymbols.get_point_mapfile(
-                            layer, feature, 'default', msd,
-                            shp_fields[filename])
+                            layer, feature, group_layer, msd,
+                            shp_fields[filename], metadata_name)
                     elif geom == 'LINESTRING':
                         layer_obj = chartsymbols.get_line_mapfile(
-                            layer, feature, 'default', msd,
-                            shp_fields[filename])
+                            layer, feature, group_layer, msd,
+                            shp_fields[filename], metadata_name)
                     elif geom == 'POLYGON':
                         layer_obj = chartsymbols.get_poly_mapfile(
-                            layer, feature, 'default', msd,
-                            shp_fields[filename])
+                            layer, feature, group_layer, msd,
+                            shp_fields[filename], metadata_name)
                     else:
                         continue
-
                     layers.append(layer_obj)
 
         final_file.write('\n'.join(l.mapfile for l in sorted(layers) if l))
@@ -338,7 +376,7 @@ def process_layer_colors(layer, color_table, input_file, msd, data, target,
 #
 LAYER
    NAME "force_label_draw_CL${CL}"
-   GROUP "default"
+   GROUP %s
    TYPE POINT
    PROCESSING FORCE_DRAW_LABEL_CACHE=FLUSH
    TRANSFORM FALSE
@@ -346,6 +384,12 @@ LAYER
    FEATURE
       POINTS 1 1 END
    END
+   METADATA
+      "ows_title" "Force layer to flush cache"
+      "ows_enable_request" "* !GetFeatureInfo"
+      "gml_include_items" "all"
+      "wms_feature_mime_type" "text/html"
+   END
 END
-    """)
+    """ % get_navigation_level(layer))
     final_file.close()

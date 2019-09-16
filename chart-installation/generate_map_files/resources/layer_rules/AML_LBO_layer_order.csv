@@ -1,7 +1,0 @@
-LAYER,GROUP,LAYER_DESC
-M_COVR,poly,Data Coverage
-iscour,point,Impact Scour
-OBSTRN,point,LBO,Obstruction
-senanm,point,Sensor Anomaly
-UWTROC,point,Underwater Awash Rock
-WRECKS,point,Wrecks

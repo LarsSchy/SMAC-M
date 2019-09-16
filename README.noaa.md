@@ -26,7 +26,7 @@ python3 bin/generate_toml_config.py \
           -enhancedchartdata ../noaa_enc/shp \
           --tablename Paper \
           --displaycategory Standard \
-          --rule-set-path ./chart-installation/generate_map_files/resources/layer_rules/rules/ \
+          --rule-set-path ./chart-installation/generate_map_files/resources/rules/ \
           -o configfile.toml
 ```
 

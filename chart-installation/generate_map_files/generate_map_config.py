@@ -146,7 +146,20 @@ if __name__ == '__main__':
 
         # TODO: Let this script run from anywhere and skip the chdir
         os.chdir(os.path.dirname(__file__))
-
+        print("\n=========================================================")
+        print("   Configuration variables")
+        print("data_path: %s" % data_path)
+        print("rule_set_path: %s" % rule_set_path)
+        print("RESOURCES_PATH: %s" % RESOURCES_PATH)
+        print("point_table: %s" % point_table)
+        print("area_table: %s" % area_table)
+        print("debug: %s" % debug)
+        print("force: %s" % args.force)
+        print("map_path: %s" % map_path)
+        print("displaycategory:%s" % displaycategory)
+        print("chartsymbols: %s" % chartsymbols)
+        print("layer_definitions_exist : %s " % layer_definitions_exist)
+        print("=========================================================\n")
         generate_basechart_config(data_path, map_path, rule_set_path,
                                   RESOURCES_PATH, args.force,
                                   debug, point_table, area_table,
@@ -159,5 +172,7 @@ if __name__ == '__main__':
               file=sys.stderr)
         sys.exit(1)
 
+    # TODO we should manage creating or not symbolset.
+    print("Generating symbolset ...")
     for symbolset in symbolsets:
-        generate_symbolset(symbolset, os.path.join(map_path, 'symbols'), False)
+        generate_symbolset(symbolset, os.path.join(map_path, 'symbols'), False, chartsymbols)
