@@ -120,7 +120,7 @@ if __name__ == '__main__':
         chartsymbols = config_relative(chartsymbols, args)
 
     if not os.path.isfile(chartsymbols):
-        print("chartsymbols.xml not found at: " + chartsymbols)   
+        print("chartsymbols.xml not found at: " + chartsymbols)
 
     displaycategory = args.config.get('displaycategory',
                                       'Standard').split(',')
@@ -172,4 +172,4 @@ if __name__ == '__main__':
     # TODO we should manage creating or not symbolset.
     print("Generating symbolset ...")
     for symbolset in symbolsets:
-        generate_symbolset(symbolset, os.path.join(map_path, 'symbols'), False,chartsymbols)
+        generate_symbolset(symbolset, os.path.join(map_path, 'symbols'), False, chartsymbols)

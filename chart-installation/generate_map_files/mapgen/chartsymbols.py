@@ -163,7 +163,7 @@ class ChartSymbols:
                     display_priority=DisplayPriority.get(display_priority)
                 )
 
-                # If we have a CS instruction, explode it in many lookups                
+                # If we have a CS instruction, explode it in many lookups
                 parts = str_instruction.split(';')
                 for part in parts:
                     if not part:
@@ -191,7 +191,7 @@ class ChartSymbols:
                 @ lookups_from_cs('SOUNDG', 'Point', 'X-SNDG')
             )
 
-    def get_point_mapfile(self, layer, feature, group, msd, fields,metadata_name):
+    def get_point_mapfile(self, layer, feature, group, msd, fields, metadata_name):
         layer = Layer(layer, feature, 'POINT', group, msd,
                       fields, self.point_lookups.get(feature, []), self,
                       metadata_name)
@@ -201,13 +201,13 @@ class ChartSymbols:
         return layer
 
     def get_line_mapfile(self, layer, feature_type, group, max_scale_denom,
-                         fields,metadata_name):
+                         fields, metadata_name):
         return Layer(layer, feature_type, 'LINE', group, max_scale_denom,
                      fields, self.line_lookups.get(feature_type, []), self,
                      metadata_name)
 
     def get_poly_mapfile(self, layer, feature_type, group, max_scale_denom,
-                         fields,metadata_name):
+                         fields, metadata_name):
         return Layer(layer, feature_type, 'POLYGON', group, max_scale_denom,
                      fields, self.polygon_lookups.get(feature_type, []), self,
                      metadata_name)

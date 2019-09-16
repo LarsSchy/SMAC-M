@@ -171,7 +171,6 @@ def process_all_layers(data, target, config, point_table='Simplified',
             '3D Point': 'POINT',
         }
         print("Check geometry of all layers...")
-        #if 1==0:
         for (dirpath, dirnames, filenames) in os.walk(data):
             for filename in filenames:
                 if filename.endswith('.shp'):
@@ -354,15 +353,15 @@ def process_layer_colors(layer, color_table, input_file, msd, data, target,
                     if geom == 'POINT':
                         layer_obj = chartsymbols.get_point_mapfile(
                             layer, feature, group_layer, msd,
-                            shp_fields[filename],metadata_name)
+                            shp_fields[filename], metadata_name)
                     elif geom == 'LINESTRING':
                         layer_obj = chartsymbols.get_line_mapfile(
                             layer, feature, group_layer, msd,
-                            shp_fields[filename],metadata_name)
+                            shp_fields[filename], metadata_name)
                     elif geom == 'POLYGON':
                         layer_obj = chartsymbols.get_poly_mapfile(
                             layer, feature, group_layer, msd,
-                            shp_fields[filename],metadata_name)
+                            shp_fields[filename], metadata_name)
                     else:
                         continue
                     layers.append(layer_obj)
