@@ -137,6 +137,9 @@ if __name__ == '__main__':
 
     excluded_lookups = args.config.get('excluded_lookups', None)
 
+    sounding_maxscale_shift = args.config.get('sounding_maxscale_shift', None)
+    print("sounding_maxscale_shift = %s" % sounding_maxscale_shift)
+
     if args.format is Format.Chart:
         layer_definitions_exist = dirutils.does_layer_rules_exist(
             rule_set_path)
@@ -148,23 +151,24 @@ if __name__ == '__main__':
         os.chdir(os.path.dirname(__file__))
         print("\n=========================================================")
         print("   Configuration variables")
-        print("data_path: %s" % data_path)
-        print("rule_set_path: %s" % rule_set_path)
-        print("RESOURCES_PATH: %s" % RESOURCES_PATH)
-        print("point_table: %s" % point_table)
-        print("area_table: %s" % area_table)
-        print("debug: %s" % debug)
-        print("force: %s" % args.force)
-        print("map_path: %s" % map_path)
-        print("displaycategory:%s" % displaycategory)
-        print("chartsymbols: %s" % chartsymbols)
-        print("layer_definitions_exist : %s " % layer_definitions_exist)
+        print("Data path: %s" % data_path)
+        print("Rules path: %s" % rule_set_path)
+        print("Resources path: %s" % RESOURCES_PATH)
+        print("Map path: %s" % map_path)
+        print("Point table: %s" % point_table)
+        print("Area table: %s" % area_table)
+        print("Debug in Mapfile: %s" % debug)
+        print("Force: %s" % args.force)
+        print("Display category:%s" % displaycategory)
+        print("Sounding layers maxscale shift = %s%%" % (round(float((sounding_maxscale_shift)*100))))
+        print("Chartsymbols lookup file: %s" % chartsymbols)
+        print("Layer definitions exist : %s " % layer_definitions_exist)
         print("=========================================================\n")
         generate_basechart_config(data_path, map_path, rule_set_path,
                                   RESOURCES_PATH, args.force,
                                   debug, point_table, area_table,
                                   displaycategory, chartsymbols,
-                                  excluded_lookups)
+                                  excluded_lookups,sounding_maxscale_shift)
     else:
         print('Data format "{}" has not yet been ported to the configuration '
               'file. Use the old script to generate your mapfiles'

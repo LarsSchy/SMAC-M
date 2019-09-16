@@ -92,7 +92,8 @@ def create_legend_files(template_path, themes_path, map_path, fonts_path,
 
 def generate_basechart_config(data_path, map_path, rule_set_path, resource_dir,
                               force_overwrite, debug, point_table, area_table,
-                              displaycategory, chartsymbols, excluded_lookups):
+                              displaycategory, chartsymbols, excluded_lookups,
+                              sounding_maxscale_shift):
 
     # Generate new map files
     dirutils.clear_folder(map_path)
@@ -101,7 +102,7 @@ def generate_basechart_config(data_path, map_path, rule_set_path, resource_dir,
         shapepath = data_path
         process_all_layers(data_path, map_path, rule_set_path, point_table,
                            area_table, displaycategory, chartsymbols,
-                           excluded_lookups)
+                           excluded_lookups,sounding_maxscale_shift)
 
     fonts_path = os.path.join("./fonts", "fontset.lst")
     create_capability_files(os.path.join(resource_dir, "templates"),
@@ -150,7 +151,8 @@ def get_colors(color_table):
 
 def process_all_layers(data, target, config, point_table='Simplified',
                        area_table='Plain', displaycategory=None,
-                       chartsymbols_file=None, excluded_lookups=None):
+                       chartsymbols_file=None, excluded_lookups=None,
+                       sounding_maxscale_shift=None):
 
     # Reimplementation of the shel script of the same name
     msd = get_maxscaledenom(config)
@@ -217,7 +219,7 @@ def process_all_layers(data, target, config, point_table='Simplified',
             input_file = config + '/layer_rules/layer_groups.csv'
             process_layer_colors(layer, color_table, input_file,
                                  msd[layer], data, target, chartsymbols,
-                                 shp_types, shp_fields)
+                                 shp_types, shp_fields, sounding_maxscale_shift)
 
 
 def get_layer_mapfile(layer, feature, group, color_table, msd):
@@ -307,7 +309,8 @@ def get_metadata_name(s57objectname):
 
 
 def process_layer_colors(layer, color_table, input_file, msd, data, target,
-                         chartsymbols=None, shp_types={}, shp_fields={}):
+                         chartsymbols=None, shp_types={}, shp_fields={},
+                         sounding_maxscale_shift=None):
     #  Reimplementation of the shell script of the same name
 
     # Create directory
@@ -355,7 +358,8 @@ def process_layer_colors(layer, color_table, input_file, msd, data, target,
                     if geom == 'POINT':
                         layer_obj = chartsymbols.get_point_mapfile(
                             layer, feature, group_layer, msd,
-                            shp_fields[filename], metadata_name)
+                            shp_fields[filename], metadata_name,
+                            sounding_maxscale_shift)
                     elif geom == 'LINESTRING':
                         layer_obj = chartsymbols.get_line_mapfile(
                             layer, feature, group_layer, msd,

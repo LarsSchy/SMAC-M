@@ -194,20 +194,18 @@ class ChartSymbols:
                 @ lookups_from_cs('SOUNDG', 'Point', 'X-SNDG')
             )
 
-    def get_point_mapfile(self, layer, feature, group, msd, fields, metadata_name):
-        layer = Layer(layer, feature, 'POINT', group, msd,
-<<<<<<< HEAD
-                      fields, self.point_lookups.get(feature, []), self,
-                      metadata_name)
-        if feature == 'LIGHTS':
-=======
-                      fields, self.point_lookups.get(feature, []), self
-                      )
+    def get_point_mapfile(self, layer, feature, group, msd, fields, 
+                          metadata_name, sounding_maxscale_shift):
+
         # ajusting max scale for sounding point and add extra layer for lights
         if feature == 'SOUNDG' or feature == 'X-SNDG':
-            msd = str(round(int(msd)* 0.4,0))
-        elif feature == 'LIGHTS':
->>>>>>> fix missing )
+            msd = str(round((int(msd)*float(sounding_maxscale_shift))))
+        
+        layer = Layer(layer, feature, 'POINT', group, msd, fields, 
+                      self.point_lookups.get(feature, []), self,
+                      metadata_name)
+
+        if feature == 'LIGHTS':
             layer = LightsLayer(layer)
 
         return layer
