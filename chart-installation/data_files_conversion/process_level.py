@@ -76,11 +76,7 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
                     result[key] = []
 
                 result[key].append(feature)
-<<<<<<< HEAD
-    send_progress(s,0,5,2)
-=======
     send_progress(s, 0, 5, 2)
->>>>>>> Automatically fix a bunch of pep8 issues
 
     out_driver = ogr.GetDriverByName(output_driver)
     # dont assume WGS84
@@ -175,12 +171,7 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
         add_fields(layer, [("SEABED", ogr.OFTString)])
 
         # Fill the seabed material column with text
-<<<<<<< HEAD
-        fill_fields(layer,[("SEABED", fill_seabed, ())])
-
-=======
         fill_fields(layer, [("SEABED", fill_seabed, ())])
->>>>>>> Automatically fix a bunch of pep8 issues
 
     # MIPARE
     print("CL{} | Preprocessing mipare".format(level))
@@ -188,13 +179,8 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
     mipare = [os.path.join(output_path, f)
               for f in out_files if ("MIPARE" in f) and ("poly" in f)]
     for m in mipare:
-<<<<<<< HEAD
-        subprocess.call(os.path.join(os.getcwd(), "preproc_MIPARE.sh {}").format(m[:-4]), shell=True)
-
-=======
         subprocess.call(os.path.join(
             os.getcwd(), "preproc_MIPARE.sh {}").format(m[:-4]), shell=True)
->>>>>>> Automatically fix a bunch of pep8 issues
 
     # RESARE
     print("CL{} | Preprocessing resare".format(level))
@@ -226,10 +212,7 @@ def process(level, source_path, output_path, progress_address=None, debug=None):
     if s:
         s.close()
     return
-<<<<<<< HEAD
-=======
 
->>>>>>> Automatically fix a bunch of pep8 issues
 
 def glob(source_path, CL):
     # Get all S57 basefiles (ending with .000) for a specific zoom level and
@@ -270,10 +253,7 @@ def fill_preproc_value_frac(feature, depth_field):
     else:
         return frac
 
-<<<<<<< HEAD
-=======
 
->>>>>>> Automatically fix a bunch of pep8 issues
 def fill_seabed(feature):
     natsur_dic = {
         4: "S",
@@ -321,10 +301,6 @@ def fill_seabed(feature):
     else:
         natqua = []
 
-<<<<<<< HEAD
-
-=======
->>>>>>> Automatically fix a bunch of pep8 issues
     # Merge the two seabed type columns
     if natqua is not None:
         data = itertools.zip_longest(natsur, natqua)
