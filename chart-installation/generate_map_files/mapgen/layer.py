@@ -155,15 +155,14 @@ class SubLayer:
         self.classes = classes
 
     def get_human_readable_geomtype(self):
-        t = str(self.geom_type)
-        if t == 'GeomType.Point':
+        if self.geom_type is GeomType.Point:
             g = '(Point)'
-        elif t == 'GeomType.Line':
+        elif self.geom_type is GeomType.Line:
             g = '(Line)'
-        elif t == 'GeomType.Polygon':
+        elif self.geom_type is GeomType.Polygon:
             g = '(Polygon)'
         else:
-            g = t
+            g = str(self.geom_type)
         return g
 
     @property
