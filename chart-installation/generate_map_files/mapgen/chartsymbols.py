@@ -196,9 +196,18 @@ class ChartSymbols:
 
     def get_point_mapfile(self, layer, feature, group, msd, fields, metadata_name):
         layer = Layer(layer, feature, 'POINT', group, msd,
+<<<<<<< HEAD
                       fields, self.point_lookups.get(feature, []), self,
                       metadata_name)
         if feature == 'LIGHTS':
+=======
+                      fields, self.point_lookups.get(feature, []), self
+                      )
+        # ajusting max scale for sounding point and add extra layer for lights
+        if feature == 'SOUNDG' or feature == 'X-SNDG':
+            msd = str(round(int(msd)* 0.4,0))
+        elif feature == 'LIGHTS':
+>>>>>>> fix missing )
             layer = LightsLayer(layer)
 
         return layer
