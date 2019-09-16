@@ -200,7 +200,7 @@ class ChartSymbols:
                       )
         # ajusting max scale for sounding point and add extra layer for lights
         if feature == 'SOUNDG' or feature == 'X-SNDG':
-            msd = str(round(int(msd)* 0.4),0)
+            msd = str(round(int(msd)* 0.4,0))
         elif feature == 'LIGHTS':
             layer = LightsLayer(layer)
 
