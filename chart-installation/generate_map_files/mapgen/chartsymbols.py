@@ -194,14 +194,14 @@ class ChartSymbols:
                 @ lookups_from_cs('SOUNDG', 'Point', 'X-SNDG')
             )
 
-    def get_point_mapfile(self, layer, feature, group, msd, fields, 
+    def get_point_mapfile(self, layer, feature, group, msd, fields,
                           metadata_name, sounding_maxscale_shift):
 
         # ajusting max scale for sounding point and add extra layer for lights
         if feature in ('SOUNDG', 'X-SNDG') and sounding_maxscale_shift:
             msd = str(round(int(msd) * sounding_maxscale_shift))
-        
-        layer = Layer(layer, feature, 'POINT', group, msd, fields, 
+
+        layer = Layer(layer, feature, 'POINT', group, msd, fields,
                       self.point_lookups.get(feature, []), self,
                       metadata_name)
 
@@ -221,6 +221,7 @@ class ChartSymbols:
         return Layer(layer, feature_type, 'POLYGON', group, max_scale_denom,
                      fields, self.polygon_lookups.get(feature_type, []), self,
                      metadata_name)
+
 
 class AllInclusive:
     def __contains__(self, val):
