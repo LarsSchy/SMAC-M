@@ -198,8 +198,8 @@ class ChartSymbols:
                           metadata_name, sounding_maxscale_shift):
 
         # ajusting max scale for sounding point and add extra layer for lights
-        if feature == 'SOUNDG' or feature == 'X-SNDG':
-            msd = str(round((int(msd)*float(sounding_maxscale_shift))))
+        if feature in ('SOUNDG', 'X-SNDG') and sounding_maxscale_shift:
+            msd = str(round(int(msd) * sounding_maxscale_shift))
         
         layer = Layer(layer, feature, 'POINT', group, msd, fields, 
                       self.point_lookups.get(feature, []), self,

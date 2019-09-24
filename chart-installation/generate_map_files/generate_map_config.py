@@ -137,8 +137,7 @@ if __name__ == '__main__':
 
     excluded_lookups = args.config.get('excluded_lookups', None)
 
-    sounding_maxscale_shift = args.config.get('sounding_maxscale_shift', None)
-    print("sounding_maxscale_shift = %s" % sounding_maxscale_shift)
+    sounding_maxscale_shift = args.config.get('sounding_maxscale_shift', 1.0)
 
     if args.format is Format.Chart:
         layer_definitions_exist = dirutils.does_layer_rules_exist(
@@ -168,7 +167,7 @@ if __name__ == '__main__':
                                   RESOURCES_PATH, args.force,
                                   debug, point_table, area_table,
                                   displaycategory, chartsymbols,
-                                  excluded_lookups,sounding_maxscale_shift)
+                                  excluded_lookups, sounding_maxscale_shift)
     else:
         print('Data format "{}" has not yet been ported to the configuration '
               'file. Use the old script to generate your mapfiles'

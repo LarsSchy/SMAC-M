@@ -102,7 +102,7 @@ def generate_basechart_config(data_path, map_path, rule_set_path, resource_dir,
         shapepath = data_path
         process_all_layers(data_path, map_path, rule_set_path, point_table,
                            area_table, displaycategory, chartsymbols,
-                           excluded_lookups,sounding_maxscale_shift)
+                           excluded_lookups, sounding_maxscale_shift)
 
     fonts_path = os.path.join("./fonts", "fontset.lst")
     create_capability_files(os.path.join(resource_dir, "templates"),
