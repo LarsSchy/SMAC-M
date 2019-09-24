@@ -4,6 +4,7 @@ area_table = "Plain"          # Style table used for area features
 displaycategory = "Standard"  # Comma-separated list of categories of symbols displayed
 topmark_type = "rigid"        # Type of top marks to display
 excluded_lookups = ["M_QUAL"] # List of lookups to exclude from the mapfiles
+sounding_maxscale_shift = 0.4 # MAXSCALEDENOM downgrade shift of SOUNDG and X-SNDG layers (0.5 = 50% less)
 
 [paths]  # All paths in this section are relative to this file's location
 chart = "ENC_ROOT"    # Path to the ENC_ROOT of this dataset
