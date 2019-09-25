@@ -4,7 +4,7 @@ MAP
     CONFIG "PROJ_LIB" './epsg'
     UNITS dd
     EXTENT -180 -90 180 90
-
+    MAXSIZE 32768
     # CONFIG "MS_OPENLAYERS_JS_URL" "http://localhost/LocalOpenLayers/OpenLayers-ms60.js"
     ${DEBUG}
     #RESOLUTION 96
