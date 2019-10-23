@@ -32,10 +32,11 @@ Furhter on a tool is provided to process tiff files and create mapfiles automati
 
 ```
 sudo apt install python3 python3-pip python3-venv gdal-bin python3-gdal build-essential libgdal-dev imagemagick xmlstarlet
-git clone https://github.com/LarsSchy/SMAC-M
+echo 'PATH="$HOME/.local/bin/:$PATH"' >>~/.bashrc
+pip3 install --user pipenv
 ```
  
-## Python 3 virtual environment
+## Clone SMAC-M and install Python virtual environment
 
 A good way to run and test this tool is to create a development virtual 
 environment available only for the active user.  Before running the scripts for 
@@ -53,9 +54,8 @@ Once the packages have been installed, use `pipenv shell` to activate the
 environment.
 
 ```
+git clone https://github.com/LarsSchy/SMAC-M
 cd ./SMAC-M
-echo 'PATH="$HOME/.local/bin/:$PATH"' >>~/.bashrc
-pip3 install --user pipenv
 pipenv install
 pipenv run pip install "GDAL<=$(gdal-config --version)"
 pipenv shell
