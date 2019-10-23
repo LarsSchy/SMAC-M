@@ -137,7 +137,7 @@ class TE(Command):
             return match.group(0)
 
         text = re.sub(r'\[([^\]]+)\]', force_labels, text)
-
+        
         try:
             label_field = re.search(r'(\[[^\]]+\])', text).group(1)
             label_expr = 'EXPRESSION ("{}" > "0")'.format(label_field)
@@ -165,7 +165,7 @@ class TE(Command):
             vjust=self.vjustHash[self.vjust],
             hjust=self.hjustHash[self.hjust],
             space=self.spaceHash[self.space],
-            size=self.chars[-3:-1],
+            size=self.chars[-4:-2],
             xoff=self.xoffs,
             yoff=self.yoffs,
             color=chartsymbols.color_table[self.colour].rgb,
