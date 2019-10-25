@@ -114,7 +114,7 @@ This script accepts the same options as the legacy
      -enhancedchartdata ./shp_s57data/shp \
      --tablename Paper \
      --displaycategory Standard \
-     --rule-set-path ../resources/layer_rules/rules/ \
+     --rule-set-path ../resources/rules/ \
      -o configfile.toml
 ```
 
@@ -162,6 +162,25 @@ The mapfiles can be generated from the information in the configuration file.
 
 ```
 python3 chart-installation/generate_map_files/generate_map_config.py configfile.toml
+```
+
+### Manage scale of navigation level
+
+By default, Maximum scale visibility can be adjust by editing this file:
+./chart-installation/generate_map_files/resources/rules/layer_rules/layer_msd.csv
+ 
+|Navigation Level| Max Scale|
+|1|10000000|
+|2|5000000|
+|3|1000000|
+|4|500000|
+|5|100000|
+|6|50000|
+
+Be award if you change default maxscale visibility, you may need to adjust sounding 
+points max scale shift in your configuration variable file (`config.toml`)
+```
+sounding_maxscale_shift = 0.4
 ```
 
 #### Enhanced data mapfile limitations

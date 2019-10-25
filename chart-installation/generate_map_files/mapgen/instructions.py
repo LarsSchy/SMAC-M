@@ -218,6 +218,11 @@ class SY(Command):
         if self.symbol == 'FOGSIG01':
             x = -15
 
+        # some pixmap symbols are too big or too small
+        resizing = ''
+        if self.symbol == 'BUAARE02':
+            resizing = 'SIZE 10'
+
         if self.symbol in chartsymbols.symbols_def:
             symbol_name = self.symbol
         else:
@@ -236,13 +241,14 @@ class SY(Command):
         return """
         STYLE
             {geomtransform}
+            {resizing}
             SYMBOL "{symbol}"
             OFFSET {x} {y}
             ANGLE {angle}
             GAP 2000
         END
         """.format(symbol=symbol_name, x=x, y=y, angle=self.rot,
-                   geomtransform=geomtransform)
+                   geomtransform=geomtransform,resizing=resizing)
 
 
 class LC(Command):
