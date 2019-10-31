@@ -4,12 +4,11 @@
 The resulting mapserver configuration will be put in the folder 'map' in the
 same folder as the geographical data."""
 
-from __future__ import print_function
-
 import argparse
 from enum import Enum
 import os
 import sys
+from textwrap import dedent
 import toml
 
 from mapgen.basechart import generate_basechart_config
@@ -52,6 +51,11 @@ def parse_arguments():
     )
     parser.add_argument(
         '--force', '-f', '--force-overwrite',
+        action='store_true',
+        help="Force overwrite the rule set at RULE_SET_PATH"
+    )
+    parser.add_argument(
+        '--verbose', '-v',
         action='store_true',
         help="Force overwrite the rule set at RULE_SET_PATH"
     )
@@ -148,21 +152,26 @@ if __name__ == '__main__':
 
         # TODO: Let this script run from anywhere and skip the chdir
         os.chdir(os.path.dirname(__file__))
-        print("\n=========================================================")
-        print("   Configuration variables")
-        print("Data path: %s" % data_path)
-        print("Rules path: %s" % rule_set_path)
-        print("Resources path: %s" % RESOURCES_PATH)
-        print("Map path: %s" % map_path)
-        print("Point table: %s" % point_table)
-        print("Area table: %s" % area_table)
-        print("Debug in Mapfile: %s" % debug)
-        print("Force: %s" % args.force)
-        print("Display category:%s" % displaycategory)
-        print("Sounding layers maxscale shift = %s%%" % (round(float((sounding_maxscale_shift)*100))))
-        print("Chartsymbols lookup file: %s" % chartsymbols)
-        print("Layer definitions exist : %s " % layer_definitions_exist)
-        print("=========================================================\n")
+        if args.verbose:
+            print(dedent(
+                f"""\
+        =========================================================
+            Configuration variables
+        Data path: {data_path}
+        Rules path: {rule_set_path}
+        Resources path: {RESOURCES_PATH}
+        Mappath: {map_path}
+        Point table: {point_table}
+        Area table: {area_table}
+        Debug in Mapfile: {debug}
+        Force: {args.force}
+        Display category: {displaycategory}
+        Sounding layers maxscale shift = {sounding_maxscale_shift * 100:.0f}%
+        Chartsymbols lookup file: {chartsymbols}
+        Layer definitions exist : {layer_definitions_exist}
+        =========================================================
+        """
+            ))
         generate_basechart_config(data_path, map_path, rule_set_path,
                                   RESOURCES_PATH, args.force,
                                   debug, point_table, area_table,
@@ -176,6 +185,13 @@ if __name__ == '__main__':
         sys.exit(1)
 
     # TODO we should manage creating or not symbolset.
-    print("Generating symbolset ...")
+    if args.verbose:
+        print("Generating symbolset ...")
+
     for symbolset in symbolsets:
-        generate_symbolset(symbolset, os.path.join(map_path, 'symbols'), False, chartsymbols)
+        generate_symbolset(
+            symbolset,
+            os.path.join(map_path, 'symbols'),
+            False,
+            chartsymbols
+        )
