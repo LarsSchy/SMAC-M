@@ -145,6 +145,7 @@ class TE(Command):
             # AAA, ZZZ not found in the original string
             label_expr = ''  # apply your error handling
 
+        ## self.chars[-4:-2]
         return """
         LABEL  # {command}
             {label}
@@ -165,7 +166,7 @@ class TE(Command):
             vjust=self.vjustHash[self.vjust],
             hjust=self.hjustHash[self.hjust],
             space=self.spaceHash[self.space],
-            size=self.chars[-4:-2],
+            size=7,
             xoff=self.xoffs,
             yoff=self.yoffs,
             color=chartsymbols.color_table[self.colour].rgb,
@@ -206,6 +207,20 @@ class SY(Command):
             self.rot_field = rot
             self.rot = '[{}_CAL]'.format(rot)
 
+    def get_symbol_size_overwrite(self, sym_size_overwrite, symbol):
+       # Symbole size overwrite are stored into config file based on array of 
+       # tuple ["BUAR:8", ...].  
+       # NOTE: layers are case senssitive
+       for sso in sym_size_overwrite:
+           sy = sso.split(":")
+           if sy[0] in symbol:
+               return 'SIZE %s' % sy[1]
+
+       # Layer not funded, simply return empty string
+       return ''
+
+
+
     def __call__(self, chartsymbols, layer, geom_type, fields):
         # OFFSET
         x = 0
@@ -219,10 +234,9 @@ class SY(Command):
             x = -15
 
         # some pixmap symbols are too big or too small
-        resizing = ''
-        if self.symbol == 'BUAARE02':
-            resizing = 'SIZE 10'
-
+        resizing =  self.get_symbol_size_overwrite(chartsymbols.symbol_size_overwrite, self.symbol)
+        ## symbol_size_overwrite = ["BUAARE02:10","CHI:7"...]
+ 
         if self.symbol in chartsymbols.symbols_def:
             symbol_name = self.symbol
         else:
@@ -233,10 +247,15 @@ class SY(Command):
         x += symbol['pivot'][0]
         y += symbol['size'][1] // 2
         y -= symbol['pivot'][1]
-
+        
+        gap = ''
         geomtransform = ''
         if geom_type == 'POLYGON':
             geomtransform = 'GEOMTRANSFORM centroid'
+            # if polygon, no reason to offset symbol localization
+            x = y = 0
+        else:
+            gap = 'GAP 2000'
 
         return """
         STYLE
@@ -245,10 +264,10 @@ class SY(Command):
             SYMBOL "{symbol}"
             OFFSET {x} {y}
             ANGLE {angle}
-            GAP 2000
+            {gap}
         END
         """.format(symbol=symbol_name, x=x, y=y, angle=self.rot,
-                   geomtransform=geomtransform,resizing=resizing)
+                   geomtransform=geomtransform,resizing=resizing,gap=gap)
 
 
 class LC(Command):

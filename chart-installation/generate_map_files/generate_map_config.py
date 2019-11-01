@@ -141,7 +141,9 @@ if __name__ == '__main__':
 
     excluded_lookups = args.config.get('excluded_lookups', None)
 
-    sounding_maxscale_shift = args.config.get('sounding_maxscale_shift', 1.0)
+    maxscale_shift = args.config.get('maxscale_shift', None)
+
+    symbol_size_overwrite = args.config.get('symbol_size_overwrite', None)
 
     if args.format is Format.Chart:
         layer_definitions_exist = dirutils.does_layer_rules_exist(
@@ -166,7 +168,8 @@ if __name__ == '__main__':
         Debug in Mapfile: {debug}
         Force: {args.force}
         Display category: {displaycategory}
-        Sounding layers maxscale shift = {sounding_maxscale_shift * 100:.0f}%
+        Maxscale shift: {maxscale_shift}
+        Symbols size overwrite: {symbol_size_overwrite}
         Chartsymbols lookup file: {chartsymbols}
         Layer definitions exist : {layer_definitions_exist}
         =========================================================
@@ -176,7 +179,8 @@ if __name__ == '__main__':
                                   RESOURCES_PATH, args.force,
                                   debug, point_table, area_table,
                                   displaycategory, chartsymbols,
-                                  excluded_lookups, sounding_maxscale_shift)
+                                  excluded_lookups, maxscale_shift,
+                                  symbol_size_overwrite)
     else:
         print('Data format "{}" has not yet been ported to the configuration '
               'file. Use the old script to generate your mapfiles'

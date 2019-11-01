@@ -75,7 +75,7 @@ LAYER
              FONT sc
              COLOR 0 0 0
              OUTLINECOLOR 255 255 255
-             SIZE 8
+             SIZE 7
              ANTIALIAS TRUE
              #FORCE TRUE
              POSITION AUTO
@@ -95,7 +95,7 @@ LAYER
              FONT sc
              COLOR 0 0 0
              OUTLINECOLOR 255 255 255
-             SIZE 8
+             SIZE 7
              ANTIALIAS TRUE
              #FORCE TRUE
              POSITION AUTO
@@ -129,7 +129,7 @@ LAYER
              FONT sc
              COLOR 0 0 0
              ##OUTLINECOLOR 255 255 255
-             SIZE 8
+             SIZE 7
              ANTIALIAS TRUE
              ##FORCE TRUE
              POSITION cc
@@ -144,7 +144,7 @@ LAYER
              FONT sc
              COLOR 0 0 0
              ##OUTLINECOLOR 255 255 255
-             SIZE 8
+             SIZE 7
              ANTIALIAS TRUE
              ##FORCE TRUE
              POSITION cc
