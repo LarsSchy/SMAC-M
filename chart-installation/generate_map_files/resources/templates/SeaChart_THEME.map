@@ -35,7 +35,7 @@ MAP
           # 'ows_onlineresource'  '${HOST}?map=${MAP_PATH}/SeaChart_${THEME}.map&'
           "wms_srs" "EPSG:4326 EPSG:3857 EPSG:2950 EPSG:2949 EPSG:32188 EPSG:32187 EPSG:42403 EPSG:3857 EPSG:3979"
           "wfs_srs" "EPSG:4326 EPSG:3857 EPSG:2950 EPSG:2949 EPSG:32188 EPSG:32187 EPSG:42403 EPSG:3857 EPSG:3979"
-          "labelcache_map_edge_buffer" "-50"
+          "labelcache_map_edge_buffer" "10"
           "wms_bbox_extended" "true"
         END
     END

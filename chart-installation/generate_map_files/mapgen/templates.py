@@ -85,7 +85,7 @@ LAYER
      END
      CLASS
          EXPRESSION ('[TYPE]'='ARC' AND [SIGPER]!=0)
-         TEXT ('[MEANING]'+'.'+'[SIGGRP]'+ '.' + '[COLOURCODE]'+tostring([SIGPER],"%.2g")+ 's')
+         TEXT ('[MEANING]'+'.'+tostring([SIGGRP],"%.2g")+ '.' + '[COLOURCODE]'+tostring([SIGPER],"%.2g")+ 's')
          STYLE
             COLOR [COLOURRGB]
             WIDTH 3
