@@ -47,16 +47,26 @@ class ChartSymbols:
     excluded_lookups = ['M_QUAL']
     # excluded_lookups = ExclusiveSet('LIGHTS BCNLAT'.split())
 
+    symbol_size_override = {}
+    maxscale_shift = {}
+
     root = None
 
     def __init__(self, file, point_table='Simplified', area_table='Plain',
                  displaycategory=None, color_table='DAY_BRIGHT',
-                 excluded_lookups=None):
+                 excluded_lookups=None, symbol_size_override=None,
+                 maxscale_shift=None):
         if not os.path.isfile(file):
             raise Exception('chartsymbol file do not exists')
 
         if excluded_lookups is not None:
             self.excluded_lookups = excluded_lookups
+
+        if symbol_size_override is not None:
+            self.symbol_size_override = symbol_size_override
+
+        if maxscale_shift is not None:
+            self.maxscale_shift = maxscale_shift
 
         tree = etree.parse(file)
         root = tree.getroot()
@@ -194,14 +204,17 @@ class ChartSymbols:
                 @ lookups_from_cs('SOUNDG', 'Point', 'X-SNDG')
             )
 
+    def get_maxscale_shift_layer(self, layer, msd):
+        # NOTE: layers are case senssitive
+        return str(round(int(msd) * self.maxscale_shift.get(layer, 1.0)))
+
     def get_point_mapfile(self, layer, feature, group, msd, fields,
-                          metadata_name, sounding_maxscale_shift):
+                          metadata_name):
 
-        # ajusting max scale for sounding point and add extra layer for lights
-        if feature in ('SOUNDG', 'X-SNDG', 'LIGHTS') and sounding_maxscale_shift:
-            msd = str(round(int(msd) * sounding_maxscale_shift))
+        # ajusting max scale for layer pointed in config file by user.
+        msd_verified = self.get_maxscale_shift_layer(feature, msd)
 
-        layer = Layer(layer, feature, 'POINT', group, msd, fields,
+        layer = Layer(layer, feature, 'POINT', group, msd_verified, fields,
                       self.point_lookups.get(feature, []), self,
                       metadata_name)
 
@@ -210,16 +223,23 @@ class ChartSymbols:
 
         return layer
 
-    def get_line_mapfile(self, layer, feature_type, group, max_scale_denom,
+    def get_line_mapfile(self, layer, feature, group, max_scale_denom,
                          fields, metadata_name):
-        return Layer(layer, feature_type, 'LINE', group, max_scale_denom,
-                     fields, self.line_lookups.get(feature_type, []), self,
+        # ajusting max scale for layer pointed in config file by user.
+        msd_verified = self.get_maxscale_shift_layer(feature, max_scale_denom)
+
+        return Layer(layer, feature, 'LINE', group, msd_verified,
+                     fields, self.line_lookups.get(feature, []), self,
                      metadata_name)
 
-    def get_poly_mapfile(self, layer, feature_type, group, max_scale_denom,
+    def get_poly_mapfile(self, layer, feature, group, max_scale_denom,
                          fields, metadata_name):
-        return Layer(layer, feature_type, 'POLYGON', group, max_scale_denom,
-                     fields, self.polygon_lookups.get(feature_type, []), self,
+
+        # ajusting max scale for layer pointed in config file by user.
+        msd_verified = self.get_maxscale_shift_layer(feature, max_scale_denom)
+
+        return Layer(layer, feature, 'POLYGON', group, msd_verified,
+                     fields, self.polygon_lookups.get(feature, []), self,
                      metadata_name)
 
 

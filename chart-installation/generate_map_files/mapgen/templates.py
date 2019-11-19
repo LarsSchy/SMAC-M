@@ -75,7 +75,7 @@ LAYER
              FONT sc
              COLOR 0 0 0
              OUTLINECOLOR 255 255 255
-             SIZE 8
+             SIZE 7
              ANTIALIAS TRUE
              #FORCE TRUE
              POSITION AUTO
@@ -85,7 +85,7 @@ LAYER
      END
      CLASS
          EXPRESSION ('[TYPE]'='ARC' AND [SIGPER]!=0)
-         TEXT ('[MEANING]'+'.'+'[SIGGRP]'+ '.' + '[COLOURCODE]'+tostring([SIGPER],"%.2g")+ 's')
+         TEXT ('[MEANING]'+'.'+tostring([SIGGRP],"%.2g")+ '.' + '[COLOURCODE]'+tostring([SIGPER],"%.2g")+ 's')
          STYLE
             COLOR [COLOURRGB]
             WIDTH 3
@@ -95,7 +95,7 @@ LAYER
              FONT sc
              COLOR 0 0 0
              OUTLINECOLOR 255 255 255
-             SIZE 8
+             SIZE 7
              ANTIALIAS TRUE
              #FORCE TRUE
              POSITION AUTO
@@ -129,7 +129,7 @@ LAYER
              FONT sc
              COLOR 0 0 0
              ##OUTLINECOLOR 255 255 255
-             SIZE 8
+             SIZE 7
              ANTIALIAS TRUE
              ##FORCE TRUE
              POSITION cc
@@ -144,7 +144,7 @@ LAYER
              FONT sc
              COLOR 0 0 0
              ##OUTLINECOLOR 255 255 255
-             SIZE 8
+             SIZE 7
              ANTIALIAS TRUE
              ##FORCE TRUE
              POSITION cc
