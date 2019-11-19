@@ -5,16 +5,21 @@ displaycategory = "Standard"  # Comma-separated list of categories of symbols di
 topmark_type = "rigid"        # Type of top marks to display
 excluded_lookups = ["M_QUAL"] # List of lookups to exclude from the mapfiles
 
-# MAXSCALEDENOM downgrade shift.  All layers have default navigation level define in 
-# ./chart-installation/generate_map_files/resources/rules/layer_rules/layer_msd.csv
-# The `maxscale_shift` array variable allow to downgrade the MAXSCALEDENOM of a layer.  For
-# example ["LIGHTS:0.4","BUAARE:0.1"] default maxscale of 100000 for LIGHTS will be 
-# 1000000 * 0.4 = 400000 
-maxscale_shift = ["LIGHTS:0.4","BUAARE:0.1"]
+# MAXSCALEDENOM downgrade shift.  All layers have default navigation level
+# defined in layer_msd.csv.
+# The `maxscale_shift` array variable allow to change the MAXSCALEDENOM of a
+# layer. For example, given LIGHTS=0.4 and default maxscale of 100000, LIGHTS
+# will be 1000000 * 0.4 = 400000 
+[maxscale_shift]
+LIGHTS = 0.4
+BUAARE = 0.1
 
-# The `symbol_size_overwrite` array variable allows overwriting the SIZE of a symbol.  For
-# example with "BUA:5" all symbol starts with "BUA" string will have de SIZE of 5 in mapfile.
-symbol_size_overwrite = ["BUA:5","RSR:10"]
+[symbol_size_overwrite]
+# The `symbol_size_overwrite` variable allows overwriting the SIZE of a symbol.
+# All symbols starting with one of the keys will use the specified SIZE instead
+# of the one derived from the chartsymbols
+BUA = 5
+RSR = 10
 
 [paths]  # All paths in this section are relative to this file's location
 chart = "ENC_ROOT"    # Path to the ENC_ROOT of this dataset

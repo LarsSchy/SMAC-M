@@ -93,7 +93,7 @@ def create_legend_files(template_path, themes_path, map_path, fonts_path,
 def generate_basechart_config(data_path, map_path, rule_set_path, resource_dir,
                               force_overwrite, debug, point_table, area_table,
                               displaycategory, chartsymbols, excluded_lookups,
-                              sounding_maxscale_shift, symbol_size_overwrite):
+                              maxscale_shift, symbol_size_overwrite):
 
     # Generate new map files
     dirutils.clear_folder(map_path)
@@ -102,7 +102,7 @@ def generate_basechart_config(data_path, map_path, rule_set_path, resource_dir,
         shapepath = data_path
         process_all_layers(data_path, map_path, rule_set_path, point_table,
                            area_table, displaycategory, chartsymbols,
-                           excluded_lookups, sounding_maxscale_shift,
+                           excluded_lookups, maxscale_shift,
                            symbol_size_overwrite)
 
     fonts_path = os.path.join("./fonts", "fontset.lst")
@@ -153,7 +153,7 @@ def get_colors(color_table):
 def process_all_layers(data, target, config, point_table='Simplified',
                        area_table='Plain', displaycategory=None,
                        chartsymbols_file=None, excluded_lookups=None,
-                       sounding_maxscale_shift=None,
+                       maxscale_shift=None,
                        symbol_size_overwrite=None):
 
     # Reimplementation of the shel script of the same name
@@ -163,8 +163,9 @@ def process_all_layers(data, target, config, point_table='Simplified',
     if chartsymbols_file:
         chartsymbols = ChartSymbols(
             chartsymbols_file, point_table, area_table, displaycategory,
-            excluded_lookups=excluded_lookups, 
-            symbol_size_overwrite=symbol_size_overwrite
+            excluded_lookups=excluded_lookups,
+            symbol_size_overwrite=symbol_size_overwrite,
+            maxscale_shift=maxscale_shift,
         )
 
     # Test if the shapefile is of the right Geometry
@@ -222,7 +223,7 @@ def process_all_layers(data, target, config, point_table='Simplified',
             input_file = config + '/layer_rules/layer_groups.csv'
             process_layer_colors(layer, color_table, input_file,
                                  msd[layer], data, target, chartsymbols,
-                                 shp_types, shp_fields, sounding_maxscale_shift)
+                                 shp_types, shp_fields)
 
 
 def get_layer_mapfile(layer, feature, group, color_table, msd):
@@ -277,43 +278,41 @@ def get_layer_mapfile(layer, feature, group, color_table, msd):
 
 def get_navigation_level(layer):
 
-   if layer == '1':
-       nl = 'Overview'
-   elif layer == '2':
-       nl = 'General'
-   elif layer == '3':
-       nl = 'Coastal'
-   elif layer == '4':
-       nl = 'Approach'
-   elif layer == '5':
+    if layer == '1':
+        nl = 'Overview'
+    elif layer == '2':
+        nl = 'General'
+    elif layer == '3':
+        nl = 'Coastal'
+    elif layer == '4':
+        nl = 'Approach'
+    elif layer == '5':
         nl = 'Harbour'
-   elif layer == '6':
+    elif layer == '6':
         nl = 'Berthing'
-   else:
+    else:
         nl = 'default'
 
-   return nl
+    return nl
+
 
 def get_metadata_name(s57objectname):
-    
+
     # Extract a readable layer name
     # csv file looks like this
-    # "Code","ObjectClass","Acronym","Attribute_A","Attribute_B","Attribute_C","Class","Primitives"
-    # 1,Administration area (Named),ADMARE,JRSDTN;NATION;NOBJNM;OBJNAM;,INFORM;NINFOM;NTXTDS;PICREP;SCAMAX;SCAMIN;TXTDSC;,RECDAT;RECIND;SORDAT;SORIND;,G,Area;
 
-    r=s57objectname
+    r = s57objectname
     with open('../../s57objectclasses.csv', 'r') as objFile:
         reader = csv.reader(objFile)
         for row in reader:
-            if row[2]==s57objectname:
+            if row[2] == s57objectname:
                 r = row[1]
     objFile.close()
     return r
 
 
 def process_layer_colors(layer, color_table, input_file, msd, data, target,
-                         chartsymbols=None, shp_types={}, shp_fields={},
-                         maxscale_shift=None):
+                         chartsymbols=None, shp_types={}, shp_fields={}):
     #  Reimplementation of the shell script of the same name
 
     # Create directory
@@ -356,23 +355,21 @@ def process_layer_colors(layer, color_table, input_file, msd, data, target,
                         continue
                     # we will push a readable name in metadata for this layer
                     metadata_name = get_metadata_name(feature)
-                    # we will push a readdable Group name based on Navigation level
+                    # we will push a readdable Group name based on Navigation
+                    # level
                     group_layer = get_navigation_level(layer)
                     if geom == 'POINT':
                         layer_obj = chartsymbols.get_point_mapfile(
                             layer, feature, group_layer, msd,
-                            shp_fields[filename], metadata_name,
-                            maxscale_shift)
+                            shp_fields[filename], metadata_name)
                     elif geom == 'LINESTRING':
                         layer_obj = chartsymbols.get_line_mapfile(
                             layer, feature, group_layer, msd,
-                            shp_fields[filename], metadata_name,
-                            maxscale_shift)
+                            shp_fields[filename], metadata_name)
                     elif geom == 'POLYGON':
                         layer_obj = chartsymbols.get_poly_mapfile(
                             layer, feature, group_layer, msd,
-                            shp_fields[filename], metadata_name,
-                            maxscale_shift)
+                            shp_fields[filename], metadata_name)
                     else:
                         continue
                     layers.append(layer_obj)

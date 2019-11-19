@@ -137,7 +137,7 @@ class TE(Command):
             return match.group(0)
 
         text = re.sub(r'\[([^\]]+)\]', force_labels, text)
-        
+
         try:
             label_field = re.search(r'(\[[^\]]+\])', text).group(1)
             label_expr = 'EXPRESSION ("{}" > "0")'.format(label_field)
@@ -145,7 +145,7 @@ class TE(Command):
             # AAA, ZZZ not found in the original string
             label_expr = ''  # apply your error handling
 
-        ## self.chars[-4:-2]
+        # size = self.chars[-4:-2]
         return """
         LABEL  # {command}
             {label}
@@ -207,19 +207,14 @@ class SY(Command):
             self.rot_field = rot
             self.rot = '[{}_CAL]'.format(rot)
 
-    def get_symbol_size_overwrite(self, sym_size_overwrite, symbol):
-       # Symbole size overwrite are stored into config file based on array of 
-       # tuple ["BUAR:8", ...].  
-       # NOTE: layers are case senssitive
-       for sso in sym_size_overwrite:
-           sy = sso.split(":")
-           if sy[0] in symbol:
-               return 'SIZE %s' % sy[1]
+    def get_symbol_size(self, sym_size_overwrite):
+        # NOTE: layers are case senssitive
+        for prefix, size in sym_size_overwrite.items():
+            if self.symbol.startswith(prefix):
+                return f'SIZE {size}'
 
-       # Layer not funded, simply return empty string
-       return ''
-
-
+        # Layer not funded, simply return empty string
+        return ''
 
     def __call__(self, chartsymbols, layer, geom_type, fields):
         # OFFSET
@@ -234,9 +229,8 @@ class SY(Command):
             x = -15
 
         # some pixmap symbols are too big or too small
-        resizing =  self.get_symbol_size_overwrite(chartsymbols.symbol_size_overwrite, self.symbol)
-        ## symbol_size_overwrite = ["BUAARE02:10","CHI:7"...]
- 
+        size = self.get_symbol_size(chartsymbols.symbol_size_overwrite)
+
         if self.symbol in chartsymbols.symbols_def:
             symbol_name = self.symbol
         else:
@@ -247,7 +241,7 @@ class SY(Command):
         x += symbol['pivot'][0]
         y += symbol['size'][1] // 2
         y -= symbol['pivot'][1]
-        
+
         gap = ''
         geomtransform = ''
         if geom_type == 'POLYGON':
@@ -260,14 +254,14 @@ class SY(Command):
         return """
         STYLE
             {geomtransform}
-            {resizing}
+            {size}
             SYMBOL "{symbol}"
             OFFSET {x} {y}
             ANGLE {angle}
             {gap}
         END
         """.format(symbol=symbol_name, x=x, y=y, angle=self.rot,
-                   geomtransform=geomtransform,resizing=resizing,gap=gap)
+                   geomtransform=geomtransform, size=size, gap=gap)
 
 
 class LC(Command):

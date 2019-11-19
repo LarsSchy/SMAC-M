@@ -244,6 +244,7 @@ Working with enhanced data allows to create mapfiles from the chartsymbols.xml f
    - RESARE layer (lookup #164) uses SY(ESSARE01) and SY(PSSARE01) symbols, but those symbols are not present. They were removed.
    - TOPMAR layer uses OBJNAM field for label, but this field is not present
    - SOUNDG layer is in display-cat Other, it has been transfered to Standard
+ - TE and TX instructions ignore the size specified in the chartsymbols xml file
 
 ### Generating Symbolset
 
