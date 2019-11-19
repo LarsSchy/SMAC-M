@@ -211,7 +211,7 @@ class SY(Command):
         # NOTE: layers are case senssitive
         for prefix, size in sym_size_overwrite.items():
             if self.symbol.startswith(prefix):
-                return f'SIZE {size}'
+                return 'SIZE {size}'.format(size=size)
 
         # Layer not funded, simply return empty string
         return ''

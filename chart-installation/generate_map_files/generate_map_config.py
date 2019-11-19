@@ -156,7 +156,7 @@ if __name__ == '__main__':
         os.chdir(os.path.dirname(__file__))
         if args.verbose:
             print(dedent(
-                f"""\
+                """\
         =========================================================
             Configuration variables
         Data path: {data_path}
@@ -173,7 +173,7 @@ if __name__ == '__main__':
         Chartsymbols lookup file: {chartsymbols}
         Layer definitions exist : {layer_definitions_exist}
         =========================================================
-        """
+        """.format(**locals())
             ))
         generate_basechart_config(data_path, map_path, rule_set_path,
                                   RESOURCES_PATH, args.force,
