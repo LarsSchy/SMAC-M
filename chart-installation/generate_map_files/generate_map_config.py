@@ -143,7 +143,7 @@ if __name__ == '__main__':
 
     maxscale_shift = args.config.get('maxscale_shift', None)
 
-    symbol_size_overwrite = args.config.get('symbol_size_overwrite', None)
+    symbol_size_override = args.config.get('symbol_size_override', None)
 
     if args.format is Format.Chart:
         layer_definitions_exist = dirutils.does_layer_rules_exist(
@@ -169,7 +169,7 @@ if __name__ == '__main__':
         Force: {args.force}
         Display category: {displaycategory}
         Maxscale shift: {maxscale_shift}
-        Symbols size overwrite: {symbol_size_overwrite}
+        Symbols size overwrite: {symbol_size_override}
         Chartsymbols lookup file: {chartsymbols}
         Layer definitions exist : {layer_definitions_exist}
         =========================================================
@@ -180,7 +180,7 @@ if __name__ == '__main__':
                                   debug, point_table, area_table,
                                   displaycategory, chartsymbols,
                                   excluded_lookups, maxscale_shift,
-                                  symbol_size_overwrite)
+                                  symbol_size_override)
     else:
         print('Data format "{}" has not yet been ported to the configuration '
               'file. Use the old script to generate your mapfiles'

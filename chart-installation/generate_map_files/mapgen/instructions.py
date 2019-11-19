@@ -229,7 +229,7 @@ class SY(Command):
             x = -15
 
         # some pixmap symbols are too big or too small
-        size = self.get_symbol_size(chartsymbols.symbol_size_overwrite)
+        size = self.get_symbol_size(chartsymbols.symbol_size_override)
 
         if self.symbol in chartsymbols.symbols_def:
             symbol_name = self.symbol

@@ -93,7 +93,7 @@ def create_legend_files(template_path, themes_path, map_path, fonts_path,
 def generate_basechart_config(data_path, map_path, rule_set_path, resource_dir,
                               force_overwrite, debug, point_table, area_table,
                               displaycategory, chartsymbols, excluded_lookups,
-                              maxscale_shift, symbol_size_overwrite):
+                              maxscale_shift, symbol_size_override):
 
     # Generate new map files
     dirutils.clear_folder(map_path)
@@ -103,7 +103,7 @@ def generate_basechart_config(data_path, map_path, rule_set_path, resource_dir,
         process_all_layers(data_path, map_path, rule_set_path, point_table,
                            area_table, displaycategory, chartsymbols,
                            excluded_lookups, maxscale_shift,
-                           symbol_size_overwrite)
+                           symbol_size_override)
 
     fonts_path = os.path.join("./fonts", "fontset.lst")
     create_capability_files(os.path.join(resource_dir, "templates"),
@@ -154,7 +154,7 @@ def process_all_layers(data, target, config, point_table='Simplified',
                        area_table='Plain', displaycategory=None,
                        chartsymbols_file=None, excluded_lookups=None,
                        maxscale_shift=None,
-                       symbol_size_overwrite=None):
+                       symbol_size_override=None):
 
     # Reimplementation of the shel script of the same name
     msd = get_maxscaledenom(config)
@@ -164,7 +164,7 @@ def process_all_layers(data, target, config, point_table='Simplified',
         chartsymbols = ChartSymbols(
             chartsymbols_file, point_table, area_table, displaycategory,
             excluded_lookups=excluded_lookups,
-            symbol_size_overwrite=symbol_size_overwrite,
+            symbol_size_override=symbol_size_override,
             maxscale_shift=maxscale_shift,
         )
 
