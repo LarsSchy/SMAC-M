@@ -1,0 +1,52 @@
+point_table = "Paper"
+area_table = "Plain"
+displaycategory = "Standard"
+debug = false
+excluded_lookups = ["M_QUAL","LNDARE","LNDRGN","BUAARE","RIVERS","LAKARE"] # List of lookups to e
+
+[maxscale_shift]
+FOGSIG=0.1
+DAYMAR=0.1
+BCNSPP=0.1
+LNDMRK=0.1
+LNDRGN=0.1
+BOYLAT=0.4
+TOW=0.1
+SSLPT=0.5
+SOUNDG=0.05
+X-SNDG=0.05
+LIGHTS=0.1
+CTNARE=0.1
+FSHZNE=0.1
+ACHARE=0.1
+M_NSYS=0.1
+RIVERS=0.1
+TSEZNE=0.1
+TSSBND=0.1
+TSSLPT=0.1
+RCTLPT=0.1
+MIPARE=0.1
+RDOCAL=0.1
+MARCUL=0.1
+
+[symbol_size_override]
+BUA=5
+RSR=10
+SMC=10
+PRC=10
+RES=10
+CHI=7
+ACH=14
+FSH=7
+TNK = 6
+INF=14
+CTN=10
+CTY=10
+
+
+[paths]
+chartsymbols = ./SMAC-M/chart-installation/generate_map_files/resources/chartsymbols/chartsymbols_S57.xml"
+ruleset = "../SMAC-M/chart-installation/generate_map_files/resources/rules"
+chart = "../S57_chart_updater/input/PEC-ALL-S57ENCs-Complete/20170630/ENC_ROOT/"
+data = "../shp_s57data/shp"
+map = "../enc_ca_noarea/map"
