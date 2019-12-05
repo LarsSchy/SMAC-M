@@ -33,7 +33,7 @@ python3 bin/generate_toml_config.py \
 3) Convert source data to shapefiles
 
 ```
-python3 bin/generate_shapefiles.py configfile.toml
+python3 ../bin/generate_shapefiles.py config.enc.noaa.toml
 ```
 
 ### Generating mapfiles
@@ -43,7 +43,7 @@ a new directory created by the script in `-enhancedchartdata` config option,  al
 with the converted data. In this example, it will be in `../noaa_enc/map`
 
 ```
-python3 chart-installation/generate_map_files/generate_map_config.py configfile.toml
+python3 ../chart-installation/generate_map_files/generate_map_config.py config.enc.noaa.toml
 ```
 
 ### Configure web service
